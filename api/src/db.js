@@ -8,7 +8,7 @@ const {
 
 
 
-const sequelize = new Sequelize(`postgres://oemvkcbc:Ut50z6URSYh3gQGv5bsE583q7JRcnF-2@kesavan.db.elephantsql.com/oemvkcbc`, {
+const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`, {
   logging: false, // set to console.log to see the raw SQL queries
   native: false, // lets Sequelize know we can use pg-native for ~30% more speed
 }); 
@@ -32,12 +32,12 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
-const {User, Proveedor} = sequelize.models;
+const {Usuario, Proveedor} = sequelize.models;
 
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);
-User.belongsToMany(Proveedor,{through:'UserxProvedoor'})
-Proveedor.belongsToMany(User,{through:'UserxProvedoor'})
+Usuario.belongsToMany(Proveedor,{through:'Usuario_Provedoor'})
+Proveedor.belongsToMany(Usuario,{through:'Usuario_Provedoor'})
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
