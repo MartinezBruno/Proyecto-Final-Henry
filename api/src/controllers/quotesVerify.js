@@ -14,7 +14,7 @@ const quotaMonitoring =
 const getQuota = async () => {
    let quota = (await axios.get(quotaMonitoring)).data;
    let quotaValue = Object.values(quota)[0];
-   console.log(quotaValue);
+   console.log('Quedan', quotaValue, 'usos');
    if (quotaValue <= 10) {
       counter++;
       console.log('Aumento el valor del contador');
