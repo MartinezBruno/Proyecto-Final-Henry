@@ -1,31 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
-import {useSelector, useDispatch} from 'react-redux'
-import {pruebaFunction} from './redux/slices/prueba.js'
+import "./App.css";
+// import {useSelector, useDispatch} from 'react-redux'
+// import logo from './logo.svg';
+// import {pruebaFunction} from './redux/slices/prueba.js'
+import React from "react";
+import { Route } from "react-router-dom";
+import { Routes } from "react-router-dom";
+import 'bootstrap/dist/css/bootstrap.css'
+import NavBar from "./components/Navbar";
+import Home from "./components/Home";
+import { BrowserRouter } from "react-router-dom";
 
 function App() {
-
-  let {test: hola} = useSelector(state => state.prueba)
-  let dispatch = useDispatch();
-
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        {hola ? <p>{hola}</p> : null}
-        <button onClick={()=> dispatch(pruebaFunction('HOLA'))}>MOSTRAR STRING</button>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React!
-        </a>
-      </header>
+      <NavBar />
+      
+      <Routes>
+        <Route path="/home" element={<Home /> } />
+      </Routes>
     </div>
   );
 }
