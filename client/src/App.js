@@ -8,6 +8,7 @@ import { Routes } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.css'
 import NavBar from "./components/Navbar";
 import Home from "./components/Home";
+import Card from "./components/Card"
 import { BrowserRouter } from "react-router-dom";
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
       
       <Routes>
         <Route path="/home" element={<Home /> } />
+        <Route path='/cards' element ={<Card />} />
       </Routes>
     </div>
   );
