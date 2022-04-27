@@ -5,7 +5,7 @@ import "./App.css";
 import React from "react";
 import { Route, Routes, Outlet } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.css'
-import NavBar from "./components/NavBar";
+import NavBar from "./components/Navbar";
 import Home from "./components/Home";
 import Card from "./components/Card";
 import LandingPage from "./components/LandingPage";
