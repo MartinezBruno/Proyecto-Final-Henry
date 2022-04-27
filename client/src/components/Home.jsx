@@ -2,10 +2,11 @@ import React from "react";
 import { Alert, Button } from "react-bootstrap"
 import { useState } from "react";
 import Card from './Card'
+import Filters from './Filters'
 
 export default function Home(){
 
-    const [show, setShow] = useState(true);
+    // const [show, setShow] = useState(true);
 
     return (
         <>
@@ -27,6 +28,7 @@ export default function Home(){
           {!show && <Button onClick={() => setShow(true)}>Show Alert</Button>} */}
       <div className="container-fluid bg-secondary">
           <div className="container">
+            <Filters />
             <div className="align-items-start d-flex flex-wrap justify-content-center">
               
               <Card />
