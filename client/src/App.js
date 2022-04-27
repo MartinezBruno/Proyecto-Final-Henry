@@ -3,22 +3,45 @@ import "./App.css";
 // import logo from './logo.svg';
 // import {pruebaFunction} from './redux/slices/prueba.js'
 import React from "react";
-import { Route } from "react-router-dom";
-import { Routes } from "react-router-dom";
+import { Route, Routes, Outlet } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.css'
-import NavBar from "./components/Navbar";
+import NavBar from "./components/NavBar";
 import Home from "./components/Home";
-import { BrowserRouter } from "react-router-dom";
+import Card from "./components/Card";
+import LandingPage from "./components/LandingPage";
+import Login from "./components/Login";
+
 
 function App() {
+
+  const NavLayout = () =>(
+    <>
+    <NavBar />
+    <Outlet />
+    </>
+  )
+
+  //Se renderiza Navbar y en Outlet se renderiza el componente que le indiquemos a la ruta
+
   return (
-    <div className="App">
-      <NavBar />
+  
+
       
-      <Routes>
-        <Route path="/home" element={<Home /> } />
-      </Routes>
-    </div>
+          <Routes>
+              <Route exact path="/" element={<LandingPage />}/>
+
+              {/* Rutas anidadas / hijas */}
+
+              <Route path="/" element={<NavLayout />}>
+                  <Route path="home" element={<Home />} />
+                  <Route path="cards" element={<Card />} />
+                  <Route path="login" element={<Login />} />
+
+              </Route>
+            
+          </Routes>
+
+     
   );
 }
 

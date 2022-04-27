@@ -1,6 +1,7 @@
 import React from "react";
 import { Alert, Button } from "react-bootstrap"
 import { useState } from "react";
+import Card from './Card'
 
 export default function Home(){
 
@@ -8,7 +9,7 @@ export default function Home(){
 
     return (
         <>
-          <Alert show={show} variant="success">
+          {/* <Alert show={show} variant="success">
             <Alert.Heading>How's it going?!</Alert.Heading>
             <p>
               Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget
@@ -23,7 +24,27 @@ export default function Home(){
             </div>
           </Alert>
     
-          {!show && <Button onClick={() => setShow(true)}>Show Alert</Button>}
+          {!show && <Button onClick={() => setShow(true)}>Show Alert</Button>} */}
+      <div className="container-fluid bg-secondary">
+          <div className="container">
+            <div className="align-items-start d-flex flex-wrap justify-content-center">
+              
+              <Card />
+              
+              
+              <Card />
+             
+              <Card />
+
+              <Card />
+     
+              <Card />
+
+              <Card />
+              </div>
+            </div>
+            </div>
+        
         </>
     )
 }
