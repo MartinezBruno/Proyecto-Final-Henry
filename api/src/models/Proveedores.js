@@ -3,36 +3,40 @@ const { DataTypes } = require("sequelize");
 module.exports = (sequelize) => {
   // defino el modelo
   sequelize.define("Proveedor", {
-    NOMBRE_PROVEDOOR: {
+    NOMBRE_APELLIDO_PROVEEDOR: {
       type: DataTypes.STRING,
     },
 
     PASSWORD: {
       type: DataTypes.STRING,
+      allowNull: false,
     },
 
     EMAIL: {
       type: DataTypes.STRING,
+      allowNull: false,
     },
 
     IMAGEN: {
       type: DataTypes.STRING,
-    },
-
-    NOMBRE_APELLIDO: {
-      type: DataTypes.STRING,
+      allowNull: false,
     },
 
     FECHA_NACIMIENTO: {
-      type: DataTypes.DATE,
+      type: DataTypes.STRING,
+      allowNull: false,
     },
 
     CALIFICACION: {
-      type: DataTypes.FLOAT,
+      type: DataTypes.ARRAY(DataTypes.FLOAT),
+      allowNull: false,
+      defaultValue: [],
     },
 
     STATUS: {
       type: DataTypes.STRING,
+      defaultValue: "Proveedor",
+      allowNull: false,
     },
   });
 };
