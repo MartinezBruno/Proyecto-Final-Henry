@@ -3,12 +3,12 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
+const routes = require('./routes/index');
 
 // ACA IMPORTARIAMOS NUESTRAS RUTAS CONFIGURADAS EN ROUTES  PARA USARLAS EN EL SERVER.USE
 // const routes = require('./routes/videogames.js');
 // const routesG = require ('./routes/generos')
 // const routesV = require ('./routes/videogame')
-const ruta = require('./routes/test');
 
 require('./db.js');
 
@@ -40,7 +40,9 @@ server.use((req, res, next) => {
 // server.use('/videogames', routes);
 // server.use('/genres', routesG)
 // server.use('/videogame', routesV)
-server.use('/test', ruta);
+// server.use('/', routes);
+
+server.use('/', routes);
 
 
 
