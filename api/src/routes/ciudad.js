@@ -3,6 +3,6 @@ const router = express.Router();
 
 const {getCiudades} = require('../controllers/ciudades');
 
-router.get('/:code/:city', getCiudades);
+router.get('/:code/:region', getCiudades);
 
 module.exports = router;
