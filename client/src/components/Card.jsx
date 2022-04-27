@@ -6,7 +6,7 @@ export default function Card(){
     return (
         <>
        
-    <div className={`${styles.profileCard4} text-center`}><img src="http://envato.jayasankarkr.in/code/profile/assets/img/profile-4.jpg" className="img img-responsive" />
+    <div className={`${styles.profileCard4} text-center`}><img src="http://envato.jayasankarkr.in/code/profile/assets/img/profile-4.jpg" className="img img-responsive" alt='profile'/>
         <div className={styles.profileContent}>
             <div className={styles.profileName}>FEDERICO ROQUE
                 <p>INGENIERO</p>
@@ -39,7 +39,7 @@ export default function Card(){
                 </div>
             </div>
             <div className={`${styles.profileOverview} `}>
-             <button type="button" class="btn btn-success" style={{width: '120px'}}>CONTACTAR</button>
+             <button type="button" class="btn btn-success" style={{width: '90%'}}>CONTACTAR</button>
 
             </div>
         </div>

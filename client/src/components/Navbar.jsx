@@ -1,10 +1,10 @@
 import React from "react";
 import { Navbar, Container, Nav, Button, Stack } from "react-bootstrap";
-import Logo from "./Logo2_Definitivo.png";
+import Logo from "./img-logo/Logo2_Definitivo.png";
 
 export default function NavBar() {
   return (
-    <>
+    <React.Fragment>
       <Navbar bg="dark" variant="dark">
         <Container>
           <Navbar.Brand href="/">
@@ -26,6 +26,6 @@ export default function NavBar() {
           </Stack>
         </Container>
       </Navbar>
-    </>
+    </React.Fragment>
   );
 }
