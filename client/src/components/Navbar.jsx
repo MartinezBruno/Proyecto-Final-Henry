@@ -18,10 +18,10 @@ export default function NavBar() {
           </Navbar.Brand>
           <Stack direction="horizontal" gap={3} >
             <Button variant="primary" active>
-               Login
+               Mi perfil
             </Button>{" "}
             <Button variant="secondary" active>
-              Register
+              Cerrar sesión
             </Button>
           </Stack>
         </Container>

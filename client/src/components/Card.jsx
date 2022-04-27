@@ -8,7 +8,7 @@ export default function Card(){
        
     <div className={`${styles.profileCard4} text-center`}><img src="http://envato.jayasankarkr.in/code/profile/assets/img/profile-4.jpg" className="img img-responsive" alt='profile'/>
         <div className={styles.profileContent}>
-            <div className={styles.profileName}>FEDERICO ROQUE
+            <div className={styles.profileName}>ANTONIO TRALICE
                 <p>INGENIERO</p>
             </div>
             <div className={styles.profileDescription}>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor.</div>
@@ -26,12 +26,12 @@ export default function Card(){
                     <div className={styles.profileOverview}>
                         <p>CALIFICACION</p>
 
-                        <ul class="list-inline small">
-            <li class="list-inline-item m-0"><i class="fa fa-star text-success"></i></li>
-            <li class="list-inline-item m-0"><i class="fa fa-star text-success"></i></li>
-            <li class="list-inline-item m-0"><i class="fa fa-star text-success"></i></li>
-            <li class="list-inline-item m-0"><i class="fa fa-star text-success"></i></li>
-            <li class="list-inline-item m-0"><i class="fa fa-star-o text-success"></i></li>
+                        <ul className="list-inline small">
+            <li className="list-inline-item m-0"><i className="fa fa-star text-success"></i></li>
+            <li className="list-inline-item m-0"><i className="fa fa-star text-success"></i></li>
+            <li className="list-inline-item m-0"><i className="fa fa-star text-success"></i></li>
+            <li className="list-inline-item m-0"><i className="fa fa-star text-success"></i></li>
+            <li className="list-inline-item m-0"><i className="fa fa-star-o text-success"></i></li>
           </ul>
                         
                         </div>
@@ -39,7 +39,7 @@ export default function Card(){
                 </div>
             </div>
             <div className={`${styles.profileOverview} `}>
-             <button type="button" class="btn btn-success" style={{width: '90%'}}>CONTACTAR</button>
+             <button type="button" className="btn btn-success" style={{width: '90%'}}>CONTACTAR</button>
 
             </div>
         </div>

@@ -9,6 +9,7 @@ import NavBar from "./components/NavBar";
 import Home from "./components/Home";
 import Card from "./components/Card";
 import LandingPage from "./components/LandingPage";
+import Login from "./components/Login";
 
 
 function App() {
@@ -20,7 +21,7 @@ function App() {
     </>
   )
 
-  //Se renderiza Navbar y en Outlet se renderiza el segundo componente a mostrar
+  //Se renderiza Navbar y en Outlet se renderiza el componente que le indiquemos a la ruta
 
   return (
   
@@ -30,9 +31,12 @@ function App() {
               <Route exact path="/" element={<LandingPage />}/>
 
               {/* Rutas anidadas / hijas */}
+
               <Route path="/" element={<NavLayout />}>
                   <Route path="home" element={<Home />} />
                   <Route path="cards" element={<Card />} />
+                  <Route path="login" element={<Login />} />
+
               </Route>
             
           </Routes>
