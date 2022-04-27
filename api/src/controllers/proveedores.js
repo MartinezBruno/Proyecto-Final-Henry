@@ -24,19 +24,19 @@ const createProv = async (req, res) => {
   let serviciosDisp = await Servicio.findAll({
     where: { NOMBRE_SERVICIO: servicios },
   })
-  
+
   let paisDisp = await Pais.findOne({
     where: { NOMBRE_PAIS: pais },
   })
-  
+
   let provinciasDisp = await Provincia.findOne({
     where: { NOMBRE_PROVINCIA: provincia },
   })
-  
+
   let ciudadesDisp = await Ciudad.findOne({
     where: { NOMBRE_CIUDAD: ciudad },
   })
-  
+
   newProveedor.addServicios(serviciosDisp)
   newProveedor.setPai(paisDisp)
   newProveedor.setProvincium(provinciasDisp)
@@ -44,6 +44,49 @@ const createProv = async (req, res) => {
   return res.status(201).send('Proveedor creado')
 }
 
+const getProv = async (req, res, next) => {
+  try {
+    const proveedores = await Proveedor.findAll({
+      attributes: [
+        'id',
+        'NOMBRE_APELLIDO_PROVEEDOR',
+        'EMAIL',
+        'IMAGEN',
+        'FECHA_NACIMIENTO',
+        'CALIFICACION',
+        'REMOTE',
+      ],
+      include: [
+        {
+          model: Servicio,
+          attributes: ['NOMBRE_SERVICIO'],
+          through: {
+            attributes: [],
+          },
+        },
+        {
+          model: Pais,
+          attributes: ['NOMBRE_PAIS'],
+        },
+        {
+          model: Provincia,
+          attributes: ['NOMBRE_PROVINCIA'],
+        },
+        {
+          model: Ciudad,
+          attributes: ['NOMBRE_CIUDAD'],
+        },
+      ],
+    })
+    
+    return res.status(200).send(proveedores)
+  } catch (error) {
+    console.error(error)
+    next(error)
+  }
+}
+
 module.exports = {
   createProv,
+  getProv,
 }

@@ -1,8 +1,8 @@
-const { DataTypes } = require("sequelize");
+const { DataTypes } = require('sequelize')
 
 module.exports = (sequelize) => {
   // defino el modelo
-  sequelize.define("Proveedor", {
+  sequelize.define('Proveedor', {
     NOMBRE_APELLIDO_PROVEEDOR: {
       type: DataTypes.STRING,
     },
@@ -35,8 +35,13 @@ module.exports = (sequelize) => {
 
     STATUS: {
       type: DataTypes.STRING,
-      defaultValue: "Proveedor",
+      defaultValue: 'Proveedor',
       allowNull: false,
     },
-  });
-};
+    REMOTE: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
+  })
+}

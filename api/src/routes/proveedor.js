@@ -1,8 +1,9 @@
-const express = require("express");
-const router = express.Router();
+const express = require('express')
+const router = express.Router()
 
-const { createProv } = require("../controllers/proveedores.js");
+const { createProv, getProv } = require('../controllers/proveedores.js')
 
-router.post("/", createProv);
+router.get('/', getProv)
+router.post('/', createProv)
 
-module.exports = router;
+module.exports = router
