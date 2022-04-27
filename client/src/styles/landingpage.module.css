@@ -2,8 +2,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: rgba(255, 255, 255, 0.887);
-  /* border: 0 none; */
+  background: rgb(255, 255, 255);
   border-radius: 5px;
   box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.4);
   padding: 5px 25px;
@@ -18,8 +17,7 @@
 
 .searchbarContainer a {
   text-decoration: none;
-  color: rgba(0, 0, 0, 0.4);
-  font-weight: bold;
+  color: rgb(0, 0, 0);
 }
 
 .hero {
@@ -27,13 +25,37 @@
   top: 0px;
   left: 0px;
   width: 100%;
-  height: 400px;
+  height: 630px;
   background-image: url("https://images.pexels.com/photos/3183172/pexels-photo-3183172.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260");
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
   background-position: center;
-  filter: blur(2px) grayscale(50%);
+  filter: brightness(50%);
   z-index:-1;
 
+}
+
+.landingWidget{
+  border-radius: 15px;
+  margin: 20px;
+  display:flex;
+  text-align: center;
+  align-items: center;
+  justify-content:center;
+  flex-direction: column;
+  min-width: 250px;
+  min-height: 150px;
+  max-width: 250px;
+  max-height: 150px;
+  background-color: white;
+  color:black;
+  box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.4);
+}
+
+.widgetContainer{
+  display:flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
 }
