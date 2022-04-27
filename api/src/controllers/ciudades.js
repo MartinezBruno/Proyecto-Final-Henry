@@ -3,9 +3,9 @@ const axios = require('axios');
 const {Ciudad} = require('../db');
 
 const getCiudades = async (req, res) => {
-   const {code, city} = req.params;
+   const {code, region} = req.params;
    await getQuota();
-   let citiesURL = `https://battuta.medunes.net/api/city/${code}/search/?region=${city}&key=${BATTUTA_KEY[counter]}`;
+   let citiesURL = `https://battuta.medunes.net/api/city/${code}/search/?region=${region}&key=${BATTUTA_KEY[counter]}`;
    let cities = (await axios.get(citiesURL)).data;
 
    cities = cities.map(el => {
