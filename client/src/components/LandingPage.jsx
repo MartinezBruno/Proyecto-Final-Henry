@@ -31,8 +31,9 @@ export default function LandingPage() {
           <h1>ENLACES PROFESIONALES DE CALIDAD</h1>
           <h6>OFRECE O CONTRATA SERVICIOS PROFESIONALES</h6>
           <br />
+          <br />
           <a class="btn btn-lg btn-success" href="#">
-             <span>COMIENZA AHORA</span> </a>
+             <span>¡COMIENZA AHORA!</span> </a>
           </div>
           
         <div className={styles.widgetContainer}>
