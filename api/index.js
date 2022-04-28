@@ -6,8 +6,6 @@ const { paisesDb, serviciosDb } = require('./src/dbFill')
 // y las tablas definfidas en sequielize, etc
 
 // Syncing all the models at once.
-const paises = ["Argentina", "Uruguay", "Mexico"];
-
 conn
   .sync({ force: true })
   .then(() => {

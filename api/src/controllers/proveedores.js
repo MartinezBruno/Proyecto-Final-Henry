@@ -1,4 +1,11 @@
-const { Proveedor, Servicio, Ciudad, Provincia, Pais } = require('../db')
+const {
+  Proveedor,
+  Servicio,
+  Ciudad,
+  Provincia,
+  Pais,
+  Precio,
+} = require('../db')
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 
@@ -14,6 +21,7 @@ const createProv = async (req, res) => {
     pais,
     provincia,
     ciudad,
+    precio,
   } = req.body
 
   let arrayServicios = servicios.map((servicio) => {
@@ -47,6 +55,12 @@ const createProv = async (req, res) => {
 
   let ciudadesDisp = await Ciudad.findOne({
     where: { NOMBRE_CIUDAD: ciudad },
+  })
+
+  let precioDisp = await Precio.create({
+    where: {
+      PRECIO: precio,
+    },
   })
 
   newProveedor.addServicios(serviciosDisp)

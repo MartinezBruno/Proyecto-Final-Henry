@@ -1,6 +1,4 @@
 const { Pais, Servicio } = require('../db')
-const Sequelize = require('sequelize')
-const Op = Sequelize.Op
 
 const paises = ['Argentina', 'Uruguay', 'Mexico']
 const servicios = [
@@ -23,7 +21,6 @@ function paisesDb() {
 
 function serviciosDb() {
   servicios.forEach((servicio) => {
-    console.log(servicio)
     Servicio.findOrCreate({
       where: {
         NOMBRE_SERVICIO: servicio.NOMBRE_SERVICIO,
