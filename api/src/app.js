@@ -7,7 +7,6 @@ const bodyParser = require('body-parser')
 const morgan = require('morgan')
 const routes = require('./routes')
 const debug = require('./routes/debug')
-const routes = require('./routes/index');
 // Middlewares to catch errors
 const notFound = require('./middlewares/notFound')
 const handleErrors = require('./middlewares/handleErrors.js')
