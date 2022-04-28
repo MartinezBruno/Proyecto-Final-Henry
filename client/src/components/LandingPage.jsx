@@ -1,9 +1,18 @@
-import React from "react";
+import React, {useState} from "react";
 import styles from "../styles/landingpage.module.css";
 import logo from "./img-logo/Logo2_Definitivo.png";
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
+import {Button, Modal} from 'react-bootstrap'
+import Register from "./Register";
 
 export default function LandingPage() {
+
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+
   return (
       <>
       
@@ -21,7 +30,32 @@ export default function LandingPage() {
         <Link to='/'> LINK 3</Link>
   
         <div className='text-center'>
-        <button className='btn btn-primary' style={{color: 'white', borderRadius: '20px', width: '180px', fontWeight:'bold'}}>REGISTRATE</button>
+        {/* <button className='btn btn-primary' style={{color: 'white', borderRadius: '20px', width: '180px', fontWeight:'bold'}}>REGISTRATE</button> */}
+
+        <Button variant="primary" onClick={handleShow} className='btn btn-primary' style={{color: 'white', borderRadius: '20px', width: '180px', fontWeight:'bold'}}>
+        REGISTRATE
+      </Button>
+
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title> <h5>¡Registrate gratis!</h5></Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Register />
+        </Modal.Body>
+        {/* <Modal.Footer> */}
+          {/* <Button variant="danger" onClick={handleClose}>
+            Cerrar
+          </Button>
+          <Button variant="success" onClick={handleClose}>
+            Registrarse
+          </Button> */}
+        {/* </Modal.Footer> */}
+      </Modal>
+
+
+
+
         <a href="/login" className='link-success'><p style={{margin: '0px', fontSize:'10px', textDecoration: 'underline'}}>¿Ya estás registrado? Inicia sesión</p></a>
         </div>
         </div>
@@ -32,7 +66,7 @@ export default function LandingPage() {
           <h6>OFRECE O CONTRATA SERVICIOS PROFESIONALES</h6>
           <br />
           <br />
-          <a class="btn btn-lg btn-success" href="#">
+          <a className="btn btn-lg btn-success" href="#">
              <span>¡COMIENZA AHORA!</span> </a>
           </div>
           
