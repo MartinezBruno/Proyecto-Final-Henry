@@ -21,14 +21,12 @@ function paisesDb() {
 
 function serviciosDb() {
   servicios.forEach((servicio) => {
-    for (const key in servicio) {
-      Servicio.findOrCreate({
-        where: {
-          NOMBRE_SERVICIO: servicio.NOMBRE_SERVICIO,
-          REMOTE: servicio.REMOTE,
-        },
-      })
-    }
+    Servicio.findOrCreate({
+      where: {
+        NOMBRE_SERVICIO: servicio.NOMBRE_SERVICIO,
+        REMOTE: servicio.REMOTE,
+      },
+    })
   })
 }
 

@@ -16,15 +16,12 @@ const createProv = async (req, res) => {
     ciudad,
   } = req.body
 
-  let nameServicio = servicios.map((servicio) => {
-    return servicio.NOMBRE_SERVICIO
+  let arrayServicios = servicios.map((servicio) => {
+    return {
+      NOMBRE_SERVICIO: servicio.NOMBRE_SERVICIO,
+      REMOTE: servicio.REMOTE ? true : false,
+    }
   })
-  let remoteServicio = servicios.map((servicio) => {
-    if (servicio.REMOTE) return servicio.REMOTE
-    return false
-  })
-  console.log(nameServicio)
-  console.log(remoteServicio)
 
   let newProveedor = await Proveedor.create({
     NOMBRE_APELLIDO_PROVEEDOR: `${nombre} ${apellido}`,
@@ -36,7 +33,7 @@ const createProv = async (req, res) => {
 
   let serviciosDisp = await Servicio.findAll({
     where: {
-      [Op.and]: [{ NOMBRE_SERVICIO: nameServicio }, { REMOTE: remoteServicio }],
+      [Op.or]: arrayServicios,
     },
   })
 
@@ -61,7 +58,7 @@ const createProv = async (req, res) => {
 
 const getProv = async (req, res, next) => {
   try {
-    const proveedores = await Proveedor.findAll({
+    let proveedores = await Proveedor.findAll({
       attributes: [
         'id',
         'NOMBRE_APELLIDO_PROVEEDOR',
@@ -93,6 +90,20 @@ const getProv = async (req, res, next) => {
       ],
     })
 
+    proveedores = proveedores.map((prov) => {
+      return {
+        id: prov.id,
+        nombre_apellido: prov.NOMBRE_APELLIDO_PROVEEDOR,
+        email: prov.EMAIL,
+        imagen: prov.IMAGEN,
+        fecha_nacimiento: prov.FECHA_NACIMIENTO,
+        calificacion: prov.CALIFICACION,
+        pais: prov.Pai.NOMBRE_PAIS,
+        provincia: prov.Provincium.NOMBRE_PROVINCIA,
+        ciudad: prov.Ciudad.NOMBRE_CIUDAD,
+        servicios: prov.Servicios,
+      }
+    })
     return res.status(200).send(proveedores)
   } catch (error) {
     console.error(error)
