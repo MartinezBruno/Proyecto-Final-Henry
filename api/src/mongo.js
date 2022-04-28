@@ -8,4 +8,6 @@ mongoose
       useUnifiedTopology: true,
    })
    .then(() => console.log('Database created'))
+
    .catch(err => console.error(err));
+
