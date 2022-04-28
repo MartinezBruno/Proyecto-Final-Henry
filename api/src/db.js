@@ -45,7 +45,7 @@ const {
   Provincia,
   Pais,
   Servicio,
-  Precio,
+  // Precio,
   Proveedor_Servicio,
 } = sequelize.models
 
@@ -70,8 +70,8 @@ Pais.hasMany(Usuario)
 Servicio.belongsToMany(Proveedor, { through: Proveedor_Servicio })
 Proveedor.belongsToMany(Servicio, { through: Proveedor_Servicio })
 Proveedor.belongsToMany(Usuario, { through: 'Usuario_Provedoor' })
-Proveedor_Servicio.hasOne(Precio)
-Precio.belongsTo(Proveedor_Servicio)
+// Proveedor_Servicio.hasOne(Precio)
+// Precio.belongsTo(Proveedor_Servicio)
 Proveedor.belongsTo(Pais)
 Proveedor.belongsTo(Provincia)
 Proveedor.belongsTo(Ciudad)
@@ -79,5 +79,4 @@ Proveedor.belongsTo(Ciudad)
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
   conn: sequelize, // para importart la conexión { conn } = require('./db.js');
-
 }

@@ -1,11 +1,4 @@
-const {
-  Proveedor,
-  Servicio,
-  Ciudad,
-  Provincia,
-  Pais,
-  Precio,
-} = require('../db')
+const { Proveedor, Servicio, Ciudad, Provincia, Pais } = require('../db')
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 
@@ -21,15 +14,7 @@ const createProv = async (req, res) => {
     pais,
     provincia,
     ciudad,
-    precio,
   } = req.body
-
-  let arrayServicios = servicios.map((servicio) => {
-    return {
-      NOMBRE_SERVICIO: servicio.NOMBRE_SERVICIO,
-      REMOTE: servicio.REMOTE ? true : false,
-    }
-  })
 
   let newProveedor = await Proveedor.create({
     NOMBRE_APELLIDO_PROVEEDOR: `${nombre} ${apellido}`,
@@ -38,11 +23,13 @@ const createProv = async (req, res) => {
     IMAGEN: imagen,
     FECHA_NACIMIENTO: fecha_nacimiento,
   })
-
-  let serviciosDisp = await Servicio.findAll({
-    where: {
-      [Op.or]: arrayServicios,
-    },
+  servicios.forEach(async (servicio) => {
+    let newService = await Servicio.create({
+      NOMBRE_SERVICIO: servicio.NOMBRE_SERVICIO,
+      REMOTE: servicio.REMOTE,
+      PRICE: servicio.PRICE,
+    })
+    await newProveedor.addServicios(newService)
   })
 
   let paisDisp = await Pais.findOne({
@@ -57,17 +44,11 @@ const createProv = async (req, res) => {
     where: { NOMBRE_CIUDAD: ciudad },
   })
 
-  let precioDisp = await Precio.create({
-    where: {
-      PRECIO: precio,
-    },
-  })
-
-  newProveedor.addServicios(serviciosDisp)
   newProveedor.setPai(paisDisp)
   newProveedor.setProvincium(provinciasDisp)
   newProveedor.setCiudad(ciudadesDisp)
-  return res.status(201).send('Proveedor creado')
+
+  return res.status(201).send(newProveedor)
 }
 
 const getProv = async (req, res, next) => {
@@ -84,7 +65,7 @@ const getProv = async (req, res, next) => {
       include: [
         {
           model: Servicio,
-          attributes: ['NOMBRE_SERVICIO', 'REMOTE'],
+          attributes: ['NOMBRE_SERVICIO', 'REMOTE', 'PRICE'],
           through: {
             attributes: [],
           },
@@ -105,6 +86,7 @@ const getProv = async (req, res, next) => {
     })
 
     proveedores = proveedores.map((prov) => {
+      console.log(prov)
       return {
         id: prov.id,
         nombre_apellido: prov.NOMBRE_APELLIDO_PROVEEDOR,
@@ -125,7 +107,50 @@ const getProv = async (req, res, next) => {
   }
 }
 
+const getProvByID = async (req, res, next) => {
+  const { id } = req.params
+  try {
+    const proveedor = await Proveedor.findByPk(id, {
+      attributes: [
+        'id',
+        'NOMBRE_APELLIDO_PROVEEDOR',
+        'EMAIL',
+        'IMAGEN',
+        'FECHA_NACIMIENTO',
+        'CALIFICACION',
+      ],
+      include: [
+        {
+          model: Servicio,
+          attributes: ['NOMBRE_SERVICIO', 'REMOTE', 'PRICE'],
+          through: {
+            attributes: [],
+          },
+        },
+        {
+          model: Pais,
+          attributes: ['NOMBRE_PAIS'],
+        },
+        {
+          model: Provincia,
+          attributes: ['NOMBRE_PROVINCIA'],
+        },
+        {
+          model: Ciudad,
+          attributes: ['NOMBRE_CIUDAD'],
+        },
+      ],
+    })
+    return res.status(200).send(proveedor)
+  } catch (error) {
+    console.error(error.message)
+    next(error)
+    return res.status(404).send({ msg: 'Proveedor no encontrado' })
+  }
+}
+
 module.exports = {
   createProv,
   getProv,
+  getProvByID
 }
