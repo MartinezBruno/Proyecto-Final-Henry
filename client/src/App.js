@@ -11,6 +11,7 @@ import Card from "./components/Card";
 import LandingPage from "./components/LandingPage";
 import Login from "./components/Login";
 import FloatRegister from "./components/FloatRegister";
+import Register from "./components/Register";
 
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
                   <Route path="home" element={<Home />} />
                   <Route path="cards" element={<Card />} />
                   <Route path="login" element={<Login />} />
+                  <Route path="register" element={<Register />} />
                   <Route path="testingroute" element={<FloatRegister />} />
 
 
