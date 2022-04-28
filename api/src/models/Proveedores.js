@@ -38,10 +38,6 @@ module.exports = (sequelize) => {
       defaultValue: 'Proveedor',
       allowNull: false,
     },
-    REMOTE: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: false,
-    },
+    
   })
 }

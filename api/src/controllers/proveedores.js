@@ -1,4 +1,6 @@
 const { Proveedor, Servicio, Ciudad, Provincia, Pais } = require('../db')
+const Sequelize = require('sequelize')
+const Op = Sequelize.Op
 
 const createProv = async (req, res) => {
   const {
@@ -14,6 +16,16 @@ const createProv = async (req, res) => {
     ciudad,
   } = req.body
 
+  let nameServicio = servicios.map((servicio) => {
+    return servicio.NOMBRE_SERVICIO
+  })
+  let remoteServicio = servicios.map((servicio) => {
+    if (servicio.REMOTE) return servicio.REMOTE
+    return false
+  })
+  console.log(nameServicio)
+  console.log(remoteServicio)
+
   let newProveedor = await Proveedor.create({
     NOMBRE_APELLIDO_PROVEEDOR: `${nombre} ${apellido}`,
     PASSWORD: password,
@@ -21,8 +33,11 @@ const createProv = async (req, res) => {
     IMAGEN: imagen,
     FECHA_NACIMIENTO: fecha_nacimiento,
   })
+
   let serviciosDisp = await Servicio.findAll({
-    where: { NOMBRE_SERVICIO: servicios },
+    where: {
+      [Op.and]: [{ NOMBRE_SERVICIO: nameServicio }, { REMOTE: remoteServicio }],
+    },
   })
 
   let paisDisp = await Pais.findOne({
@@ -54,12 +69,11 @@ const getProv = async (req, res, next) => {
         'IMAGEN',
         'FECHA_NACIMIENTO',
         'CALIFICACION',
-        'REMOTE',
       ],
       include: [
         {
           model: Servicio,
-          attributes: ['NOMBRE_SERVICIO'],
+          attributes: ['NOMBRE_SERVICIO', 'REMOTE'],
           through: {
             attributes: [],
           },
@@ -78,7 +92,7 @@ const getProv = async (req, res, next) => {
         },
       ],
     })
-    
+
     return res.status(200).send(proveedores)
   } catch (error) {
     console.error(error)
