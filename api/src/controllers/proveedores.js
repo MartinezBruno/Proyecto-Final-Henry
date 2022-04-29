@@ -6,6 +6,7 @@ const {
   Pais,
   Precio,
   Proveedor_Servicio,
+  Descripcion,
 } = require('../db')
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
@@ -30,6 +31,7 @@ const createProv = async (req, res) => {
           NOMBRE_SERVICIO: 'Sin servicios disponibles',
           REMOTE: true,
           PRECIO: NaN,
+          DESCRIPCION: '',
         },
       ])
     : servicios
@@ -42,6 +44,7 @@ const createProv = async (req, res) => {
   })
 
   let arrayPrecios = servicios.map((servicio) => servicio.PRECIO)
+  let arrayDescripcion = servicios.map((servicio) => servicio.DESCRIPCION)
 
   let newProveedor = await Proveedor.create({
     NOMBRE_APELLIDO_PROVEEDOR: `${nombre} ${apellido}`,
@@ -94,17 +97,41 @@ const createProv = async (req, res) => {
     proveedor_servicio.setPrecio(p)
   }
 
+  for (let i = 0; i < arrayDescripcion.length; i++) {
+    let d = await Descripcion.create({
+      DESCRIPCION: arrayDescripcion[i],
+    })
+    let proovedor = await Proveedor.findOne({ where: { EMAIL: email } })
+    let servicio = await Servicio.findOne({
+      where: {
+        NOMBRE_SERVICIO: arrayServicios[i].NOMBRE_SERVICIO,
+        REMOTE: arrayServicios[i].REMOTE,
+      },
+    })
+    let proveedor_servicio = await Proveedor_Servicio.findOne({
+      where: {
+        ProveedorId: proovedor.id,
+        ServicioId: servicio.id,
+      },
+    })
+    proveedor_servicio.setDescripcion(d)
+  }
+
   res.status(201).send('Proveedor creado')
 }
 
 const getProv = async (req, res, next) => {
   try {
     let proveedorServ = await Proveedor_Servicio.findAll({
-      attributes: ['ServicioId', 'ProveedorId', 'PrecioId'],
+      attributes: ['ServicioId', 'ProveedorId', 'PrecioId', 'DescripcionId'],
       include: [
         {
           model: Precio,
           attributes: ['PRECIO'],
+        },
+        {
+          model: Descripcion,
+          attributes: ['DESCRIPCION'],
         },
       ],
     })
@@ -115,6 +142,7 @@ const getProv = async (req, res, next) => {
         ProveedorId: el.ProveedorId,
         PrecioId: el.PrecioId,
         Precio: el.Precio.PRECIO,
+        Descripcion: el.Descripcion.DESCRIPCION,
       }
     })
 
@@ -143,6 +171,7 @@ const getProv = async (req, res, next) => {
         proveedor: proveedor,
         servicio: servicio,
         precio: proveedorServ[i].Precio,
+        descripcion: proveedorServ[i].Descripcion,
       })
     }
 
@@ -167,6 +196,7 @@ const getProv = async (req, res, next) => {
           nombre: prov.servicio.NOMBRE_SERVICIO,
           remote: prov.servicio.REMOTE,
           precio: prov.precio,
+          descripcion: prov.descripcion,
         },
       }
     })

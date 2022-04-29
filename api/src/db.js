@@ -47,6 +47,7 @@ const {
   Servicio,
   Proveedor_Servicio,
   Precio,
+  Descripcion,
 } = sequelize.models
 
 // Aca vendrian las relaciones
@@ -73,9 +74,10 @@ Proveedor.belongsTo(Provincia)
 Proveedor.belongsTo(Ciudad)
 Proveedor_Servicio.belongsTo(Precio)
 Precio.hasOne(Proveedor_Servicio)
+Proveedor_Servicio.belongsTo(Descripcion)
+Descripcion.hasOne(Proveedor_Servicio)
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
   conn: sequelize, // para importart la conexión { conn } = require('./db.js');
-
 }
