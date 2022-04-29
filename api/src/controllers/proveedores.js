@@ -5,12 +5,13 @@ const {
   Provincia,
   Pais,
   Precio,
+  Proveedor_Servicio,
 } = require('../db')
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 
 const createProv = async (req, res) => {
-  const {
+  let {
     nombre,
     apellido,
     password,
@@ -21,8 +22,17 @@ const createProv = async (req, res) => {
     pais,
     provincia,
     ciudad,
-    precio,
   } = req.body
+
+  servicios?.length === 0 || servicios == null
+    ? (servicios = [
+        {
+          NOMBRE_SERVICIO: 'Sin servicios disponibles',
+          REMOTE: true,
+          PRECIO: NaN,
+        },
+      ])
+    : servicios
 
   let arrayServicios = servicios.map((servicio) => {
     return {
@@ -30,6 +40,8 @@ const createProv = async (req, res) => {
       REMOTE: servicio.REMOTE ? true : false,
     }
   })
+
+  let arrayPrecios = servicios.map((servicio) => servicio.PRECIO)
 
   let newProveedor = await Proveedor.create({
     NOMBRE_APELLIDO_PROVEEDOR: `${nombre} ${apellido}`,
@@ -57,68 +69,109 @@ const createProv = async (req, res) => {
     where: { NOMBRE_CIUDAD: ciudad },
   })
 
-  let precioDisp = await Precio.create({
-    where: {
-      PRECIO: precio,
-    },
-  })
-
   newProveedor.addServicios(serviciosDisp)
   newProveedor.setPai(paisDisp)
   newProveedor.setProvincium(provinciasDisp)
   newProveedor.setCiudad(ciudadesDisp)
-  return res.status(201).send('Proveedor creado')
+
+  for (let i = 0; i < arrayPrecios.length; i++) {
+    let p = await Precio.create({
+      PRECIO: arrayPrecios[i],
+    })
+    let proovedor = await Proveedor.findOne({ where: { EMAIL: email } })
+    let servicio = await Servicio.findOne({
+      where: {
+        NOMBRE_SERVICIO: arrayServicios[i].NOMBRE_SERVICIO,
+        REMOTE: arrayServicios[i].REMOTE,
+      },
+    })
+    let proveedor_servicio = await Proveedor_Servicio.findOne({
+      where: {
+        ProveedorId: proovedor.id,
+        ServicioId: servicio.id,
+      },
+    })
+    proveedor_servicio.setPrecio(p)
+  }
+
+  res.status(201).send('Proveedor creado')
 }
 
 const getProv = async (req, res, next) => {
   try {
-    let proveedores = await Proveedor.findAll({
-      attributes: [
-        'id',
-        'NOMBRE_APELLIDO_PROVEEDOR',
-        'EMAIL',
-        'IMAGEN',
-        'FECHA_NACIMIENTO',
-        'CALIFICACION',
-      ],
+    let proveedorServ = await Proveedor_Servicio.findAll({
+      attributes: ['ServicioId', 'ProveedorId', 'PrecioId'],
       include: [
         {
-          model: Servicio,
-          attributes: ['NOMBRE_SERVICIO', 'REMOTE'],
-          through: {
-            attributes: [],
-          },
-        },
-        {
-          model: Pais,
-          attributes: ['NOMBRE_PAIS'],
-        },
-        {
-          model: Provincia,
-          attributes: ['NOMBRE_PROVINCIA'],
-        },
-        {
-          model: Ciudad,
-          attributes: ['NOMBRE_CIUDAD'],
+          model: Precio,
+          attributes: ['PRECIO'],
         },
       ],
     })
 
-    proveedores = proveedores.map((prov) => {
+    proveedorServ = proveedorServ.map((el) => {
       return {
-        id: prov.id,
-        nombre_apellido: prov.NOMBRE_APELLIDO_PROVEEDOR,
-        email: prov.EMAIL,
-        imagen: prov.IMAGEN,
-        fecha_nacimiento: prov.FECHA_NACIMIENTO,
-        calificacion: prov.CALIFICACION,
-        pais: prov.Pai.NOMBRE_PAIS,
-        provincia: prov.Provincium.NOMBRE_PROVINCIA,
-        ciudad: prov.Ciudad.NOMBRE_CIUDAD,
-        servicios: prov.Servicios,
+        ServicioId: el.ServicioId,
+        ProveedorId: el.ProveedorId,
+        PrecioId: el.PrecioId,
+        Precio: el.Precio.PRECIO,
       }
     })
-    return res.status(200).send(proveedores)
+
+    let ProveedoresAMostrar = []
+
+    for (let i = 0; i < proveedorServ.length; i++) {
+      let servicio = await Servicio.findByPk(proveedorServ[i].ServicioId)
+      let proveedor = await Proveedor.findOne({
+        where: { id: proveedorServ[i].ProveedorId },
+        include: [
+          {
+            model: Pais,
+            attributes: ['NOMBRE_PAIS'],
+          },
+          {
+            model: Provincia,
+            attributes: ['NOMBRE_PROVINCIA'],
+          },
+          {
+            model: Ciudad,
+            attributes: ['NOMBRE_CIUDAD'],
+          },
+        ],
+      })
+      ProveedoresAMostrar.push({
+        proveedor: proveedor,
+        servicio: servicio,
+        precio: proveedorServ[i].Precio,
+      })
+    }
+
+    ProveedoresAMostrar = ProveedoresAMostrar.map((prov) => {
+      return {
+        id: prov.proveedor.id,
+        nombre_apellido_proveedor: prov.proveedor.NOMBRE_APELLIDO_PROVEEDOR,
+        email: prov.proveedor.EMAIL,
+        imagen: prov.proveedor.IMAGEN,
+        fehcha_nacimiento: prov.proveedor.FECHA_NACIMIENTO,
+        calificacion: prov.proveedor.CALIFICACION,
+        status: prov.proveedor.STATUS,
+        ciudad: prov.proveedor.Ciudad
+          ? prov.proveedor.Ciudad.NOMBRE_CIUDAD
+          : 'Sin definir',
+        provincia: prov.proveedor.Provincium
+          ? prov.proveedor.Provincium.NOMBRE_PROVINCIA
+          : 'Sin definir',
+        pais: prov.proveedor.Pai.NOMBRE_PAIS,
+        servicio: {
+          id: prov.servicio.id,
+          nombre: prov.servicio.NOMBRE_SERVICIO,
+          remote: prov.servicio.REMOTE,
+          precio: prov.precio,
+        },
+      }
+    })
+
+    return res.status(200).send(ProveedoresAMostrar)
   } catch (error) {
     console.error(error)
     next(error)
