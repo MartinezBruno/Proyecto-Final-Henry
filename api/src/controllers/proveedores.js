@@ -1,6 +1,4 @@
 const { Proveedor, Servicio, Ciudad, Provincia, Pais } = require('../db')
-const Sequelize = require('sequelize')
-const Op = Sequelize.Op
 
 const createProv = async (req, res) => {
   const {
@@ -23,13 +21,24 @@ const createProv = async (req, res) => {
     IMAGEN: imagen,
     FECHA_NACIMIENTO: fecha_nacimiento,
   })
-  servicios.forEach(async (servicio) => {
-    let newService = await Servicio.create({
+  let arrayServicios = servicios.map((servicio) => {
+    return {
       NOMBRE_SERVICIO: servicio.NOMBRE_SERVICIO,
-      REMOTE: servicio.REMOTE,
-      PRICE: servicio.PRICE,
+      REMOTE: servicio.REMOTE ? true : false,
+      PRICE: servicio.PRICE ? servicio.PRICE : 0,
+    }
+  })
+
+  arrayServicios.forEach(async (servicio) => {
+    console.log(servicio)
+    let [newService, _created] = await Servicio.findOrCreate({
+      where: {
+        NOMBRE_SERVICIO: servicio.NOMBRE_SERVICIO,
+        REMOTE: servicio.REMOTE,
+        PRICE: servicio.PRICE,
+      },
     })
-    await newProveedor.addServicios(newService)
+    newProveedor.addServicios(newService)
   })
 
   let paisDisp = await Pais.findOne({
@@ -141,7 +150,19 @@ const getProvByID = async (req, res, next) => {
         },
       ],
     })
-    return res.status(200).send(proveedor)
+    let proveedorDetail = {
+      id: proveedor.id,
+      nombreApellido: proveedor.NOMBRE_APELLIDO_PROVEEDOR,
+      email: proveedor.EMAIL,
+      imagen: proveedor.IMAGEN,
+      fechaNacimiento: proveedor.FECHA_NACIMIENTO,
+      calificacion: proveedor.CALIFICACION,
+      pais: proveedor.Pai.NOMBRE_PAIS,
+      region: proveedor.Provincium.NOMBRE_PROVINCIA,
+      ciudad: proveedor.Ciudad.NOMBRE_CIUDAD,
+      servicios: proveedor.Servicios,
+    }
+    return res.status(200).send(proveedorDetail)
   } catch (error) {
     console.error(error.message)
     next(error)
@@ -152,5 +173,5 @@ const getProvByID = async (req, res, next) => {
 module.exports = {
   createProv,
   getProv,
-  getProvByID
+  getProvByID,
 }
