@@ -178,7 +178,79 @@ const getProv = async (req, res, next) => {
   }
 }
 
+const getProvByID = async (req, res, next) => {
+  const { id } = req.params
+  try {
+    let proveedorServ = await Proveedor_Servicio.findAll({
+      where: { ProveedorId: id },
+      attributes: ['ServicioId', 'ProveedorId', 'PrecioId'],
+      include: [
+        {
+          model: Precio,
+          attributes: ['PRECIO'],
+        },
+      ],
+    })
+
+    let proveedorAMostrar = {}
+    let servicios = []
+
+    let proveedor = await Proveedor.findOne({
+      where: { id: proveedorServ[0].ProveedorId },
+      include: [
+        {
+          model: Pais,
+          attributes: ['NOMBRE_PAIS'],
+        },
+        {
+          model: Provincia,
+          attributes: ['NOMBRE_PROVINCIA'],
+        },
+        {
+          model: Ciudad,
+          attributes: ['NOMBRE_CIUDAD'],
+        },
+      ],
+    })
+    for (let i = 0; i < proveedorServ.length; i++) {
+      let servicio = await Servicio.findByPk(proveedorServ[i].ServicioId)
+      servicios.push({
+        servicio: servicio,
+        precio: proveedorServ[i].Precio,
+      })
+    }
+    proveedorAMostrar = {
+      id: proveedor.id,
+      nombre_apellido_proveedor: proveedor.NOMBRE_APELLIDO_PROVEEDOR,
+      email: proveedor.EMAIL,
+      imagen: proveedor.IMAGEN,
+      fehcha_nacimiento: proveedor.FECHA_NACIMIENTO,
+      calificacion: proveedor.CALIFICACION,
+      status: proveedor.STATUS,
+      ciudad: proveedor.Ciudad ? proveedor.Ciudad.NOMBRE_CIUDAD : 'Sin definir',
+      provincia: proveedor.Provincium
+        ? proveedor.Provincium.NOMBRE_PROVINCIA
+        : 'Sin definir',
+      pais: proveedor.Pai.NOMBRE_PAIS,
+      servicios: servicios.map((servicio) => {
+        return {
+          id: servicio.servicio.id,
+          nombre: servicio.servicio.NOMBRE_SERVICIO,
+          remote: servicio.servicio.REMOTE,
+          precio: servicio.precio.PRECIO,
+        }
+      }),
+    }
+    return res.send(proveedorAMostrar)
+  } catch (error) {
+    console.error(error.message)
+    next(error)
+    return res.status(404).send({ msg: 'Proveedor no encontrado' })
+  }
+}
+
 module.exports = {
   createProv,
   getProv,
+  getProvByID,
 }
