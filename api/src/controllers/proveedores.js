@@ -181,7 +181,7 @@ const getProv = async (req, res, next) => {
         nombre_apellido_proveedor: prov.proveedor.NOMBRE_APELLIDO_PROVEEDOR,
         email: prov.proveedor.EMAIL,
         imagen: prov.proveedor.IMAGEN,
-        fehcha_nacimiento: prov.proveedor.FECHA_NACIMIENTO,
+        fecha_nacimiento: prov.proveedor.FECHA_NACIMIENTO,
         calificacion: prov.proveedor.CALIFICACION,
         status: prov.proveedor.STATUS,
         ciudad: prov.proveedor.Ciudad
@@ -219,6 +219,10 @@ const getProvByID = async (req, res, next) => {
           model: Precio,
           attributes: ['PRECIO'],
         },
+        {
+          model: Descripcion,
+          attributes: ['DESCRIPCION'],
+        },
       ],
     })
 
@@ -247,6 +251,7 @@ const getProvByID = async (req, res, next) => {
       servicios.push({
         servicio: servicio,
         precio: proveedorServ[i].Precio,
+        descripcion: proveedorServ[i].Descripcion,
       })
     }
     proveedorAMostrar = {
@@ -254,7 +259,7 @@ const getProvByID = async (req, res, next) => {
       nombre_apellido_proveedor: proveedor.NOMBRE_APELLIDO_PROVEEDOR,
       email: proveedor.EMAIL,
       imagen: proveedor.IMAGEN,
-      fehcha_nacimiento: proveedor.FECHA_NACIMIENTO,
+      fecha_nacimiento: proveedor.FECHA_NACIMIENTO,
       calificacion: proveedor.CALIFICACION,
       status: proveedor.STATUS,
       ciudad: proveedor.Ciudad ? proveedor.Ciudad.NOMBRE_CIUDAD : 'Sin definir',
@@ -268,6 +273,7 @@ const getProvByID = async (req, res, next) => {
           nombre: servicio.servicio.NOMBRE_SERVICIO,
           remote: servicio.servicio.REMOTE,
           precio: servicio.precio.PRECIO,
+          descripcion: servicio.descripcion.DESCRIPCION,
         }
       }),
     }
