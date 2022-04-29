@@ -1,0 +1,40 @@
+html,
+body,
+.intro {
+  height: 100%;
+}
+.searchbg{
+    background-color: transparent;
+}
+
+.formOutline .formControl:focus ~ .form-notch .form-notch-leading {
+  border-top: 0.125rem solid #b23cfd;
+  border-bottom: 0.125rem solid #b23cfd;
+  border-left: 0.125rem solid #b23cfd;
+}
+.form-outline .form-control:focus ~ .form-notch .form-notch-middle {
+  border-color: #b23cfd;
+}
+.form-outline .form-control:focus ~ .form-notch .form-notch-trailing {
+  border-top: 0.125rem solid #b23cfd;
+  border-bottom: 0.125rem solid #b23cfd;
+  border-right: 0.125rem solid #b23cfd;
+}
+.form-outline .form-control:focus ~ .form-label {
+  color: #b23cfd;
+}
+.autocomplete-input.focused ~ .form-notch .form-notch-leading {
+  border-top: 2px solid #b23cfd;
+  border-bottom: 2px solid #b23cfd;
+  border-left: 2px solid #b23cfd;
+  transition: all 0.2s linear;
+}
+.autocomplete-input.focused ~ .form-notch .form-notch-middle {
+  border-color: #b23cfd;
+}
+.autocomplete-input.focused ~ .form-notch .form-notch-trailing {
+  border-color: #b23cfd;
+}
+.autocomplete-input.focused ~ .autocomplete-label {
+  color: #b23cfd;
+}
