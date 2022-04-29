@@ -8,9 +8,9 @@ export default function Register() {
 
   return (
     <>
-<div class="container ">
-    <div class="row d-flex align-items-center justify-content-center" style={{margin:'0px -220px 0px -220px'}}>
-        <div class="col-md-6">
+<div className="container ">
+    <div className="row d-flex align-items-center justify-content-center" style={{margin:'0px -220px 0px -220px'}}>
+        <div className="col-md-6">
             <div className={`${styles.card}`}> <span className={styles.circle}><i className="fa fa-check"></i></span>
                 <h5 className="mt-3 ">Unete a la comunidad profesional<br /> más completa de la red.</h5> <small className="mt-2 text-muted">Conecta con miles de profesionistas de calidad o encuentra a tus potenciales clientes. </small>
                 <div className="text-center mt-3">
@@ -21,7 +21,7 @@ export default function Register() {
                     
                     
 
-                    <label for="role" className='text-muted'>¿Que deseas hacer?</label> <br /> 
+                    <label htmlFor="role" className='text-muted'>¿Que deseas hacer?</label> <br /> 
 
                         <select className={styles.selectArea}name="role" id="role">
                         <option value="hire">Contratar servicios</option>
@@ -31,7 +31,7 @@ export default function Register() {
                     
                     
                     </div>
-                    <div className="form-check d-flex justify-content-center"> <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked/> <label className={styles.formCheckLabel} for="flexCheckChecked"> Acepto todas las condiciones </label> </div> 
+                    <div className="form-check d-flex justify-content-center"> <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked" /> <label className={styles.formCheckLabel} htmlFor="flexCheckChecked"> Acepto todas las condiciones </label> </div> 
                     <button className={`btn btn-primary mt-4 ${styles.signup}`}>Confirmar registro</button>
                 </div>
 
