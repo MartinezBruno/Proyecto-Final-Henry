@@ -39,15 +39,16 @@
 .landingWidget{
   border-radius: 15px;
   margin: 20px;
+  padding: 15px;
   display:flex;
   text-align: center;
   align-items: center;
   justify-content:center;
   flex-direction: column;
-  min-width: 250px;
-  min-height: 150px;
-  max-width: 250px;
-  max-height: 150px;
+  min-width: 17rem;
+  min-height: 12rem;
+  max-width: 17rem;
+  max-height: 12rem;
   background-color: white;
   color:black;
   box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.4);
@@ -55,6 +56,7 @@
 
 .widgetContainer{
   display:flex;
+  margin: 0px!important;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;

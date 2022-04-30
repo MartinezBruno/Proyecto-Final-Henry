@@ -7,11 +7,11 @@ const { paisesDb, serviciosDb } = require('./src/dbFill')
 
 // Syncing all the models at once.
 conn
-  .sync({ force: true })
+  .sync({ force: false })
   .then(() => {
     server.listen(process.env.DB_PORT, () => {
-      console.log('%s listening at 3001') // eslint-disable-line no-console
-    })
+      console.log(`%s listening at ${process.env.DB_PORT}`); // eslint-disable-line no-console
+    });
   })
   .then(() => {
     paisesDb()

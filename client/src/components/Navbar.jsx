@@ -1,31 +1,95 @@
 import React from "react";
-import { Navbar, Container, Nav, Button, Stack } from "react-bootstrap";
-import Logo from "./img-logo/Logo2_Definitivo.png";
+import styles from "../styles/navbar.module.css";
+import logo from "./img-logo/Logo2_Definitivo.png";
+import { NavLink } from "react-router-dom";
+import { useState } from "react";
+import { Button, Modal } from "react-bootstrap";
+import Register from "./Register";
 
 export default function NavBar() {
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   return (
-    <React.Fragment>
-      <Navbar bg="dark" variant="dark">
-        <Container>
-          <Navbar.Brand href="/">
-            <img
-              alt=""
-              src={Logo}
-              width="250"
-              height="60"
-              className="d-inline-block align-top"
-            />{" "}
-          </Navbar.Brand>
-          <Stack direction="horizontal" gap={3} >
-            <Button variant="primary" active>
-               Mi perfil
-            </Button>{" "}
-            <Button variant="secondary" active>
-              Cerrar sesión
+    <div className={`d-flex container justify-content-center`} style={{backgroundColor: 'transparent'}}>
+    <div
+      className={`${styles.searchbarContainer} `}
+      >
+
+
+      <NavLink to="/">
+        <img src={logo} alt="logo" />
+      </NavLink>
+
+      <div className="d-flex container justify-content-center">
+      <NavLink to="/home" className={isActive =>
+    "nav-link" + (!isActive ? " unselected" : "")
+  } >
+          
+          INICIO
+        </NavLink>
+        <NavLink to="/about" className={isActive =>
+    "nav-link" + (!isActive ? " unselected" : "")
+  }>
+          ¿QUIENES SOMOS?
+        </NavLink>
+        <NavLink to="/profile" className={isActive =>
+    "nav-link" + (!isActive ? " unselected" : "")
+  }>
+          MI PERFIL
+        </NavLink>
+      </div>
+
+
+      <div className="d-flex align-items-center justify-content-center text-center" style={{flexDirection:'column'}}>
+        <Button
+          variant="primary"
+          onClick={handleShow}
+          className="btn btn-primary"
+          style={{
+            color: "white",
+            borderRadius: "20px",
+            width: "180px",
+            fontWeight: "bold",
+          }}
+        >
+          REGISTRATE
+        </Button>
+        <a href="/login" className="link-success">
+          <p
+            style={{
+              margin: "0px",
+              fontSize: "0.6rem",
+              textDecoration: "underline",
+            }}
+            >
+            ¿Ya estás registrado? Inicia sesión
+          </p>
+        </a>
+
+        <Modal show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>
+              {" "}
+              <h5>¡Registrate gratis!</h5>
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Register />
+          </Modal.Body>
+          {/* <Modal.Footer> */}
+          {/* <Button variant="danger" onClick={handleClose}>
+            Cerrar
             </Button>
-          </Stack>
-        </Container>
-      </Navbar>
-    </React.Fragment>
+            <Button variant="success" onClick={handleClose}>
+            Registrarse
+          </Button> */}
+          {/* </Modal.Footer> */}
+        </Modal>
+      </div>
+    </div>
+            </div>
   );
 }
