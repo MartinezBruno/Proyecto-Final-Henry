@@ -1,6 +1,6 @@
 const server = require('./src/app.js')
 const { conn } = require('./src/db.js')
-const { paisesDb, serviciosDb } = require('./src/dbFill')
+const { paisesDb, serviciosDb, initialRoles } = require('./src/dbFill')
 
 // conn vendria a ser la DB que queremos conectar al localHoost con las relaciones de las tablas
 // y las tablas definfidas en sequielize, etc
@@ -16,5 +16,6 @@ conn
   .then(() => {
     paisesDb()
     serviciosDb()
+    initialRoles()
     }
   );
