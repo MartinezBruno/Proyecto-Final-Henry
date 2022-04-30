@@ -1,12 +1,12 @@
-const { Usuarios } = require('../db');
+const { Usuario } = require('../db');
 
-// exports.allAccess = (req, res) => {
-//   res.status(200).send("Public Content.");
-// };
+exports.allAccess = (req, res) => {
+  res.status(200).send("Public Content.");
+};
 
-// exports.userBoard = (req, res) => {
-//   res.status(200).send("User Content.");
-// };
+exports.userBoard = (req, res) => {
+  res.status(200).send("User Content.");
+};
 
 exports.putUser = async (req, res, next) =>{
   
@@ -22,7 +22,7 @@ exports.putUser = async (req, res, next) =>{
   Proveedor_Servicio,
   Descripcion } = req.body;
 
-    const usuarioEncontrado = await Usuarios.findOne({
+    const usuarioEncontrado = await Usuario.findOne({
       where: { id: id },
     });
 
@@ -48,10 +48,10 @@ exports.putUser = async (req, res, next) =>{
   }
 };
 
-// exports.adminBoard = (req, res) => {
-//   res.status(200).send("Admin Content.");
-// };
+exports.adminBoard = (req, res) => {
+  res.status(200).send("Admin Content.");
+};
 
-// exports.moderatorBoard = (req, res) => {
-//   res.status(200).send("Moderator Content.");
-// };
+exports.moderatorBoard = (req, res) => {
+  res.status(200).send("Moderator Content.");
+};

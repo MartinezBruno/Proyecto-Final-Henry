@@ -48,6 +48,8 @@ const {
   Proveedor_Servicio,
   Precio,
   Descripcion,
+  Role,
+  RefreshToken
 } = sequelize.models
 
 // Aca vendrian las relaciones

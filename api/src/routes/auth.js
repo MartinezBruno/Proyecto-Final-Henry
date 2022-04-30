@@ -1,7 +1,7 @@
 const express = require('express');
 const { Router } = require('express');
 const { verifySignUp } = require("../middlewares");
-const controller = require("../controllers/auth.controller");
+const controller = require("../controllers/auth");
 const veryfySignUp = require("../middlewares/verifySignUp");
 
 // Importar todos los routers;

@@ -1,7 +1,7 @@
 const express = require('express');
 const { Router } = require('express');
 const { authJwt } = require("../middlewares");
-const controller = require("../controllers/user.controller");
+const controller = require("../controllers/usuarios");
 
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');

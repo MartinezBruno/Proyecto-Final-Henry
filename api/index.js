@@ -9,7 +9,7 @@ const { paisesDb, serviciosDb } = require('./src/dbFill')
 conn
   .sync({ force: false })
   .then(() => {
-    const connectionServer = server.listen(process.env.DB_PORT, () => {
+    server.listen(process.env.DB_PORT, () => {
       console.log(`%s listening at ${process.env.DB_PORT}`); // eslint-disable-line no-console
     });
   })
@@ -18,5 +18,3 @@ conn
     serviciosDb()
     }
   );
-
-  module.exports = {server, connectionServer};
