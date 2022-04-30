@@ -5,15 +5,13 @@ import logo from "./img-logo/Logo2_Definitivo.png";
 export default function About() {
   return (
     <>
-    <div className={`${styles.body} .container`} style={{height:"85.9vh", marginBottom:"100px"}}>
+    <div className={`container-fluid`}>
       <div
-        className={`card mb-3`}
+        className={`container  mb-3`}
         style={{
           backgroundColor: "aliceBlue",
           margin: "auto",
-          marginTop: "-60px",
-          width: "1000px",
-          height: "300px",
+          marginTop:'4rem',
           textAlign: "center",
           justifyContent: "center",
         }}
@@ -29,11 +27,11 @@ export default function About() {
           </div>
           <div className="col-md-8">
             <div className="card-body">
-              <h5 className="card-title">¿ Como Nacio ATTEND ?</h5>
+              <h5 className="card-title">¿ Como nacio ATTEND ?</h5>
               <p className="card-text">
-                La idea surgio en Base a la necesidad de una plataforma, la cual
-                simplifique una Tarea habitual, como lo es Buscar Proveedores de
-                Servicios
+                La idea surgio en base a la necesidad de una plataforma, la cual
+                simplifique una tarea habitual, como lo es la búsqueda de proveedores de
+                servicios
               </p>
               {/* <p className="card-text">
                 <small className="text-muted"></small>
@@ -42,28 +40,29 @@ export default function About() {
           </div>
         </div>
       </div>
-      <div style={{ display: "flex",marginTop:"70px", justifyContent:"center"}}>
+      <div style={{ display: "flex",marginTop:"70px", justifyContent:"center", flexWrap:'wrap'}}>
         <div
           className={`card mb-3`}
           style={{
-            // backgroundColor: "aliceBlue",
+            margin: '20px',
             width: "350px",
             height: "400px",
             textAlign: "center",
             justifyContent: "center",
+            alignItems: 'center'
           }}
           >
           <img
             src="https://www.bicicletas.fun/blog/wp-content/uploads/2020/04/Como-elegir-la-mejor-bicicleta-para-ni%C3%B1os.jpg"
             style={{ height: "200px", }}
-            class="card-img-top"
+            className="card-img-top"
             alt="..."
             />
-          <div class="card-body">
-              <h5>Se trata del Tiempo <i class="fa fa-clock-o" aria-hidden="true"></i></h5>
-            <p class="card-text">
-            El tiempo es nuestro recurso más preciado, y no renovable. Al ayudar a las personas a Conectar de manera rapida con 
-            una Solucion a su problema, les estamos dando tiempo.
+          <div className="card-body">
+              <h5>Se trata del tiempo <i className="fa fa-clock-o" aria-hidden="true"></i></h5>
+            <p className="card-text">
+            El tiempo es nuestro recurso más preciado, y no renovable. Al ayudar a las personas a conectar de manera rapida con 
+            una solucion a su problema, les estamos dando tiempo.
             </p>
           </div>
         </div>
@@ -71,8 +70,7 @@ export default function About() {
         <div
           className={`card mb-3`}
           style={{
-            // backgroundColor: "aliceBlue",
-            marginLeft: "40px",
+            margin: '20px',
             width: "350px",
             height: "400px",
             textAlign: "center",
@@ -82,12 +80,12 @@ export default function About() {
           <img
           src="https://www.intellisource.com/wp-content/uploads/2019/09/helping-people.jpg"
           style={{ height: "200px" }}
-          class="card-img-top"
+          className="card-img-top"
           alt="..."
           />
-          <div class="card-body">
-          <h5>Se trata de Ayuda <i class="fa fa-handshake-o" aria-hidden="true"></i></h5>
-            <p class="card-text">
+          <div className="card-body">
+          <h5>Se trata de Ayuda <i className="fa fa-handshake-o" aria-hidden="true"></i></h5>
+            <p className="card-text">
             {/* Todos necesitamos ayuda para resolver nuestros problemas o necesidades,  */}
             Todos necesitamos una mano, ya sea para estudiar, o porque algun elemento de la casa se descompuso. 
             Estamos haciendo que la ayuda de confianza, sea accesible para más personas.
@@ -97,8 +95,7 @@ export default function About() {
         <div
           className={`card mb-3`}
           style={{
-            // backgroundColor: "al+iceBlue",
-            marginLeft: "40px",
+            margin: '15px',
             width: "350px",
             height: "400px",
             textAlign: "center",
@@ -108,12 +105,12 @@ export default function About() {
           <img
             src="https://3rionoticias.com/download/multimedia.normal.a1d0474a2ba7d377.4d616e6f7320556e696461735f6e6f726d616c2e6a7067.jpg"
             style={{ height: "200px" }}
-            class="card-img-top"
+            className="card-img-top"
             alt="..."
             />
-          <div class="card-body">
-          <h5>Se trata de Conectividad <i class="fa fa-users" aria-hidden="true"></i></h5>
-            <p class="card-text">
+          <div className="card-body">
+          <h5>Se trata de Conectividad <i className="fa fa-users" aria-hidden="true"></i></h5>
+            <p className="card-text">
               Buscamos ser una plataforma en la cual, siempre tengas a disposicion a una persona que este para ayudarte
               y brindarte su servicio, de la mejor manera posible.
             </p>
@@ -121,7 +118,7 @@ export default function About() {
         </div>
       </div>
 
-      {/* <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlXoiuPHQUnWUFKhrNJdtvNxL61UKGxb1SFW5LE4OtyanZTYiVRTHbw3i4-Qk0Wlt-g-w&usqp=CAU" class="img-fluid d-block" alt="..."/> */}
+      {/* <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlXoiuPHQUnWUFKhrNJdtvNxL61UKGxb1SFW5LE4OtyanZTYiVRTHbw3i4-Qk0Wlt-g-w&usqp=CAU" className="img-fluid d-block" alt="..."/> */}
     </div>
     </>
   );

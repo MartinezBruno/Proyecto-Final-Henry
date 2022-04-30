@@ -40,11 +40,6 @@ server.use(Sentry.Handlers.requestHandler());
 // TracingHandler creates a trace for every incoming request
 server.use(Sentry.Handlers.tracingHandler());
 
-// All controllers should live here
-server.use('/api', routes);
-
-server.use("/debug", debug)
-
 //All middlewares should live here
 server.use(express.json())
 // server.use(cors())
@@ -52,6 +47,12 @@ server.use(bodyParser.urlencoded({extended: true, limit: '50mb'}))
 server.use(bodyParser.json({limit: '50mb'}))
 server.use(cookieParser())
 server.use(morgan('dev'))
+
+// All controllers should live here
+server.use('/api', routes);
+
+server.use("/debug", debug)
+
 
 server.use((req, res, next) => {
 
