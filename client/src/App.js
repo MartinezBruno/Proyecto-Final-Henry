@@ -13,6 +13,7 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import About from "./components/About";
 import Profile from "./components/Profile";
+import Footer from "./components/Footer";
 
 
 function App() {
@@ -28,8 +29,7 @@ function App() {
 
   return (
   
-
-      
+<>
           <Routes>
               <Route exact path="/" element={<LandingPage />}/>
 
@@ -48,8 +48,9 @@ function App() {
               </Route>
             
           </Routes>
-
-     
+          <Footer />
+          </>
+      
   );
 }
 

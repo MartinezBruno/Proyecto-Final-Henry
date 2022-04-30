@@ -5,15 +5,13 @@ import logo from "./img-logo/Logo2_Definitivo.png";
 export default function About() {
   return (
     <>
-    <div className={`${styles.body} container-fluid`}>
+    <div className={`container-fluid`}>
       <div
-        className={`card mb-3`}
+        className={`container  mb-3`}
         style={{
           backgroundColor: "aliceBlue",
           margin: "auto",
-          marginTop: "0px",
-          width: "1000px",
-          height: "300px",
+          marginTop:'4rem',
           textAlign: "center",
           justifyContent: "center",
         }}
@@ -42,15 +40,16 @@ export default function About() {
           </div>
         </div>
       </div>
-      <div style={{ display: "flex",marginTop:"70px", justifyContent:"center"}}>
+      <div style={{ display: "flex",marginTop:"70px", justifyContent:"center", flexWrap:'wrap'}}>
         <div
           className={`card mb-3`}
           style={{
-            // backgroundColor: "aliceBlue",
+            margin: '20px',
             width: "350px",
             height: "400px",
             textAlign: "center",
             justifyContent: "center",
+            alignItems: 'center'
           }}
           >
           <img
@@ -60,10 +59,10 @@ export default function About() {
             alt="..."
             />
           <div className="card-body">
-              <h5>Se trata del Tiempo <i className="fa fa-clock-o" aria-hidden="true"></i></h5>
+              <h5>Se trata del tiempo <i className="fa fa-clock-o" aria-hidden="true"></i></h5>
             <p className="card-text">
-            El tiempo es nuestro recurso más preciado, y no renovable. Al ayudar a las personas a Conectar de manera rapida con 
-            una Solucion a su problema, les estamos dando tiempo.
+            El tiempo es nuestro recurso más preciado, y no renovable. Al ayudar a las personas a conectar de manera rapida con 
+            una solucion a su problema, les estamos dando tiempo.
             </p>
           </div>
         </div>
@@ -71,8 +70,7 @@ export default function About() {
         <div
           className={`card mb-3`}
           style={{
-            // backgroundColor: "aliceBlue",
-            marginLeft: "40px",
+            margin: '20px',
             width: "350px",
             height: "400px",
             textAlign: "center",
@@ -97,8 +95,7 @@ export default function About() {
         <div
           className={`card mb-3`}
           style={{
-            // backgroundColor: "al+iceBlue",
-            marginLeft: "40px",
+            margin: '15px',
             width: "350px",
             height: "400px",
             textAlign: "center",

@@ -51,7 +51,8 @@ export default function NavBar() {
           style={{
             color: "white",
             borderRadius: "20px",
-            width: "180px",
+            // width: "180px",
+            width: '12rem',
             fontWeight: "bold",
           }}
         >

@@ -15,15 +15,15 @@ export default function Filters(){
           <div className="card-body">
             <div className="row justify-content-center">
               <div className="col-md-6 mb-3 mb-md-0">
-                <div id="basic" className="form-outline">
+                <div id="basic" className="form-outline text-center">
                   <input type="text" id="form1" className="form-control form-control-lg" />
-                  <label className="form-label" for="form1">What are you looking for?</label>
+                  <label className="form-label" htmlFor="form1">¿Qué servicio / profesion buscas?</label>
                 </div>
               </div>
               <div className="col-md-4 mb-3 mb-md-0">
-                <div id="location" className="form-outline">
+                <div id="location" className="form-outline text-center">
                   <input type="text" id="form2" className="form-control form-control-lg" />
-                  <label className="form-label" for="form2">Location</label>
+                  <label className="form-label" htmlFor="form2">Localidad</label>
                 </div>
               </div>
               <div className="col-md-2">

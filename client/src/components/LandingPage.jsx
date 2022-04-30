@@ -1,10 +1,7 @@
-import React, {useState} from "react";
 import styles from "../styles/landingpage.module.css";
-import logo from "./img-logo/Logo2_Definitivo.png";
-import { Link } from "react-router-dom";
-import {Button, Modal} from 'react-bootstrap'
-import Register from "./Register";
 import NavBar from "./Navbar";
+import Footer from "./Footer";
+import 'animate.css';
 
 export default function LandingPage() {
 
@@ -22,7 +19,7 @@ export default function LandingPage() {
           <h6>OFRECE O CONTRATA SERVICIOS PROFESIONALES</h6>
           <br />
           <br />
-          <a className="btn btn-lg btn-success" href="#">
+          <a className="animate__animated animate__slideInUp btn btn-lg btn-success" href="#">
              <span>¡COMIENZA AHORA!</span> </a>
           </div>
           
@@ -55,9 +52,37 @@ export default function LandingPage() {
         </div>
 
       </div>
-      <div className={styles.hero}></div>
+      {/* NO BORRAR, ES EL HERO */}
+      <div className={styles.hero}></div> 
+      {/* NO BORRAR, ES EL HERO */}
+
+      <div className="container" style={{marginBottom: '25px'}}>
+  <div className="row align-items-center justify-content-center mt-3 mb-3 text-center">
+
+    <h1 style={{margin: '50px'}}>SATISFACCIÓN GARANTIZADA</h1>
+
+    <div className="d-flex flex-wrap column justify-content-center" style={{marginBottom: '150px'}}>
+
+    <div className="col align-items-center justify-content-center" style={{width: '5rem', borderLeft: '1px solid black',borderRight: '1px solid black', padding: '10px', backgroundColor: 'white', boxShadow:' 0 0 5px 1px rgba(0, 0, 0, 0.4)', margin: '10px', borderRadius: '15px'}}>
+      <h4>Siempre respaldados</h4>
+
+      <p>Todos los usuarios, son validados por los administradores y entre los mismos usuarios.</p>
+    </div>
+
+    <div className="col align-items-center justify-content-center" style={{width: '5rem', borderLeft: '1px solid black',borderRight: '1px solid black', padding: '10px', backgroundColor: 'white', boxShadow:' 0 0 5px 1px rgba(0, 0, 0, 0.4)', margin: '10px', borderRadius: '15px'}}>
+      <h4>Privacidad de datos</h4>
+
+      <p>Los datos que compartas con nosotros serán protegidos y nunca serán compartidos a terceros.</p>
 
     </div>
+    </div>
+  
+
+  </div>
+  </div>
+
+    </div>
+
     </>
   );
 }
