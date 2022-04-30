@@ -1,10 +1,11 @@
-const { Router } = require("express");
-const router = Router();
+const { Router } = require('express')
+const router = Router()
 
-const region = require("./region");
-const ciudad = require("./ciudad");
-const servicio = require("./servicio");
-const proveedor = require("./proveedor");
+const region = require('./region')
+const ciudad = require('./ciudad')
+const servicio = require('./servicio')
+const proveedor = require('./proveedor')
+
 
 router.get("/", (req, res) => {
   res.send('API Attend Group Company');
@@ -14,4 +15,5 @@ router.use("/ciudad", ciudad);
 router.use("/servicios", servicio);
 router.use("/proveedor", proveedor);
 
-module.exports = router;
+
+module.exports = router

@@ -1,6 +1,5 @@
-
-const server = require("./src/app.js");
-const { conn } = require("./src/db.js");
+const server = require('./src/app.js')
+const { conn } = require('./src/db.js')
 const { paisesDb, serviciosDb } = require('./src/dbFill')
 
 // conn vendria a ser la DB que queremos conectar al localHoost con las relaciones de las tablas
@@ -14,8 +13,7 @@ conn
       console.log(`%s listening at ${process.env.DB_PORT}`); // eslint-disable-line no-console
     });
   })
-  .then(() =>{
+  .then(() => {
     paisesDb()
     serviciosDb()
-    }
-  );
+  })

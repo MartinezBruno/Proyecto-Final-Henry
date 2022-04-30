@@ -5,12 +5,14 @@ const {
   Provincia,
   Pais,
   Precio,
+  Proveedor_Servicio,
+  Descripcion,
 } = require('../db')
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 
 const createProv = async (req, res) => {
-  const {
+  let {
     nombre,
     apellido,
     password,
@@ -21,8 +23,18 @@ const createProv = async (req, res) => {
     pais,
     provincia,
     ciudad,
-    precio,
   } = req.body
+
+  servicios?.length === 0 || servicios == null
+    ? (servicios = [
+        {
+          NOMBRE_SERVICIO: 'Sin servicios disponibles',
+          REMOTE: true,
+          PRECIO: NaN,
+          DESCRIPCION: '',
+        },
+      ])
+    : servicios
 
   let arrayServicios = servicios.map((servicio) => {
     return {
@@ -30,6 +42,9 @@ const createProv = async (req, res) => {
       REMOTE: servicio.REMOTE ? true : false,
     }
   })
+
+  let arrayPrecios = servicios.map((servicio) => servicio.PRECIO)
+  let arrayDescripcion = servicios.map((servicio) => servicio.DESCRIPCION)
 
   let newProveedor = await Proveedor.create({
     NOMBRE_APELLIDO_PROVEEDOR: `${nombre} ${apellido}`,
@@ -57,38 +72,166 @@ const createProv = async (req, res) => {
     where: { NOMBRE_CIUDAD: ciudad },
   })
 
-  let precioDisp = await Precio.create({
-    where: {
-      PRECIO: precio,
-    },
-  })
-
   newProveedor.addServicios(serviciosDisp)
   newProveedor.setPai(paisDisp)
   newProveedor.setProvincium(provinciasDisp)
   newProveedor.setCiudad(ciudadesDisp)
-  return res.status(201).send('Proveedor creado')
+
+  for (let i = 0; i < arrayPrecios.length; i++) {
+    let p = await Precio.create({
+      PRECIO: arrayPrecios[i],
+    })
+    let proovedor = await Proveedor.findOne({ where: { EMAIL: email } })
+    let servicio = await Servicio.findOne({
+      where: {
+        NOMBRE_SERVICIO: arrayServicios[i].NOMBRE_SERVICIO,
+        REMOTE: arrayServicios[i].REMOTE,
+      },
+    })
+    let proveedor_servicio = await Proveedor_Servicio.findOne({
+      where: {
+        ProveedorId: proovedor.id,
+        ServicioId: servicio.id,
+      },
+    })
+    proveedor_servicio.setPrecio(p)
+  }
+
+  for (let i = 0; i < arrayDescripcion.length; i++) {
+    let d = await Descripcion.create({
+      DESCRIPCION: arrayDescripcion[i],
+    })
+    let proovedor = await Proveedor.findOne({ where: { EMAIL: email } })
+    let servicio = await Servicio.findOne({
+      where: {
+        NOMBRE_SERVICIO: arrayServicios[i].NOMBRE_SERVICIO,
+        REMOTE: arrayServicios[i].REMOTE,
+      },
+    })
+    let proveedor_servicio = await Proveedor_Servicio.findOne({
+      where: {
+        ProveedorId: proovedor.id,
+        ServicioId: servicio.id,
+      },
+    })
+    proveedor_servicio.setDescripcion(d)
+  }
+
+  res.status(201).send('Proveedor creado')
 }
 
 const getProv = async (req, res, next) => {
   try {
-    let proveedores = await Proveedor.findAll({
-      attributes: [
-        'id',
-        'NOMBRE_APELLIDO_PROVEEDOR',
-        'EMAIL',
-        'IMAGEN',
-        'FECHA_NACIMIENTO',
-        'CALIFICACION',
-      ],
+    let proveedorServ = await Proveedor_Servicio.findAll({
+      attributes: ['ServicioId', 'ProveedorId', 'PrecioId', 'DescripcionId'],
       include: [
         {
-          model: Servicio,
-          attributes: ['NOMBRE_SERVICIO', 'REMOTE'],
-          through: {
-            attributes: [],
-          },
+          model: Precio,
+          attributes: ['PRECIO'],
         },
+        {
+          model: Descripcion,
+          attributes: ['DESCRIPCION'],
+        },
+      ],
+    })
+
+    proveedorServ = proveedorServ.map((el) => {
+      return {
+        ServicioId: el.ServicioId,
+        ProveedorId: el.ProveedorId,
+        PrecioId: el.PrecioId,
+        Precio: el.Precio.PRECIO,
+        Descripcion: el.Descripcion.DESCRIPCION,
+      }
+    })
+
+    let ProveedoresAMostrar = []
+
+    for (let i = 0; i < proveedorServ.length; i++) {
+      let servicio = await Servicio.findByPk(proveedorServ[i].ServicioId)
+      let proveedor = await Proveedor.findOne({
+        where: { id: proveedorServ[i].ProveedorId },
+        include: [
+          {
+            model: Pais,
+            attributes: ['NOMBRE_PAIS'],
+          },
+          {
+            model: Provincia,
+            attributes: ['NOMBRE_PROVINCIA'],
+          },
+          {
+            model: Ciudad,
+            attributes: ['NOMBRE_CIUDAD'],
+          },
+        ],
+      })
+      ProveedoresAMostrar.push({
+        proveedor: proveedor,
+        servicio: servicio,
+        precio: proveedorServ[i].Precio,
+        descripcion: proveedorServ[i].Descripcion,
+      })
+    }
+
+    ProveedoresAMostrar = ProveedoresAMostrar.map((prov) => {
+      return {
+        id: prov.proveedor.id,
+        nombre_apellido_proveedor: prov.proveedor.NOMBRE_APELLIDO_PROVEEDOR,
+        email: prov.proveedor.EMAIL,
+        imagen: prov.proveedor.IMAGEN,
+        fecha_nacimiento: prov.proveedor.FECHA_NACIMIENTO,
+        calificacion: prov.proveedor.CALIFICACION,
+        status: prov.proveedor.STATUS,
+        ciudad: prov.proveedor.Ciudad
+          ? prov.proveedor.Ciudad.NOMBRE_CIUDAD
+          : 'Sin definir',
+        provincia: prov.proveedor.Provincium
+          ? prov.proveedor.Provincium.NOMBRE_PROVINCIA
+          : 'Sin definir',
+        pais: prov.proveedor.Pai.NOMBRE_PAIS,
+        servicio: {
+          id: prov.servicio.id,
+          nombre: prov.servicio.NOMBRE_SERVICIO,
+          remote: prov.servicio.REMOTE,
+          precio: prov.precio,
+          descripcion: prov.descripcion,
+        },
+      }
+    })
+
+    return res.status(200).send(ProveedoresAMostrar)
+  } catch (error) {
+    console.error(error)
+    next(error)
+  }
+}
+
+const getProvByID = async (req, res, next) => {
+  const { id } = req.params
+  try {
+    let proveedorServ = await Proveedor_Servicio.findAll({
+      where: { ProveedorId: id },
+      attributes: ['ServicioId', 'ProveedorId', 'PrecioId'],
+      include: [
+        {
+          model: Precio,
+          attributes: ['PRECIO'],
+        },
+        {
+          model: Descripcion,
+          attributes: ['DESCRIPCION'],
+        },
+      ],
+    })
+
+    let proveedorAMostrar = {}
+    let servicios = []
+
+    let proveedor = await Proveedor.findOne({
+      where: { id: proveedorServ[0].ProveedorId },
+      include: [
         {
           model: Pais,
           attributes: ['NOMBRE_PAIS'],
@@ -103,29 +246,47 @@ const getProv = async (req, res, next) => {
         },
       ],
     })
-
-    proveedores = proveedores.map((prov) => {
-      return {
-        id: prov.id,
-        nombre_apellido: prov.NOMBRE_APELLIDO_PROVEEDOR,
-        email: prov.EMAIL,
-        imagen: prov.IMAGEN,
-        fecha_nacimiento: prov.FECHA_NACIMIENTO,
-        calificacion: prov.CALIFICACION,
-        pais: prov.Pai.NOMBRE_PAIS,
-        provincia: prov.Provincium.NOMBRE_PROVINCIA,
-        ciudad: prov.Ciudad.NOMBRE_CIUDAD,
-        servicios: prov.Servicios,
-      }
-    })
-    return res.status(200).send(proveedores)
+    for (let i = 0; i < proveedorServ.length; i++) {
+      let servicio = await Servicio.findByPk(proveedorServ[i].ServicioId)
+      servicios.push({
+        servicio: servicio,
+        precio: proveedorServ[i].Precio,
+        descripcion: proveedorServ[i].Descripcion,
+      })
+    }
+    proveedorAMostrar = {
+      id: proveedor.id,
+      nombre_apellido_proveedor: proveedor.NOMBRE_APELLIDO_PROVEEDOR,
+      email: proveedor.EMAIL,
+      imagen: proveedor.IMAGEN,
+      fecha_nacimiento: proveedor.FECHA_NACIMIENTO,
+      calificacion: proveedor.CALIFICACION,
+      status: proveedor.STATUS,
+      ciudad: proveedor.Ciudad ? proveedor.Ciudad.NOMBRE_CIUDAD : 'Sin definir',
+      provincia: proveedor.Provincium
+        ? proveedor.Provincium.NOMBRE_PROVINCIA
+        : 'Sin definir',
+      pais: proveedor.Pai.NOMBRE_PAIS,
+      servicios: servicios.map((servicio) => {
+        return {
+          id: servicio.servicio.id,
+          nombre: servicio.servicio.NOMBRE_SERVICIO,
+          remote: servicio.servicio.REMOTE,
+          precio: servicio.precio.PRECIO,
+          descripcion: servicio.descripcion.DESCRIPCION,
+        }
+      }),
+    }
+    return res.send(proveedorAMostrar)
   } catch (error) {
-    console.error(error)
+    console.error(error.message)
     next(error)
+    return res.status(404).send({ msg: 'Proveedor no encontrado' })
   }
 }
 
 module.exports = {
   createProv,
   getProv,
+  getProvByID,
 }

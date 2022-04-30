@@ -2,6 +2,7 @@ const { Pais, Servicio } = require('../db')
 
 const paises = ['Argentina', 'Uruguay', 'Mexico']
 const servicios = [
+  { NOMBRE_SERVICIO: 'Sin servicios disponibles', REMOTE: true },
   { NOMBRE_SERVICIO: 'Profe de Guitarra', REMOTE: true },
   { NOMBRE_SERVICIO: 'Profe de Guitarra', REMOTE: false },
   { NOMBRE_SERVICIO: 'Jardinero', REMOTE: false },
