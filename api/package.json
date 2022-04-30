@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "cross-env NODE-ENV=test jest --verbose",
+    "test": "cross-env NODE-ENV=test jest --verbose --silent --detectOpenHandles",
     "start": "nodemon index.js"
   },
   "keywords": [],
@@ -25,7 +25,12 @@
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
+    "jest": "^28.0.2",
     "morgan": "^1.10.0",
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "supertest": "^6.2.3"
+  },
+  "jest": {
+    "testEnvironment": "node"
   }
 }
