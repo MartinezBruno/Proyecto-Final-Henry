@@ -1,5 +1,6 @@
 
 require("./mongo")
+const cors = require('cors')
 const express = require('express')
 const server = express();
 const cookieParser = require('cookie-parser')
@@ -42,7 +43,7 @@ server.use(Sentry.Handlers.tracingHandler());
 
 //All middlewares should live here
 server.use(express.json())
-// server.use(cors())
+server.use(cors())
 server.use(bodyParser.urlencoded({extended: true, limit: '50mb'}))
 server.use(bodyParser.json({limit: '50mb'}))
 server.use(cookieParser())
@@ -54,20 +55,13 @@ server.use('/api', routes);
 server.use("/debug", debug)
 
 
-server.use((req, res, next) => {
-
-   res.header('Access-Control-Allow-Origin', 'http://159.89.82.240/'); // update to match the domain you will make the request from
-   res.header('Access-Control-Allow-Credentials', 'true');
-   res.header(
-      'Access-Control-Allow-Headers',
-      'Origin, X-Requested-With, Content-Type, Accept',
-   );
-   res.header(
-      'Access-Control-Allow-Methods',
-      'GET, POST, OPTIONS, PUT, DELETE',
-   );
-   next();
-});
+   server.use((req, res, next) => {
+      res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+      res.header('Access-Control-Allow-Credentials', 'true');
+      res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, X-Access-Token');
+      res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+      next();
+    });
 
 // The error handler must be before any other error middleware and after all controllers
 server.use(notFound)
