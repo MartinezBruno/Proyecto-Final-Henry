@@ -8,6 +8,7 @@ const bodyParser = require('body-parser')
 const morgan = require('morgan')
 const routes = require('./routes')
 const debug = require('./routes/debug')
+const automatic_post = require('./routes/automatic-post')
 // Middlewares to catch errors
 const notFound = require('./middlewares/notFound')
 const handleErrors = require('./middlewares/handleErrors.js')
@@ -53,6 +54,8 @@ server.use(morgan('dev'))
 server.use('/api', routes);
 
 server.use("/debug", debug)
+
+server.use("/post", automatic_post)
 
 
    server.use((req, res, next) => {

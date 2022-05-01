@@ -54,7 +54,7 @@ const getProvincias = async (req, res) => {
         break
     }
     res.status(200).send(provincias)
-    // Provincia.truncate({ cascade: true, restartIdentity: true })
+    Provincia.truncate({ cascade: true, restartIdentity: true })
     let paisDb = await Pais.findOne({
       where: { NOMBRE_PAIS: pais },
     })
