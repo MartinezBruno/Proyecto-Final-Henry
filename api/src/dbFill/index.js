@@ -3,11 +3,21 @@ const { Pais, Servicio } = require('../db')
 const paises = ['Argentina', 'Uruguay', 'Mexico']
 const servicios = [
   { NOMBRE_SERVICIO: 'Sin servicios disponibles', REMOTE: true },
-  { NOMBRE_SERVICIO: 'Profe de Guitarra', REMOTE: true },
-  { NOMBRE_SERVICIO: 'Profe de Guitarra', REMOTE: false },
+  { NOMBRE_SERVICIO: 'Profesor de Fisica', REMOTE: true },
+  { NOMBRE_SERVICIO: 'Profesor de Fisica', REMOTE: false },
+  { NOMBRE_SERVICIO: 'Profesor de Ingles', REMOTE: true },
+  { NOMBRE_SERVICIO: 'Profesor de Ingles', REMOTE: false },
+  { NOMBRE_SERVICIO: 'Profesor de Matematicas', REMOTE: true },
+  { NOMBRE_SERVICIO: 'Profesor de Matematicas', REMOTE: false },
+  { NOMBRE_SERVICIO: 'Profesor de Quimica', REMOTE: true },
+  { NOMBRE_SERVICIO: 'Profesor de Quimica', REMOTE: false },
   { NOMBRE_SERVICIO: 'Jardinero', REMOTE: false },
-  { NOMBRE_SERVICIO: 'Profe de Quimica', REMOTE: true },
-  { NOMBRE_SERVICIO: 'TaxiBoy', REMOTE: false },
+  { NOMBRE_SERVICIO: 'Mantenimiento de piletas', REMOTE: false },
+  { NOMBRE_SERVICIO: 'Servicio de mudanza', REMOTE: false },
+  { NOMBRE_SERVICIO: 'Limpieza de hogares', REMOTE: false },
+  { NOMBRE_SERVICIO: 'Cuidado de niños', REMOTE: false },
+  { NOMBRE_SERVICIO: 'Plomeria', REMOTE: false },
+  { NOMBRE_SERVICIO: 'Cerrajeria', REMOTE: false },
 ]
 
 function paisesDb() {
