@@ -14,19 +14,38 @@ export default function Filters(){
         <div className={`"card" ${styles.searchbg}`}>
           <div className="card-body">
             <div className="row justify-content-center">
-              <div className="col-md-6 mb-3 mb-md-0">
+              <div className="col-md-5 mb-3 mb-md-0">
                 <div id="basic" className="form-outline text-center">
-                  <input type="text" id="form1" className="form-control form-control-lg" />
+                  <input type="text" id="form1" className="form-control form-control-lg" autocomplete='off' />
                   <label className="form-label" htmlFor="form1">¿Qué servicio / profesion buscas?</label>
                 </div>
               </div>
-              <div className="col-md-4 mb-3 mb-md-0">
+
+              <div className="col-md-3 mb-3 mb-md-0">
                 <div id="location" className="form-outline text-center">
-                  <input type="text" id="form2" className="form-control form-control-lg" />
-                  <label className="form-label" htmlFor="form2">Localidad</label>
+                  <select name="cost" className="form-control form-control-lg">
+                    <option disabled hidden>Selecciona</option>
+                    <option value="none">Todos</option>
+                    <option value="MayorMenor">Mayor a menor</option>
+                    <option value="MenorMayor">Menor a mayor</option>
+                  </select>
+                  <label className="form-label" htmlFor="form1">Ordenar por precio</label>
+
                 </div>
+              
               </div>
-              <div className="col-md-2">
+
+              {/* INICIA REMOTO CHECK */}
+              <div className="col-md-2 mb-3 mb-md-0">
+                <div className="d-flex align-items-center justify-content-center form-outline text-center" style={{flexDirection:'column'}}>
+                <input className="form-check-input" type="checkbox" id="remote" name="remote" value="remote" />
+                  <label className="form-label" htmlFor="checkbox" style={{margin:'0px'}}>¿Remoto?</label>
+
+                </div>
+              
+              </div>
+              {/* TERMINA REMOTO CHECK */}
+              <div className="col-md-1">
                 <input className="btn btn-secondary btn-block btn-lg" type="submit" value='🔍' />
               </div>
             </div>
