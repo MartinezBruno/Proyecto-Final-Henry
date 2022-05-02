@@ -11,7 +11,7 @@ const servicios = [
   { NOMBRE_SERVICIO: 'Profesor de Matematicas', REMOTE: false },
   { NOMBRE_SERVICIO: 'Profesor de Quimica', REMOTE: true },
   { NOMBRE_SERVICIO: 'Profesor de Quimica', REMOTE: false },
-  { NOMBRE_SERVICIO: 'Jardinero', REMOTE: false },
+  { NOMBRE_SERVICIO: 'Jardineria', REMOTE: false },
   { NOMBRE_SERVICIO: 'Mantenimiento de piletas', REMOTE: false },
   { NOMBRE_SERVICIO: 'Servicio de mudanza', REMOTE: false },
   { NOMBRE_SERVICIO: 'Limpieza de hogares', REMOTE: false },
