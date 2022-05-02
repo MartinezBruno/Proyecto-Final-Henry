@@ -17,6 +17,13 @@ export default function Home() {
   let [currentPage, setCurrentPage] = useState(1);
   let cardsInPage = 6;
 
+  const lastIndex = currentPage*cardsInPage
+  const firstIndex = lastIndex - cardsInPage
+  const cardsShowed = function(){
+      if (currentProviders.length===0) return currentProviders; //Si no hay proveedores para mostrar
+      else return currentProviders?.slice(firstIndex, lastIndex) //Dividimos el array original con los proveedores a mostrar
+  }()
+
   const setPagina = (num) => {
     setCurrentPage(num)
 }
@@ -35,19 +42,19 @@ export default function Home() {
           <Pagination currentPage= {currentPage} cardsInPage={cardsInPage} totalCards = {currentProviders?.length} setPagina = {setPagina}/>
 
           <div className="align-items-start d-flex flex-wrap justify-content-center">
-            {currentProviders.length === 0 ? <CardNotFound /> : (
-              currentProviders.map((provider) => {
+          {cardsShowed?.length === 0 ? <CardNotFound /> : (
+              cardsShowed?.map((provider) => {
                 return (
                   <Card
-                    nombre={provider.nombre_apellido_proveedor}
-                    imagen={provider.imagen}
-                    servicio={provider.servicio.nombre}
-                    descripcion={provider.servicio.descripcion}
-                    provincia={provider.provincia}
-                    ciudad={provider.ciudad}
-                    precio={provider.servicio.precio}
-                    id={provider.id}
-                    key={provider.email + provider.servicio.nombre}
+                  nombre={provider.nombre_apellido_proveedor}
+                  imagen={provider.imagen}
+                  servicio={provider.servicio.nombre}
+                  descripcion={provider.servicio.descripcion}
+                  provincia={provider.provincia}
+                  ciudad={provider.ciudad}
+                  precio={provider.servicio.precio}
+                  id={provider.id}
+                  key={provider.email + provider.servicio.nombre}
                   />
                 );
               })

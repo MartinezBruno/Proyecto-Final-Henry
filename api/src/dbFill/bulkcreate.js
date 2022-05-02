@@ -34,7 +34,7 @@ let arrayProveedores = [
     apellido: 'Martinez',
     password: '1234',
     email: 'pedro@gmail.com',
-    imagen: 'https://i.pravatar.cc/300?u=pedromartinez',
+    imagen: 'https://thispersondoesnotexist.com/',
     fecha_nacimiento: '24-04-1988',
     pais: 'Argentina',
     servicios: [
@@ -53,7 +53,7 @@ let arrayProveedores = [
     apellido: 'Gonzales',
     password: '1235',
     email: 'bruno@gmail.com',
-    imagen: 'https://i.pravatar.cc/300?u=brunogonzalez',
+    imagen: 'https://thispersondoesnotexist.com/',
     fecha_nacimiento: '24-04-1990',
     pais: 'Argentina',
     servicios: [
@@ -78,7 +78,7 @@ let arrayProveedores = [
     apellido: 'Tincho',
     password: '1236',
     email: 'martin@gmail.com',
-    imagen: 'https://i.pravatar.cc/300?u=martintincho',
+    imagen: 'https://thispersondoesnotexist.com/',
     fecha_nacimiento: '24-04-1980',
     pais: 'Argentina',
     servicios: [
@@ -398,6 +398,74 @@ let arrayProveedores = [
     ],
     provincia: 'Provincia de Buenos Aires',
     ciudad: 'Partido de Bahia Blanca',
+  },
+  {
+    nombre: 'Tim',
+    apellido: 'Burton',
+    password: '5a4sasdasdffasasdfddsf',
+    email: 'tim@gmail.com',
+    imagen: 'https://i.pravatar.cc/300?u=timburton',
+    fecha_nacimiento: '25-06-1987',
+    pais: 'Argentina',
+    servicios: [
+      {
+        NOMBRE_SERVICIO: servicios[6].NOMBRE_SERVICIO,
+        REMOTE: servicios[6].REMOTE,
+        PRECIO: Math.trunc(Math.random(0, 1) * 1000),
+        DESCRIPCION:
+          'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
+      },
+      {
+        NOMBRE_SERVICIO: servicios[8].NOMBRE_SERVICIO,
+        REMOTE: servicios[8].REMOTE,
+        PRECIO: Math.trunc(Math.random(0, 1) * 1000),
+        DESCRIPCION:
+          'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
+      },
+      {
+        NOMBRE_SERVICIO: servicios[7].NOMBRE_SERVICIO,
+        REMOTE: servicios[7].REMOTE,
+        PRECIO: Math.trunc(Math.random(0, 1) * 1000),
+        DESCRIPCION:
+          'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
+      },
+    ],
+    provincia: 'Provincia de Buenos Aires',
+    ciudad: 'Partido de Bahia Blanca',
+  },
+  {
+    nombre: 'Jesus',
+    apellido: 'de Nazaret',
+    password: '5a4sasdaasdfddsf',
+    email: 'jesus@gmail.com',
+    imagen: 'https://i.pravatar.cc/300?u=jesus',
+    fecha_nacimiento: '25-06-1987',
+    pais: 'Argentina',
+    servicios: [
+      {
+        NOMBRE_SERVICIO: servicios[10].NOMBRE_SERVICIO,
+        REMOTE: servicios[10].REMOTE,
+        PRECIO: Math.trunc(Math.random(0, 1) * 1000),
+        DESCRIPCION:
+          'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
+      },
+      {
+        NOMBRE_SERVICIO: servicios[5].NOMBRE_SERVICIO,
+        REMOTE: servicios[5].REMOTE,
+        PRECIO: Math.trunc(Math.random(0, 1) * 1000),
+        DESCRIPCION:
+          'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
+      },
+      {
+        NOMBRE_SERVICIO: servicios[3].NOMBRE_SERVICIO,
+        REMOTE: servicios[3].REMOTE,
+        PRECIO: Math.trunc(Math.random(0, 1) * 1000),
+        DESCRIPCION:
+          'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
+      },
+    ],
+    provincia: 'Provincia de Buenos Aires',
+    ciudad: 'Partido de La Plata',
   },
 ]
 
