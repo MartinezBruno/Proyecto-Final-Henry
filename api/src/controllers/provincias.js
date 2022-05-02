@@ -7,7 +7,9 @@ const getProvincias = async (req, res) => {
     await getQuota()
     const { code } = req.params
     if (!code)
-      return res.status(400).send({ msg: 'No se ha enviado el código de país' })
+      return res.status(400).send({
+        msg: 'No se ha enviado el código de país o el código es inexistente',
+      })
     const regionURL = `http://battuta.medunes.net/api/region/${code}/all/?key=${BATTUTA_KEY[counter]}`
     let provincias = (await axios.get(regionURL)).data
     provincias = provincias.map((provincia) => provincia.region)

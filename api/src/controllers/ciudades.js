@@ -5,9 +5,9 @@ const { Ciudad, Provincia } = require('../db')
 const getCiudades = async (req, res) => {
   const { code, region } = req.params
   if (!code || !region)
-    return res
-      .status(400)
-      .send({ msg: 'No se ha enviado el código de país o la región' })
+    return res.status(400).send({
+      msg: 'No se ha enviado correctamente el código de país o la región',
+    })
   await getQuota()
   let citiesURL = `https://battuta.medunes.net/api/city/${code}/search/?region=${region}&key=${BATTUTA_KEY[counter]}`
   let cities = (await axios.get(citiesURL)).data
