@@ -1,4 +1,4 @@
-const { Pais, Servicio } = require('../db')
+const { Pais, Servicio, Role } = require('../db')
 
 const paises = ['Argentina', 'Uruguay', 'Mexico']
 const servicios = [
@@ -41,7 +41,26 @@ function serviciosDb() {
   })
 }
 
+
+function initialRoles() {
+  Role.create({
+    id: 1,
+    name: "user"
+  });
+
+  Role.create({
+    id: 2,
+    name: "moderator"
+  });
+
+  Role.create({
+    id: 3,
+    name: "admin"
+  });
+}
+
 module.exports = {
   paisesDb,
   serviciosDb,
+  initialRoles
 }

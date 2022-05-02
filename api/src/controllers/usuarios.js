@@ -82,7 +82,69 @@ const getUserById = async (req, res) => {
   res.status(200).send(usuarioAMostrar)
 }
 
+const allAccess = (req, res) => {
+  res.status(200).send("Public Content.");
+};
+
+const userBoard = (req, res) => {
+  res.status(200).send("User Content.");
+};
+
+const putUser = async (req, res, next) =>{
+  
+  try {
+    const { id } = req.params;
+    const { 
+  Proveedor,
+  Servicio,
+  Ciudad,
+  Provincia,
+  Pais,
+  Precio,
+  Proveedor_Servicio,
+  Descripcion } = req.body;
+
+    const usuarioEncontrado = await Usuario.findOne({
+      where: { id: id },
+    });
+
+    usuarioEncontrado === null
+    ? res.status(404).send('No se encontró una usuario con ese id')
+    : await User.update({
+      Proveedor,
+      Servicio,
+      Ciudad,
+      Provincia,
+      Pais,
+      Precio,
+      Proveedor_Servicio,
+      Descripcion
+      },
+      { where: { id: id}
+      })
+      res.send('Usuario actualizada correctamente');
+
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+};
+
+const adminBoard = (req, res) => {
+  res.status(200).send("Admin Content.");
+};
+
+const moderatorBoard = (req, res) => {
+  res.status(200).send("Moderator Content.");
+};
+
 module.exports = {
   createUsuario,
   getUserById,
+  allAccess,
+  userBoard,
+  adminBoard,
+  moderatorBoard,
+  putUser
 }
+
