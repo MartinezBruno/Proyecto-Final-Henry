@@ -1,8 +1,9 @@
 import React from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Card from "./Card";
 import Filters from "./Filters";
 import CardNotFound from "./CardNotFound";
+import Pagination from "./Pagination";
 import styles from "../styles/home.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllProviders } from "../redux/slices/provider";
@@ -11,6 +12,15 @@ export default function Home() {
   const dispatch = useDispatch();
   const { allProviders } = useSelector((state) => state.provider);
   const { currentProviders } = useSelector((state) => state.provider);
+
+  //PAGINATION VARS
+  let [currentPage, setCurrentPage] = useState(1);
+  let cardsInPage = 6;
+
+  const setPagina = (num) => {
+    setCurrentPage(num)
+}
+
 
   useEffect(() => {
     dispatch(getAllProviders());
@@ -21,6 +31,9 @@ export default function Home() {
       <div className={`container-fluid ${styles.backgroundBlack}`}>
         <div className="container">
           <Filters />
+
+          <Pagination currentPage= {currentPage} cardsInPage={cardsInPage} totalCards = {currentProviders?.length} setPagina = {setPagina}/>
+
           <div className="align-items-start d-flex flex-wrap justify-content-center">
             {currentProviders.length === 0 ? <CardNotFound /> : (
               currentProviders.map((provider) => {
