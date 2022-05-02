@@ -6,6 +6,8 @@ const getProvincias = async (req, res) => {
   try {
     await getQuota()
     const { code } = req.params
+    if (!code)
+      return res.status(400).send({ msg: 'No se ha enviado el código de país' })
     const regionURL = `http://battuta.medunes.net/api/region/${code}/all/?key=${BATTUTA_KEY[counter]}`
     let provincias = (await axios.get(regionURL)).data
     provincias = provincias.map((provincia) => provincia.region)
@@ -53,7 +55,6 @@ const getProvincias = async (req, res) => {
       default:
         break
     }
-    res.status(200).send(provincias)
     // Provincia.truncate({ cascade: true, restartIdentity: true })
     let paisDb = await Pais.findOne({
       where: { NOMBRE_PAIS: pais },
@@ -64,6 +65,7 @@ const getProvincias = async (req, res) => {
       })
       prov.setPai(paisDb)
     })
+    return res.status(200).send(provincias)
   } catch (error) {
     console.log(error)
   }

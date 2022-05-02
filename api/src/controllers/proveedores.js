@@ -117,7 +117,7 @@ const createProv = async (req, res) => {
     proveedor_servicio.setDescripcion(d)
   }
 
-  res.status(201).send('Proveedor creado')
+  return res.status(201).send({ msg: 'Proveedor creado' })
 }
 
 const getProv = async (req, res, next) => {
@@ -316,5 +316,5 @@ module.exports = {
   createProv,
   getProv,
   getProvByID,
-  deleteServicio_Prov
+  deleteServicio_Prov,
 }
