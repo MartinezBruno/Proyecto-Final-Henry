@@ -9,7 +9,6 @@ import { getAllProviders } from "../redux/slices/provider";
 
 export default function Home() {
   const dispatch = useDispatch();
-  const { allProviders } = useSelector((state) => state.provider);
   const { currentProviders } = useSelector((state) => state.provider);
 
   useEffect(() => {
@@ -27,6 +26,9 @@ export default function Home() {
                 return (
                   <Card
                     nombre={provider.nombre_apellido_proveedor}
+                    email={provider.email}
+                    telefono={provider.telefono}
+                    direccion={provider.direccion}
                     imagen={provider.imagen}
                     servicio={provider.servicio.nombre}
                     descripcion={provider.servicio.descripcion}
