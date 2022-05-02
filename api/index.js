@@ -1,6 +1,7 @@
 const server = require('./src/app.js')
 const { conn } = require('./src/db.js')
 const { paisesDb, serviciosDb } = require('./src/dbFill')
+const autofillProveedores = require('./src/routes/automatic-post')
 
 // conn vendria a ser la DB que queremos conectar al localHoost con las relaciones de las tablas
 // y las tablas definfidas en sequielize, etc
@@ -16,7 +17,8 @@ conn
   .then(() => {
     paisesDb()
     serviciosDb()
-    }
-  );
+    autofillProveedores()
+  })
 
   module.exports = { server };
+
