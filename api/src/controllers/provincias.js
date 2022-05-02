@@ -36,7 +36,7 @@ const getProvincias = async (req, res) => {
         })
         break
       case 'mx':
-        pais = 'México'
+        pais = 'Mexico'
         provincias = provincias
           .map(function (prov) {
             if (prov.includes('Estado de')) {
@@ -54,13 +54,12 @@ const getProvincias = async (req, res) => {
         break
     }
     res.status(200).send(provincias)
-    Provincia.truncate({ cascade: true, restartIdentity: true })
     let paisDb = await Pais.findOne({
       where: { NOMBRE_PAIS: pais },
     })
     provincias.forEach(async (provincia) => {
-      let prov = await Provincia.create({
-        NOMBRE_PROVINCIA: provincia,
+      let [prov, _created] = await Provincia.findOrCreate({
+        where: { NOMBRE_PROVINCIA: provincia },
       })
       prov.setPai(paisDb)
     })

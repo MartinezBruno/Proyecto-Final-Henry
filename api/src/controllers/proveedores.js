@@ -78,8 +78,10 @@ const createProv = async (req, res) => {
   newProveedor.setCiudad(ciudadesDisp)
 
   for (let i = 0; i < arrayPrecios.length; i++) {
-    let p = await Precio.create({
-      PRECIO: arrayPrecios[i],
+    let [p, _created] = await Precio.findOrCreate({
+      where: {
+        PRECIO: arrayPrecios[i],
+      },
     })
     let proovedor = await Proveedor.findOne({ where: { EMAIL: email } })
     let servicio = await Servicio.findOne({
