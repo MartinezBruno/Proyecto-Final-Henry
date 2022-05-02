@@ -16,7 +16,7 @@ export default function LandingPage() {
         <div className="container-fluid text-white text-center">
           <div style={{marginBottom: '150px', marginTop: '150px'}}>
           <h1>ENLACES PROFESIONALES DE CALIDAD</h1>
-          <h6>OFRECE O CONTRATA SERVICIOS PROFESIONALES</h6>
+          <h6>OFRECE O CONTRATA SERVICIOS PROFESIONALES SIN FRONTERAS</h6>
           <br />
           <br />
           <a className="animate__animated animate__slideInUp btn btn-lg btn-success" href="/home" >
@@ -56,7 +56,7 @@ export default function LandingPage() {
       <div className={styles.hero}></div> 
       {/* NO BORRAR, ES EL HERO */}
 
-      <div className="container" style={{marginBottom: '25px'}}>
+      {/* <div className="container" style={{marginBottom: '25px'}}>
   <div className="row align-items-center justify-content-center mt-3 mb-3 text-center">
 
     <h1 style={{margin: '50px'}}>SATISFACCIÓN GARANTIZADA</h1>
@@ -79,7 +79,7 @@ export default function LandingPage() {
   
 
   </div>
-  </div>
+  </div> */}
 
     </div>
 

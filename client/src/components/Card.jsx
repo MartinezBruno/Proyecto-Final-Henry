@@ -21,21 +21,21 @@ export default function Card({
             {nombre}
             <p>{servicio}</p>
           </div>
-          <div className={styles.profileDescription}>{descripcion}</div>
+          <div className={styles.profileDescription} style={{fontSize:"15px", color:"black"}}>{descripcion}</div>
           <div
             className={`row ${styles.profileOverview}`}
-            style={{ marginBottom: "10px" }}
+            style={{ marginBottom: "10px", }}
           >
-            <p style={{ fontWeight: "bold" }}>REGIÓN</p>
-            <h6>
+            {/* <p style={{ fontWeight: "bold" }}>REGIÓN</p> */}
+            <p style={{fontWeight: "bold", fontSize:"15px", color:"black"}}>
               {provincia}, {ciudad}
-            </h6>
+            </p>
           </div>
           <div className="row align items start">
             <div className="col">
               <div className={styles.profileOverview}>
                 <p>PRECIO</p>
-                <h4>{precio}</h4>
+                <h4>{`$ ${precio}`}</h4>
               </div>
             </div>
             <div className="col">
