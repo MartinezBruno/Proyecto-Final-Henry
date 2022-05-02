@@ -9,6 +9,7 @@ import { getAllProviders } from "../redux/slices/provider";
 export default function Home() {
   const dispatch = useDispatch();
   const { allProviders } = useSelector((state) => state.provider);
+  const { currentProviders } = useSelector((state) => state.provider);
 
   useEffect(() => {
     dispatch(getAllProviders())
@@ -20,7 +21,7 @@ export default function Home() {
         <div className="container">
           <Filters />
           <div className="align-items-start d-flex flex-wrap justify-content-center">
-            {allProviders?.map((provider) => {
+            {currentProviders?.map((provider) => {
               return(
                 <Card
                 nombre={provider.nombre_apellido_proveedor}
