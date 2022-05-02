@@ -2,6 +2,7 @@ const express = require('express');
 const { Router } = require('express');
 const { authJwt } = require("../middlewares");
 const controller = require("../controllers/usuarios");
+const { createUsuario, getUserById } = require('../controllers/usuarios')
 
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
@@ -11,6 +12,10 @@ const router = Router();
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
 router.use(express.json());
+
+// router.get('/:id', getProvByID)
+router.post('/', createUsuario)
+router.get('/:id', getUserById)
 
 router.get("/test/all", controller.allAccess);
 

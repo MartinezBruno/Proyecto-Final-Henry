@@ -7,6 +7,7 @@ const servicio = require('./servicio')
 const proveedor = require('./proveedor')
 const auth = require('./auth')
 const usuario = require('./usuario')
+const bulkcreate = require('./bulkcreate')
 
 
 router.get("/", (req, res) => {
@@ -18,6 +19,7 @@ router.use("/servicios", servicio);
 router.use("/proveedor", proveedor);
 router.use("/auth", auth);
 router.use("/test", usuario);
-
+router.use('/bulkcreate', bulkcreate)
+router.use('/usuario', usuario)
 
 module.exports = router

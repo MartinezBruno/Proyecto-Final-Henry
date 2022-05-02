@@ -4,15 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "cross-env NODE-ENV=test jest --verbose --silent --detectOpenHandles",
+    "test": "set NODE_OPTIONS=--experimental-vm-modules && jest --verbose --silent --detectOpenHandles",
     "start": "nodemon index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@sentry/node": "^6.19.7",
-    "@sentry/tracing": "^6.19.7",
     "axios": "^0.27.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.0",
@@ -31,9 +29,15 @@
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
-    "jest": "^28.0.3",
+    "jest": "^28.0.2",
+    "@sentry/node": "^6.19.7",
+    "@sentry/tracing": "^6.19.7",
+    "cypress": "^9.6.0",
+    "eslint-plugin-cypress": "^2.12.1",
     "morgan": "^1.10.0",
-    "nodemon": "^2.0.16",
+    "nodemon": "^2.0.15",
+    "json-server": "^0.17.0",
+
     "supertest": "^6.2.3"
   },
   "jest": {
