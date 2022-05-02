@@ -46,15 +46,15 @@ export default function Home() {
               cardsShowed?.map((provider) => {
                 return (
                   <Card
-                    nombre={provider.nombre_apellido_proveedor}
-                    imagen={provider.imagen}
-                    servicio={provider.servicio.nombre}
-                    descripcion={provider.servicio.descripcion}
-                    provincia={provider.provincia}
-                    ciudad={provider.ciudad}
-                    precio={provider.servicio.precio}
-                    id={provider.id}
-                    key={provider.email + provider.servicio.nombre}
+                  nombre={provider.nombre_apellido_proveedor}
+                  imagen={provider.imagen}
+                  servicio={provider.servicio.nombre}
+                  descripcion={provider.servicio.descripcion}
+                  provincia={provider.provincia}
+                  ciudad={provider.ciudad}
+                  precio={provider.servicio.precio}
+                  id={provider.id}
+                  key={provider.email + provider.servicio.nombre}
                   />
                 );
               })

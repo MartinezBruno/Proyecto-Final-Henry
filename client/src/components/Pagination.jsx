@@ -13,14 +13,19 @@ export default function PAgination(props){
         
 
         <nav aria-label="Page navigation">
-  <ul class="pagination justify-content-center">
-    <li class={`page-item ${isFirstPage}`}>
-      <a href='#' class="page-link" onClick={()=> setPagina(currentPage-1)} tabindex="-1">Anterior</a>
+  <ul className="pagination justify-content-center">
+    <li className={`page-item ${isFirstPage}`}>
+      <a href='#' className="page-link" onClick={()=> setPagina(currentPage-1)} tabindex="-1">Anterior</a>
     </li>
-    <li class={`page-item ${isLastPage}`}>
-      <a href='#' class="page-link" onClick={()=> setPagina(currentPage+1)}>Siguiente</a>
+   
+    <li className={`page-item ${isLastPage}`}>
+      <a href='#' className="page-link" onClick={()=> setPagina(currentPage+1)}>Siguiente</a>
     </li>
+
   </ul>
+    <div className='pagination justify-content-center'>
+      <p>{currentPage} de {Math.ceil(props.totalCards / props.cardsInPage)}</p>
+    </div>
 </nav>
     )
 }
