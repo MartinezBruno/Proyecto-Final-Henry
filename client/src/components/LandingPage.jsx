@@ -19,7 +19,7 @@ export default function LandingPage() {
           <h6>OFRECE O CONTRATA SERVICIOS PROFESIONALES</h6>
           <br />
           <br />
-          <a className="animate__animated animate__slideInUp btn btn-lg btn-success" href="#">
+          <a className="animate__animated animate__slideInUp btn btn-lg btn-success" href="/home" >
              <span>¡COMIENZA AHORA!</span> </a>
           </div>
           

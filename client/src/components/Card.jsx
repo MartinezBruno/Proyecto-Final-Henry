@@ -15,7 +15,7 @@ export default function Card({
   return (
     <>
       <div className={`${styles.profileCard4} text-center`}>
-        <img src={imagen} className="img img-responsive" alt="profile" />
+        <img src={"http://mediosrioja.com.ar/new/wp-content/uploads/2021/11/muere-maradona-1606326764.jpg"} className="img img-responsive" alt="profile" />
         <div className={styles.profileContent}>
           <div className={styles.profileName}>
             {nombre}

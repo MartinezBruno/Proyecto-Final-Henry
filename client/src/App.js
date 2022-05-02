@@ -16,7 +16,6 @@ import Profile from "./components/Profile";
 import Footer from "./components/Footer";
 import ProfileDetails from "./components/ProfileDetails";
 
-
 function App() {
 
   const NavLayout = () =>(
