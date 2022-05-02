@@ -78,8 +78,10 @@ const createProv = async (req, res) => {
   newProveedor.setCiudad(ciudadesDisp)
 
   for (let i = 0; i < arrayPrecios.length; i++) {
-    let p = await Precio.create({
-      PRECIO: arrayPrecios[i],
+    let [p, _created] = await Precio.findOrCreate({
+      where: {
+        PRECIO: arrayPrecios[i],
+      },
     })
     let proovedor = await Proveedor.findOne({ where: { EMAIL: email } })
     let servicio = await Servicio.findOne({
@@ -184,6 +186,7 @@ const getProv = async (req, res, next) => {
         fecha_nacimiento: prov.proveedor.FECHA_NACIMIENTO,
         calificacion: prov.proveedor.CALIFICACION,
         status: prov.proveedor.STATUS,
+        creation_date: prov.proveedor.createdAt,
         ciudad: prov.proveedor.Ciudad
           ? prov.proveedor.Ciudad.NOMBRE_CIUDAD
           : 'Sin definir',
@@ -262,6 +265,7 @@ const getProvByID = async (req, res, next) => {
       fecha_nacimiento: proveedor.FECHA_NACIMIENTO,
       calificacion: proveedor.CALIFICACION,
       status: proveedor.STATUS,
+      creation_date: proveedor.createdAt,
       ciudad: proveedor.Ciudad ? proveedor.Ciudad.NOMBRE_CIUDAD : 'Sin definir',
       provincia: proveedor.Provincium
         ? proveedor.Provincium.NOMBRE_PROVINCIA
@@ -312,9 +316,83 @@ const deleteServicio_Prov = async (req, res) => {
   res.status(200).send('borrado')
 }
 
+
+const updateProvServices = async (req, res, next) => {
+  const { id } = req.params
+  const { servicios } = req.body
+  try {
+    let proveedor = await Proveedor.findByPk(id)
+    if (!proveedor)
+      return res.status(404).send({ msg: 'Proveedor no encontrado' })
+    let arrayServicios = servicios.map((servicio) => {
+      return {
+        NOMBRE_SERVICIO: servicio.NOMBRE_SERVICIO,
+        REMOTE: servicio.REMOTE ? true : false,
+      }
+    })
+
+    let arrayPrecios = servicios.map((servicio) => servicio.PRECIO)
+    let arrayDescripcion = servicios.map((servicio) => servicio.DESCRIPCION)
+
+    let serviciosDisp = await Servicio.findAll({
+      where: {
+        [Op.or]: arrayServicios,
+      },
+    })
+
+    proveedor.addServicios(serviciosDisp)
+
+    for (let i = 0; i < arrayPrecios.length; i++) {
+      let [p, created] = await Precio.findOrCreate({
+        where: {
+          PRECIO: arrayPrecios[i],
+        },
+      })
+      let proovedor = await Proveedor.findOne({ where: { id: id } })
+      let servicio = await Servicio.findOne({
+        where: {
+          NOMBRE_SERVICIO: arrayServicios[i].NOMBRE_SERVICIO,
+          REMOTE: arrayServicios[i].REMOTE,
+        },
+      })
+      let proveedor_servicio = await Proveedor_Servicio.findOne({
+        where: {
+          ProveedorId: proovedor.id,
+          ServicioId: servicio.id,
+        },
+      })
+      proveedor_servicio.setPrecio(p)
+    }
+
+    for (let i = 0; i < arrayDescripcion.length; i++) {
+      let d = await Descripcion.create({
+        DESCRIPCION: arrayDescripcion[i],
+      })
+      let proovedor = await Proveedor.findOne({ where: { id: id } })
+      let servicio = await Servicio.findOne({
+        where: {
+          NOMBRE_SERVICIO: arrayServicios[i].NOMBRE_SERVICIO,
+          REMOTE: arrayServicios[i].REMOTE,
+        },
+      })
+      let proveedor_servicio = await Proveedor_Servicio.findOne({
+        where: {
+          ProveedorId: proovedor.id,
+          ServicioId: servicio.id,
+        },
+      })
+      proveedor_servicio.setDescripcion(d)
+    }
+    return res.send(proveedor)
+  } catch (error) {
+    console.error(error)
+    next(error)
+  }
+}
 module.exports = {
   createProv,
   getProv,
   getProvByID,
   deleteServicio_Prov,
+  updateProvServices,
 }

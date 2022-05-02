@@ -18,4 +18,5 @@ router.use('/proveedor', proveedor)
 router.use('/bulkcreate', bulkcreate)
 router.use('/usuario', usuario)
 
+
 module.exports = router
