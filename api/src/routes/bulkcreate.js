@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
-const bulkcreate = require('../controllers/bulkCreateProveedores.js')
+const { bulkCreate } = require('../controllers/bulkCreateProveedores.js')
 
-router.post('/', bulkcreate)
+router.post('/', bulkCreate)
 
 module.exports = router

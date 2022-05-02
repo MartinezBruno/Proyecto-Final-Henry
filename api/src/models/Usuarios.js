@@ -1,9 +1,9 @@
-const { DataTypes } = require("sequelize");
+const { DataTypes } = require('sequelize')
 
 module.exports = (sequelize) => {
   // defino el modelo
-  sequelize.define("Usuario", {
-    NOMBRE_USUARIO: {
+  sequelize.define('Usuario', {
+    NOMBRE_APELLIDO_USUARIO: {
       type: DataTypes.STRING,
     },
 
@@ -19,20 +19,26 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
     },
 
-    NOMBRE_APELLIDO: {
+    FECHA_NACIMIENTO: {
       type: DataTypes.STRING,
     },
 
-    FECHA_NACIMIENTO: {
-      type: DataTypes.DATE,
-    },
-
     CALIFICACION: {
-      type: DataTypes.FLOAT,
+      type: DataTypes.ARRAY(DataTypes.FLOAT),
+      allowNull: false,
+      defaultValue: [],
     },
 
     STATUS: {
       type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: 'Usuario',
     },
-  });
-};
+
+    CELULAR: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 123456789
+    }
+  })
+}
