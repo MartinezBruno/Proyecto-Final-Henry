@@ -5,7 +5,7 @@ const router = express.Router()
 
 let { arrayProveedores } = require('../dbFill/bulkcreate.js')
 
-router.post('/', async (req, res) => {
+function autofillProveedores() {
   try {
     arrayProveedores.map(async (proveedor) => {
       let pais = ''
@@ -30,10 +30,10 @@ router.post('/', async (req, res) => {
       )
       await axios.post('http://localhost:3001/api/proveedor', proveedor)
     })
-    return res.send('Proovedores subidos a la DB')
+    return console.log('Proovedores subidos a la DB')
   } catch (error) {
     console.error(error)
   }
-})
+}
 
-module.exports = router
+module.exports = autofillProveedores
