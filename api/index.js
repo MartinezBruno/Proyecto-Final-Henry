@@ -20,4 +20,5 @@ conn
     autofillProveedores()
   })
 
-// module.exports = {server, connectionServer};
+  module.exports = { server };
+
