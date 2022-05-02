@@ -55,23 +55,27 @@ body {
     right: 0px;
     top: -70px;
     color: #FFF;
-    font-size: 17px;
+    font-size: 20px;
+    text-shadow: 3px 3px 3px black;
 }
 
 .profileCard4 .profileName p {
     font-weight: 600;
-    font-size: 13px;
+    font-size: 15px;
     letter-spacing: 1.5px;
+    text-shadow: 3px 3px 3px black;
+    
 }
 
 .profileCard4 .profileDescription {
     color: #777;
     font-size: 12px;
     padding: 10px;
+    
 }
 .profileCard4 .profileDescription {
     color: #777;
-    font-size: 12px;
+    font-size: 14px;
     padding: 10px;
 }
 .profileCard4 .profileOverview h4{
@@ -84,6 +88,7 @@ body {
     font-weight: 600;
     color: #777;
     margin-bottom: 5px;
+    
 }
 
 .profileCard4 .profileOverview h4 {
@@ -102,10 +107,12 @@ body {
     background-color: #FFF;
     z-index: 0;
     transform: skewY(3deg);
+    
 }
 
 .profileCard4:hover img {
     transform: scale(1.1, 1.1);
     filter: brightness(119%);
+    
 }
 

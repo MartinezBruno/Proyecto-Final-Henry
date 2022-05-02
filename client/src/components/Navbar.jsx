@@ -43,7 +43,7 @@ export default function NavBar() {
       </div>
 
 
-      <div className="d-flex align-items-center justify-content-center text-center" style={{flexDirection:'column'}}>
+      {/* <div className="d-flex align-items-center justify-content-center text-center" style={{flexDirection:'column'}}>
         <Button
           variant="primary"
           onClick={handleShow}
@@ -79,7 +79,7 @@ export default function NavBar() {
           </Modal.Header>
           <Modal.Body>
             <Register />
-          </Modal.Body>
+          </Modal.Body> 
           {/* <Modal.Footer> */}
           {/* <Button variant="danger" onClick={handleClose}>
             Cerrar
@@ -87,9 +87,9 @@ export default function NavBar() {
             <Button variant="success" onClick={handleClose}>
             Registrarse
           </Button> */}
-          {/* </Modal.Footer> */}
+          {/* </Modal.Footer> 
         </Modal>
-      </div>
+      </div>*/}
     </div>
             </div>
   );

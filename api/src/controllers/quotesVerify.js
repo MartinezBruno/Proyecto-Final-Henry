@@ -1,4 +1,4 @@
-const axios = require('axios');
+const axios = require('axios')
 const BATTUTA_KEY = [
    '5329574fd7cb2c3419887771fb862d92',
    '781f239efa1c72765a02d107c99c34cb',
@@ -8,21 +8,22 @@ const BATTUTA_KEY = [
    'f418bf88c2b3f558dc098c3ba0dd1571',
 ];
 let counter = 0;
+
 const quotaMonitoring =
-   'http://battuta.medunes.net/api/quota/?key=' + BATTUTA_KEY[counter];
+  'http://battuta.medunes.net/api/quota/?key=' + BATTUTA_KEY[counter]
 
 const getQuota = async () => {
-   let quota = (await axios.get(quotaMonitoring)).data;
-   let quotaValue = Object.values(quota)[0];
-   console.log('Quedan', quotaValue, 'usos');
-   if (quotaValue <= 10) {
-      counter++;
-      console.log('Aumento el valor del contador');
-   }
-};
+  let quota = (await axios.get(quotaMonitoring)).data
+  let quotaValue = Object.values(quota)[0]
+  console.log('Quedan', quotaValue, 'usos')
+  if (quotaValue <= 10) {
+    counter++
+    console.log('Aumento el valor del contador' + ' ' + counter)
+  }
+}
 
 module.exports = {
-   getQuota,
-   counter,
-   BATTUTA_KEY,
-};
+  getQuota,
+  counter,
+  BATTUTA_KEY,
+}
