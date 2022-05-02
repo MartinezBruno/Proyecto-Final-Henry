@@ -6,12 +6,12 @@ const {
   getProv,
   getProvByID,
   deleteServicio_Prov,
-  updateProvServices,
+  addServicio_Prov,
 } = require('../controllers/proveedores.js')
 
 router.get('/', getProv)
 router.get('/:id', getProvByID)
-router.post('/:id', updateProvServices)
+router.post('/:id', addServicio_Prov)
 router.post('/', createProv)
 router.delete('/:servId/:provId', deleteServicio_Prov)
 

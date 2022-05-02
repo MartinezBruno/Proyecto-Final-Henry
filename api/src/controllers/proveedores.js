@@ -317,7 +317,7 @@ const deleteServicio_Prov = async (req, res) => {
 }
 
 
-const updateProvServices = async (req, res, next) => {
+const addServicio_Prov = async (req, res, next) => {
   const { id } = req.params
   const { servicios } = req.body
   try {
@@ -394,5 +394,5 @@ module.exports = {
   getProv,
   getProvByID,
   deleteServicio_Prov,
-  updateProvServices,
+  addServicio_Prov,
 }
