@@ -186,7 +186,7 @@ const getProv = async (req, res, next) => {
         fecha_nacimiento: prov.proveedor.FECHA_NACIMIENTO,
         calificacion: prov.proveedor.CALIFICACION,
         status: prov.proveedor.STATUS,
-        createDate: prov.proveedor.createdAt,
+        creation_date: prov.proveedor.createdAt,
         ciudad: prov.proveedor.Ciudad
           ? prov.proveedor.Ciudad.NOMBRE_CIUDAD
           : 'Sin definir',
@@ -265,7 +265,7 @@ const getProvByID = async (req, res, next) => {
       fecha_nacimiento: proveedor.FECHA_NACIMIENTO,
       calificacion: proveedor.CALIFICACION,
       status: proveedor.STATUS,
-      createDate: proveedor.createdAt,
+      creation_date: proveedor.createdAt,
       ciudad: proveedor.Ciudad ? proveedor.Ciudad.NOMBRE_CIUDAD : 'Sin definir',
       provincia: proveedor.Provincium
         ? proveedor.Provincium.NOMBRE_PROVINCIA
