@@ -15,27 +15,27 @@ export default function Card({
   return (
     <>
       <div className={`${styles.profileCard4} text-center`}>
-        <img src={imagen} className="img img-responsive" alt="profile" />
+        <img src={"http://mediosrioja.com.ar/new/wp-content/uploads/2021/11/muere-maradona-1606326764.jpg"} className="img img-responsive" alt="profile" />
         <div className={styles.profileContent}>
           <div className={styles.profileName}>
             {nombre}
             <p>{servicio}</p>
           </div>
-          <div className={styles.profileDescription}>{descripcion}</div>
+          <div className={styles.profileDescription} style={{fontSize:"15px", color:"black"}}>{descripcion}</div>
           <div
             className={`row ${styles.profileOverview}`}
-            style={{ marginBottom: "10px" }}
+            style={{ marginBottom: "10px", }}
           >
-            <p style={{ fontWeight: "bold" }}>REGIÓN</p>
-            <h6>
+            {/* <p style={{ fontWeight: "bold" }}>REGIÓN</p> */}
+            <p style={{fontWeight: "bold", fontSize:"15px", color:"black"}}>
               {provincia}, {ciudad}
-            </h6>
+            </p>
           </div>
           <div className="row align items start">
             <div className="col">
               <div className={styles.profileOverview}>
                 <p>PRECIO</p>
-                <h4>{precio}</h4>
+                <h4>{`$ ${precio}`}</h4>
               </div>
             </div>
             <div className="col">
