@@ -15,7 +15,7 @@ const getCiudades = async (req, res) => {
       longitude: el.longitude,
     }
   })
-  Ciudad.truncate({ cascade: true, restartIdentity: true })
+  // Ciudad.truncate({ cascade: true, restartIdentity: true })
   let capitalicedRegion =
     region[0].toUpperCase() + region.slice(1).toLowerCase()
   let provincia = await Provincia.findOne({
