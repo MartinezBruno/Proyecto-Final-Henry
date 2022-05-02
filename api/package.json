@@ -4,28 +4,40 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "cross-env NODE-ENV=test jest --verbose",
+    "test": "set NODE_OPTIONS=--experimental-vm-modules && jest --verbose --silent --detectOpenHandles",
     "start": "nodemon index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@sentry/node": "^6.19.7",
-    "@sentry/tracing": "^6.19.7",
     "axios": "^0.27.1",
     "body-parser": "^1.20.0",
+    "chai": "^4.3.6",
+    "chai-as-promised": "^7.1.1",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
     "mongoose": "^6.3.1",
     "pg": "^8.7.3",
-    "sequelize": "^6.19.0"
+    "sequelize": "^6.19.0",
+    "supertest-as-promised": "^4.0.2"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
+    "jest": "^28.0.2",
+    "@sentry/node": "^6.19.7",
+    "@sentry/tracing": "^6.19.7",
+    "cypress": "^9.6.0",
+    "eslint-plugin-cypress": "^2.12.1",
     "morgan": "^1.10.0",
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "json-server": "^0.17.0",
+
+    "supertest": "^6.2.3"
+  },
+  "jest": {
+    "testEnvironment": "node"
   }
 }

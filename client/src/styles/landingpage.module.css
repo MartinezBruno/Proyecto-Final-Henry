@@ -39,6 +39,7 @@
 .landingWidget{
   border-radius: 15px;
   margin: 20px;
+  margin-top: -20px;
   padding: 15px;
   display:flex;
   text-align: center;

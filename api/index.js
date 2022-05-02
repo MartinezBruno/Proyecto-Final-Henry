@@ -16,4 +16,7 @@ conn
   .then(() => {
     paisesDb()
     serviciosDb()
-  })
+    }
+  );
+
+  module.exports = { server };

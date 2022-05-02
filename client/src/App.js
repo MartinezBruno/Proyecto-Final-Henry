@@ -13,7 +13,8 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import About from "./components/About";
 import Profile from "./components/Profile";
-
+import Footer from "./components/Footer";
+import ProfileDetails from "./components/ProfileDetails";
 
 function App() {
 
@@ -28,8 +29,7 @@ function App() {
 
   return (
   
-
-      
+<>
           <Routes>
               <Route exact path="/" element={<LandingPage />}/>
 
@@ -42,14 +42,14 @@ function App() {
                   <Route path="register" element={<Register />} />
                   <Route path="about" element={<About />} />
                   <Route path="profile" element={<Profile />} />
-                  
-
+                  <Route path="home/:ProviderID" element={<ProfileDetails />} />
 
               </Route>
             
           </Routes>
-
-     
+          <Footer />
+          </>
+      
   );
 }
 
