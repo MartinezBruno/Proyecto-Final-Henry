@@ -19,4 +19,4 @@ conn
     }
   );
 
-  // module.exports = {server, connectionServer};
+  module.exports = { server };
