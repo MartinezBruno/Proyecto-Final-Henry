@@ -116,3 +116,7 @@ body {
     
 }
 
+.profileDescription{
+    min-height: 4rem;
+}
+
