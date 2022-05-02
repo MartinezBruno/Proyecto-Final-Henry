@@ -285,8 +285,36 @@ const getProvByID = async (req, res, next) => {
   }
 }
 
+const deleteServicio_Prov = async (req, res) => {
+  const { provId, servId } = req.params
+
+  let precioDisp = await Proveedor_Servicio.findOne({
+    where: [{ ServicioId: servId, ProveedorId: provId }],
+  })
+  console.log(precioDisp)
+  let precio = precioDisp.PrecioId
+  let descripcionDisp = precioDisp.DescripcionId
+
+  console.log(precio)
+  console.log(descripcionDisp)
+
+  await Descripcion.destroy({
+    where: [{ id: descripcionDisp }],
+  })
+
+  await Precio.destroy({
+    where: [{ id: precio }],
+  })
+
+  await Proveedor_Servicio.destroy({
+    where: [{ ServicioId: servId, ProveedorId: provId }],
+  })
+  res.status(200).send('borrado')
+}
+
 module.exports = {
   createProv,
   getProv,
   getProvByID,
+  deleteServicio_Prov
 }
