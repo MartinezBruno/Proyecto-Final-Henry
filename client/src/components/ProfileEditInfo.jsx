@@ -85,7 +85,7 @@ export default function ProfileEditInfo(props) {
           </div>
           <div className='row'>
             <div className='col-sm-3'></div>
-            <div classNameName='col-sm-9 text-secondary'>
+            <div className='col-sm-9 text-secondary'>
               {/* <input
                 type='button'
                 className='btn btn-primary px-4'

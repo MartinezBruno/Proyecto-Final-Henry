@@ -36,7 +36,7 @@ export default function Home() {
     <>
       <div className={`container-fluid ${styles.backgroundBlack}`}>
         <div className="container">
-          <Filters />
+          <Filters setCurrentPage={setCurrentPage} />
 
           <Pagination currentPage= {currentPage} cardsInPage={cardsInPage} totalCards = {currentProviders?.length} setPagina = {setPagina}/>
 

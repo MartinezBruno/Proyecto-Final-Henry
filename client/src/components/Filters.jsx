@@ -7,7 +7,7 @@ import {
   filterByPrices,
 } from "../redux/slices/provider";
 
-export default function Filters() {
+export default function Filters({ setCurrentPage }) {
   const [profesion, setProfesion] = useState("");
   const dispatch = useDispatch();
 
@@ -20,16 +20,19 @@ export default function Filters() {
     e.preventDefault();
     dispatch(filterByProfesion(profesion));
     setProfesion("");
+    setCurrentPage(1)
   };
 
   const handleFilterByPrice = (e) => {
     e.preventDefault();
     dispatch(filterByPrices(e.target.value));
+    setCurrentPage(1)
   };
 
   const handleFilterByRemote = (e) => {
     e.preventDefault();
     dispatch(filterByRemote(e.target.value));
+    setCurrentPage(1)
   };
 
   return (

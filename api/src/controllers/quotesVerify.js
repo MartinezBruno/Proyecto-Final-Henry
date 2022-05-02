@@ -1,6 +1,5 @@
 const axios = require('axios')
 const BATTUTA_KEY = [
-  '1330921bc154e7c9527d835709dd4507',
   '13d4b2d21ee6fdc34b2532b5a16c2f6c',
   '436eaa921ceec870cb29a1c2b053dd77',
   'f418bf88c2b3f558dc098c3ba0dd1571',
