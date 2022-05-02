@@ -11,6 +11,6 @@ const {
 router.get('/', getProv)
 router.get('/:id', getProvByID)
 router.post('/', createProv)
-router.delete('/', deleteServicio_Prov)
+router.delete('/:servId/:provId', deleteServicio_Prov)
 
 module.exports = router
