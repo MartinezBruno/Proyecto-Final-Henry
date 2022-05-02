@@ -399,6 +399,74 @@ let arrayProveedores = [
     provincia: 'Provincia de Buenos Aires',
     ciudad: 'Partido de Bahia Blanca',
   },
+  {
+    nombre: 'Tim',
+    apellido: 'Burton',
+    password: '5a4sasdasdffasasdfddsf',
+    email: 'tim@gmail.com',
+    imagen: 'https://i.pravatar.cc/300?u=timburton',
+    fecha_nacimiento: '25-06-1987',
+    pais: 'Argentina',
+    servicios: [
+      {
+        NOMBRE_SERVICIO: servicios[6].NOMBRE_SERVICIO,
+        REMOTE: servicios[6].REMOTE,
+        PRECIO: Math.trunc(Math.random(0, 1) * 1000),
+        DESCRIPCION:
+          'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
+      },
+      {
+        NOMBRE_SERVICIO: servicios[8].NOMBRE_SERVICIO,
+        REMOTE: servicios[8].REMOTE,
+        PRECIO: Math.trunc(Math.random(0, 1) * 1000),
+        DESCRIPCION:
+          'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
+      },
+      {
+        NOMBRE_SERVICIO: servicios[7].NOMBRE_SERVICIO,
+        REMOTE: servicios[7].REMOTE,
+        PRECIO: Math.trunc(Math.random(0, 1) * 1000),
+        DESCRIPCION:
+          'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
+      },
+    ],
+    provincia: 'Provincia de Buenos Aires',
+    ciudad: 'Partido de Bahia Blanca',
+  },
+  {
+    nombre: 'Jesus',
+    apellido: 'de Nazaret',
+    password: '5a4sasdaasdfddsf',
+    email: 'jesus@gmail.com',
+    imagen: 'https://i.pravatar.cc/300?u=jesus',
+    fecha_nacimiento: '25-06-1987',
+    pais: 'Argentina',
+    servicios: [
+      {
+        NOMBRE_SERVICIO: servicios[10].NOMBRE_SERVICIO,
+        REMOTE: servicios[10].REMOTE,
+        PRECIO: Math.trunc(Math.random(0, 1) * 1000),
+        DESCRIPCION:
+          'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
+      },
+      {
+        NOMBRE_SERVICIO: servicios[5].NOMBRE_SERVICIO,
+        REMOTE: servicios[5].REMOTE,
+        PRECIO: Math.trunc(Math.random(0, 1) * 1000),
+        DESCRIPCION:
+          'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
+      },
+      {
+        NOMBRE_SERVICIO: servicios[3].NOMBRE_SERVICIO,
+        REMOTE: servicios[3].REMOTE,
+        PRECIO: Math.trunc(Math.random(0, 1) * 1000),
+        DESCRIPCION:
+          'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
+      },
+    ],
+    provincia: 'Provincia de Buenos Aires',
+    ciudad: 'Partido de La Plata',
+  },
 ]
 
 module.exports = {

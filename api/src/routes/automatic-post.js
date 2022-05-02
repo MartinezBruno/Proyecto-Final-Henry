@@ -5,23 +5,22 @@ const router = express.Router()
 
 let { arrayProveedores } = require('../dbFill/bulkcreate.js')
 
-function autofillProveedores() {
+async function autofillProveedores() {
+  await axios.get('http://localhost:3001/api/provincias/ar')
+  await axios.get('http://localhost:3001/api/provincias/uy')
+  await axios.get('http://localhost:3001/api/provincias/mx')
   try {
     arrayProveedores.map(async (proveedor) => {
       let pais = ''
       if (proveedor.pais === 'Argentina') {
         pais = 'ar'
-        await axios.get('http://localhost:3001/api/provincias/ar')
       }
       if (proveedor.pais === 'Uruguay') {
         pais = 'uy'
-        await axios.get('http://localhost:3001/api/provincias/uy')
       }
       if (proveedor.pais === 'Mexico') {
         pais = 'mx'
-        await axios.get('http://localhost:3001/api/provincias/mx')
       }
-      console.log(pais)
       await axios.get(
         'http://localhost:3001/api/ciudad/' +
           pais +
