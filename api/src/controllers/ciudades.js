@@ -15,15 +15,16 @@ const getCiudades = async (req, res) => {
       longitude: el.longitude,
     }
   })
-  // Ciudad.truncate({ cascade: true, restartIdentity: true })
   let capitalicedRegion =
     region[0].toUpperCase() + region.slice(1).toLowerCase()
   let provincia = await Provincia.findOne({
     where: { NOMBRE_PROVINCIA: capitalicedRegion },
   })
   cities.forEach(async (el) => {
-    let city = await Ciudad.create({
-      NOMBRE_CIUDAD: el.nombre,
+    let [city, _created] = await Ciudad.findOrCreate({
+      where: {
+        NOMBRE_CIUDAD: el.nombre,
+      },
     })
     city.setProvincium(provincia)
   })
