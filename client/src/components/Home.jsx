@@ -10,7 +10,6 @@ import { getAllProviders } from "../redux/slices/provider";
 
 export default function Home() {
   const dispatch = useDispatch();
-  const { allProviders } = useSelector((state) => state.provider);
   const { currentProviders } = useSelector((state) => state.provider);
 
   //PAGINATION VARS

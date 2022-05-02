@@ -12,6 +12,7 @@ const createUsuario = async (req, res) => {
     pais,
     provincia,
     ciudad,
+    celular,
   } = req.body
 
   let newUsuario = await Usuario.create({
@@ -20,6 +21,7 @@ const createUsuario = async (req, res) => {
     EMAIL: email,
     IMAGEN: imagen,
     FECHA_NACIMIENTO: fecha_nacimiento,
+    CELULAR: celular
   })
 
   let paisDisp = await Pais.findOne({
@@ -66,6 +68,7 @@ const getUserById = async (req, res) => {
     id: user.id,
     nombre_apellido_usuario: user.NOMBRE_APELLIDO_USUARIO,
     email: user.EMAIL,
+    celular: user.CELULAR,
     imagen: user.IMAGEN,
     fecha_nacimiento: user.FECHA_NACIMIENTO,
     calificacion: user.CALIFICACION,

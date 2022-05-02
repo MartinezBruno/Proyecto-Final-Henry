@@ -34,5 +34,11 @@ module.exports = (sequelize) => {
       allowNull: false,
       defaultValue: 'Usuario',
     },
+
+    CELULAR: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 123456789
+    }
   })
 }

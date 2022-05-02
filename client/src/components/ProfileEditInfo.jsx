@@ -2,10 +2,22 @@ import React from 'react'
 import styles from '../styles/profile.module.css'
 import Swal from 'sweetalert2'
 import 'animate.css'
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { getUser } from '../redux/slices/user';
+
 export default function ProfileEditInfo(props) {
   function handleSave() {
     props.changeForm(false)
   }
+
+  const dispatch = useDispatch();
+  const { UniqueUser } = useSelector((state) => state.user)
+
+  useEffect(() => {
+    dispatch(getUser(1))
+  },[dispatch])
+
 
   return (
     <>
@@ -19,7 +31,7 @@ export default function ProfileEditInfo(props) {
               <input
                 type='text'
                 className='form-control'
-                value='Antonio Tralice'
+                value={UniqueUser.nombre_apellido_usuario}
               />
             </div>
           </div>
@@ -31,19 +43,19 @@ export default function ProfileEditInfo(props) {
               <input
                 type='text'
                 className='form-control'
-                value='toni@henry.com'
+                value={UniqueUser.email}
               />
             </div>
           </div>
           <div className='row mb-3'>
             <div className='col-sm-3'>
-              <h6 className='mb-0'>Teléfono</h6>
+              <h6 className='mb-0'>Fecha de Nacimiento</h6>
             </div>
             <div className='col-sm-9 text-secondary'>
               <input
                 type='text'
                 className='form-control'
-                value='(123) 123456789'
+                value={UniqueUser.fecha_nacimiento}
               />
             </div>
           </div>
@@ -55,7 +67,7 @@ export default function ProfileEditInfo(props) {
               <input
                 type='text'
                 className='form-control'
-                value='(123) 123456789'
+                value={UniqueUser.celular}
               />
             </div>
           </div>
@@ -67,19 +79,19 @@ export default function ProfileEditInfo(props) {
               <input
                 type='text'
                 className='form-control'
-                value='Cordoba, Argentina'
+                value={UniqueUser.pais + ", " + UniqueUser.provincia + ", " + UniqueUser.ciudad}
               />
             </div>
           </div>
           <div className='row'>
             <div className='col-sm-3'></div>
             <div classNameName='col-sm-9 text-secondary'>
-              <input
+              {/* <input
                 type='button'
                 className='btn btn-primary px-4'
                 onClick={() => handleSave()}
                 value='Guardar cambios'
-              />
+              /> */}
             </div>
           </div>
         </div>
