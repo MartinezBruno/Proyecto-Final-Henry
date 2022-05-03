@@ -1,14 +1,16 @@
 const Op = require('sequelize').Op
 const config = require('../config/auth.config')
 const {
-  Usuario,
+  Proveedor,
+  Proveedor_Servicio,
+  Precio,
+  Descripcion,
+  Servicio,
   Ciudad,
   Provincia,
   Pais,
   Role,
   RefreshToken,
-  Proveedor
-
 } = require('../db')
 var jwt = require('jsonwebtoken')
 var bcrypt = require('bcryptjs')
@@ -24,38 +26,39 @@ exports.signup = async (req, res) => {
     fecha_nacimiento,
     pais,
     provincia,
+    servicios,
     ciudad,
-    celular,
     role,
   } = req.body
-  
-  servicios?.length === 0 || servicios == null
-  ? (servicios = [
-      {
-        NOMBRE_SERVICIO: 'Sin servicios disponibles',
-        REMOTE: true,
-        PRECIO: NaN,
-        DESCRIPCION: '',
-      },
-    ])
-  : servicios
 
-let arrayServicios = servicios.map((servicio) => {
-  return {
-    NOMBRE_SERVICIO: servicio.NOMBRE_SERVICIO,
-    REMOTE: servicio.REMOTE ? true : false,
-  }
-})
+  let services = servicios
 
+  services?.length === 0 || services == null
+    ? (services = [
+        {
+          NOMBRE_SERVICIO: 'Sin servicios disponibles',
+          REMOTE: true,
+          PRECIO: NaN,
+          DESCRIPCION: '',
+        },
+      ])
+    : services
 
-let arrayPrecios = servicios.map((servicio) => servicio.PRECIO)
-let arrayDescripcion = servicios.map((servicio) => servicio.DESCRIPCION)
-  
-let serviciosDisp = await Servicio.findAll({
-  where: {
-    [Op.or]: arrayServicios,
-  },
-})
+  let arrayServicios = services.map((servicio) => {
+    return {
+      NOMBRE_SERVICIO: servicio.NOMBRE_SERVICIO,
+      REMOTE: servicio.REMOTE ? servicio.REMOTE : false,
+    }
+  })
+
+  let arrayPrecios = services.map((servicio) => servicio.PRECIO)
+  let arrayDescripcion = services.map((servicio) => servicio.DESCRIPCION)
+
+  let serviciosDisp = await Servicio.findAll({
+    where: {
+      [Op.or]: arrayServicios,
+    },
+  })
 
   let paisDisp = await Pais.findOne({
     where: { NOMBRE_PAIS: pais },
@@ -68,85 +71,77 @@ let serviciosDisp = await Servicio.findAll({
   let ciudadesDisp = await Ciudad.findOne({
     where: { NOMBRE_CIUDAD: ciudad },
   })
-  
-  Proveedor.create({
+
+  let newProveedor = await Proveedor.create({
     NOMBRE_APELLIDO_PROVEEDOR: `${nombre} ${apellido}`,
     PASSWORD: bcrypt.hashSync(password, 8),
     EMAIL: email,
     IMAGEN: imagen,
     FECHA_NACIMIENTO: fecha_nacimiento,
-    CALIFICACION: []
-
+    CALIFICACION: [],
   })
-    .then((user) => {
-      user.addServicios(serviciosDisp)
-      user.setPai(paisDisp)
-      user.setProvincium(provinciasDisp)
-      user.setCiudad(ciudadesDisp)
-      for (let i = 0; i < arrayPrecios.length; i++) {
-        let [p, _created] = await Precio.findOrCreate({
-          where: {
-            PRECIO: arrayPrecios[i],
-          },
-        })
-        let proovedor = await Proveedor.findOne({ where: { EMAIL: email } })
-        let servicio = await Servicio.findOne({
-          where: {
-            NOMBRE_SERVICIO: arrayServicios[i].NOMBRE_SERVICIO,
-            REMOTE: arrayServicios[i].REMOTE,
-          },
-        })
-        let proveedor_servicio = await Proveedor_Servicio.findOne({
-          where: {
-            ProveedorId: proovedor.id,
-            ServicioId: servicio.id,
-          },
-        })
-        proveedor_servicio.setPrecio(p)
-      }
-    
-      for (let i = 0; i < arrayDescripcion.length; i++) {
-        let d = await Descripcion.create({
-          DESCRIPCION: arrayDescripcion[i],
-        })
-        let proovedor = await Proveedor.findOne({ where: { EMAIL: email } })
-        let servicio = await Servicio.findOne({
-          where: {
-            NOMBRE_SERVICIO: arrayServicios[i].NOMBRE_SERVICIO,
-            REMOTE: arrayServicios[i].REMOTE,
-          },
-        })
-        let proveedor_servicio = await Proveedor_Servicio.findOne({
-          where: {
-            ProveedorId: proovedor.id,
-            ServicioId: servicio.id,
-          },
-        })
-        proveedor_servicio.setDescripcion(d)
-      }
-    
-      if (req.body.role) {
-       Role.findAll({
-          where: {
-            name: {
-              [Op.or]: req.body.role,
-            },
-          },
-        }).then((role) => {
-          user.setRole(role).then(() => {
-            res.send({ message: '¡Proveedor registrado exitosamente!' })
-          })
-        })
-      } else {
-        // rol de usuario común = 1
-        user.setRole([2]).then(() => {
-          res.send({ message: '¡Proveedor registrado exitosamente!' })
-        })
-      }
+
+  await newProveedor.addServicios(serviciosDisp)
+  await newProveedor.setPai(paisDisp)
+  await newProveedor.setProvincium(provinciasDisp)
+  await newProveedor.setCiudad(ciudadesDisp)
+
+  for (let i = 0; i < arrayPrecios.length; i++) {
+    let [p, _created] = await Precio.findOrCreate({
+      where: {
+        PRECIO: arrayPrecios[i],
+      },
     })
-    .catch((err) => {
-      res.status(500).send({ message: err.message })
+    let proovedor = await Proveedor.findOne({ where: { EMAIL: email } })
+    let servicio = await Servicio.findOne({
+      where: {
+        NOMBRE_SERVICIO: arrayServicios[i].NOMBRE_SERVICIO,
+        REMOTE: arrayServicios[i].REMOTE,
+      },
     })
+    let proveedor_servicio = await Proveedor_Servicio.findOne({
+      where: {
+        ProveedorId: proovedor.id,
+        ServicioId: servicio.id,
+      },
+    })
+    await proveedor_servicio.setPrecio(p)
+  }
+
+  for (let i = 0; i < arrayDescripcion.length; i++) {
+    let d = await Descripcion.create({
+      DESCRIPCION: arrayDescripcion[i],
+    })
+    let proovedor = await Proveedor.findOne({ where: { EMAIL: email } })
+    let servicio = await Servicio.findOne({
+      where: {
+        NOMBRE_SERVICIO: arrayServicios[i].NOMBRE_SERVICIO,
+        REMOTE: arrayServicios[i].REMOTE,
+      },
+    })
+    let proveedor_servicio = await Proveedor_Servicio.findOne({
+      where: {
+        ProveedorId: proovedor.id,
+        ServicioId: servicio.id,
+      },
+    })
+    await proveedor_servicio.setDescripcion(d)
+  }
+  if (role) {
+    let role = await Role.findAll({
+      where: {
+        name: {
+          [Op.or]: role,
+        },
+      },
+    })
+    await newProveedor.addRole(role)
+    res.send({ message: '¡Proveedor registrado exitosamente!' })
+  } else {
+    // rol de usuario común = 1
+    await newProveedor.addRole([2])
+    res.send({ message: '¡Proveedor registrado exitosamente!' })
+  }
 }
 
 exports.signin = (req, res) => {
@@ -188,7 +183,7 @@ exports.signin = (req, res) => {
           pais: user.pais,
           provincia: user.provincia,
           ciudad: user.ciudad,
-         Role: authorities,
+          Role: authorities,
           accessToken: token,
           refreshToken: refreshToken,
         })
