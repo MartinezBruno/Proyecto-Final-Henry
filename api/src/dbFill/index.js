@@ -41,26 +41,30 @@ function serviciosDb() {
   })
 }
 
-
 function initialRoles() {
   Role.create({
     id: 1,
-    name: "user"
-  });
+    name: 'usuario',
+  })
 
   Role.create({
     id: 2,
-    name: "moderator"
-  });
+    name: 'proveedor',
+  })
 
   Role.create({
     id: 3,
-    name: "admin"
-  });
+    name: 'moderador',
+  })
+
+  Role.create({
+    id: 4,
+    name: 'admin',
+  })
 }
 
 module.exports = {
   paisesDb,
   serviciosDb,
-  initialRoles
+  initialRoles,
 }

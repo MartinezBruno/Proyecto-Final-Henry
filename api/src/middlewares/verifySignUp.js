@@ -1,55 +1,54 @@
-const ROLES = ["user", "admin", "moderator"];
-const { Usuarios } = require("../db");
+const ROLES = ['user', 'admin', 'moderator']
+const { Usuarios } = require('../db')
 
-checkDuplicateUsernameOrEmail = (req, res, next) => {
-
+checkDuplicateEmail = (req, res, next) => {
   //Username
+  // Usuarios.findOne({
+  //   where: {
+  //     usuario: req.body.usuario,
+  //   },
+  // }).then((user) => {
+  //   if (user) {
+  //     res.status(400).send({
+  //       message: '¡Error! ¡El nombre de usuario ya se encuentra en uso!',
+  //     })
+  //     return
+  //   }
+
+  //Email
   Usuarios.findOne({
     where: {
-      usuario: req.body.usuario
-    }
-  }).then(user => {
+      email: req.body.email,
+    },
+  }).then((user) => {
     if (user) {
       res.status(400).send({
-        message: "¡Error! ¡El nombre de usuario ya se encuentra en uso!"
-      });
-      return;
+        message: '¡Error! ¡El email provisto ya se encuentra en uso!',
+      })
+      return
     }
-
-    //Email
-    Usuarios.findOne({
-      where: {
-        email: req.body.email
-      }
-    }).then(user => {
-      if (user) {
-        res.status(400).send({
-          message: "¡Error! ¡El email provisto ya se encuentra en uso!"
-        });
-        return;
-      }
-      next();
-    });
-  });
-};
+    next()
+  })
+  // })
+}
 
 checkRolesExisted = (req, res, next) => {
   if (req.body.roles) {
     for (let i = 0; i < req.body.roles.length; i++) {
       if (!ROLES.includes(req.body.roles[i])) {
         res.status(400).send({
-          message: "¡Error! El rol no existe =" + req.body.roles[i]
-        });
-        return;
+          message: '¡Error! El rol no existe =' + req.body.roles[i],
+        })
+        return
       }
     }
   }
-  next();
-};
+  next()
+}
 
 const veryfySignUp = {
-  checkDuplicateUsernameOrEmail: checkDuplicateUsernameOrEmail,
-  checkRolesExisted: checkRolesExisted
-};
+  checkDuplicateEmail: checkDuplicateEmail,
+  checkRolesExisted: checkRolesExisted,
+}
 
-module.exports = veryfySignUp;
+module.exports = veryfySignUp
