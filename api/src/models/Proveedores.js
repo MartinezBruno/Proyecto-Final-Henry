@@ -31,13 +31,6 @@ module.exports = (sequelize) => {
       type: DataTypes.ARRAY(DataTypes.FLOAT),
       allowNull: false,
       defaultValue: [],
-    },
-
-    STATUS: {
-      type: DataTypes.STRING,
-      defaultValue: 'Proveedor',
-      allowNull: false,
-    },
-    
+    },  
   })
 }

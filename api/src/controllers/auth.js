@@ -7,6 +7,8 @@ const {
   Pais,
   Role,
   RefreshToken,
+  Proveedor
+
 } = require('../db')
 var jwt = require('jsonwebtoken')
 var bcrypt = require('bcryptjs')
@@ -24,8 +26,36 @@ exports.signup = async (req, res) => {
     provincia,
     ciudad,
     celular,
-    roles,
+    role,
   } = req.body
+  
+  servicios?.length === 0 || servicios == null
+  ? (servicios = [
+      {
+        NOMBRE_SERVICIO: 'Sin servicios disponibles',
+        REMOTE: true,
+        PRECIO: NaN,
+        DESCRIPCION: '',
+      },
+    ])
+  : servicios
+
+let arrayServicios = servicios.map((servicio) => {
+  return {
+    NOMBRE_SERVICIO: servicio.NOMBRE_SERVICIO,
+    REMOTE: servicio.REMOTE ? true : false,
+  }
+})
+
+
+let arrayPrecios = servicios.map((servicio) => servicio.PRECIO)
+let arrayDescripcion = servicios.map((servicio) => servicio.DESCRIPCION)
+  
+let serviciosDisp = await Servicio.findAll({
+  where: {
+    [Op.or]: arrayServicios,
+  },
+})
 
   let paisDisp = await Pais.findOne({
     where: { NOMBRE_PAIS: pais },
@@ -38,35 +68,79 @@ exports.signup = async (req, res) => {
   let ciudadesDisp = await Ciudad.findOne({
     where: { NOMBRE_CIUDAD: ciudad },
   })
-
-  Usuario.create({
-    NOMBRE_APELLIDO_USUARIO: `${nombre} ${apellido}`,
+  
+  Proveedor.create({
+    NOMBRE_APELLIDO_PROVEEDOR: `${nombre} ${apellido}`,
     PASSWORD: bcrypt.hashSync(password, 8),
     EMAIL: email,
     IMAGEN: imagen,
     FECHA_NACIMIENTO: fecha_nacimiento,
-    CELULAR: celular,
+    CALIFICACION: []
+
   })
     .then((user) => {
+      user.addServicios(serviciosDisp)
       user.setPai(paisDisp)
       user.setProvincium(provinciasDisp)
       user.setCiudad(ciudadesDisp)
-      if (req.body.roles) {
-        Role.findAll({
+      for (let i = 0; i < arrayPrecios.length; i++) {
+        let [p, _created] = await Precio.findOrCreate({
+          where: {
+            PRECIO: arrayPrecios[i],
+          },
+        })
+        let proovedor = await Proveedor.findOne({ where: { EMAIL: email } })
+        let servicio = await Servicio.findOne({
+          where: {
+            NOMBRE_SERVICIO: arrayServicios[i].NOMBRE_SERVICIO,
+            REMOTE: arrayServicios[i].REMOTE,
+          },
+        })
+        let proveedor_servicio = await Proveedor_Servicio.findOne({
+          where: {
+            ProveedorId: proovedor.id,
+            ServicioId: servicio.id,
+          },
+        })
+        proveedor_servicio.setPrecio(p)
+      }
+    
+      for (let i = 0; i < arrayDescripcion.length; i++) {
+        let d = await Descripcion.create({
+          DESCRIPCION: arrayDescripcion[i],
+        })
+        let proovedor = await Proveedor.findOne({ where: { EMAIL: email } })
+        let servicio = await Servicio.findOne({
+          where: {
+            NOMBRE_SERVICIO: arrayServicios[i].NOMBRE_SERVICIO,
+            REMOTE: arrayServicios[i].REMOTE,
+          },
+        })
+        let proveedor_servicio = await Proveedor_Servicio.findOne({
+          where: {
+            ProveedorId: proovedor.id,
+            ServicioId: servicio.id,
+          },
+        })
+        proveedor_servicio.setDescripcion(d)
+      }
+    
+      if (req.body.role) {
+       Role.findAll({
           where: {
             name: {
-              [Op.or]: req.body.roles,
+              [Op.or]: req.body.role,
             },
           },
-        }).then((roles) => {
-          user.setRoles(roles).then(() => {
-            res.send({ message: '¡Usuario registrado exitosamente!' })
+        }).then((role) => {
+          user.setRole(role).then(() => {
+            res.send({ message: '¡Proveedor registrado exitosamente!' })
           })
         })
       } else {
         // rol de usuario común = 1
-        user.setRoles([1]).then(() => {
-          res.send({ message: '¡Usuario registrado exitosamente!' })
+        user.setRole([2]).then(() => {
+          res.send({ message: '¡Proveedor registrado exitosamente!' })
         })
       }
     })
@@ -102,7 +176,7 @@ exports.signin = (req, res) => {
       let authorities = []
       user.getRoles().then((roles) => {
         for (let i = 0; i < roles.length; i++) {
-          authorities.push('ROLE_' + roles[i].name.toUpperCase())
+          authorities.push('STATUS_' + roles[i].name.toUpperCase())
         }
         res.status(200).send({
           id: user.id,
@@ -114,7 +188,7 @@ exports.signin = (req, res) => {
           pais: user.pais,
           provincia: user.provincia,
           ciudad: user.ciudad,
-          roles: authorities,
+         Role: authorities,
           accessToken: token,
           refreshToken: refreshToken,
         })

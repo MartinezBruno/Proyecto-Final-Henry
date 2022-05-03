@@ -95,6 +95,23 @@ Usuario.hasOne(RefreshToken, {
   foreignKey: 'userId', targetKey: 'id'
 });
 
+Role.belongsToMany(Proveedor, {
+  through: "proveedor_roles",
+  foreignKey: "roleId",
+  otherKey: "proveedorId"
+});
+Proveedor.belongsToMany(Role, {
+  through: "proveedor_roles",
+  foreignKey: "proveedorId",
+  otherKey: "roleId"
+});
+RefreshToken.belongsTo(Proveedor, {
+  foreignKey: 'proveedorId', targetKey: 'id'
+});
+Proveedor.hasOne(RefreshToken, {
+  foreignKey: 'proveedorId', targetKey: 'id'
+});
+
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
   conn: sequelize, // para importart la conexión { conn } = require('./db.js');

@@ -9,7 +9,7 @@ const autofillProveedores = require('./src/routes/automatic-post')
 
 // Syncing all the models at once.
 conn
-  .sync({ force: true })
+  .sync({ force: false})
   .then(() => {
     server.listen(process.env.DB_PORT, () => {
       console.log(`%s listening at ${process.env.DB_PORT}`); // eslint-disable-line no-console
@@ -19,10 +19,10 @@ conn
   .then(() => {
     paisesDb()
     serviciosDb()
-    initialRoles()
+    // initialRoles()
+    // autofillProveedores()
     }
   );
-    autofillProveedores()
-  })
+  
 
   module.exports = { server };

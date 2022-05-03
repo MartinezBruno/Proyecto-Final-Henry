@@ -29,12 +29,6 @@ module.exports = (sequelize) => {
       defaultValue: [],
     },
 
-    STATUS: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      defaultValue: 'Usuario',
-    },
-
     CELULAR: {
       type: DataTypes.INTEGER,
       allowNull: false,

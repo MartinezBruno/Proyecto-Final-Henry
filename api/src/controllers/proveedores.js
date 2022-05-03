@@ -7,6 +7,7 @@ const {
   Precio,
   Proveedor_Servicio,
   Descripcion,
+  Role,
 } = require('../db')
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
@@ -71,7 +72,12 @@ const createProv = async (req, res) => {
   let ciudadesDisp = await Ciudad.findOne({
     where: { NOMBRE_CIUDAD: ciudad },
   })
-
+  
+  let roleDisp = await Role.findOne({
+    where: {id: 2}
+  })
+  
+  newProveedor.addRole(roleDisp)
   newProveedor.addServicios(serviciosDisp)
   newProveedor.setPai(paisDisp)
   newProveedor.setProvincium(provinciasDisp)
