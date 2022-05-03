@@ -10,6 +10,7 @@ const {
 } = require('../db')
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
+const axios = require ('axios')
 
 const createProv = async (req, res) => {
   let {
@@ -316,7 +317,6 @@ const deleteServicio_Prov = async (req, res) => {
   res.status(200).send('borrado')
 }
 
-
 const updateProvServices = async (req, res, next) => {
   const { id } = req.params
   const { servicios } = req.body
@@ -389,10 +389,27 @@ const updateProvServices = async (req, res, next) => {
     next(error)
   }
 }
+
+const filtroPorProfesion = async (req, res) => {
+   const {service} = req.params
+   console.log(service)
+   
+   let servicios = await Servicio.findOne ({
+     where: { 
+       NOMBRE_SERVICIO : service}
+      })
+   let servicioFilt = servicios.id  
+  //     console.log(servicios.id)
+  let proveedorServ = await axios.get('http://localhost:3001/api/proveedor')
+  let provFiltered = proveedorServ.data.filter (prov => prov.servicio.id === servicioFilt)
+  return res.status(200).send(provFiltered)
+}
+
 module.exports = {
   createProv,
   getProv,
   getProvByID,
   deleteServicio_Prov,
   updateProvServices,
+  filtroPorProfesion
 }
