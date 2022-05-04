@@ -22,7 +22,7 @@ conn
   .then(() => {
     serviciosDb()
     initialRoles()
-    // autofillProveedores()
+    autofillProveedores()
   })
 
 module.exports = { server }

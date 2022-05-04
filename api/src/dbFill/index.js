@@ -47,24 +47,32 @@ function serviciosDb() {
 }
 
 function initialRoles() {
-  Role.create({
-    id: 1,
-    name: 'usuario',
+  Role.findOrCreate({
+    where: {
+      id: 1,
+      name: 'usuario',
+    },
   })
 
-  Role.create({
-    id: 2,
-    name: 'proveedor',
+  Role.findOrCreate({
+    where: {
+      id: 2,
+      name: 'proveedor',
+    },
   })
 
-  Role.create({
-    id: 3,
-    name: 'moderador',
+  Role.findOrCreate({
+    where: {
+      id: 3,
+      name: 'moderador',
+    },
   })
 
-  Role.create({
-    id: 4,
-    name: 'admin',
+  Role.findOrCreate({
+    where: {
+      id: 4,
+      name: 'admin',
+    },
   })
 }
 

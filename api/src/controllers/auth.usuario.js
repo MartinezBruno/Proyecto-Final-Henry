@@ -26,16 +26,12 @@ exports.signup = async (req, res) => {
     await newUser.setPai(paisDisp)
     await newUser.setProvincium(provinciaDisp)
     await newUser.setCiudad(ciudadDisp)
-    if (role) {
-      let roleForUser = await Role.findOne({
-        where: { NOMBRE_ROL: role },
-      })
-      await newUser.addRole(roleForUser)
-      res.send({ message: '¡Usuario registrado exitosamente!' })
-    } else {
-      newUser.addRole([1])
-      res.send({ message: '¡Usuario registrado exitosamente!' })
-    }
+
+    let role = await Role.findOne({
+      where: { id: 1 },
+    })
+    newUser.setRole(role)
+    res.send({ message: '¡Usuario registrado exitosamente!' })
   } catch (error) {
     res.status(500).send({ message: error.message })
   }
@@ -76,7 +72,7 @@ exports.signin = async (req, res) => {
     })
     let refreshToken = await RefreshToken.createToken(user)
     let authorities = []
-    let roles = await user.getRoles()
+    let roles = await user.getRole()
     for (let i = 0; i < roles.length; i++) {
       authorities.push('STATUS_' + roles[i].name.toUpperCase())
     }

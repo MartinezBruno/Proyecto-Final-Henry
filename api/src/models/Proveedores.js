@@ -3,6 +3,12 @@ const { DataTypes } = require('sequelize')
 module.exports = (sequelize) => {
   // defino el modelo
   sequelize.define('Proveedor', {
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      primaryKey: true,
+      allowNull: false,
+    },
     NOMBRE_APELLIDO_PROVEEDOR: {
       type: DataTypes.STRING,
     },
@@ -31,6 +37,6 @@ module.exports = (sequelize) => {
       type: DataTypes.ARRAY(DataTypes.FLOAT),
       allowNull: false,
       defaultValue: [],
-    },  
+    },
   })
 }

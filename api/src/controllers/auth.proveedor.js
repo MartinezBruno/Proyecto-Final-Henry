@@ -6,13 +6,11 @@ var bcrypt = require('bcryptjs')
 
 exports.signup = async (req, res) => {
   // Guardar usuario en la base de datos
-  const { nombre, apellido, password, email, imagen, fecha_nacimiento, pais, provincia, servicios, ciudad, role } = req.body
+  let { nombre, apellido, password, email, imagen, fecha_nacimiento, pais, provincia, servicios, ciudad, role } = req.body
 
   try {
-    let services = servicios
-
-    services?.length === 0 || services == null
-      ? (services = [
+    servicios?.length === 0 || servicios == null
+      ? (servicios = [
           {
             NOMBRE_SERVICIO: 'Sin servicios disponibles',
             REMOTE: true,
@@ -20,17 +18,17 @@ exports.signup = async (req, res) => {
             DESCRIPCION: '',
           },
         ])
-      : services
+      : servicios
 
-    let arrayServicios = services.map((servicio) => {
+    let arrayServicios = servicios.map((servicio) => {
       return {
         NOMBRE_SERVICIO: servicio.NOMBRE_SERVICIO,
         REMOTE: servicio.REMOTE ? servicio.REMOTE : false,
       }
     })
 
-    let arrayPrecios = services.map((servicio) => servicio.PRECIO)
-    let arrayDescripcion = services.map((servicio) => servicio.DESCRIPCION)
+    let arrayPrecios = servicios.map((servicio) => servicio.PRECIO)
+    let arrayDescripcion = servicios.map((servicio) => servicio.DESCRIPCION)
 
     let serviciosDisp = await Servicio.findAll({
       where: {
@@ -58,70 +56,64 @@ exports.signup = async (req, res) => {
       FECHA_NACIMIENTO: fecha_nacimiento,
       CALIFICACION: [],
     })
-
-    await newProveedor.addServicios(serviciosDisp)
+    let role = await Role.findOne({
+      where: { id: 2 },
+    })
+    console.log(role)
+    // await newProveedor.addServicios(serviciosDisp)
     await newProveedor.setPai(paisDisp)
     await newProveedor.setProvincium(provinciasDisp)
     await newProveedor.setCiudad(ciudadesDisp)
+    await newProveedor.setRole(role)
 
-    for (let i = 0; i < arrayPrecios.length; i++) {
-      let [p, _created] = await Precio.findOrCreate({
-        where: {
-          PRECIO: arrayPrecios[i],
-        },
-      })
-      let proovedor = await Proveedor.findOne({ where: { EMAIL: email } })
-      let servicio = await Servicio.findOne({
-        where: {
-          NOMBRE_SERVICIO: arrayServicios[i].NOMBRE_SERVICIO,
-          REMOTE: arrayServicios[i].REMOTE,
-        },
-      })
-      let proveedor_servicio = await Proveedor_Servicio.findOne({
-        where: {
-          ProveedorId: proovedor.id,
-          ServicioId: servicio.id,
-        },
-      })
-      await proveedor_servicio.setPrecio(p)
-    }
+    // for (let i = 0; i < arrayPrecios.length; i++) {
+    //   let [p, _created] = await Precio.findOrCreate({
+    //     where: {
+    //       PRECIO: arrayPrecios[i],
+    //     },
+    //   })
+    //   let proveedor = await Proveedor.findOne({ where: { EMAIL: email } })
+    //   let servicio = await Servicio.findOne({
+    //     where: {
+    //       NOMBRE_SERVICIO: arrayServicios[i].NOMBRE_SERVICIO,
+    //       REMOTE: arrayServicios[i].REMOTE,
+    //     },
+    //   })
+    //   console.log(servicio.id, 'id del servicio')
+    //   let proveedor_servicio = await Proveedor_Servicio.findOne({
+    //     where: {
+    //       ProveedorId: proveedor.id,
+    //       ServicioId: servicio.id,
+    //     },
+    //   })
+    //   await proveedor_servicio.setPrecio(p)
+    // }
 
-    for (let i = 0; i < arrayDescripcion.length; i++) {
-      let d = await Descripcion.create({
-        DESCRIPCION: arrayDescripcion[i],
-      })
-      let proovedor = await Proveedor.findOne({ where: { EMAIL: email } })
-      let servicio = await Servicio.findOne({
-        where: {
-          NOMBRE_SERVICIO: arrayServicios[i].NOMBRE_SERVICIO,
-          REMOTE: arrayServicios[i].REMOTE,
-        },
-      })
-      let proveedor_servicio = await Proveedor_Servicio.findOne({
-        where: {
-          ProveedorId: proovedor.id,
-          ServicioId: servicio.id,
-        },
-      })
-      await proveedor_servicio.setDescripcion(d)
-    }
-    if (role) {
-      let role = await Role.findAll({
-        where: {
-          name: {
-            [Op.or]: role,
-          },
-        },
-      })
-      await newProveedor.addRole(role)
-      res.send({ message: '¡Proveedor registrado exitosamente!' })
-    } else {
-      // rol de usuario común = 1
-      await newProveedor.addRole([2])
-      res.send({ message: '¡Proveedor registrado exitosamente!' })
-    }
+    // for (let i = 0; i < arrayDescripcion.length; i++) {
+    //   let d = await Descripcion.create({
+    //     DESCRIPCION: arrayDescripcion[i],
+    //   })
+    //   let proovedor = await Proveedor.findOne({ where: { EMAIL: email } })
+    //   let servicio = await Servicio.findOne({
+    //     where: {
+    //       NOMBRE_SERVICIO: arrayServicios[i].NOMBRE_SERVICIO,
+    //       REMOTE: arrayServicios[i].REMOTE,
+    //     },
+    //   })
+    //   let proveedor_servicio = await Proveedor_Servicio.findOne({
+    //     where: {
+    //       ProveedorId: proovedor.id,
+    //       ServicioId: servicio.id,
+    //     },
+    //   })
+    //   await proveedor_servicio.setDescripcion(d)
+    // }
+
+    // rol de usuario común = 1
+
+    return res.send({ message: '¡Proveedor registrado exitosamente!' })
   } catch (error) {
-    res.status(500).send({ message: error.message })
+    res.status(500).send({ message: error.message + ' error en el signup' })
   }
 }
 
@@ -151,9 +143,10 @@ exports.signin = async (req, res) => {
     const passwordIsValid = bcrypt.compareSync(password, proveedor.PASSWORD)
     if (!passwordIsValid) return res.status(401).send({ accessToken: null, message: 'Usuario o contraseña incorrecta!' })
     const token = jwt.sign({ id: proveedor.id }, config.secret, { expiresIn: config.jwtExpiration })
-    let refreshToken = await RefreshToken.createToken(proveedor)
+    console.log(proveedor.id)
+    let refreshToken = await RefreshToken.createTokenProv(proveedor)
     let authorities = []
-    let roles = await proveedor.getRoles()
+    let roles = await proveedor.getRole()
     for (let i = 0; i < roles.length; i++) {
       authorities.push('STATUS_' + roles[i].name.toUpperCase())
     }
