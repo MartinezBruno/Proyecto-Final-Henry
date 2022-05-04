@@ -1,8 +1,9 @@
 const server = require('./src/app.js')
 const { conn } = require('./src/db.js')
 const { paisesDb, serviciosDb, initialRoles } = require('./src/dbFill')
+const { regionDb } = require('./src/controllers/provincias')
+const { ciudadesDb } = require('./src/controllers/ciudades')
 const autofillProveedores = require('./src/routes/automatic-post')
-
 
 // conn vendria a ser la DB que queremos conectar al localHoost con las relaciones de las tablas
 // y las tablas definfidas en sequielize, etc
@@ -12,17 +13,19 @@ conn
   .sync({ force: true })
   .then(() => {
     server.listen(process.env.DB_PORT, () => {
-      console.log(`%s listening at ${process.env.DB_PORT}`); // eslint-disable-line no-console
-    });
-
+      console.log(`%s listening at ${process.env.DB_PORT}`) // eslint-disable-line no-console
+    })
   })
+  .then(() => paisesDb())
+  .then(() => regionDb())
   .then(() => {
-    paisesDb()
+    ciudadesDb()
     serviciosDb()
     initialRoles()
-    autofillProveedores()
-    }
-  );
+    // autofillProveedores()
+    console.log('tamo ready')
+  })
+  
 
 
-  module.exports = { server };
+module.exports = { server }

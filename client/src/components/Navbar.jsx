@@ -18,35 +18,37 @@ export default function NavBar() {
   const handleShowLogin = () => setShowLogin(true);
 
   return (
-    <div className={`d-flex container justify-content-center`} style={{backgroundColor: 'transparent'}}>
     <div
-      className={`${styles.searchbarContainer} `}
-      >
-
-
-      <NavLink to="/">
-        <img src={logo} alt="logo" />
-      </NavLink>
-
-      <div className="d-flex container justify-content-center">
-      <NavLink to="/home" className={isActive =>
-    "nav-link" + (!isActive ? " unselected" : "")
-  } >
-          
-          INICIO
+      className={`d-flex container justify-content-center`}
+      style={{ backgroundColor: 'transparent' }}>
+      <div className={`${styles.searchbarContainer} `}>
+        <NavLink to='/'>
+          <img src={logo} alt='logo' />
         </NavLink>
-        <NavLink to="/about" className={isActive =>
-    "nav-link" + (!isActive ? " unselected" : "")
-  }>
-          ¿QUIENES SOMOS?
-        </NavLink>
-        <NavLink to="/profile" className={isActive =>
-    "nav-link" + (!isActive ? " unselected" : "")
-  }>
-          MI PERFIL
-        </NavLink>
-      </div>
 
+        <div className='d-flex container justify-content-center'>
+          <NavLink
+            to='/home'
+            className={(isActive) =>
+              'nav-link' + (!isActive ? ' unselected' : '')
+            }>
+            INICIO
+          </NavLink>
+          <NavLink
+            to='/about'
+            className={(isActive) =>
+              'nav-link' + (!isActive ? ' unselected' : '')
+            }>
+            ¿QUIENES SOMOS?
+          </NavLink>
+          <NavLink
+            to='/profile'
+            className={(isActive) =>
+              'nav-link' + (!isActive ? ' unselected' : '')
+            }>
+            MI PERFIL
+          </NavLink>
+        </div>
 
       <div className="d-flex align-items-center justify-content-center text-center" style={{flexDirection:'column'}}>
         <Button
@@ -103,6 +105,6 @@ export default function NavBar() {
         </Modal>
       </div>
     </div>
-            </div>
-  );
+    </div>
+  )
 }
