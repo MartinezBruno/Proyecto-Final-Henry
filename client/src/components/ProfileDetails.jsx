@@ -152,11 +152,11 @@ export default function ProfileDetails() {
                   </tbody>
                 </table>
 
-                {/* <div className="row">
+                <div className="row">
                     <div className="col-sm-12">
                       <button className="btn btn-dark">EDITAR</button>
                     </div>
-                  </div> */}
+                  </div>
               </div>
             </div>
 
@@ -188,11 +188,11 @@ export default function ProfileDetails() {
                     <b>Usuario3:</b> <br /> Llego 20 minutos tarde y se fue puntual, Un desastre.
                   </span>
                 </div>
-                {/* <div className="row">
+                <div className="row">
                     <div className="col-sm-12">
                       <button className="btn btn-dark">EDITAR</button>
                     </div>
-                  </div> */}
+                  </div>
               </div>
             </div>
           </div>
