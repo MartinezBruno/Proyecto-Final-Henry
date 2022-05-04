@@ -1,7 +1,7 @@
 const { Provincia, Pais } = require('../db')
 const { provincia } = require('../dbFill/ubicacion')
 
-const getProvincias = async () => {
+const regionDb = async () => {
   for (let i = 0; i < provincia.length; i++) {
     try {
       let pais = await Pais.findOne({
@@ -17,6 +17,36 @@ const getProvincias = async () => {
   }
 }
 
+const getRegion = async (req, res) => {
+  const { code } = req.params
+  let region
+  try {
+    switch (code) {
+      case 'ar':
+        region = await Provincia.findAll({
+          where: { PaiId: 1 },
+        })
+        break
+      case 'uy':
+        region = await Provincia.findAll({
+          where: { PaiId: 2 },
+        })
+        break
+      case 'mx':
+        region = await Provincia.findAll({
+          where: { PaiId: 3 },
+        })
+        break
+      default:
+        region = [{ nombre: 'No encontrado' }]
+    }
+    res.status(200).send(region)
+  } catch (error) {
+    res.status(404).send(error)
+  }
+}
+
 module.exports = {
-  getProvincias,
+  regionDb,
+  getRegion,
 }

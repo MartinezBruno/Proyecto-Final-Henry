@@ -3,6 +3,6 @@ const router = express.Router()
 
 const { getCiudades } = require('../controllers/ciudades')
 
-router.get('/:code/:region', getCiudades)
+router.get('/:region', getCiudades)
 
 module.exports = router

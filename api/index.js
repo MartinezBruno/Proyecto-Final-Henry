@@ -1,8 +1,8 @@
 const server = require('./src/app.js')
 const { conn } = require('./src/db.js')
 const { paisesDb, serviciosDb, initialRoles } = require('./src/dbFill')
-const { getProvincias } = require('./src/controllers/provincias')
-const { getCiudades } = require('./src/controllers/ciudades')
+const { regionDb } = require('./src/controllers/provincias')
+const { ciudadesDb } = require('./src/controllers/ciudades')
 const autofillProveedores = require('./src/routes/automatic-post')
 
 // conn vendria a ser la DB que queremos conectar al localHoost con las relaciones de las tablas
@@ -17,8 +17,8 @@ conn
     })
   })
   .then(() => paisesDb())
-  .then(() => getProvincias())
-  .then(() => getCiudades())
+  .then(() => regionDb())
+  .then(() => ciudadesDb())
   .then(() => {
     serviciosDb()
     initialRoles()
