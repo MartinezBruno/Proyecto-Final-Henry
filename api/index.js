@@ -20,9 +20,9 @@ conn
     paisesDb()
     serviciosDb()
     initialRoles()
+    autofillProveedores()
     }
   );
-    autofillProveedores()
-  })
+
 
   module.exports = { server };

@@ -1,46 +1,46 @@
 const { Usuario, Ciudad, Provincia, Pais } = require('../db')
 
-// const createUsuario = async (req, res) => {
-//   let {
-//     nombre,
-//     apellido,
-//     password,
-//     email,
-//     imagen,
-//     fecha_nacimiento,
-//     pais,
-//     provincia,
-//     ciudad,
-//     celular,
-//   } = req.body
+const createUsuario = async (req, res) => {
+  let {
+    nombre,
+    apellido,
+    password,
+    email,
+    imagen,
+    fecha_nacimiento,
+    pais,
+    provincia,
+    ciudad,
+    celular,
+  } = req.body
 
-//   let newUsuario = await Usuario.create({
-//     NOMBRE_APELLIDO_USUARIO: `${nombre} ${apellido}`,
-//     PASSWORD: password,
-//     EMAIL: email,
-//     IMAGEN: imagen,
-//     FECHA_NACIMIENTO: fecha_nacimiento,
-//     CELULAR: celular
-//   })
+  let newUsuario = await Usuario.create({
+    NOMBRE_APELLIDO_USUARIO: `${nombre} ${apellido}`,
+    PASSWORD: password,
+    EMAIL: email,
+    IMAGEN: imagen,
+    FECHA_NACIMIENTO: fecha_nacimiento,
+    CELULAR: celular
+  })
 
-//   let paisDisp = await Pais.findOne({
-//     where: { NOMBRE_PAIS: pais },
-//   })
+  let paisDisp = await Pais.findOne({
+    where: { NOMBRE_PAIS: pais },
+  })
 
-//   let provinciasDisp = await Provincia.findOne({
-//     where: { NOMBRE_PROVINCIA: provincia },
-//   })
+  let provinciasDisp = await Provincia.findOne({
+    where: { NOMBRE_PROVINCIA: provincia },
+  })
 
-//   let ciudadesDisp = await Ciudad.findOne({
-//     where: { NOMBRE_CIUDAD: ciudad },
-//   })
+  let ciudadesDisp = await Ciudad.findOne({
+    where: { NOMBRE_CIUDAD: ciudad },
+  })
 
-//   newUsuario.setPai(paisDisp)
-//   newUsuario.setProvincium(provinciasDisp)
-//   newUsuario.setCiudad(ciudadesDisp)
+  newUsuario.setPai(paisDisp)
+  newUsuario.setProvincium(provinciasDisp)
+  newUsuario.setCiudad(ciudadesDisp)
 
-//   res.status(201).send('Usuario creado')
-// }
+  res.status(201).send('Usuario creado')
+}
 
 const getUserById = async (req, res) => {
   const { id } = req.params
