@@ -145,7 +145,7 @@ exports.signin = async (req, res) => {
     let refreshToken = await RefreshToken.createTokenProv(proveedor)
     let authorities = []
     let roles = await proveedor.getRole()
-    authorities.push('STATUS_' + roles.dataValues.name.toUpperCase())
+    authorities.push(roles.dataValues.name.toUpperCase())
     res.status(200).send({
       id: proveedor.id,
       nombreApellido: proveedor.NOMBRE_APELLIDO_PROVEEDOR,
