@@ -1,8 +1,8 @@
-const express = require('express');
-const router = express.Router();
+const express = require('express')
+const router = express.Router()
 
-const {getProvincias} = require('../controllers/provincias');
+const { getRegion } = require('../controllers/provincias')
 
-router.get('/:code', getProvincias);
+router.get('/:code', getRegion)
 
-module.exports = router;
+module.exports = router

@@ -63,22 +63,23 @@ const getUserById = async (req, res) => {
     ],
   })
 
-  //   let usuarioAMostrar = {
-  //     id: user.id,
-  //     nombre_apellido_usuario: user.NOMBRE_APELLIDO_USUARIO,
-  //     email: user.EMAIL,
-  //     celular: user.CELULAR,
-  //     imagen: user.IMAGEN,
-  //     fecha_nacimiento: user.FECHA_NACIMIENTO,
-  //     calificacion: user.CALIFICACION,
-  //     status: user.status,
-  //     creation_date: user.createdAt,
-  //     pais: user.Pai.NOMBRE_PAIS,
-  //     provincia: user.Provincium.NOMBRE_PROVINCIA,
-  //     ciudad: user.Ciudad.NOMBRE_CIUDAD,
-  //   }
+  let usuarioAMostrar = {
+    id: user.id,
+    nombre_apellido_usuario: user.NOMBRE_APELLIDO_USUARIO,
+    email: user.EMAIL,
+    celular: user.CELULAR,
+    imagen: user.IMAGEN,
+    fecha_nacimiento: user.FECHA_NACIMIENTO,
+    calificacion: user.CALIFICACION,
+    creation_date: user.createdAt,
+    pais: user.Pai ? user.Pai.NOMBRE_PAIS : 'Sin definir',
+    provincia: user.Provincium
+      ? user.Provincium.NOMBRE_PROVINCIA
+      : 'Sin definir',
+    ciudad: user.Ciudad ? user.Ciudad.NOMBRE_CIUDAD : 'Sin definir',
+  }
 
-  //   res.status(200).send(usuarioAMostrar)
+  res.status(200).send(usuarioAMostrar)
 }
 
 const allAccess = (req, res) => {
@@ -138,7 +139,6 @@ const moderatorBoard = (req, res) => {
 }
 
 module.exports = {
-  createUsuario,
   getUserById,
   allAccess,
   userBoard,
