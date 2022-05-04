@@ -91,10 +91,10 @@ export default function NavBar() {
 
         <Modal show={showLogin} onHide={handleCloseLogin}>
           <Modal.Header closeButton>
-            {/* <Modal.Title>
+            <Modal.Title>
               
-              <h5>Inicia sesión</h5>
-            </Modal.Title> */}
+              <h5>Iniciar sesión</h5>
+            </Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Login isModal={true}/>

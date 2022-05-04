@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import styles from "../styles/register.module.css";
-import {Modal, Button} from 'react-bootstrap'
+import {Modal, Button} from 'react-bootstrap';
+import { Link } from 'react-router-dom'
 
 export default function Register() {
 
@@ -36,7 +37,7 @@ export default function Register() {
 
                 <div className="text-center mt-3"> <span>O registrate usando:</span> </div>
                 <div className="d-flex justify-content-center mt-4"> <span className={styles.social}><i className="fa fa-google"></i></span> <span className={styles.social}><i className="fa fa-facebook"></i></span> <span className={styles.social}><i className="fa fa-linkedin"></i></span> </div>
-                <div className="text-center mt-4"> <span>¿Ya estás registrado?</span> <a href="#" className="text-decoration-none">Inicia sesión</a> </div>
+                <div className="text-center mt-4"> <span>¿Ya estás registrado?</span> <Link to="/login" className="text-decoration-none">Inicia sesión</Link> </div>
             </div>
         </div>
     </div>
