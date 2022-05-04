@@ -1,40 +1,5 @@
 const { Usuario, Ciudad, Provincia, Pais } = require('../db')
 
- const createUsuario = async (req, res) => {
-   let {
-     nombre,
-     apellido,
-     password,
-     email,
-     imagen,
-     fecha_nacimiento,
-     pais,
-     provincia,
-     ciudad,
-     celular,
-   } = req.body
-   let newUsuario = await Usuario.create({
-     NOMBRE_APELLIDO_USUARIO: `${nombre} ${apellido}`,
-     PASSWORD: password,
-     EMAIL: email,
-     IMAGEN: imagen,
-     FECHA_NACIMIENTO: fecha_nacimiento,
-     CELULAR: celular
-   })
-   let paisDisp = await Pais.findOne({
-     where: { NOMBRE_PAIS: pais },
-   })
-   let provinciasDisp = await Provincia.findOne({
-     where: { NOMBRE_PROVINCIA: provincia },
-   })
-   let ciudadesDisp = await Ciudad.findOne({
-     where: { NOMBRE_CIUDAD: ciudad },
-   })
-   newUsuario.setPai(paisDisp)
-   newUsuario.setProvincium(provinciasDisp)
-   newUsuario.setCiudad(ciudadesDisp)
-   res.status(201).send('Usuario creado')
- }
 
 const getUserById = async (req, res) => {
   const { id } = req.params
@@ -57,22 +22,23 @@ const getUserById = async (req, res) => {
     ],
   })
 
-  //   let usuarioAMostrar = {
-  //     id: user.id,
-  //     nombre_apellido_usuario: user.NOMBRE_APELLIDO_USUARIO,
-  //     email: user.EMAIL,
-  //     celular: user.CELULAR,
-  //     imagen: user.IMAGEN,
-  //     fecha_nacimiento: user.FECHA_NACIMIENTO,
-  //     calificacion: user.CALIFICACION,
-  //     status: user.status,
-  //     creation_date: user.createdAt,
-  //     pais: user.Pai.NOMBRE_PAIS,
-  //     provincia: user.Provincium.NOMBRE_PROVINCIA,
-  //     ciudad: user.Ciudad.NOMBRE_CIUDAD,
-  //   }
+  let usuarioAMostrar = {
+    id: user.id,
+    nombre_apellido_usuario: user.NOMBRE_APELLIDO_USUARIO,
+    email: user.EMAIL,
+    celular: user.CELULAR,
+    imagen: user.IMAGEN,
+    fecha_nacimiento: user.FECHA_NACIMIENTO,
+    calificacion: user.CALIFICACION,
+    creation_date: user.createdAt,
+    pais: user.Pai ? user.Pai.NOMBRE_PAIS : 'Sin definir',
+    provincia: user.Provincium
+      ? user.Provincium.NOMBRE_PROVINCIA
+      : 'Sin definir',
+    ciudad: user.Ciudad ? user.Ciudad.NOMBRE_CIUDAD : 'Sin definir',
+  }
 
-  //   res.status(200).send(usuarioAMostrar)
+  res.status(200).send(usuarioAMostrar)
 }
 
 const allAccess = (req, res) => {
@@ -132,7 +98,6 @@ const moderatorBoard = (req, res) => {
 }
 
 module.exports = {
-  createUsuario,
   getUserById,
   allAccess,
   userBoard,

@@ -12,121 +12,6 @@ const {
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 
-const createProv = async (req, res) => {
-  let {
-    nombre,
-    apellido,
-    password,
-    email,
-    imagen,
-    fecha_nacimiento,
-    servicios,
-    pais,
-    provincia,
-    ciudad,
-  } = req.body
-
-  servicios?.length === 0 || servicios == null
-    ? (servicios = [
-        {
-          NOMBRE_SERVICIO: 'Sin servicios disponibles',
-          REMOTE: true,
-          PRECIO: NaN,
-          DESCRIPCION: '',
-        },
-      ])
-    : servicios
-
-  let arrayServicios = servicios.map((servicio) => {
-    return {
-      NOMBRE_SERVICIO: servicio.NOMBRE_SERVICIO,
-      REMOTE: servicio.REMOTE ? true : false,
-    }
-  })
-
-  let arrayPrecios = servicios.map((servicio) => servicio.PRECIO)
-  let arrayDescripcion = servicios.map((servicio) => servicio.DESCRIPCION)
-
-  let newProveedor = await Proveedor.create({
-    NOMBRE_APELLIDO_PROVEEDOR: `${nombre} ${apellido}`,
-    PASSWORD: password,
-    EMAIL: email,
-    IMAGEN: imagen,
-    FECHA_NACIMIENTO: fecha_nacimiento,
-  })
-
-  let serviciosDisp = await Servicio.findAll({
-    where: {
-      [Op.or]: arrayServicios,
-    },
-  })
-
-  let paisDisp = await Pais.findOne({
-    where: { NOMBRE_PAIS: pais },
-  })
-
-  let provinciasDisp = await Provincia.findOne({
-    where: { NOMBRE_PROVINCIA: provincia },
-  })
-
-  let ciudadesDisp = await Ciudad.findOne({
-    where: { NOMBRE_CIUDAD: ciudad },
-  })
-  
-  let roleDisp = await Role.findOne({
-    where: {id: 2}
-  })
-  
-  newProveedor.addRole(roleDisp)
-  newProveedor.addServicios(serviciosDisp)
-  newProveedor.setPai(paisDisp)
-  newProveedor.setProvincium(provinciasDisp)
-  newProveedor.setCiudad(ciudadesDisp)
-
-  for (let i = 0; i < arrayPrecios.length; i++) {
-    let [p, _created] = await Precio.findOrCreate({
-      where: {
-        PRECIO: arrayPrecios[i],
-      },
-    })
-    let proovedor = await Proveedor.findOne({ where: { EMAIL: email } })
-    let servicio = await Servicio.findOne({
-      where: {
-        NOMBRE_SERVICIO: arrayServicios[i].NOMBRE_SERVICIO,
-        REMOTE: arrayServicios[i].REMOTE,
-      },
-    })
-    let proveedor_servicio = await Proveedor_Servicio.findOne({
-      where: {
-        ProveedorId: proovedor.id,
-        ServicioId: servicio.id,
-      },
-    })
-    proveedor_servicio.setPrecio(p)
-  }
-
-  for (let i = 0; i < arrayDescripcion.length; i++) {
-    let d = await Descripcion.create({
-      DESCRIPCION: arrayDescripcion[i],
-    })
-    let proovedor = await Proveedor.findOne({ where: { EMAIL: email } })
-    let servicio = await Servicio.findOne({
-      where: {
-        NOMBRE_SERVICIO: arrayServicios[i].NOMBRE_SERVICIO,
-        REMOTE: arrayServicios[i].REMOTE,
-      },
-    })
-    let proveedor_servicio = await Proveedor_Servicio.findOne({
-      where: {
-        ProveedorId: proovedor.id,
-        ServicioId: servicio.id,
-      },
-    })
-    proveedor_servicio.setDescripcion(d)
-  }
-
-  return res.status(201).send({ msg: 'Proveedor creado' })
-}
 
 const getProv = async (req, res, next) => {
   try {
@@ -270,7 +155,6 @@ const getProvByID = async (req, res, next) => {
       imagen: proveedor.IMAGEN,
       fecha_nacimiento: proveedor.FECHA_NACIMIENTO,
       calificacion: proveedor.CALIFICACION,
-      status: proveedor.STATUS,
       creation_date: proveedor.createdAt,
       ciudad: proveedor.Ciudad ? proveedor.Ciudad.NOMBRE_CIUDAD : 'Sin definir',
       provincia: proveedor.Provincium
@@ -396,7 +280,6 @@ const updateProvServices = async (req, res, next) => {
   }
 }
 module.exports = {
-  createProv,
   getProv,
   getProvByID,
   deleteServicio_Prov,

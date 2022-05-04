@@ -1,5 +1,5 @@
 const ROLES = ['user', 'admin', 'moderator', 'proveedor']
-const { Proveedor } = require('../db')
+const { Proveedor, Usuario } = require('../db')
 
 checkDuplicateEmailOnProveedores = (req, res, next) => {
   //Username
@@ -17,6 +17,36 @@ checkDuplicateEmailOnProveedores = (req, res, next) => {
 
   //Email
   Proveedor.findOne({
+    where: {
+      EMAIL: req.body.email,
+    },
+  }).then((proveedor) => {
+    if (proveedor) {
+      res.status(400).send({
+        message: '¡Error! ¡El email provisto ya se encuentra en uso!',
+      })
+      return
+    }
+    next()
+  })
+  // })
+}
+checkDuplicateEmailOnUsuarios = (req, res, next) => {
+  //Username
+  // Usuarios.findOne({
+  //   where: {
+  //     usuario: req.body.usuario,
+  //   },
+  // }).then((user) => {
+  //   if (user) {
+  //     res.status(400).send({
+  //       message: '¡Error! ¡El nombre de usuario ya se encuentra en uso!',
+  //     })
+  //     return
+  //   }
+
+  //Email
+  Usuario.findOne({
     where: {
       EMAIL: req.body.email,
     },
@@ -48,6 +78,7 @@ checkRolesExisted = (req, res, next) => {
 
 const veryfySignUp = {
   checkDuplicateEmailOnProveedores: checkDuplicateEmailOnProveedores,
+  checkDuplicateEmailOnUsuarios: checkDuplicateEmailOnUsuarios,
   checkRolesExisted: checkRolesExisted,
 }
 
