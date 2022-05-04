@@ -76,7 +76,7 @@ export default function Profile() {
                 <ProfileEditInfo changeForm={setEditing} />
                 ) : (
                   <ProfileShowInfo changeForm={setEditing} />
-                  )}
+                )}
 
               {/* CUADRO DE MIS EMPLEADORES Y MIS EMPLEADOS */}
 

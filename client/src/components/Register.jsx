@@ -26,13 +26,12 @@ export default function Register() {
                         <select className={styles.selectArea}name="role" id="role">
                         <option value="hire">Contratar servicios</option>
                         <option value="offer">Vender mis servicios</option>
-                        <option value="both">Ambos</option>
                         </select>
                     
                     
                     </div>
                     <div className="form-check d-flex justify-content-center"> <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked" /> <label className={styles.formCheckLabel} htmlFor="flexCheckChecked"> Acepto todas las condiciones </label> </div> 
-                    <button className={`btn btn-primary mt-4 ${styles.signup}`}>Confirmar registro</button>
+                    <button className={`btn btn-success mt-4 ${styles.signup}`}>Confirmar registro</button>
                 </div>
 
                 <div className="text-center mt-3"> <span>O registrate usando:</span> </div>
