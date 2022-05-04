@@ -7,7 +7,7 @@ export default function About() {
     <>
       <div className={`container-fluid`}>
         <div
-          className={`container  mb-3`}
+          className={`container  mb-3 `}
           style={{
             backgroundColor: 'aliceBlue',
             margin: 'auto',
@@ -49,7 +49,7 @@ export default function About() {
             flexWrap: 'wrap',
           }}>
           <div
-            className={`card mb-3`}
+            className={`card mb-3 ${styles.card}`}
             style={{
               margin: '20px',
               width: '350px',
