@@ -1,8 +1,3 @@
-let pais = [
-  { id: 1, nombre: 'Argentina' },
-  { id: 2, nombre: 'Uruguay' },
-  { id: 3, nombre: 'Mexico' },
-]
 
 let provincia = [
   { id: 1, nombre: 'Catamarca', idPais: 1 },
@@ -9672,8 +9667,7 @@ let ciudad = [
     idProv: 63,
   },
   {
-    nombre:
-      'Heroica Villa Tezoatlan de Segura y Luna, Cuna de la Independencia de Oaxaca',
+    nombre: 'Heroica Villa Tezoatlan de Segura y Luna, Cuna de la Independencia de Oaxaca',
     latitud: '17.59159088',
     longitud: '-97.84606171',
     idProv: 63,
@@ -18223,3 +18217,8 @@ let ciudad = [
     idProv: 75,
   },
 ]
+
+module.exports = {
+  provincia,
+  ciudad,
+}

@@ -1,6 +1,10 @@
 const { Pais, Servicio, Role } = require('../db')
 
-const paises = ['Argentina', 'Uruguay', 'Mexico']
+let pais = [
+  { id: 1, nombre: 'Argentina' },
+  { id: 2, nombre: 'Uruguay' },
+  { id: 3, nombre: 'Mexico' },
+]
 const servicios = [
   { NOMBRE_SERVICIO: 'Sin servicios disponibles', REMOTE: true },
   { NOMBRE_SERVICIO: 'Profesor de Fisica', REMOTE: true },
@@ -21,10 +25,11 @@ const servicios = [
 ]
 
 function paisesDb() {
-  paises.forEach((pais) => {
+  pais.forEach((pais) => {
     Pais.findOrCreate({
       where: {
-        NOMBRE_PAIS: pais,
+        NOMBRE_PAIS: pais.nombre,
+        id: pais.id,
       },
     })
   })
