@@ -5,12 +5,17 @@ import { NavLink } from "react-router-dom";
 import { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import Register from "./Register";
+import Login from "./Login";
 
 export default function NavBar() {
-  const [show, setShow] = useState(false);
+  const [showRegister, setShowRegister] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleCloseRegister = () => setShowRegister(false);
+  const handleShowRegister = () => setShowRegister(true);
+
+  const handleCloseLogin = () => setShowLogin(false);
+  const handleShowLogin = () => setShowLogin(true);
 
   return (
     <div className={`d-flex container justify-content-center`} style={{backgroundColor: 'transparent'}}>
@@ -43,10 +48,10 @@ export default function NavBar() {
       </div>
 
 
-      {/* <div className="d-flex align-items-center justify-content-center text-center" style={{flexDirection:'column'}}>
+      <div className="d-flex align-items-center justify-content-center text-center" style={{flexDirection:'column'}}>
         <Button
           variant="primary"
-          onClick={handleShow}
+          onClick={handleShowRegister}
           className="btn btn-primary"
           style={{
             color: "white",
@@ -58,19 +63,20 @@ export default function NavBar() {
         >
           REGISTRATE
         </Button>
-        <a href="/login" className="link-success">
+        <a href="#" className="link-success">
           <p
             style={{
               margin: "0px",
               fontSize: "0.6rem",
               textDecoration: "underline",
             }}
+            onClick={handleShowLogin}
             >
             ¿Ya estás registrado? Inicia sesión
           </p>
         </a>
 
-        <Modal show={show} onHide={handleClose}>
+        <Modal show={showRegister} onHide={handleCloseRegister}>
           <Modal.Header closeButton>
             <Modal.Title>
               {" "}
@@ -80,16 +86,22 @@ export default function NavBar() {
           <Modal.Body>
             <Register />
           </Modal.Body> 
-          {/* <Modal.Footer> */}
-          {/* <Button variant="danger" onClick={handleClose}>
-            Cerrar
-            </Button>
-            <Button variant="success" onClick={handleClose}>
-            Registrarse
-          </Button> */}
-          {/* </Modal.Footer> 
+
         </Modal>
-      </div>*/}
+
+        <Modal show={showLogin} onHide={handleCloseLogin}>
+          <Modal.Header closeButton>
+            {/* <Modal.Title>
+              
+              <h5>Inicia sesión</h5>
+            </Modal.Title> */}
+          </Modal.Header>
+          <Modal.Body>
+            <Login isModal={true}/>
+          </Modal.Body> 
+
+        </Modal>
+      </div>
     </div>
             </div>
   );
