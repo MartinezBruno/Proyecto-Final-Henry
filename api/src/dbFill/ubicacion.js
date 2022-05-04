@@ -1,4 +1,3 @@
-
 let provincia = [
   { id: 1, nombre: 'Catamarca', idPais: 1 },
   { id: 2, nombre: 'Chaco', idPais: 1 },
@@ -115,7 +114,7 @@ let ciudad = [
     idProv: 1,
   },
   {
-    nombre: 'Departamento de Capital',
+    nombre: 'Departamento de Capital(1)',
     latitud: '-28.41666985',
     longitud: '-65.80000305',
     idProv: 1,
@@ -133,7 +132,7 @@ let ciudad = [
     idProv: 1,
   },
   {
-    nombre: 'Departamento de La Paz',
+    nombre: 'Departamento de La Paz(1)',
     latitud: '-29.25000000',
     longitud: '-65.25000000',
     idProv: 1,
@@ -151,13 +150,13 @@ let ciudad = [
     idProv: 1,
   },
   {
-    nombre: 'Departamento de Santa Maria',
+    nombre: 'Departamento de Santa Maria(1)',
     latitud: '-26.66666985',
     longitud: '-66.41667175',
     idProv: 1,
   },
   {
-    nombre: 'Departamento de Santa Rosa',
+    nombre: 'Departamento de Santa Rosa(1)',
     latitud: '-28.08333015',
     longitud: '-65.25000000',
     idProv: 1,
@@ -187,7 +186,7 @@ let ciudad = [
     idProv: 2,
   },
   {
-    nombre: 'Departamento de Bermejo',
+    nombre: 'Departamento de Bermejo(2)',
     latitud: '-27.00000000',
     longitud: '-58.66667175',
     idProv: 2,
@@ -211,7 +210,7 @@ let ciudad = [
     idProv: 2,
   },
   {
-    nombre: 'Departamento de General Belgrano',
+    nombre: 'Departamento de General Belgrano(2)',
     latitud: '-26.91666985',
     longitud: '-61.00000000',
     idProv: 2,
@@ -223,25 +222,25 @@ let ciudad = [
     idProv: 2,
   },
   {
-    nombre: 'Departamento de General Gueemes',
+    nombre: 'Departamento de General Gueemes(2)',
     latitud: '-25.16666985',
     longitud: '-61.41667175',
     idProv: 2,
   },
   {
-    nombre: 'Departamento de Independencia',
+    nombre: 'Departamento de Independencia(2)',
     latitud: '-26.66666985',
     longitud: '-60.66667175',
     idProv: 2,
   },
   {
-    nombre: 'Departamento de Libertador General San Martin',
+    nombre: 'Departamento de Libertador General San Martin(2)',
     latitud: '-26.33333015',
     longitud: '-59.41667175',
     idProv: 2,
   },
   {
-    nombre: 'Departamento de Maipu',
+    nombre: 'Departamento de Maipu(2)',
     latitud: '-26.33333015',
     longitud: '-60.41667175',
     idProv: 2,
@@ -253,7 +252,7 @@ let ciudad = [
     idProv: 2,
   },
   {
-    nombre: 'Departamento de Nueve de Julio',
+    nombre: 'Departamento de Nueve de Julio(2)',
     latitud: '-26.95331001',
     longitud: '-61.27627182',
     idProv: 2,
@@ -283,7 +282,7 @@ let ciudad = [
     idProv: 2,
   },
   {
-    nombre: 'Departamento de San Lorenzo',
+    nombre: 'Departamento de San Lorenzo(2)',
     latitud: '-27.33333015',
     longitud: '-60.41667175',
     idProv: 2,
@@ -379,7 +378,7 @@ let ciudad = [
     idProv: 3,
   },
   {
-    nombre: 'Departamento de Rawson',
+    nombre: 'Departamento de Rawson(3)',
     latitud: '-43.12342072',
     longitud: '-65.10179138',
     idProv: 3,
@@ -391,7 +390,7 @@ let ciudad = [
     idProv: 3,
   },
   {
-    nombre: 'Departamento de Sarmiento',
+    nombre: 'Departamento de Sarmiento(3)',
     latitud: '-45.33332825',
     longitud: '-69.00000000',
     idProv: 3,
@@ -505,13 +504,13 @@ let ciudad = [
     idProv: 5,
   },
   {
-    nombre: 'Departamento de Capital',
+    nombre: 'Departamento de Capital(5)',
     latitud: '-31.41666985',
     longitud: '-64.19999695',
     idProv: 5,
   },
   {
-    nombre: 'Departamento de Colon',
+    nombre: 'Departamento de Colon(5)',
     latitud: '-31.16666985',
     longitud: '-64.16667175',
     idProv: 5,
@@ -523,13 +522,13 @@ let ciudad = [
     idProv: 5,
   },
   {
-    nombre: 'Departamento de General Roca',
+    nombre: 'Departamento de General Roca(5)',
     latitud: '-34.66667175',
     longitud: '-64.25000000',
     idProv: 5,
   },
   {
-    nombre: 'Departamento de General San Martin',
+    nombre: 'Departamento de General San Martin(5)',
     latitud: '-32.50000000',
     longitud: '-63.33332825',
     idProv: 5,
@@ -553,7 +552,7 @@ let ciudad = [
     idProv: 5,
   },
   {
-    nombre: 'Departamento de Minas',
+    nombre: 'Departamento de Minas(5)',
     latitud: '-31.00000000',
     longitud: '-65.33332825',
     idProv: 5,
@@ -595,13 +594,13 @@ let ciudad = [
     idProv: 5,
   },
   {
-    nombre: 'Departamento de San Javier',
+    nombre: 'Departamento de San Javier(5)',
     latitud: '-32.08332825',
     longitud: '-65.16667175',
     idProv: 5,
   },
   {
-    nombre: 'Departamento de San Justo',
+    nombre: 'Departamento de San Justo(5)',
     latitud: '-31.33333015',
     longitud: '-62.66667175',
     idProv: 5,
@@ -655,7 +654,7 @@ let ciudad = [
     idProv: 6,
   },
   {
-    nombre: 'Departamento de Capital',
+    nombre: 'Departamento de Capital(6)',
     latitud: '-27.50000000',
     longitud: '-58.75000000',
     idProv: 6,
@@ -685,7 +684,7 @@ let ciudad = [
     idProv: 6,
   },
   {
-    nombre: 'Departamento de General Alvear',
+    nombre: 'Departamento de General Alvear(6)',
     latitud: '-28.83333015',
     longitud: '-56.50000000',
     idProv: 6,
@@ -715,7 +714,7 @@ let ciudad = [
     idProv: 6,
   },
   {
-    nombre: 'Departamento de Lavalle',
+    nombre: 'Departamento de Lavalle(6)',
     latitud: '-29.00000000',
     longitud: '-58.91667175',
     idProv: 6,
@@ -763,7 +762,7 @@ let ciudad = [
     idProv: 6,
   },
   {
-    nombre: 'Departamento de San Martin',
+    nombre: 'Departamento de San Martin(6)',
     latitud: '-28.83333015',
     longitud: '-56.91667175',
     idProv: 6,
@@ -847,7 +846,7 @@ let ciudad = [
     idProv: 7,
   },
   {
-    nombre: 'Departamento de La Paz',
+    nombre: 'Departamento de La Paz(7)',
     latitud: '-30.83333015',
     longitud: '-59.41667175',
     idProv: 7,
@@ -991,13 +990,13 @@ let ciudad = [
     idProv: 9,
   },
   {
-    nombre: 'Departamento de San Antonio',
+    nombre: 'Departamento de San Antonio(9)',
     latitud: '-24.33333015',
     longitud: '-65.50000000',
     idProv: 9,
   },
   {
-    nombre: 'Departamento de San Pedro',
+    nombre: 'Departamento de San Pedro(9)',
     latitud: '-24.33333015',
     longitud: '-64.83332825',
     idProv: 9,
@@ -1057,7 +1056,7 @@ let ciudad = [
     idProv: 10,
   },
   {
-    nombre: 'Departamento de Capital',
+    nombre: 'Departamento de Capital(10)',
     latitud: '-36.50000000',
     longitud: '-64.25000000',
     idProv: 10,
@@ -1183,7 +1182,7 @@ let ciudad = [
     idProv: 11,
   },
   {
-    nombre: 'Departamento de Capital',
+    nombre: 'Departamento de Capital(11)',
     latitud: '-29.33333015',
     longitud: '-66.33332825',
     idProv: 11,
@@ -1285,7 +1284,7 @@ let ciudad = [
     idProv: 11,
   },
   {
-    nombre: 'Departamento de Capital',
+    nombre: 'Departamento de Capital(12)',
     latitud: '-32.88468933',
     longitud: '-68.85826111',
     idProv: 12,
@@ -1309,7 +1308,7 @@ let ciudad = [
     idProv: 12,
   },
   {
-    nombre: 'Departamento de Junin',
+    nombre: 'Departamento de Junin(12)',
     latitud: '-33.13299942',
     longitud: '-68.52156830',
     idProv: 12,
@@ -1351,19 +1350,19 @@ let ciudad = [
     idProv: 12,
   },
   {
-    nombre: 'Departamento de Rivadavia',
+    nombre: 'Departamento de Rivadavia(12)',
     latitud: '-33.18000031',
     longitud: '-68.46600342',
     idProv: 12,
   },
   {
-    nombre: 'Departamento de San Carlos',
+    nombre: 'Departamento de San Carlos(12)',
     latitud: '-34.00000000',
     longitud: '-69.00000000',
     idProv: 12,
   },
   {
-    nombre: 'Departamento de San Martin',
+    nombre: 'Departamento de San Martin(12)',
     latitud: '-32.83729935',
     longitud: '-68.24922180',
     idProv: 12,
@@ -1411,7 +1410,7 @@ let ciudad = [
     idProv: 13,
   },
   {
-    nombre: 'Departamento de Capital',
+    nombre: 'Departamento de Capital(13)',
     latitud: '-27.50000000',
     longitud: '-55.83332825',
     idProv: 13,
@@ -1453,7 +1452,7 @@ let ciudad = [
     idProv: 13,
   },
   {
-    nombre: 'Departamento de Libertador General San Martin',
+    nombre: 'Departamento de Libertador General San Martin(13)',
     latitud: '-26.91666985',
     longitud: '-54.91667175',
     idProv: 13,
@@ -1477,7 +1476,7 @@ let ciudad = [
     idProv: 13,
   },
   {
-    nombre: 'Departamento de San Javier',
+    nombre: 'Departamento de San Javier(13)',
     latitud: '-27.77806091',
     longitud: '-55.13003922',
     idProv: 13,
@@ -1489,7 +1488,7 @@ let ciudad = [
     idProv: 13,
   },
   {
-    nombre: 'Departamento de Veinticinco de Mayo',
+    nombre: 'Departamento de Veinticinco de Mayo(13)',
     latitud: '-27.41666985',
     longitud: '-54.66667175',
     idProv: 13,
@@ -2407,7 +2406,7 @@ let ciudad = [
     idProv: 16,
   },
   {
-    nombre: 'Departamento de Avellaneda',
+    nombre: 'Departamento de Avellaneda(16)',
     latitud: '-39.50000000',
     longitud: '-66.50000000',
     idProv: 16,
@@ -2443,7 +2442,7 @@ let ciudad = [
     idProv: 16,
   },
   {
-    nombre: 'Departamento de Nueve de Julio',
+    nombre: 'Departamento de Nueve de Julio(16)',
     latitud: '-41.00000000',
     longitud: '-67.25000000',
     idProv: 16,
@@ -2473,7 +2472,7 @@ let ciudad = [
     idProv: 16,
   },
   {
-    nombre: 'Departamento de Veinticinco de Mayo',
+    nombre: 'Departamento de Veinticinco de Mayo(16)',
     latitud: '-41.25000000',
     longitud: '-69.00000000',
     idProv: 16,
@@ -2575,7 +2574,7 @@ let ciudad = [
     idProv: 17,
   },
   {
-    nombre: 'Departamento de Rivadavia',
+    nombre: 'Departamento de Rivadavia(17)',
     latitud: '-23.66666985',
     longitud: '-62.91667175',
     idProv: 17,
@@ -2635,7 +2634,7 @@ let ciudad = [
     idProv: 18,
   },
   {
-    nombre: 'Departamento de Capital',
+    nombre: 'Departamento de Capital(18)',
     latitud: '-31.53333092',
     longitud: '-68.53333282',
     idProv: 18,
@@ -2665,7 +2664,7 @@ let ciudad = [
     idProv: 18,
   },
   {
-    nombre: 'Departamento de Nueve de Julio',
+    nombre: 'Departamento de Nueve de Julio(18)',
     latitud: '-31.65072060',
     longitud: '-68.38925171',
     idProv: 18,
@@ -2683,13 +2682,13 @@ let ciudad = [
     idProv: 18,
   },
   {
-    nombre: 'Departamento de Rivadavia',
+    nombre: 'Departamento de Rivadavia(18)',
     latitud: '-31.56450081',
     longitud: '-68.65219116',
     idProv: 18,
   },
   {
-    nombre: 'Departamento de San Martin',
+    nombre: 'Departamento de San Martin(18)',
     latitud: '-31.50000000',
     longitud: '-68.25000000',
     idProv: 18,
@@ -2701,7 +2700,7 @@ let ciudad = [
     idProv: 18,
   },
   {
-    nombre: 'Departamento de Sarmiento',
+    nombre: 'Departamento de Sarmiento(18)',
     latitud: '-32.00000000',
     longitud: '-68.66667175',
     idProv: 18,
@@ -2743,7 +2742,7 @@ let ciudad = [
     idProv: 19,
   },
   {
-    nombre: 'Departamento de Belgrano',
+    nombre: 'Departamento de Belgrano(19)',
     latitud: '-32.75000000',
     longitud: '-66.75000000',
     idProv: 19,
@@ -2821,13 +2820,13 @@ let ciudad = [
     idProv: 20,
   },
   {
-    nombre: 'Departamento de Rio Chico',
+    nombre: 'Departamento de Rio Chico(20)',
     latitud: '-48.25000000',
     longitud: '-71.00000000',
     idProv: 20,
   },
   {
-    nombre: 'Departamento de Belgrano',
+    nombre: 'Departamento de Belgrano(21)',
     latitud: '-32.50000000',
     longitud: '-61.75000000',
     idProv: 21,
@@ -2887,7 +2886,7 @@ let ciudad = [
     idProv: 21,
   },
   {
-    nombre: 'Departamento de San Martin',
+    nombre: 'Departamento de San Martin(21)',
     latitud: '-32.00000000',
     longitud: '-61.83332825',
     idProv: 21,
@@ -2929,7 +2928,7 @@ let ciudad = [
     idProv: 21,
   },
   {
-    nombre: 'Rosario',
+    nombre: 'Rosario(21)',
     latitud: '-33.16667175',
     longitud: '-60.75000000',
     idProv: 21,
@@ -2977,7 +2976,7 @@ let ciudad = [
     idProv: 22,
   },
   {
-    nombre: 'Departamento de Capital',
+    nombre: 'Departamento de Capital(22)',
     latitud: '-27.83333015',
     longitud: '-64.50000000',
     idProv: 22,
@@ -3229,109 +3228,109 @@ let ciudad = [
     idProv: 24,
   },
   {
-    nombre: 'Sin definir',
+    nombre: 'Sin definir(25)',
     latitud: 'Sin definir',
     longitud: 'Sin definir',
     idProv: 25,
   },
   {
-    nombre: 'Sin definir',
+    nombre: 'Sin definir(26)',
     latitud: 'Sin definir',
     longitud: 'Sin definir',
     idProv: 26,
   },
   {
-    nombre: 'Sin definir',
+    nombre: 'Sin definir(27)',
     latitud: 'Sin definir',
     longitud: 'Sin definir',
     idProv: 27,
   },
   {
-    nombre: 'Sin definir',
+    nombre: 'Sin definir(28)',
     latitud: 'Sin definir',
     longitud: 'Sin definir',
     idProv: 28,
   },
   {
-    nombre: 'Sin definir',
+    nombre: 'Sin definir(29)',
     latitud: 'Sin definir',
     longitud: 'Sin definir',
     idProv: 29,
   },
   {
-    nombre: 'Sin definir',
+    nombre: 'Sin definir(30)',
     latitud: 'Sin definir',
     longitud: 'Sin definir',
     idProv: 30,
   },
   {
-    nombre: 'Sin definir',
+    nombre: 'Sin definir(31)',
     latitud: 'Sin definir',
     longitud: 'Sin definir',
     idProv: 31,
   },
   {
-    nombre: 'Sin definir',
+    nombre: 'Sin definir(32)',
     latitud: 'Sin definir',
     longitud: 'Sin definir',
     idProv: 32,
   },
   {
-    nombre: 'Sin definir',
+    nombre: 'Sin definir(33)',
     latitud: 'Sin definir',
     longitud: 'Sin definir',
     idProv: 33,
   },
   {
-    nombre: 'Sin definir',
+    nombre: 'Sin definir(34)',
     latitud: 'Sin definir',
     longitud: 'Sin definir',
     idProv: 34,
   },
   {
-    nombre: 'Sin definir',
+    nombre: 'Sin definir(35)',
     latitud: 'Sin definir',
     longitud: 'Sin definir',
     idProv: 35,
   },
   {
-    nombre: 'Sin definir',
+    nombre: 'Sin definir(36)',
     latitud: 'Sin definir',
     longitud: 'Sin definir',
     idProv: 36,
   },
   {
-    nombre: 'Sin definir',
+    nombre: 'Sin definir(37)',
     latitud: 'Sin definir',
     longitud: 'Sin definir',
     idProv: 37,
   },
   {
-    nombre: 'Sin definir',
+    nombre: 'Sin definir(38)',
     latitud: 'Sin definir',
     longitud: 'Sin definir',
     idProv: 38,
   },
   {
-    nombre: 'Sin definir',
+    nombre: 'Sin definir(39)',
     latitud: 'Sin definir',
     longitud: 'Sin definir',
     idProv: 39,
   },
   {
-    nombre: 'Sin definir',
+    nombre: 'Sin definir(40)',
     latitud: 'Sin definir',
     longitud: 'Sin definir',
     idProv: 40,
   },
   {
-    nombre: 'Sin definir',
+    nombre: 'Sin definir(41)',
     latitud: 'Sin definir',
     longitud: 'Sin definir',
     idProv: 41,
   },
   {
-    nombre: 'Sin definir',
+    nombre: 'Sin definir(42)',
     latitud: 'Sin definir',
     longitud: 'Sin definir',
     idProv: 42,
@@ -3373,7 +3372,7 @@ let ciudad = [
     idProv: 44,
   },
   {
-    nombre: 'Jesus Maria',
+    nombre: 'Jesus Maria(44)',
     latitud: '21.96666908',
     longitud: '-102.34999847',
     idProv: 44,
@@ -3439,31 +3438,31 @@ let ciudad = [
     idProv: 45,
   },
   {
-    nombre: 'Comondu',
+    nombre: 'Comondu(45)',
     latitud: '26.06666946',
     longitud: '-111.81665802',
     idProv: 45,
   },
   {
-    nombre: 'La Paz',
+    nombre: 'La Paz(45)',
     latitud: '24.13332939',
     longitud: '-110.30000305',
     idProv: 45,
   },
   {
-    nombre: 'Loreto',
+    nombre: 'Loreto(45)',
     latitud: '25.95495987',
     longitud: '-111.45041656',
     idProv: 45,
   },
   {
-    nombre: 'Los Cabos',
+    nombre: 'Los Cabos(45)',
     latitud: '23.27663040',
     longitud: '-109.75321960',
     idProv: 45,
   },
   {
-    nombre: 'Mulege',
+    nombre: 'Mulege(45)',
     latitud: '26.60000038',
     longitud: '-112.33332825',
     idProv: 45,
@@ -3475,13 +3474,13 @@ let ciudad = [
     idProv: 46,
   },
   {
-    nombre: 'La Paz',
+    nombre: 'La Paz(46)',
     latitud: '24.13332939',
     longitud: '-110.30000305',
     idProv: 46,
   },
   {
-    nombre: 'Loreto',
+    nombre: 'Loreto(46)',
     latitud: '25.95495987',
     longitud: '-111.45041656',
     idProv: 46,
@@ -3577,7 +3576,7 @@ let ciudad = [
     idProv: 48,
   },
   {
-    nombre: 'Aldama',
+    nombre: 'Aldama(48)',
     latitud: '16.91666985',
     longitud: '-92.68332672',
     idProv: 48,
@@ -3841,7 +3840,7 @@ let ciudad = [
     idProv: 48,
   },
   {
-    nombre: 'Juarez',
+    nombre: 'Juarez(48)',
     latitud: '17.69379997',
     longitud: '-93.18833923',
     idProv: 48,
@@ -3919,7 +3918,7 @@ let ciudad = [
     idProv: 48,
   },
   {
-    nombre: 'Mazatan',
+    nombre: 'Mazatan(48)',
     latitud: '14.87944984',
     longitud: '-92.46765900',
     idProv: 48,
@@ -3961,7 +3960,7 @@ let ciudad = [
     idProv: 48,
   },
   {
-    nombre: 'Ocotepec',
+    nombre: 'Ocotepec(48)',
     latitud: '17.21915054',
     longitud: '-93.17243958',
     idProv: 48,
@@ -4003,7 +4002,7 @@ let ciudad = [
     idProv: 48,
   },
   {
-    nombre: 'Pantepec',
+    nombre: 'Pantepec(48)',
     latitud: '17.18721008',
     longitud: '-93.05422211',
     idProv: 48,
@@ -4027,7 +4026,7 @@ let ciudad = [
     idProv: 48,
   },
   {
-    nombre: 'Rayon',
+    nombre: 'Rayon(48)',
     latitud: '17.20063019',
     longitud: '-92.99755859',
     idProv: 48,
@@ -4051,7 +4050,7 @@ let ciudad = [
     idProv: 48,
   },
   {
-    nombre: 'San Fernando',
+    nombre: 'San Fernando(48)',
     latitud: '16.90399933',
     longitud: '-93.22281647',
     idProv: 48,
@@ -4063,7 +4062,7 @@ let ciudad = [
     idProv: 48,
   },
   {
-    nombre: 'San Lucas',
+    nombre: 'San Lucas(48)',
     latitud: '16.60112000',
     longitud: '-92.69770813',
     idProv: 48,
@@ -4171,7 +4170,7 @@ let ciudad = [
     idProv: 48,
   },
   {
-    nombre: 'Tonala',
+    nombre: 'Tonala(48)',
     latitud: '15.98274994',
     longitud: '-93.67062378',
     idProv: 48,
@@ -4219,7 +4218,7 @@ let ciudad = [
     idProv: 48,
   },
   {
-    nombre: 'Venustiano Carranza',
+    nombre: 'Venustiano Carranza(48)',
     latitud: '16.32313919',
     longitud: '-92.55844116',
     idProv: 48,
@@ -4261,13 +4260,13 @@ let ciudad = [
     idProv: 49,
   },
   {
-    nombre: 'Aldama',
+    nombre: 'Aldama(49)',
     latitud: '28.93635941',
     longitud: '-105.71098328',
     idProv: 49,
   },
   {
-    nombre: 'Allende',
+    nombre: 'Allende(49)',
     latitud: '27.07786942',
     longitud: '-105.28788757',
     idProv: 49,
@@ -4315,7 +4314,7 @@ let ciudad = [
     idProv: 49,
   },
   {
-    nombre: 'Camargo',
+    nombre: 'Camargo(49)',
     latitud: '27.82905006',
     longitud: '-104.78012085',
     idProv: 49,
@@ -4357,7 +4356,7 @@ let ciudad = [
     idProv: 49,
   },
   {
-    nombre: 'Cuauhtemoc',
+    nombre: 'Cuauhtemoc(49)',
     latitud: '28.57032967',
     longitud: '-106.89646912',
     idProv: 49,
@@ -4387,13 +4386,13 @@ let ciudad = [
     idProv: 49,
   },
   {
-    nombre: 'Galeana',
+    nombre: 'Galeana(49)',
     latitud: '30.10915947',
     longitud: '-107.63166809',
     idProv: 49,
   },
   {
-    nombre: 'Gomez Farias',
+    nombre: 'Gomez Farias(49)',
     latitud: '29.33835983',
     longitud: '-107.71105957',
     idProv: 49,
@@ -4411,7 +4410,7 @@ let ciudad = [
     idProv: 49,
   },
   {
-    nombre: 'Guadalupe',
+    nombre: 'Guadalupe(49)',
     latitud: '30.82736969',
     longitud: '-105.64057159',
     idProv: 49,
@@ -4429,7 +4428,7 @@ let ciudad = [
     idProv: 49,
   },
   {
-    nombre: 'Guerrero',
+    nombre: 'Guerrero(49)',
     latitud: '28.42888069',
     longitud: '-107.50376892',
     idProv: 49,
@@ -4459,13 +4458,13 @@ let ciudad = [
     idProv: 49,
   },
   {
-    nombre: 'Jimenez',
+    nombre: 'Jimenez(49)',
     latitud: '27.12734032',
     longitud: '-104.72872162',
     idProv: 49,
   },
   {
-    nombre: 'Juarez',
+    nombre: 'Juarez(49)',
     latitud: '31.49769974',
     longitud: '-106.51728058',
     idProv: 49,
@@ -4513,7 +4512,7 @@ let ciudad = [
     idProv: 49,
   },
   {
-    nombre: 'Matamoros',
+    nombre: 'Matamoros(49)',
     latitud: '26.74974060',
     longitud: '-105.58923340',
     idProv: 49,
@@ -4525,7 +4524,7 @@ let ciudad = [
     idProv: 49,
   },
   {
-    nombre: 'Morelos',
+    nombre: 'Morelos(49)',
     latitud: '26.60026932',
     longitud: '-107.71208954',
     idProv: 49,
@@ -4555,7 +4554,7 @@ let ciudad = [
     idProv: 49,
   },
   {
-    nombre: 'Ocampo',
+    nombre: 'Ocampo(49)',
     latitud: '28.15826988',
     longitud: '-108.22154999',
     idProv: 49,
@@ -4585,7 +4584,7 @@ let ciudad = [
     idProv: 49,
   },
   {
-    nombre: 'Rosario',
+    nombre: 'Rosario(49)',
     latitud: '27.25616074',
     longitud: '-106.29878235',
     idProv: 49,
@@ -4657,103 +4656,103 @@ let ciudad = [
     idProv: 49,
   },
   {
-    nombre: 'Alvaro Obregon',
+    nombre: 'Alvaro Obregon(50)',
     latitud: '19.37495995',
     longitud: '-99.21975708',
     idProv: 50,
   },
   {
-    nombre: 'Azcapotzalco',
+    nombre: 'Azcapotzalco(50)',
     latitud: '19.48731041',
     longitud: '-99.18766022',
     idProv: 50,
   },
   {
-    nombre: 'Benito Juarez',
+    nombre: 'Benito Juarez(50)',
     latitud: '19.39812088',
     longitud: '-99.15709686',
     idProv: 50,
   },
   {
-    nombre: 'Coyoacan',
+    nombre: 'Coyoacan(50)',
     latitud: '19.34678078',
     longitud: '-99.15968323',
     idProv: 50,
   },
   {
-    nombre: 'Cuajimalpa de Morelos',
+    nombre: 'Cuajimalpa de Morelos(50)',
     latitud: '19.35924911',
     longitud: '-99.28774261',
     idProv: 50,
   },
   {
-    nombre: 'Cuauhtemoc',
+    nombre: 'Cuauhtemoc(50)',
     latitud: '19.44490051',
     longitud: '-99.14302826',
     idProv: 50,
   },
   {
-    nombre: 'Gustavo A. Madero',
+    nombre: 'Gustavo A. Madero(50)',
     latitud: '19.48406982',
     longitud: '-99.11144257',
     idProv: 50,
   },
   {
-    nombre: 'Iztacalco',
+    nombre: 'Iztacalco(50)',
     latitud: '19.39600945',
     longitud: '-99.08191681',
     idProv: 50,
   },
   {
-    nombre: 'Iztapalapa',
+    nombre: 'Iztapalapa(50)',
     latitud: '19.35317993',
     longitud: '-99.05342102',
     idProv: 50,
   },
   {
-    nombre: 'La Magdalena Contreras',
+    nombre: 'La Magdalena Contreras(50)',
     latitud: '19.31495094',
     longitud: '-99.24069977',
     idProv: 50,
   },
   {
-    nombre: 'Miguel Hidalgo',
+    nombre: 'Miguel Hidalgo(50)',
     latitud: '19.40823936',
     longitud: '-99.19212341',
     idProv: 50,
   },
   {
-    nombre: 'Milpa Alta',
+    nombre: 'Milpa Alta(50)',
     latitud: '19.19404984',
     longitud: '-99.02149200',
     idProv: 50,
   },
   {
-    nombre: 'Tlahuac',
+    nombre: 'Tlahuac(50)',
     latitud: '19.27436066',
     longitud: '-99.00277710',
     idProv: 50,
   },
   {
-    nombre: 'Tlalpan',
+    nombre: 'Tlalpan(50)',
     latitud: '19.27873993',
     longitud: '-99.16568756',
     idProv: 50,
   },
   {
-    nombre: 'Venustiano Carranza',
+    nombre: 'Venustiano Carranza(50)',
     latitud: '19.43972015',
     longitud: '-99.11049652',
     idProv: 50,
   },
   {
-    nombre: 'Xochimilco',
+    nombre: 'Xochimilco(50)',
     latitud: '19.27761078',
     longitud: '-99.11591339',
     idProv: 50,
   },
   {
-    nombre: 'Abasolo',
+    nombre: 'Abasolo(51)',
     latitud: '27.14822006',
     longitud: '-101.31285858',
     idProv: 51,
@@ -4765,13 +4764,13 @@ let ciudad = [
     idProv: 51,
   },
   {
-    nombre: 'Allende',
+    nombre: 'Allende(51)',
     latitud: '28.32395935',
     longitud: '-100.88372040',
     idProv: 51,
   },
   {
-    nombre: 'Arteaga',
+    nombre: 'Arteaga(51)',
     latitud: '25.36617088',
     longitud: '-100.65297699',
     idProv: 51,
@@ -4801,7 +4800,7 @@ let ciudad = [
     idProv: 51,
   },
   {
-    nombre: 'Francisco I. Madero',
+    nombre: 'Francisco I. Madero(51)',
     latitud: '25.89769936',
     longitud: '-103.25800323',
     idProv: 51,
@@ -4819,25 +4818,25 @@ let ciudad = [
     idProv: 51,
   },
   {
-    nombre: 'Guerrero',
+    nombre: 'Guerrero(51)',
     latitud: '28.29159927',
     longitud: '-100.43946075',
     idProv: 51,
   },
   {
-    nombre: 'Hidalgo',
+    nombre: 'Hidalgo(51)',
     latitud: '27.84515953',
     longitud: '-99.99407959',
     idProv: 51,
   },
   {
-    nombre: 'Jimenez',
+    nombre: 'Jimenez(51)',
     latitud: '29.06285095',
     longitud: '-100.88292694',
     idProv: 51,
   },
   {
-    nombre: 'Juarez',
+    nombre: 'Juarez(51)',
     latitud: '27.58357048',
     longitud: '-100.64539337',
     idProv: 51,
@@ -4849,7 +4848,7 @@ let ciudad = [
     idProv: 51,
   },
   {
-    nombre: 'Matamoros',
+    nombre: 'Matamoros(51)',
     latitud: '25.55656052',
     longitud: '-103.24755096',
     idProv: 51,
@@ -4861,7 +4860,7 @@ let ciudad = [
     idProv: 51,
   },
   {
-    nombre: 'Morelos',
+    nombre: 'Morelos(51)',
     latitud: '28.38220978',
     longitud: '-100.91674042',
     idProv: 51,
@@ -4885,7 +4884,7 @@ let ciudad = [
     idProv: 51,
   },
   {
-    nombre: 'Ocampo',
+    nombre: 'Ocampo(51)',
     latitud: '27.97680092',
     longitud: '-102.83596039',
     idProv: 51,
@@ -4903,7 +4902,7 @@ let ciudad = [
     idProv: 51,
   },
   {
-    nombre: 'Progreso',
+    nombre: 'Progreso(51)',
     latitud: '27.46270943',
     longitud: '-101.07952118',
     idProv: 51,
@@ -4963,7 +4962,7 @@ let ciudad = [
     idProv: 51,
   },
   {
-    nombre: 'Zaragoza',
+    nombre: 'Zaragoza(51)',
     latitud: '28.72244072',
     longitud: '-101.15434265',
     idProv: 51,
@@ -4993,7 +4992,7 @@ let ciudad = [
     idProv: 52,
   },
   {
-    nombre: 'Cuauhtemoc',
+    nombre: 'Cuauhtemoc(52)',
     latitud: '19.32744026',
     longitud: '-103.60891724',
     idProv: 52,
@@ -5011,7 +5010,7 @@ let ciudad = [
     idProv: 52,
   },
   {
-    nombre: 'Minatitlan',
+    nombre: 'Minatitlan(52)',
     latitud: '19.37166977',
     longitud: '-104.05831909',
     idProv: 52,
@@ -5059,7 +5058,7 @@ let ciudad = [
     idProv: 53,
   },
   {
-    nombre: 'El Oro',
+    nombre: 'El Oro(53)',
     latitud: '25.69219971',
     longitud: '-105.26725006',
     idProv: 53,
@@ -5077,7 +5076,7 @@ let ciudad = [
     idProv: 53,
   },
   {
-    nombre: 'Guadalupe Victoria',
+    nombre: 'Guadalupe Victoria(53)',
     latitud: '24.43403053',
     longitud: '-104.08911133',
     idProv: 53,
@@ -5089,7 +5088,7 @@ let ciudad = [
     idProv: 53,
   },
   {
-    nombre: 'Hidalgo',
+    nombre: 'Hidalgo(53)',
     latitud: '26.02408981',
     longitud: '-104.82823181',
     idProv: 53,
@@ -5137,7 +5136,7 @@ let ciudad = [
     idProv: 53,
   },
   {
-    nombre: 'Ocampo',
+    nombre: 'Ocampo(53)',
     latitud: '26.55250931',
     longitud: '-105.75998688',
     idProv: 53,
@@ -5167,7 +5166,7 @@ let ciudad = [
     idProv: 53,
   },
   {
-    nombre: 'Pueblo Nuevo',
+    nombre: 'Pueblo Nuevo(53)',
     latitud: '23.41404915',
     longitud: '-105.34020996',
     idProv: 53,
@@ -5197,7 +5196,7 @@ let ciudad = [
     idProv: 53,
   },
   {
-    nombre: 'San Juan del Rio',
+    nombre: 'San Juan del Rio(53)',
     latitud: '24.77387047',
     longitud: '-104.49893188',
     idProv: 53,
@@ -5257,13 +5256,13 @@ let ciudad = [
     idProv: 53,
   },
   {
-    nombre: 'Vicente Guerrero',
+    nombre: 'Vicente Guerrero(53)',
     latitud: '23.72172928',
     longitud: '-103.97795868',
     idProv: 53,
   },
   {
-    nombre: 'Abasolo',
+    nombre: 'Abasolo(54)',
     latitud: '20.50580025',
     longitud: '-101.53801727',
     idProv: 54,
@@ -5383,7 +5382,7 @@ let ciudad = [
     idProv: 54,
   },
   {
-    nombre: 'Ocampo',
+    nombre: 'Ocampo(54)',
     latitud: '21.60049057',
     longitud: '-101.46810150',
     idProv: 54,
@@ -5431,7 +5430,7 @@ let ciudad = [
     idProv: 54,
   },
   {
-    nombre: 'San Felipe',
+    nombre: 'San Felipe(54)',
     latitud: '21.45976067',
     longitud: '-101.24397278',
     idProv: 54,
@@ -5461,7 +5460,7 @@ let ciudad = [
     idProv: 54,
   },
   {
-    nombre: 'Santa Catarina',
+    nombre: 'Santa Catarina(54)',
     latitud: '21.15134048',
     longitud: '-100.06954193',
     idProv: 54,
@@ -5497,7 +5496,7 @@ let ciudad = [
     idProv: 54,
   },
   {
-    nombre: 'Tierra Blanca',
+    nombre: 'Tierra Blanca(54)',
     latitud: '21.03067017',
     longitud: '-100.15715790',
     idProv: 54,
@@ -5515,13 +5514,13 @@ let ciudad = [
     idProv: 54,
   },
   {
-    nombre: 'Victoria',
+    nombre: 'Victoria(54)',
     latitud: '21.35448074',
     longitud: '-100.22293854',
     idProv: 54,
   },
   {
-    nombre: 'Villagran',
+    nombre: 'Villagran(54)',
     latitud: '20.53815079',
     longitud: '-100.98278046',
     idProv: 54,
@@ -5623,7 +5622,7 @@ let ciudad = [
     idProv: 55,
   },
   {
-    nombre: 'Benito Juarez',
+    nombre: 'Benito Juarez(55)',
     latitud: '17.10800934',
     longitud: '-100.46762085',
     idProv: 55,
@@ -5659,7 +5658,7 @@ let ciudad = [
     idProv: 55,
   },
   {
-    nombre: 'Cocula',
+    nombre: 'Cocula(55)',
     latitud: '18.14295959',
     longitud: '-99.70452118',
     idProv: 55,
@@ -5893,7 +5892,7 @@ let ciudad = [
     idProv: 55,
   },
   {
-    nombre: 'San Marcos',
+    nombre: 'San Marcos(55)',
     latitud: '16.77271080',
     longitud: '-99.37463379',
     idProv: 55,
@@ -6025,7 +6024,7 @@ let ciudad = [
     idProv: 55,
   },
   {
-    nombre: 'Acatlan',
+    nombre: 'Acatlan(56)',
     latitud: '20.20857048',
     longitud: '-98.44323730',
     idProv: 56,
@@ -6037,7 +6036,7 @@ let ciudad = [
     idProv: 56,
   },
   {
-    nombre: 'Actopan',
+    nombre: 'Actopan(56)',
     latitud: '20.28450966',
     longitud: '-98.91525269',
     idProv: 56,
@@ -6133,19 +6132,19 @@ let ciudad = [
     idProv: 56,
   },
   {
-    nombre: 'El Arenal',
+    nombre: 'El Arenal(56)',
     latitud: '20.21571922',
     longitud: '-98.88839722',
     idProv: 56,
   },
   {
-    nombre: 'Eloxochitlan',
+    nombre: 'Eloxochitlan(56)',
     latitud: '20.72702980',
     longitud: '-98.87693024',
     idProv: 56,
   },
   {
-    nombre: 'Emiliano Zapata',
+    nombre: 'Emiliano Zapata(56)',
     latitud: '19.66143036',
     longitud: '-98.56678009',
     idProv: 56,
@@ -6181,7 +6180,7 @@ let ciudad = [
     idProv: 56,
   },
   {
-    nombre: 'Huehuetla',
+    nombre: 'Huehuetla(56)',
     latitud: '20.53203964',
     longitud: '-98.03311157',
     idProv: 56,
@@ -6235,7 +6234,7 @@ let ciudad = [
     idProv: 56,
   },
   {
-    nombre: 'Metepec',
+    nombre: 'Metepec(56)',
     latitud: '20.26375008',
     longitud: '-98.34365845',
     idProv: 56,
@@ -6595,7 +6594,7 @@ let ciudad = [
     idProv: 57,
   },
   {
-    nombre: 'Atoyac',
+    nombre: 'Atoyac(57)',
     latitud: '19.98456001',
     longitud: '-103.46974945',
     idProv: 57,
@@ -6691,7 +6690,7 @@ let ciudad = [
     idProv: 57,
   },
   {
-    nombre: 'Cuautla',
+    nombre: 'Cuautla(57)',
     latitud: '20.20475960',
     longitud: '-104.47164154',
     idProv: 57,
@@ -6751,7 +6750,7 @@ let ciudad = [
     idProv: 57,
   },
   {
-    nombre: 'Gomez Farias',
+    nombre: 'Gomez Farias(57)',
     latitud: '19.83102989',
     longitud: '-103.44429779',
     idProv: 57,
@@ -6865,7 +6864,7 @@ let ciudad = [
     idProv: 57,
   },
   {
-    nombre: 'Magdalena',
+    nombre: 'Magdalena(57)',
     latitud: '20.91707993',
     longitud: '-104.00833893',
     idProv: 57,
@@ -7021,7 +7020,7 @@ let ciudad = [
     idProv: 57,
   },
   {
-    nombre: 'Santa Maria del Oro',
+    nombre: 'Santa Maria del Oro(57)',
     latitud: '19.53918076',
     longitud: '-102.84976959',
     idProv: 57,
@@ -7099,7 +7098,7 @@ let ciudad = [
     idProv: 57,
   },
   {
-    nombre: 'Tequila',
+    nombre: 'Tequila(57)',
     latitud: '21.07929993',
     longitud: '-103.76528168',
     idProv: 57,
@@ -7123,13 +7122,13 @@ let ciudad = [
     idProv: 57,
   },
   {
-    nombre: 'Toliman',
+    nombre: 'Toliman(57)',
     latitud: '19.57478905',
     longitud: '-103.90727234',
     idProv: 57,
   },
   {
-    nombre: 'Tomatlan',
+    nombre: 'Tomatlan(57)',
     latitud: '19.98213005',
     longitud: '-105.19789886',
     idProv: 57,
@@ -7177,7 +7176,7 @@ let ciudad = [
     idProv: 57,
   },
   {
-    nombre: 'Tuxpan',
+    nombre: 'Tuxpan(57)',
     latitud: '19.48814964',
     longitud: '-103.42742920',
     idProv: 57,
@@ -7213,13 +7212,13 @@ let ciudad = [
     idProv: 57,
   },
   {
-    nombre: 'Villa Guerrero',
+    nombre: 'Villa Guerrero(57)',
     latitud: '22.01013947',
     longitud: '-103.66130066',
     idProv: 57,
   },
   {
-    nombre: 'Villa Hidalgo',
+    nombre: 'Villa Hidalgo(57)',
     latitud: '21.66490936',
     longitud: '-102.57521057',
     idProv: 57,
@@ -7279,7 +7278,7 @@ let ciudad = [
     idProv: 57,
   },
   {
-    nombre: 'Alvaro Obregon',
+    nombre: 'Alvaro Obregon(58)',
     latitud: '19.37495995',
     longitud: '-99.21975708',
     idProv: 58,
@@ -7291,7 +7290,7 @@ let ciudad = [
     idProv: 58,
   },
   {
-    nombre: 'Benito Juarez',
+    nombre: 'Benito Juarez(58)',
     latitud: '19.39812088',
     longitud: '-99.15709686',
     idProv: 58,
@@ -7309,7 +7308,7 @@ let ciudad = [
     idProv: 58,
   },
   {
-    nombre: 'Cuauhtemoc',
+    nombre: 'Cuauhtemoc(58)',
     latitud: '19.44490051',
     longitud: '-99.14302826',
     idProv: 58,
@@ -7363,7 +7362,7 @@ let ciudad = [
     idProv: 58,
   },
   {
-    nombre: 'Venustiano Carranza',
+    nombre: 'Venustiano Carranza(58)',
     latitud: '19.43972015',
     longitud: '-99.11049652',
     idProv: 58,
@@ -7507,7 +7506,7 @@ let ciudad = [
     idProv: 58,
   },
   {
-    nombre: 'Chiautla',
+    nombre: 'Chiautla(58)',
     latitud: '19.54999924',
     longitud: '-98.88063812',
     idProv: 58,
@@ -7555,7 +7554,7 @@ let ciudad = [
     idProv: 58,
   },
   {
-    nombre: 'Coyotepec',
+    nombre: 'Coyotepec(58)',
     latitud: '19.77614975',
     longitud: '-99.20585632',
     idProv: 58,
@@ -7651,7 +7650,7 @@ let ciudad = [
     idProv: 58,
   },
   {
-    nombre: 'Jilotepec',
+    nombre: 'Jilotepec(58)',
     latitud: '20.00716019',
     longitud: '-99.59178162',
     idProv: 58,
@@ -7711,7 +7710,7 @@ let ciudad = [
     idProv: 58,
   },
   {
-    nombre: 'Melchor Ocampo',
+    nombre: 'Melchor Ocampo(58)',
     latitud: '19.70352936',
     longitud: '-99.14286041',
     idProv: 58,
@@ -7729,7 +7728,7 @@ let ciudad = [
     idProv: 58,
   },
   {
-    nombre: 'Morelos',
+    nombre: 'Morelos(58)',
     latitud: '19.74542046',
     longitud: '-99.64687347',
     idProv: 58,
@@ -7807,7 +7806,7 @@ let ciudad = [
     idProv: 58,
   },
   {
-    nombre: 'Rayon',
+    nombre: 'Rayon(58)',
     latitud: '19.13888931',
     longitud: '-99.57704163',
     idProv: 58,
@@ -7909,7 +7908,7 @@ let ciudad = [
     idProv: 58,
   },
   {
-    nombre: 'Tenancingo',
+    nombre: 'Tenancingo(58)',
     latitud: '18.96056938',
     longitud: '-99.57560730',
     idProv: 58,
@@ -8101,7 +8100,7 @@ let ciudad = [
     idProv: 58,
   },
   {
-    nombre: 'Zacualpan',
+    nombre: 'Zacualpan(58)',
     latitud: '18.70187950',
     longitud: '-99.81327057',
     idProv: 58,
@@ -8167,7 +8166,7 @@ let ciudad = [
     idProv: 59,
   },
   {
-    nombre: 'Aquila',
+    nombre: 'Aquila(59)',
     latitud: '18.37585068',
     longitud: '-103.22309875',
     idProv: 59,
@@ -8329,7 +8328,7 @@ let ciudad = [
     idProv: 59,
   },
   {
-    nombre: 'Hidalgo',
+    nombre: 'Hidalgo(59)',
     latitud: '19.58865929',
     longitud: '-100.67089844',
     idProv: 59,
@@ -8383,7 +8382,7 @@ let ciudad = [
     idProv: 59,
   },
   {
-    nombre: 'Jimenez',
+    nombre: 'Jimenez(59)',
     latitud: '19.92391968',
     longitud: '-101.72895050',
     idProv: 59,
@@ -8401,7 +8400,7 @@ let ciudad = [
     idProv: 59,
   },
   {
-    nombre: 'Juarez',
+    nombre: 'Juarez(59)',
     latitud: '19.30397987',
     longitud: '-100.43242645',
     idProv: 59,
@@ -8425,19 +8424,19 @@ let ciudad = [
     idProv: 59,
   },
   {
-    nombre: 'Lagunillas',
+    nombre: 'Lagunillas(59)',
     latitud: '19.57069969',
     longitud: '-101.41941071',
     idProv: 59,
   },
   {
-    nombre: 'Lazaro Cardenas',
+    nombre: 'Lazaro Cardenas(59)',
     latitud: '18.07126045',
     longitud: '-102.38220215',
     idProv: 59,
   },
   {
-    nombre: 'Los Reyes',
+    nombre: 'Los Reyes(59)',
     latitud: '19.64908981',
     longitud: '-102.41364288',
     idProv: 59,
@@ -8467,7 +8466,7 @@ let ciudad = [
     idProv: 59,
   },
   {
-    nombre: 'Morelos',
+    nombre: 'Morelos(59)',
     latitud: '19.99268913',
     longitud: '-101.43650818',
     idProv: 59,
@@ -8509,7 +8508,7 @@ let ciudad = [
     idProv: 59,
   },
   {
-    nombre: 'Ocampo',
+    nombre: 'Ocampo(59)',
     latitud: '19.58441925',
     longitud: '-100.34220123',
     idProv: 59,
@@ -8713,7 +8712,7 @@ let ciudad = [
     idProv: 59,
   },
   {
-    nombre: 'Tuxpan',
+    nombre: 'Tuxpan(59)',
     latitud: '19.56732941',
     longitud: '-100.48516083',
     idProv: 59,
@@ -8743,7 +8742,7 @@ let ciudad = [
     idProv: 59,
   },
   {
-    nombre: 'Venustiano Carranza',
+    nombre: 'Venustiano Carranza(59)',
     latitud: '20.12162018',
     longitud: '-102.67397308',
     idProv: 59,
@@ -8845,7 +8844,7 @@ let ciudad = [
     idProv: 60,
   },
   {
-    nombre: 'Emiliano Zapata',
+    nombre: 'Emiliano Zapata(60)',
     latitud: '18.81061935',
     longitud: '-99.18711090',
     idProv: 60,
@@ -8995,7 +8994,7 @@ let ciudad = [
     idProv: 60,
   },
   {
-    nombre: 'Zacualpan',
+    nombre: 'Zacualpan(60)',
     latitud: '18.80855942',
     longitud: '-98.75273895',
     idProv: 60,
@@ -9007,7 +9006,7 @@ let ciudad = [
     idProv: 61,
   },
   {
-    nombre: 'Ahuacatlan',
+    nombre: 'Ahuacatlan(61)',
     latitud: '21.04516983',
     longitud: '-104.54125977',
     idProv: 61,
@@ -9109,7 +9108,7 @@ let ciudad = [
     idProv: 61,
   },
   {
-    nombre: 'Tuxpan',
+    nombre: 'Tuxpan(61)',
     latitud: '21.96149063',
     longitud: '-105.37435913',
     idProv: 61,
@@ -9121,7 +9120,7 @@ let ciudad = [
     idProv: 61,
   },
   {
-    nombre: 'Abasolo',
+    nombre: 'Abasolo(62)',
     latitud: '25.94782066',
     longitud: '-100.40521240',
     idProv: 62,
@@ -9157,7 +9156,7 @@ let ciudad = [
     idProv: 62,
   },
   {
-    nombre: 'Bustamante',
+    nombre: 'Bustamante(62)',
     latitud: '26.55566978',
     longitud: '-100.50602722',
     idProv: 62,
@@ -9259,13 +9258,13 @@ let ciudad = [
     idProv: 62,
   },
   {
-    nombre: 'Guadalupe',
+    nombre: 'Guadalupe(62)',
     latitud: '25.68465996',
     longitud: '-100.16094971',
     idProv: 62,
   },
   {
-    nombre: 'Hidalgo',
+    nombre: 'Hidalgo(62)',
     latitud: '25.98580933',
     longitud: '-100.45218658',
     idProv: 62,
@@ -9331,7 +9330,7 @@ let ciudad = [
     idProv: 62,
   },
   {
-    nombre: 'Melchor Ocampo',
+    nombre: 'Melchor Ocampo(62)',
     latitud: '26.05545998',
     longitud: '-99.52153015',
     idProv: 62,
@@ -9403,7 +9402,7 @@ let ciudad = [
     idProv: 62,
   },
   {
-    nombre: 'Santa Catarina',
+    nombre: 'Santa Catarina(62)',
     latitud: '25.60077095',
     longitud: '-100.48195648',
     idProv: 62,
@@ -9667,7 +9666,8 @@ let ciudad = [
     idProv: 63,
   },
   {
-    nombre: 'Heroica Villa Tezoatlan de Segura y Luna, Cuna de la Independencia de Oaxaca',
+    nombre:
+      'Heroica Villa Tezoatlan de Segura y Luna, Cuna de la Independencia de Oaxaca',
     latitud: '17.59159088',
     longitud: '-97.84606171',
     idProv: 63,
@@ -10615,7 +10615,7 @@ let ciudad = [
     idProv: 63,
   },
   {
-    nombre: 'San Juan del Rio',
+    nombre: 'San Juan del Rio(63)',
     latitud: '16.89138985',
     longitud: '-96.16944122',
     idProv: 63,
@@ -11167,7 +11167,7 @@ let ciudad = [
     idProv: 63,
   },
   {
-    nombre: 'San Nicolas',
+    nombre: 'San Nicolas(63)',
     latitud: '16.44268990',
     longitud: '-96.72843170',
     idProv: 63,
@@ -11557,7 +11557,7 @@ let ciudad = [
     idProv: 63,
   },
   {
-    nombre: 'Santa Ana',
+    nombre: 'Santa Ana(63)',
     latitud: '16.34917068',
     longitud: '-96.71707916',
     idProv: 63,
@@ -12787,7 +12787,7 @@ let ciudad = [
     idProv: 63,
   },
   {
-    nombre: 'Villa Hidalgo',
+    nombre: 'Villa Hidalgo(63)',
     latitud: '17.18115044',
     longitud: '-96.16892242',
     idProv: 63,
@@ -12847,7 +12847,7 @@ let ciudad = [
     idProv: 63,
   },
   {
-    nombre: 'Acajete',
+    nombre: 'Acajete(64)',
     latitud: '19.10275078',
     longitud: '-97.94725800',
     idProv: 64,
@@ -12859,7 +12859,7 @@ let ciudad = [
     idProv: 64,
   },
   {
-    nombre: 'Acatlan',
+    nombre: 'Acatlan(64)',
     latitud: '18.22373962',
     longitud: '-98.07685089',
     idProv: 64,
@@ -13117,7 +13117,7 @@ let ciudad = [
     idProv: 64,
   },
   {
-    nombre: 'Coatepec',
+    nombre: 'Coatepec(64)',
     latitud: '20.06236076',
     longitud: '-97.73069000',
     idProv: 64,
@@ -13147,7 +13147,7 @@ let ciudad = [
     idProv: 64,
   },
   {
-    nombre: 'Coxcatlan',
+    nombre: 'Coxcatlan(64)',
     latitud: '18.27038002',
     longitud: '-97.13356781',
     idProv: 64,
@@ -13243,7 +13243,7 @@ let ciudad = [
     idProv: 64,
   },
   {
-    nombre: 'Guadalupe',
+    nombre: 'Guadalupe(64)',
     latitud: '18.06521034',
     longitud: '-98.14672852',
     idProv: 64,
@@ -13843,7 +13843,7 @@ let ciudad = [
     idProv: 64,
   },
   {
-    nombre: 'Tepetzintla',
+    nombre: 'Tepetzintla(64)',
     latitud: '19.95318031',
     longitud: '-97.84725189',
     idProv: 64,
@@ -13963,7 +13963,7 @@ let ciudad = [
     idProv: 64,
   },
   {
-    nombre: 'Tlaxco',
+    nombre: 'Tlaxco(64)',
     latitud: '20.39919090',
     longitud: '-98.05191803',
     idProv: 64,
@@ -14107,7 +14107,7 @@ let ciudad = [
     idProv: 64,
   },
   {
-    nombre: 'Zaragoza',
+    nombre: 'Zaragoza(64)',
     latitud: '19.75724983',
     longitud: '-97.56162262',
     idProv: 64,
@@ -14263,7 +14263,7 @@ let ciudad = [
     idProv: 66,
   },
   {
-    nombre: 'Benito Juarez',
+    nombre: 'Benito Juarez(66)',
     latitud: '21.02029037',
     longitud: '-87.04100800',
     idProv: 66,
@@ -14293,7 +14293,7 @@ let ciudad = [
     idProv: 66,
   },
   {
-    nombre: 'Lazaro Cardenas',
+    nombre: 'Lazaro Cardenas(66)',
     latitud: '20.99900055',
     longitud: '-87.44274902',
     idProv: 66,
@@ -14347,7 +14347,7 @@ let ciudad = [
     idProv: 67,
   },
   {
-    nombre: 'Cardenas',
+    nombre: 'Cardenas(67)',
     latitud: '21.99994087',
     longitud: '-99.66078186',
     idProv: 67,
@@ -14455,13 +14455,13 @@ let ciudad = [
     idProv: 67,
   },
   {
-    nombre: 'Moctezuma',
+    nombre: 'Moctezuma(67)',
     latitud: '22.69264030',
     longitud: '-101.07581329',
     idProv: 67,
   },
   {
-    nombre: 'Rayon',
+    nombre: 'Rayon(67)',
     latitud: '21.83828926',
     longitud: '-99.60735321',
     idProv: 67,
@@ -14641,7 +14641,7 @@ let ciudad = [
     idProv: 67,
   },
   {
-    nombre: 'Villa Hidalgo',
+    nombre: 'Villa Hidalgo(67)',
     latitud: '22.53467941',
     longitud: '-100.66972351',
     idProv: 67,
@@ -14659,7 +14659,7 @@ let ciudad = [
     idProv: 67,
   },
   {
-    nombre: 'Zaragoza',
+    nombre: 'Zaragoza(67)',
     latitud: '22.02528000',
     longitud: '-100.68907166',
     idProv: 67,
@@ -14749,7 +14749,7 @@ let ciudad = [
     idProv: 68,
   },
   {
-    nombre: 'Rosario',
+    nombre: 'Rosario(68)',
     latitud: '23.01761055',
     longitud: '-105.85768127',
     idProv: 68,
@@ -14863,7 +14863,7 @@ let ciudad = [
     idProv: 69,
   },
   {
-    nombre: 'Benito Juarez',
+    nombre: 'Benito Juarez(69)',
     latitud: '27.11898994',
     longitud: '-109.83786011',
     idProv: 69,
@@ -14995,7 +14995,7 @@ let ciudad = [
     idProv: 69,
   },
   {
-    nombre: 'Magdalena',
+    nombre: 'Magdalena(69)',
     latitud: '30.67996025',
     longitud: '-111.01802063',
     idProv: 69,
@@ -15037,7 +15037,7 @@ let ciudad = [
     idProv: 69,
   },
   {
-    nombre: 'Nogales',
+    nombre: 'Nogales(69)',
     latitud: '31.20392036',
     longitud: '-110.97434998',
     idProv: 69,
@@ -15187,7 +15187,7 @@ let ciudad = [
     idProv: 69,
   },
   {
-    nombre: 'Villa Hidalgo',
+    nombre: 'Villa Hidalgo(69)',
     latitud: '30.22887039',
     longitud: '-109.34394836',
     idProv: 69,
@@ -15241,7 +15241,7 @@ let ciudad = [
     idProv: 70,
   },
   {
-    nombre: 'Emiliano Zapata',
+    nombre: 'Emiliano Zapata(70)',
     latitud: '17.70519066',
     longitud: '-91.67578125',
     idProv: 70,
@@ -15601,7 +15601,7 @@ let ciudad = [
     idProv: 72,
   },
   {
-    nombre: 'Benito Juarez',
+    nombre: 'Benito Juarez(72)',
     latitud: '19.58675957',
     longitud: '-98.42536163',
     idProv: 72,
@@ -15643,7 +15643,7 @@ let ciudad = [
     idProv: 72,
   },
   {
-    nombre: 'Emiliano Zapata',
+    nombre: 'Emiliano Zapata(72)',
     latitud: '19.56393051',
     longitud: '-97.93061829',
     idProv: 72,
@@ -16069,7 +16069,7 @@ let ciudad = [
     idProv: 73,
   },
   {
-    nombre: 'Benito Juarez',
+    nombre: 'Benito Juarez(73)',
     latitud: '20.82051086',
     longitud: '-98.19597626',
     idProv: 73,
@@ -16699,7 +16699,7 @@ let ciudad = [
     idProv: 73,
   },
   {
-    nombre: 'Panuco',
+    nombre: 'Panuco(73)',
     latitud: '22.05887985',
     longitud: '-98.25974274',
     idProv: 73,
@@ -17797,37 +17797,37 @@ let ciudad = [
     idProv: 74,
   },
   {
-    nombre: 'Uman',
+    nombre: 'Uman(74)',
     latitud: '20.86574936',
     longitud: '-89.76093292',
     idProv: 74,
   },
   {
-    nombre: 'Valladolid',
+    nombre: 'Valladolid(74)',
     latitud: '20.68604088',
     longitud: '-88.12406158',
     idProv: 74,
   },
   {
-    nombre: 'Xocchel',
+    nombre: 'Xocchel(74)',
     latitud: '20.81990051',
     longitud: '-89.15064240',
     idProv: 74,
   },
   {
-    nombre: 'Yaxcaba',
+    nombre: 'Yaxcaba(74)',
     latitud: '20.47252083',
     longitud: '-88.78047943',
     idProv: 74,
   },
   {
-    nombre: 'Yaxkukul',
+    nombre: 'Yaxkukul(74)',
     latitud: '21.05623055',
     longitud: '-89.43443298',
     idProv: 74,
   },
   {
-    nombre: 'Yobain',
+    nombre: 'Yobain(74)',
     latitud: '21.28303909',
     longitud: '-89.11892700',
     idProv: 74,
