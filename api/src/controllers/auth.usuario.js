@@ -73,9 +73,7 @@ exports.signin = async (req, res) => {
     let refreshToken = await RefreshToken.createToken(user)
     let authorities = []
     let roles = await user.getRole()
-    for (let i = 0; i < roles.length; i++) {
-      authorities.push('STATUS_' + roles[i].name.toUpperCase())
-    }
+    authorities.push('STATUS_' + roles.dataValues.name.toUpperCase())
     res.status(200).send({
       id: user.id,
       nombreApellido: user.NOMBRE_APELLIDO_USUARIO,
@@ -85,7 +83,7 @@ exports.signin = async (req, res) => {
       pais: user.Pai ? user.Pai.NOMBRE_PAIS : 'Sin definir',
       provincia: user.Provincium ? user.Provincium.NOMBRE_PROVINCIA : 'Sin definir',
       ciudad: user.Ciudad ? user.Ciudad.NOMBRE_CIUDAD : 'Sin definir',
-      Role: authorities,
+      Role: authorities[0],
       accessToken: token,
       refreshToken: refreshToken,
     })
