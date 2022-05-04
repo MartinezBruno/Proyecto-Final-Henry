@@ -1,28 +1,28 @@
 const server = require('./src/app.js')
 const { conn } = require('./src/db.js')
 const { paisesDb, serviciosDb, initialRoles } = require('./src/dbFill')
+const { getProvincias } = require('./src/controllers/provincias')
+const { getCiudades } = require('./src/controllers/ciudades')
 const autofillProveedores = require('./src/routes/automatic-post')
-
 
 // conn vendria a ser la DB que queremos conectar al localHoost con las relaciones de las tablas
 // y las tablas definfidas en sequielize, etc
 
 // Syncing all the models at once.
 conn
-  .sync({ force: false})
+  .sync({ force: true })
   .then(() => {
     server.listen(process.env.DB_PORT, () => {
-      console.log(`%s listening at ${process.env.DB_PORT}`); // eslint-disable-line no-console
-    });
-
+      console.log(`%s listening at ${process.env.DB_PORT}`) // eslint-disable-line no-console
+    })
   })
+  .then(() => paisesDb())
+  .then(() => getProvincias())
+  .then(() => getCiudades())
   .then(() => {
-    paisesDb()
     serviciosDb()
-    // initialRoles()
+    initialRoles()
     // autofillProveedores()
-    }
-  );
-  
+  })
 
-  module.exports = { server };
+module.exports = { server }
