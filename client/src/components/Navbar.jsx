@@ -85,7 +85,7 @@ export default function NavBar() {
               <h5>¡Registrate gratis!</h5>
             </Modal.Title>
           </Modal.Header>
-          <Modal.Body>
+          <Modal.Body className="show-grid">
             <Register />
           </Modal.Body> 
 
