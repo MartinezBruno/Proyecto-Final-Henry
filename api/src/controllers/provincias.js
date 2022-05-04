@@ -1,7 +1,7 @@
 const { Provincia, Pais } = require('../db')
 const { provincia } = require('../dbFill/ubicacion')
 
-const getProvincias = async () => {
+const saveProvincias = async () => {
   for (let i = 0; i < provincia.length; i++) {
     try {
       let pais = await Pais.findOne({
@@ -18,5 +18,5 @@ const getProvincias = async () => {
 }
 
 module.exports = {
-  getProvincias,
+  saveProvincias,
 }

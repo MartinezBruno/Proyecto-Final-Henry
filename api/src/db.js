@@ -4,13 +4,10 @@ const fs = require('fs')
 const path = require('path')
 const { DB_USER, DB_PASSWORD, DB_HOST, DB_NAME } = process.env
 
-const sequelize = new Sequelize(
-  `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`,
-  {
-    logging: false, // set to console.log to see the raw SQL queries
-    native: false, // lets Sequelize know we can use pg-native for ~30% more speed
-  }
-)
+const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`, {
+  logging: false, // set to console.log to see the raw SQL queries
+  native: false, // lets Sequelize know we can use pg-native for ~30% more speed
+})
 
 const basename = path.basename(__filename)
 
@@ -18,10 +15,7 @@ const modelDefiners = []
 
 // Leemos todos los archivos de la carpeta Models, los requerimos y agregamos al arreglo modelDefiners
 fs.readdirSync(path.join(__dirname, '/models'))
-  .filter(
-    (file) =>
-      file.indexOf('.') !== 0 && file !== basename && file.slice(-3) === '.js'
-  )
+  .filter((file) => file.indexOf('.') !== 0 && file !== basename && file.slice(-3) === '.js')
   .forEach((file) => {
     modelDefiners.push(require(path.join(__dirname, '/models', file)))
   })
@@ -30,27 +24,12 @@ fs.readdirSync(path.join(__dirname, '/models'))
 modelDefiners.forEach((model) => model(sequelize))
 // Capitalizamos los nombres de los modelos ie: product => Product
 let entries = Object.entries(sequelize.models)
-let capsEntries = entries.map((entry) => [
-  entry[0][0].toUpperCase() + entry[0].slice(1),
-  entry[1],
-])
+let capsEntries = entries.map((entry) => [entry[0][0].toUpperCase() + entry[0].slice(1), entry[1]])
 sequelize.models = Object.fromEntries(capsEntries)
 
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
-const {
-  Usuario,
-  Proveedor,
-  Ciudad,
-  Provincia,
-  Pais,
-  Servicio,
-  Proveedor_Servicio,
-  Precio,
-  Descripcion,
-  Role,
-  RefreshToken
-} = sequelize.models
+const { Usuario, Proveedor, Ciudad, Provincia, Pais, Servicio, Proveedor_Servicio, Precio, Descripcion, Role, RefreshToken } = sequelize.models
 
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);
@@ -78,39 +57,27 @@ Proveedor_Servicio.belongsTo(Precio)
 Precio.hasOne(Proveedor_Servicio)
 Proveedor_Servicio.belongsTo(Descripcion)
 Descripcion.hasOne(Proveedor_Servicio)
-Role.belongsToMany(Usuario, {
-  through: "user_roles",
-  foreignKey: "roleId",
-  otherKey: "userId"
-});
-Usuario.belongsToMany(Role, {
-  through: "user_roles",
-  foreignKey: "userId",
-  otherKey: "roleId"
-});
+Role.hasMany(Usuario)
+Usuario.belongsTo(Role)
 RefreshToken.belongsTo(Usuario, {
-  foreignKey: 'userId', targetKey: 'id'
-});
+  foreignKey: 'userId',
+  targetKey: 'id',
+})
 Usuario.hasOne(RefreshToken, {
-  foreignKey: 'userId', targetKey: 'id'
-});
+  foreignKey: 'userId',
+  targetKey: 'id',
+})
 
-Role.belongsToMany(Proveedor, {
-  through: "proveedor_roles",
-  foreignKey: "roleId",
-  otherKey: "proveedorId"
-});
-Proveedor.belongsToMany(Role, {
-  through: "proveedor_roles",
-  foreignKey: "proveedorId",
-  otherKey: "roleId"
-});
+Role.hasMany(Proveedor)
+Proveedor.belongsTo(Role)
 RefreshToken.belongsTo(Proveedor, {
-  foreignKey: 'proveedorId', targetKey: 'id'
-});
+  foreignKey: 'proveedorId',
+  targetKey: 'id',
+})
 Proveedor.hasOne(RefreshToken, {
-  foreignKey: 'proveedorId', targetKey: 'id'
-});
+  foreignKey: 'proveedorId',
+  targetKey: 'id',
+})
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
