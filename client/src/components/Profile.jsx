@@ -13,7 +13,7 @@ export default function Profile() {
   const { UniqueUser } = useSelector((state) => state.user)
 
   useEffect(() => {
-    dispatch(getUser(1))
+    dispatch(getUser("384341a3-29f1-4042-8940-a73ad22d6911"))
   },[dispatch])
 
   return (

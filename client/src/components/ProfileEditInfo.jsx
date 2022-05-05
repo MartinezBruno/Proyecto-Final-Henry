@@ -16,15 +16,16 @@ export default function ProfileEditInfo(props) {
   const { UniqueUser } = useSelector((state) => state.user)
 
   useEffect(() => {
-    dispatch(getUser(1))
+    dispatch(getUser("384341a3-29f1-4042-8940-a73ad22d6911"))
   }, [dispatch])
 
   const [input, setInput] = useState({
     nombre: UniqueUser.nombre_apellido_usuario,
     email: UniqueUser.email,
-    nacimiento: '',
-    celular: '',
-    ubicacion: '',
+    nacimiento: UniqueUser.fecha_nacimiento,
+    celular: UniqueUser.celular,
+    ubicacion:
+      UniqueUser.pais + ', ' + UniqueUser.provincia + ', ' + UniqueUser.ciudad,
   })
 
   let handleChange = (e) => {
@@ -49,14 +50,8 @@ export default function ProfileEditInfo(props) {
         'Error al modificar sus Datos, Por favor llene todos los campos'
       )
     } else {
+      //pasarle bien el ID y estamos
       dispatch(ModifyUser(1, input))
-      setInput({
-        nombre: '',
-        email: '',
-        nacimiento: '',
-        celular: '',
-        ubicacion: '',
-      })
       props.changeForm(false)
       return alert('Perfil Actualizado Correctamente')
     }
@@ -77,7 +72,6 @@ export default function ProfileEditInfo(props) {
                 name='nombre'
                 className='form-control'
                 value={input.nombre}
-                placeholder={UniqueUser.nombre_apellido_usuario}
                 onChange={(e) => handleChange(e)}
               />
             </div>
@@ -92,7 +86,6 @@ export default function ProfileEditInfo(props) {
                 name='email'
                 className='form-control'
                 value={input.email}
-                placeholder={UniqueUser.email}
                 onChange={(e) => handleChange(e)}
               />
             </div>
@@ -107,7 +100,6 @@ export default function ProfileEditInfo(props) {
                 name='nacimiento'
                 className='form-control'
                 value={input.nacimiento}
-                placeholder={UniqueUser.fecha_nacimiento}
                 onChange={(e) => handleChange(e)}
               />
             </div>
@@ -122,7 +114,6 @@ export default function ProfileEditInfo(props) {
                 name='celular'
                 className='form-control'
                 value={input.celular}
-                placeholder={UniqueUser.celular}
                 onChange={(e) => handleChange(e)}
               />
             </div>
@@ -137,13 +128,6 @@ export default function ProfileEditInfo(props) {
                 name='ubicacion'
                 className='form-control'
                 value={input.ubicacion}
-                placeholder={
-                  UniqueUser.pais +
-                  ', ' +
-                  UniqueUser.provincia +
-                  ', ' +
-                  UniqueUser.ciudad
-                }
               />
             </div>
           </div>

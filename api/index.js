@@ -22,10 +22,8 @@ conn
     ciudadesDb()
     serviciosDb()
     initialRoles()
-    // autofillProveedores()
+    autofillProveedores()
     console.log('tamo ready')
   })
   
-
-
 module.exports = { server }

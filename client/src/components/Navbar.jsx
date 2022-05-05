@@ -85,7 +85,7 @@ export default function NavBar() {
               <h5>¡Registrate gratis!</h5>
             </Modal.Title>
           </Modal.Header>
-          <Modal.Body>
+          <Modal.Body className="show-grid">
             <Register />
           </Modal.Body> 
 
@@ -93,10 +93,10 @@ export default function NavBar() {
 
         <Modal show={showLogin} onHide={handleCloseLogin}>
           <Modal.Header closeButton>
-            {/* <Modal.Title>
+            <Modal.Title>
               
-              <h5>Inicia sesión</h5>
-            </Modal.Title> */}
+              <h5>Iniciar sesión</h5>
+            </Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Login isModal={true}/>
