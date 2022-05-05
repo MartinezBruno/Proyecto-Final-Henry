@@ -11,6 +11,7 @@ const {
 } = require('../db')
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
+const axios = require ('axios')
 
 
 const getProv = async (req, res, next) => {
@@ -230,7 +231,7 @@ const addServicio_Prov = async (req, res, next) => {
       },
     })
 
-    proveedor.addServicios(serviciosDisp)
+    proveedor.addServicios(serviciosDisp) 
 
     for (let i = 0; i < arrayPrecios.length; i++) {
       let [p, created] = await Precio.findOrCreate({
@@ -279,9 +280,43 @@ const addServicio_Prov = async (req, res, next) => {
     next(error)
   }
 }
+
+const filtroPorProfesion = async (req, res) => {
+  const {service} = req.params
+  console.log(service)
+  
+  let servicios = await Servicio.findOne ({
+    where: { 
+      NOMBRE_SERVICIO : service}
+     })
+  let servicioFilt = servicios.id  
+ //     console.log(servicios.id)
+ let proveedorServ = await axios.get('http://localhost:3001/api/proveedor')
+ let provFiltered = proveedorServ.data.filter (prov => prov.servicio.id === servicioFilt)
+ return res.status(200).send(provFiltered)
+}
+
+const filtroPorProvincia = async (req,res) => {
+  const {provincia} = req.params
+  console.log(provincia)
+  let provincias = await Provincia.findOne ({
+    where: {
+      NOMBRE_PROVINCIA : provincia
+    }
+  })
+  console.log(provincias)
+  let filtProvincia = provincias.NOMBRE_PROVINCIA
+  let proveedores= await axios.get('http://localhost:3001/api/proveedor')
+  let proveedorProvincia = proveedores.data.filter(provincia => provincia.provincia === filtProvincia)
+  console.log(proveedorProvincia)
+  return res.status(200).send(proveedorProvincia)
+}
+
 module.exports = {
   getProv,
   getProvByID,
   deleteServicio_Prov,
   addServicio_Prov,
+  filtroPorProfesion,
+  filtroPorProvincia
 }
