@@ -11,6 +11,7 @@ import { userLogin } from '../redux/slices/auth'
 export default function Login(props) {
 
     const dispatch = useDispatch()
+    const [login, setLogin] = useState("")
     const [input, setInput] = useState({
         email:"",
         password:"",
@@ -27,7 +28,7 @@ export default function Login(props) {
     function handleSubmit(e){
         dispatch(userLogin(input))
         console.log(input)
-        alert('Se ha logueado Correctamente')
+        setLogin(`logueado${setInput.email}`)
     }
 
   if (props.isModal) {
