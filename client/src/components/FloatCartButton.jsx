@@ -1,26 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import styles from '../styles/FloatCartButton.module.css';
-import { useSelector, useDispatch } from 'react-redux';
-import 'animate.css';
-import Offcanvas from 'react-bootstrap/Offcanvas';
-import { deleteService, updateStateFromStorage } from '../redux/slices/shoppingCart';
-import Badge from 'react-bootstrap/Badge';
-import Button from 'react-bootstrap/Button';
+import React, { useState, useEffect } from 'react'
+import styles from '../styles/FloatCartButton.module.css'
+import { useSelector, useDispatch } from 'react-redux'
+import 'animate.css'
+import Offcanvas from 'react-bootstrap/Offcanvas'
+import {
+  deleteService,
+  updateStateFromStorage,
+} from '../redux/slices/shoppingCart'
+import Badge from 'react-bootstrap/Badge'
+import Button from 'react-bootstrap/Button'
+import { Link } from 'react-router-dom'
 
 export default function FloatCartButton() {
-    const { services  } = useSelector((state) => state.shoppingCart);
+  const { services } = useSelector((state) => state.shoppingCart)
 
-    let dispatch = useDispatch()
+  let dispatch = useDispatch()
 
-
-
- 
   let servicesToMap = [...services]
-  
 
   useEffect(() => {
-    if(JSON.parse(localStorage.getItem('cartList'))?.length > 0){
-        dispatch(updateStateFromStorage(JSON.parse(localStorage.getItem('cartList'))))
+    if (JSON.parse(localStorage.getItem('cartList'))?.length > 0) {
+      dispatch(
+        updateStateFromStorage(JSON.parse(localStorage.getItem('cartList')))
+      )
     }
   }, [dispatch])
 
@@ -54,7 +56,6 @@ export default function FloatCartButton() {
                   <th scope='col'>SERVICIO</th>
                   <th scope='col'>PRECIO</th>
                   <th scope='col'></th>
-                  <th scope='col'> </th>
                 </tr>
               </thead>
               <tbody>
@@ -64,48 +65,68 @@ export default function FloatCartButton() {
                   return (
                     <tr>
                       <td>
-                          <div style={{marginTop:'1%'}}>
+                        <div style={{ marginTop: '1%' }}>
                           <span className={styles.servName}>{serv.nombre}</span>
-                          
+
                           <p className={styles.provName}>{serv.provName}</p>
                           {serv.remote ? (
-                            <Badge bg="secondary">Remoto</Badge>
-                             
+                            <Badge bg='secondary'>Remoto</Badge>
                           ) : (
-                            <Badge bg="secondary">Presencial</Badge>
+                            <Badge bg='secondary'>Presencial</Badge>
                           )}
-                      </div>
+                        </div>
                       </td>
 
-                      <td><p style={{marginTop: '40%'}}>{'$' + serv.precio}</p></td>
+                      <td>
+                        <p style={{ marginTop: '40%' }}>{'$' + serv.precio}</p>
+                      </td>
                       <td className={styles.flexTd}>
                         <button
                           className='btn btn-danger'
-                          style={{ padding: '5px', margin: '1rem 0px'  }}
+                          style={{ padding: '5px', margin: '1rem 0px' }}
                           onClick={() => {
-                            dispatch(deleteService(serv.id));
+                            dispatch(deleteService(serv.id))
                             // localStorage.setItem('cartList', JSON.stringify([...services ]))
-                            localStorage.setItem('cartList', JSON.stringify(services.slice(0, services.length-1)))
-                            
-                            
+                            localStorage.setItem(
+                              'cartList',
+                              JSON.stringify(
+                                services.slice(0, services.length - 1)
+                              )
+                            )
                           }}>
                           {' '}
-                          <i className="fa fa-trash" aria-hidden="true"></i>
-                          <span>  Quitar</span>
+                          <i className='fa fa-trash' aria-hidden='true'></i>
+                          <span> Quitar</span>
                         </button>
                       </td>
                     </tr>
-
-                    
                   )
                 })}
               </tbody>
             </table>
 
             <div className={`${styles.buttonsFlex}`}>
-
-                     <Button variant="success" style={{width:'100%'}}><i className="fa fa-lock" aria-hidden="true"></i> Terminar compra</Button>
-
+              <div>
+                <span style={{ fontSize: '1.2rem' }}>
+                  <b>TOTAL:</b> ${' '}
+                  {servicesToMap.reduce(
+                    (acumulador, actual) => acumulador + actual.precio,
+                    0
+                  )}
+                </span>
+              </div>
+              <div>
+                <Link to='/shopping'>
+                  {' '}
+                  <Button
+                    variant='success'
+                    style={{ width: '100%' }}
+                    onClick={handleClose}>
+                    <i className='fa fa-lock' aria-hidden='true'></i> Terminar
+                    compra
+                  </Button>
+                </Link>
+              </div>
             </div>
           </Offcanvas.Body>
         </Offcanvas>
