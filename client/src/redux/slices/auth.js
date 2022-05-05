@@ -50,10 +50,21 @@ export const {
 
 export default authSlice.reducer
 
-export function register(input) {
+export function userRegister(input) {
   return async function (dispatch) {
     try{
-      var info = await AuthService.register(input)
+      await AuthService.userRegister(input)
+      dispatch(Register_Success())
+    }catch(error){
+      dispatch(Register_Fail())
+      console.log(error)
+    }
+  }
+}
+export function providerRegister(input) {
+  return async function (dispatch) {
+    try{
+      var info = await AuthService.providerRegister(input)
       if(info) dispatch(Register_Success())
     }catch(error){
       dispatch(Register_Fail())
@@ -62,10 +73,33 @@ export function register(input) {
   }
 }
 
-export function login(usuario, contraseña){
+// export function userLogin(usuario, contraseña){
+//   return async function(dispatch){
+//     return AuthService.userLogin(usuario, contraseña).then(
+//       (data) => {
+//         dispatch(Login_Success({user : data}));
+//         return Promise.resolve();
+//       },
+//       (error) => {
+//         dispatch(Login_Fail());
+//     })
+//   }
+// }
+export function userLogin(usuario, contraseña){
   return async function(dispatch){
     try{
-      var info = await AuthService.login(usuario, contraseña);
+      var info = await AuthService.userLogin(usuario, contraseña);
+      if(info) dispatch(Login_Success({user : info})) 
+    }catch(error){
+      dispatch(Login_Fail())
+      console.log(error)
+    }
+  }
+}
+export function providerLogin(usuario, contraseña){
+  return async function(dispatch){
+    try{
+      var info = await AuthService.providerLogin(usuario, contraseña);
       if(info) dispatch(Login_Success({user : info})) 
     }catch(error){
       dispatch(Login_Fail())
