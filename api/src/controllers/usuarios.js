@@ -1,47 +1,5 @@
 const { Usuario, Ciudad, Provincia, Pais } = require('../db')
 
-const createUsuario = async (req, res) => {
-  let {
-    nombre,
-    apellido,
-    password,
-    email,
-    imagen,
-    fecha_nacimiento,
-    pais,
-    provincia,
-    ciudad,
-    celular,
-  } = req.body
-
-  let newUsuario = await Usuario.create({
-    NOMBRE_APELLIDO_USUARIO: `${nombre} ${apellido}`,
-    PASSWORD: password,
-    EMAIL: email,
-    IMAGEN: imagen,
-    FECHA_NACIMIENTO: fecha_nacimiento,
-    CELULAR: celular
-  })
-
-  let paisDisp = await Pais.findOne({
-    where: { NOMBRE_PAIS: pais },
-  })
-
-  let provinciasDisp = await Provincia.findOne({
-    where: { NOMBRE_PROVINCIA: provincia },
-  })
-
-  let ciudadesDisp = await Ciudad.findOne({
-    where: { NOMBRE_CIUDAD: ciudad },
-  })
-
-  newUsuario.setPai(paisDisp)
-  newUsuario.setProvincium(provinciasDisp)
-  newUsuario.setCiudad(ciudadesDisp)
-
-  res.status(201).send('Usuario creado')
-}
-
 const getUserById = async (req, res) => {
   const { id } = req.params
 
@@ -73,9 +31,7 @@ const getUserById = async (req, res) => {
     calificacion: user.CALIFICACION,
     creation_date: user.createdAt,
     pais: user.Pai ? user.Pai.NOMBRE_PAIS : 'Sin definir',
-    provincia: user.Provincium
-      ? user.Provincium.NOMBRE_PROVINCIA
-      : 'Sin definir',
+    provincia: user.Provincium ? user.Provincium.NOMBRE_PROVINCIA : 'Sin definir',
     ciudad: user.Ciudad ? user.Ciudad.NOMBRE_CIUDAD : 'Sin definir',
   }
 
@@ -93,37 +49,39 @@ const userBoard = (req, res) => {
 const putUser = async (req, res, next) => {
   try {
     const { id } = req.params
-    const {
-      Proveedor,
-      Servicio,
-      Ciudad,
-      Provincia,
-      Pais,
-      Precio,
-      Proveedor_Servicio,
-      Descripcion,
-    } = req.body
+    const { nombre, apellido, email, celular, imagen, fecha_nacimiento, pais, provincia, ciudad } = req.body
 
     const usuarioEncontrado = await Usuario.findOne({
       where: { id: id },
     })
+    const paisUser = await Pais.findOne({
+      where: { NOMBRE_PAIS: pais },
+    })
+    const provinciaUser = await Provincia.findOne({
+      where: { NOMBRE_PROVINCIA: provincia, PaiId: paisUser.id },
+    })
+    const ciudadUser = await Ciudad.findOne({
+      where: { NOMBRE_CIUDAD: ciudad, ProvinciumId: provinciaUser.id },
+    })
+
+    let parseName = `${nombre} ${apellido}`
 
     usuarioEncontrado === null
-      ? res.status(404).send('No se encontró un usuario con ese id')
-      : await User.update(
+      ? res.status(404).send({ message: 'No se encontró un usuario con ese id' })
+      : await Usuario.update(
           {
-            Proveedor,
-            Servicio,
-            Ciudad,
-            Provincia,
-            Pais,
-            Precio,
-            Proveedor_Servicio,
-            Descripcion,
+            NOMBRE_APELLIDO_USUARIO: parseName,
+            EMAIL: email,
+            CELULAR: celular,
+            IMAGEN: imagen,
+            FECHA_NACIMIENTO: fecha_nacimiento,
           },
           { where: { id: id } }
         )
-    res.send('Usuario actualizado correctamente')
+    await usuarioEncontrado.setPai(paisUser)
+    await usuarioEncontrado.setProvincium(provinciaUser)
+    await usuarioEncontrado.setCiudad(ciudadUser)
+    res.send({ message: 'Usuario actualizado correctamente' })
   } catch (error) {
     console.error(error)
     next(error)

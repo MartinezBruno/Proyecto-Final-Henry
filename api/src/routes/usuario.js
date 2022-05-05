@@ -26,7 +26,7 @@ router.get(
   controller.userBoard
 )
 
-router.put('/usuario/:id', controller.putUser)
+router.put('/:id', controller.putUser)
 
 router.get(
   '/test/mod',

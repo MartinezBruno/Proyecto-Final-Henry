@@ -159,7 +159,7 @@ const getProvByID = async (req, res, next) => {
         }
       }),
     }
-    return res.send(proveedorAMostrar)
+    return res.status(200).send(proveedorAMostrar)
   } catch (error) {
     console.error(error.message)
     next(error)
@@ -275,10 +275,12 @@ const filtroPorProfesion = async (req, res) => {
       NOMBRE_SERVICIO: service,
     },
   })
+  console.log(servicios)
   let servicioFilt = servicios.id
   //     console.log(servicios.id)
-  let proveedorServ = await axios.get('http://localhost:3001/api/proveedor')
-  let provFiltered = proveedorServ.data.filter((prov) => prov.servicio.id === servicioFilt)
+  let proveedorServ = await getProveedores()
+  console.log(proveedorServ)
+  let provFiltered = proveedorServ.filter((prov) => prov.servicio.id === servicioFilt)
   return res.status(200).send(provFiltered)
 }
 
@@ -292,8 +294,8 @@ const filtroPorProvincia = async (req, res) => {
   })
   console.log(provincias)
   let filtProvincia = provincias.NOMBRE_PROVINCIA
-  let proveedores = await axios.get('http://localhost:3001/api/proveedor')
-  let proveedorProvincia = proveedores.data.filter((provincia) => provincia.provincia === filtProvincia)
+  let proveedores = await getProveedores()
+  let proveedorProvincia = proveedores.filter((provincia) => provincia.provincia === filtProvincia)
   console.log(proveedorProvincia)
   return res.status(200).send(proveedorProvincia)
 }
