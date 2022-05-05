@@ -86,3 +86,13 @@
     justify-content: center;
     flex-wrap: wrap;
 }
+
+/* TAB DISABLED */
+.myTabs ul > li > button {
+    background-color: white;
+    color: rgb(0, 0, 0);
+}
+.myTabs ul > li > button:hover {
+    /* background-color: rgb(87, 110, 255); */
+    color: rgb(0, 0, 0);
+}
