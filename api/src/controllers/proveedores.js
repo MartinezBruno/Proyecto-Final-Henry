@@ -1,20 +1,9 @@
-const {
-  Proveedor,
-  Servicio,
-  Ciudad,
-  Provincia,
-  Pais,
-  Precio,
-  Proveedor_Servicio,
-  Descripcion,
-  Role,
-} = require('../db')
+const { Proveedor, Servicio, Ciudad, Provincia, Pais, Precio, Proveedor_Servicio, Descripcion, Role } = require('../db')
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
-const axios = require ('axios')
+const axios = require('axios')
 
-
-const getProv = async (req, res, next) => {
+const getProveedores = async (req, res, next) => {
   try {
     let proveedorServ = await Proveedor_Servicio.findAll({
       attributes: ['ServicioId', 'ProveedorId', 'PrecioId', 'DescripcionId'],
@@ -77,14 +66,9 @@ const getProv = async (req, res, next) => {
         imagen: prov.proveedor.IMAGEN,
         fecha_nacimiento: prov.proveedor.FECHA_NACIMIENTO,
         calificacion: prov.proveedor.CALIFICACION,
-        status: prov.proveedor.STATUS,
         creation_date: prov.proveedor.createdAt,
-        ciudad: prov.proveedor.Ciudad
-          ? prov.proveedor.Ciudad.NOMBRE_CIUDAD
-          : 'Sin definir',
-        provincia: prov.proveedor.Provincium
-          ? prov.proveedor.Provincium.NOMBRE_PROVINCIA
-          : 'Sin definir',
+        ciudad: prov.proveedor.Ciudad ? prov.proveedor.Ciudad.NOMBRE_CIUDAD : 'Sin definir',
+        provincia: prov.proveedor.Provincium ? prov.proveedor.Provincium.NOMBRE_PROVINCIA : 'Sin definir',
         pais: prov.proveedor.Pai.NOMBRE_PAIS,
         servicio: {
           id: prov.servicio.id,
@@ -96,7 +80,17 @@ const getProv = async (req, res, next) => {
       }
     })
 
-    return res.status(200).send(ProveedoresAMostrar)
+    return ProveedoresAMostrar
+  } catch (error) {
+    console.error(error)
+    next(error)
+  }
+}
+
+const getProv = async (req, res, next) => {
+  try {
+    let prov = await getProveedores()
+    res.status(200).send(prov)
   } catch (error) {
     console.error(error)
     next(error)
@@ -158,9 +152,7 @@ const getProvByID = async (req, res, next) => {
       calificacion: proveedor.CALIFICACION,
       creation_date: proveedor.createdAt,
       ciudad: proveedor.Ciudad ? proveedor.Ciudad.NOMBRE_CIUDAD : 'Sin definir',
-      provincia: proveedor.Provincium
-        ? proveedor.Provincium.NOMBRE_PROVINCIA
-        : 'Sin definir',
+      provincia: proveedor.Provincium ? proveedor.Provincium.NOMBRE_PROVINCIA : 'Sin definir',
       pais: proveedor.Pai.NOMBRE_PAIS,
       servicios: servicios.map((servicio) => {
         return {
@@ -172,7 +164,7 @@ const getProvByID = async (req, res, next) => {
         }
       }),
     }
-    return res.send(proveedorAMostrar)
+    return res.status(200).send(proveedorAMostrar)
   } catch (error) {
     console.error(error.message)
     next(error)
@@ -207,14 +199,12 @@ const deleteServicio_Prov = async (req, res) => {
   res.status(200).send('borrado')
 }
 
-
 const addServicio_Prov = async (req, res, next) => {
   const { id } = req.params
   const { servicios } = req.body
   try {
     let proveedor = await Proveedor.findByPk(id)
-    if (!proveedor)
-      return res.status(404).send({ msg: 'Proveedor no encontrado' })
+    if (!proveedor) return res.status(404).send({ msg: 'Proveedor no encontrado' })
     let arrayServicios = servicios.map((servicio) => {
       return {
         NOMBRE_SERVICIO: servicio.NOMBRE_SERVICIO,
@@ -231,7 +221,7 @@ const addServicio_Prov = async (req, res, next) => {
       },
     })
 
-    proveedor.addServicios(serviciosDisp) 
+    proveedor.addServicios(serviciosDisp)
 
     for (let i = 0; i < arrayPrecios.length; i++) {
       let [p, created] = await Precio.findOrCreate({
@@ -282,34 +272,68 @@ const addServicio_Prov = async (req, res, next) => {
 }
 
 const filtroPorProfesion = async (req, res) => {
-  const {service} = req.params
+  const { service } = req.params
   console.log(service)
-  
-  let servicios = await Servicio.findOne ({
-    where: { 
-      NOMBRE_SERVICIO : service}
-     })
-  let servicioFilt = servicios.id  
- //     console.log(servicios.id)
- let proveedorServ = await axios.get('http://localhost:3001/api/proveedor')
- let provFiltered = proveedorServ.data.filter (prov => prov.servicio.id === servicioFilt)
- return res.status(200).send(provFiltered)
+
+  let servicios = await Servicio.findOne({
+    where: {
+      NOMBRE_SERVICIO: service,
+    },
+  })
+  console.log(servicios)
+  let servicioFilt = servicios.id
+  //     console.log(servicios.id)
+  let proveedorServ = await getProveedores ()
+  console.log(proveedorServ)
+  let provFiltered = proveedorServ.filter((prov) => prov.servicio.id === servicioFilt)
+  return res.status(200).send(provFiltered)
 }
 
-const filtroPorProvincia = async (req,res) => {
-  const {provincia} = req.params
+const filtroPorProvincia = async (req, res) => {
+  const { provincia } = req.params
   console.log(provincia)
-  let provincias = await Provincia.findOne ({
+  let provincias = await Provincia.findOne({
     where: {
-      NOMBRE_PROVINCIA : provincia
-    }
+      NOMBRE_PROVINCIA: provincia,
+    },
   })
   console.log(provincias)
   let filtProvincia = provincias.NOMBRE_PROVINCIA
-  let proveedores= await axios.get('http://localhost:3001/api/proveedor')
-  let proveedorProvincia = proveedores.data.filter(provincia => provincia.provincia === filtProvincia)
+  let proveedores = await getProveedores()
+  let proveedorProvincia = proveedores.filter((provincia) => provincia.provincia === filtProvincia)
   console.log(proveedorProvincia)
   return res.status(200).send(proveedorProvincia)
+}
+
+const filtroPorCiudad = async (req, res) => {
+  const { ciudad } = req.params
+  console.log(ciudad)
+
+  let ciudades = await Ciudad.findOne({
+    where: {
+      NOMBRE_CIUDAD: ciudad,
+    },
+  })
+  let ProvCiudad = ciudades.NOMBRE_CIUDAD
+  let proveedores = await getProveedores()
+  let proveedorCiudad = proveedores.filter(proveedor => proveedor.ciudad === ProvCiudad)
+  console.log(proveedorCiudad)
+  return res.status(200).send (proveedorCiudad)
+}
+
+const filtroPorPais = async (req,res) => {
+  const {pais} = req.params 
+  let paises = await Pais.findOne({
+    where: {NOMBRE_PAIS: pais}
+  })
+  console.log(pais)
+  console.log(paises)
+  ProvPais = paises.NOMBRE_PAIS
+  console.log(ProvPais)
+  
+  let proveedores = await getProveedores ()
+ let Provfilter = proveedores.filter (proveedor => proveedor.pais === ProvPais)
+  return res.status(200).send(Provfilter)
 }
 
 module.exports = {
@@ -318,5 +342,7 @@ module.exports = {
   deleteServicio_Prov,
   addServicio_Prov,
   filtroPorProfesion,
-  filtroPorProvincia
+  filtroPorProvincia,
+  filtroPorCiudad,
+  filtroPorPais
 }
