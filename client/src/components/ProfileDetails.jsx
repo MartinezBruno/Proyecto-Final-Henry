@@ -154,7 +154,7 @@ export default function ProfileDetails() {
 
                 <div className="row">
                     <div className="col-sm-12">
-                      <button className="btn btn-dark">EDITAR</button>
+                      {/* <button className="btn btn-dark">EDITAR</button> */}
                     </div>
                   </div>
               </div>
@@ -190,7 +190,7 @@ export default function ProfileDetails() {
                 </div>
                 <div className="row">
                     <div className="col-sm-12">
-                      <button className="btn btn-dark">EDITAR</button>
+                      {/* <button className="btn btn-dark">EDITAR</button> */}
                     </div>
                   </div>
               </div>
