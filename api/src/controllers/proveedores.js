@@ -13,7 +13,6 @@ const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 const axios = require ('axios')
 
-
 const getProv = async (req, res, next) => {
   try {
     let proveedorServ = await Proveedor_Servicio.findAll({
@@ -206,7 +205,6 @@ const deleteServicio_Prov = async (req, res) => {
   })
   res.status(200).send('borrado')
 }
-
 
 const addServicio_Prov = async (req, res, next) => {
   const { id } = req.params
