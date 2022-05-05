@@ -1,15 +1,19 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import styles from '../styles/FloatCartButton.module.css'
 import Badge from 'react-bootstrap/Badge'
 import Button from 'react-bootstrap/Button'
-import { deleteService } from '../redux/slices/shoppingCart';
+import { deleteService, payServices } from '../redux/slices/shoppingCart'
 
 export default function Shopping() {
   let { services } = useSelector((state) => state.shoppingCart)
   let dispatch = useDispatch()
 
+  const handleOnClick = async (services) => {
+    let url = await dispatch(payServices(services))
+    window.location.href = `${url}`
+  }
   return (
     <>
       <div className='container' style={{ marginTop: '2rem' }}>
@@ -37,11 +41,7 @@ export default function Shopping() {
                           <span className={styles.servName}>{serv.nombre}</span>
 
                           <p className={styles.provName}>{serv.provName}</p>
-                          {serv.remote ? (
-                            <Badge bg='secondary'>Remoto</Badge>
-                          ) : (
-                            <Badge bg='secondary'>Presencial</Badge>
-                          )}
+                          {serv.remote ? <Badge bg='secondary'>Remoto</Badge> : <Badge bg='secondary'>Presencial</Badge>}
                         </div>
                       </td>
 
@@ -55,12 +55,7 @@ export default function Shopping() {
                           onClick={() => {
                             dispatch(deleteService(serv.id))
                             // localStorage.setItem('cartList', JSON.stringify([...services ]))
-                            localStorage.setItem(
-                              'cartList',
-                              JSON.stringify(
-                                services.slice(0, services.length - 1)
-                              )
-                            )
+                            localStorage.setItem('cartList', JSON.stringify(services.slice(0, services.length - 1)))
                           }}>
                           {' '}
                           <i className='fa fa-trash' aria-hidden='true'></i>
@@ -74,14 +69,19 @@ export default function Shopping() {
             </table>
 
             <div>
-                <span style={{fontSize: '1.5rem'}}><b>TOTAL: </b> $  {services?.reduce(
-                    (acumulador, actual) => acumulador + actual.precio,
-                    0
-                  )}</span>
-                </div>
+              <span style={{ fontSize: '1.5rem' }}>
+                <b>TOTAL: </b> $ {services?.reduce((acumulador, actual) => acumulador + actual.precio, 0)}
+              </span>
+            </div>
 
-            <Link to='/home'><Button variant="secondary" style={{margin: '.8rem'}}>Seguir buscando</Button></Link>
-            <Button variant="success"><i className="fa fa-lock" aria-hidden="true"></i>   PAGAR AHORA</Button>
+            <Link to='/home'>
+              <Button variant='secondary' style={{ margin: '.8rem' }}>
+                Seguir buscando
+              </Button>
+            </Link>
+            <Button variant='success' onClick={() => handleOnClick({ services: services })}>
+              <i className='fa fa-lock' aria-hidden='true'></i> PAGAR AHORA
+            </Button>
           </div>
         </div>
       </div>

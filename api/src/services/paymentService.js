@@ -4,12 +4,12 @@ class PaymentService {
   async createPayment(servicios) {
     const url = 'https://api.mercadopago.com/checkout/preferences'
     const body = {
-      items: servicios.map((servicio) => {
+      items: servicios?.map((servicio) => {
         return {
-          title: servicio.NOMBRE_SERVICIO,
-          description: servicio.DESCRIPCION,
-          quantity: servicio.CANTIDAD ? servicio.CANTIDAD : 1,
-          unit_price: servicio.PRECIO,
+          title: servicio.nombre,
+          description: servicio.descripcion,
+          quantity: 1,
+          unit_price: servicio.precio,
         }
       }),
       back_urls: {
