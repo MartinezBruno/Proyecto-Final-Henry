@@ -165,7 +165,7 @@ export default function Register() {
                   style={{ top: '40px' }}
                   aria-hidden='true'></i>{' '}
                 <input
-                  type='text'
+                  type='date'
                   className={styles.formControl}
                   name='fecha_nacimiento'
                   placeholder='Fecha de nacimiento'
