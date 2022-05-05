@@ -28,13 +28,14 @@
     position: absolute;
     font-size: 18px;
     top: 17px;
-    left: 50px;
+    left: 30px;
 }
 
 .formControl {
     height: 50px;
-    width: 20.5rem;
+    width: 24.2rem;
     /* width: 80%; */
+    margin:auto 2.5px;
     text-indent: 30px;
     font-size: 15px
 }
@@ -77,4 +78,21 @@
 .social:hover {
     background-color: #0d6dfd72;
     border-color: #0d6dfd6d
+}
+
+.halfInputContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* TAB DISABLED */
+.myTabs ul > li > button {
+    background-color: white;
+    color: rgb(0, 0, 0);
+}
+.myTabs ul > li > button:hover {
+    /* background-color: rgb(87, 110, 255); */
+    color: rgb(0, 0, 0);
 }

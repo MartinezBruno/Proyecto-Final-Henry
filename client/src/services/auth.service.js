@@ -1,15 +1,34 @@
 import api from "./api";
 import TokenService from "./token.service";
 
-const register = ({ fotoDePerfil, base64, nombre, apellido, usuario, email, contraseña, dni, fechaDeNacimiento, direccion, numeroDeContacto, consentimientoWhatsapp, instructorado, especializacion, profesorado }) => {
-  return api.post("/auth/signup", { fotoDePerfil, base64, nombre, apellido, usuario, email, contraseña, dni, fechaDeNacimiento, direccion, numeroDeContacto, consentimientoWhatsapp, instructorado, especializacion, profesorado });
+const userRegister = ({ nombre, apellido, password, email, imagen, fecha_nacimiento, pais, provincia, ciudad, celular }) => {
+  return api.post("/auth/usuario/signup", { nombre, apellido, password, email, imagen, fecha_nacimiento, pais, provincia, ciudad, celular });
 };
 
-const login = (usuario, contraseña) => {
+//Si el proveedor se crea con servicios agregarlo
+const providerRegister = ({ nombre, apellido, password, email, imagen, fecha_nacimiento, pais, provincia, ciudad, celular }) => {
+  return api.post("/auth/proveedor/signup", { nombre, apellido, password, email, imagen, fecha_nacimiento, pais, provincia, ciudad, celular });
+};
+
+const userLogin = ({email, password}) => {
   return api
-    .post("/auth/signin", {
-      usuario,
-      contraseña
+    .post("/auth/usuario/signin", {
+      email,
+      password
+    })
+    .then((response) => {
+      if (response.data.accessToken) {
+        TokenService.setUser(response.data);
+      }
+      return response.data;
+    });
+};
+
+const providerLogin = ({email, password}) => {
+  return api
+    .post("/auth/proveedor/signin", {
+      email,
+      password
     })
     .then((response) => {
       if (response.data.accessToken) {
@@ -28,8 +47,10 @@ const getCurrentUser = () => {
 };
 
 const AuthService = {
-  register,
-  login,
+  userRegister,
+  providerRegister,
+  userLogin,
+  providerLogin,
   logout,
   getCurrentUser,
 };
