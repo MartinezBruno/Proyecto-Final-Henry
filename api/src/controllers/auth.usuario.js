@@ -86,6 +86,7 @@ exports.signin = async (req, res) => {
       Role: authorities[0],
       accessToken: token,
       refreshToken: refreshToken,
+      message: '¡Bienvenido!',
     })
   } catch (error) {
     res.status(500).send({ message: error.message })
