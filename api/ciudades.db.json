@@ -1,86 +1,5 @@
 {
-  "argentina": [
-    { "id": 1, "nombre": "Catamarca", "idPais": 1 },
-    { "id": 2, "nombre": "Chaco", "idPais": 1 },
-    { "id": 3, "nombre": "Chubut", "idPais": 1 },
-    { "id": 4, "nombre": "Ciudad Autonoma de Buenos Aires", "idPais": 1 },
-    { "id": 5, "nombre": "Cordoba", "idPais": 1 },
-    { "id": 6, "nombre": "Corrientes", "idPais": 1 },
-    { "id": 7, "nombre": "Entre Rios", "idPais": 1 },
-    { "id": 8, "nombre": "Formosa", "idPais": 1 },
-    { "id": 9, "nombre": "Jujuy", "idPais": 1 },
-    { "id": 10, "nombre": "La Pampa", "idPais": 1 },
-    { "id": 11, "nombre": "La Rioja", "idPais": 1 },
-    { "id": 12, "nombre": "Mendoza", "idPais": 1 },
-    { "id": 13, "nombre": "Misiones", "idPais": 1 },
-    { "id": 14, "nombre": "Neuquen", "idPais": 1 },
-    { "id": 15, "nombre": "Provincia de Buenos Aires", "idPais": 1 },
-    { "id": 16, "nombre": "Rio Negro", "idPais": 1 },
-    { "id": 17, "nombre": "Salta", "idPais": 1 },
-    { "id": 18, "nombre": "San Juan", "idPais": 1 },
-    { "id": 19, "nombre": "San Luis", "idPais": 1 },
-    { "id": 20, "nombre": "Santa Cruz", "idPais": 1 },
-    { "id": 21, "nombre": "Santa Fe", "idPais": 1 },
-    { "id": 22, "nombre": "Santiago del Estero", "idPais": 1 },
-    { "id": 23, "nombre": "Tierra del Fuego", "idPais": 1 },
-    { "id": 24, "nombre": "Tucuman", "idPais": 1 }
-  ],
-  "uruguay": [
-    { "id": 25, "nombre": "Artigas", "idPais": 2 },
-    { "id": 26, "nombre": "Canelones", "idPais": 2 },
-    { "id": 27, "nombre": "Cerro Largo", "idPais": 2 },
-    { "id": 28, "nombre": "Colonia", "idPais": 2 },
-    { "id": 29, "nombre": "Durazno", "idPais": 2 },
-    { "id": 30, "nombre": "Flores", "idPais": 2 },
-    { "id": 31, "nombre": "Florida", "idPais": 2 },
-    { "id": 32, "nombre": "Lavalleja", "idPais": 2 },
-    { "id": 33, "nombre": "Maldonado", "idPais": 2 },
-    { "id": 34, "nombre": "Montevideo", "idPais": 2 },
-    { "id": 35, "nombre": "Paysandu", "idPais": 2 },
-    { "id": 36, "nombre": "Rio Negro", "idPais": 2 },
-    { "id": 37, "nombre": "Rivera", "idPais": 2 },
-    { "id": 38, "nombre": "Rocha", "idPais": 2 },
-    { "id": 39, "nombre": "Salto", "idPais": 2 },
-    { "id": 40, "nombre": "San Jose", "idPais": 2 },
-    { "id": 41, "nombre": "Soriano", "idPais": 2 },
-    { "id": 42, "nombre": "Tacuarembo", "idPais": 2 },
-    { "id": 43, "nombre": "Treinta y Tres", "idPais": 2 }
-  ],
-  "ProvinciaMX": [
-    { "id": 44, "nombre": "Aguascalientes", "idPais": 3 },
-    { "id": 45, "nombre": "Baja California", "idPais": 3 },
-    { "id": 46, "nombre": "Baja California Sur", "idPais": 3 },
-    { "id": 47, "nombre": "Campeche", "idPais": 3 },
-    { "id": 48, "nombre": "Chiapas", "idPais": 3 },
-    { "id": 49, "nombre": "Chihuahua", "idPais": 3 },
-    { "id": 50, "nombre": "Ciudad de Mexico", "idPais": 3 },
-    { "id": 51, "nombre": "Coahuila Zaragoza", "idPais": 3 },
-    { "id": 52, "nombre": "Colima", "idPais": 3 },
-    { "id": 53, "nombre": "Durango", "idPais": 3 },
-    { "id": 54, "nombre": "Guanajuato", "idPais": 3 },
-    { "id": 55, "nombre": "Guerrero", "idPais": 3 },
-    { "id": 56, "nombre": "Hidalgo", "idPais": 3 },
-    { "id": 57, "nombre": "Jalisco", "idPais": 3 },
-    { "id": 58, "nombre": "Mexico", "idPais": 3 },
-    { "id": 59, "nombre": "Michoacan Ocampo", "idPais": 3 },
-    { "id": 60, "nombre": "Morelos", "idPais": 3 },
-    { "id": 61, "nombre": "Nayarit", "idPais": 3 },
-    { "id": 62, "nombre": "Nuevo Leon", "idPais": 3 },
-    { "id": 63, "nombre": "Oaxaca", "idPais": 3 },
-    { "id": 64, "nombre": "Puebla", "idPais": 3 },
-    { "id": 65, "nombre": "Queretaro", "idPais": 3 },
-    { "id": 66, "nombre": "Quintana Roo", "idPais": 3 },
-    { "id": 67, "nombre": "San Luis Potosi", "idPais": 3 },
-    { "id": 68, "nombre": "Sinaloa", "idPais": 3 },
-    { "id": 69, "nombre": "Sonora", "idPais": 3 },
-    { "id": 70, "nombre": "Tabasco", "idPais": 3 },
-    { "id": 71, "nombre": "Tamaulipas", "idPais": 3 },
-    { "id": 72, "nombre": "Tlaxcala", "idPais": 3 },
-    { "id": 73, "nombre": "Veracruz-Llave", "idPais": 3 },
-    { "id": 74, "nombre": "Yucatan", "idPais": 3 },
-    { "id": 75, "nombre": "Zacatecas", "idPais": 3 }
-  ],
-  "CiudadesAR": [
+  "Catamarca": [
     {
       "nombre": "Departamento de Ambato",
       "latitud": "-28.00000000",
@@ -176,7 +95,10 @@
       "latitud": "-28.58333015",
       "longitud": "-65.75000000",
       "idProv": 1
-    },
+    }
+  ],
+
+  "Chaco": [
     {
       "nombre": "Chacabuco",
       "latitud": "-27.14101982",
@@ -320,7 +242,10 @@
       "latitud": "-26.78646088",
       "longitud": "-59.97481918",
       "idProv": 2
-    },
+    }
+  ],
+
+  "Chubut": [
     {
       "nombre": "Departamento de Biedma",
       "latitud": "-42.41667175",
@@ -410,7 +335,10 @@
       "latitud": "-42.41667175",
       "longitud": "-67.16667175",
       "idProv": 3
-    },
+    }
+  ],
+
+  "Ciudad Autonoma de Buenos Aires": [
     {
       "nombre": "Comuna 1",
       "latitud": "-34.60641861",
@@ -500,7 +428,10 @@
       "latitud": "-34.65179062",
       "longitud": "-58.49917984",
       "idProv": 4
-    },
+    }
+  ],
+
+  "Cordoba": [
     {
       "nombre": "Departamento de Calamuchita",
       "latitud": "-32.25000000",
@@ -644,7 +575,10 @@
       "latitud": "-32.83332825",
       "longitud": "-62.75000000",
       "idProv": 5
-    },
+    }
+  ],
+
+  "Corrientes": [
     {
       "nombre": "Departamento de Bella Vista",
       "latitud": "-28.50000000",
@@ -794,7 +728,10 @@
       "latitud": "-30.00000000",
       "longitud": "-58.66667175",
       "idProv": 6
-    },
+    }
+  ],
+
+  "Entre Rios": [
     {
       "nombre": "Departamento de Colon",
       "latitud": "-32.00381851",
@@ -896,7 +833,10 @@
       "latitud": "-31.58333015",
       "longitud": "-59.00000000",
       "idProv": 7
-    },
+    }
+  ],
+
+  "Formosa": [
     {
       "nombre": "Departamento de Bermejo",
       "latitud": "-24.33333015",
@@ -950,7 +890,10 @@
       "latitud": "-23.00000000",
       "longitud": "-62.16667175",
       "idProv": 8
-    },
+    }
+  ],
+
+  "Jujuy": [
     {
       "nombre": "Departamento de Cochinoca",
       "latitud": "-23.00000000",
@@ -1046,7 +989,10 @@
       "latitud": "-22.29999924",
       "longitud": "-65.59999847",
       "idProv": 9
-    },
+    }
+  ],
+
+  "La Pampa": [
     {
       "nombre": "Departamento de Atreuco",
       "latitud": "-37.00000000",
@@ -1178,7 +1124,10 @@
       "latitud": "-37.25000000",
       "longitud": "-65.00000000",
       "idProv": 10
-    },
+    }
+  ],
+
+  "La Rioja": [
     {
       "nombre": "Departamento de Arauco",
       "latitud": "-28.50000000",
@@ -1286,7 +1235,10 @@
       "latitud": "-28.20000076",
       "longitud": "-68.66667175",
       "idProv": 11
-    },
+    }
+  ],
+
+  "Mendoza": [
     {
       "nombre": "Departamento de Capital(12)",
       "latitud": "-32.88468933",
@@ -1394,7 +1346,10 @@
       "latitud": "-33.25000000",
       "longitud": "-69.25000000",
       "idProv": 12
-    },
+    }
+  ],
+
+  "Misiones": [
     {
       "nombre": "Departamento de Apostoles",
       "latitud": "-27.91666985",
@@ -1496,7 +1451,10 @@
       "latitud": "-27.41666985",
       "longitud": "-54.66667175",
       "idProv": 13
-    },
+    }
+  ],
+
+  "Neuquen": [
     {
       "nombre": "Departamento de Alumine",
       "latitud": "-39.16667175",
@@ -1592,7 +1550,10 @@
       "latitud": "-39.00000000",
       "longitud": "-69.83332825",
       "idProv": 14
-    },
+    }
+  ],
+
+  "Provincia de Buenos Aires": [
     {
       "nombre": "Partido de Adolfo Alsina",
       "latitud": "-37.25000000",
@@ -2402,7 +2363,10 @@
       "latitud": "-34.24235916",
       "longitud": "-59.46899033",
       "idProv": 15
-    },
+    }
+  ],
+
+  "Rio Negro": [
     {
       "nombre": "Departamento de Adolfo Alsina",
       "latitud": "-40.75000000",
@@ -2480,7 +2444,10 @@
       "latitud": "-41.25000000",
       "longitud": "-69.00000000",
       "idProv": 16
-    },
+    }
+  ],
+
+  "Salta": [
     {
       "nombre": "Cafayate",
       "latitud": "-26.08333015",
@@ -2618,7 +2585,10 @@
       "latitud": "-26.10997009",
       "longitud": "-65.09622955",
       "idProv": 17
-    },
+    }
+  ],
+
+  "San Juan": [
     {
       "nombre": "Departamento de Albardon",
       "latitud": "-31.28333092",
@@ -2732,7 +2702,10 @@
       "latitud": "-31.68260002",
       "longitud": "-68.89938354",
       "idProv": 18
-    },
+    }
+  ],
+
+  "San Luis": [
     {
       "nombre": "Coronel Pringles",
       "latitud": "-33.08332825",
@@ -2786,7 +2759,10 @@
       "latitud": "-33.27544022",
       "longitud": "-66.32016754",
       "idProv": 19
-    },
+    }
+  ],
+
+  "Santa Cruz": [
     {
       "nombre": "Departamento de Corpen Aike",
       "latitud": "-50.00000000",
@@ -2828,7 +2804,10 @@
       "latitud": "-48.25000000",
       "longitud": "-71.00000000",
       "idProv": 20
-    },
+    }
+  ],
+
+  "Santa Fe": [
     {
       "nombre": "Departamento de Belgrano(21)",
       "latitud": "-32.50000000",
@@ -2942,7 +2921,10 @@
       "latitud": "-32.16667175",
       "longitud": "-61.08332825",
       "idProv": 21
-    },
+    }
+  ],
+
+  "Santiago del Estero": [
     {
       "nombre": "Departamento de Aguirre",
       "latitud": "-29.33333015",
@@ -3104,7 +3086,10 @@
       "latitud": "-28.16666985",
       "longitud": "-64.33332825",
       "idProv": 22
-    },
+    }
+  ],
+
+  "Tierra del Fuego": [
     {
       "nombre": "Antartida Argentina",
       "latitud": "-82.78066254",
@@ -3128,7 +3113,10 @@
       "latitud": "-51.94425964",
       "longitud": "-59.21630859",
       "idProv": 23
-    },
+    }
+  ],
+
+  "Tucuman": [
     {
       "nombre": "Departamento de Burruyacu",
       "latitud": "-26.50000000",
@@ -3232,115 +3220,170 @@
       "idProv": 24
     }
   ],
-  "CiudadesUY": [
+
+  "Artigas": [
     {
       "nombre": "Sin definir(25)",
       "latitud": "Sin definir",
       "longitud": "Sin definir",
       "idProv": 25
-    },
+    }
+  ],
+
+  "Canelones": [
     {
       "nombre": "Sin definir(26)",
       "latitud": "Sin definir",
       "longitud": "Sin definir",
       "idProv": 26
-    },
+    }
+  ],
+
+  "Cerro Largo": [
     {
       "nombre": "Sin definir(27)",
       "latitud": "Sin definir",
       "longitud": "Sin definir",
       "idProv": 27
-    },
+    }
+  ],
+
+  "Colonia": [
     {
       "nombre": "Sin definir(28)",
       "latitud": "Sin definir",
       "longitud": "Sin definir",
       "idProv": 28
-    },
+    }
+  ],
+
+  "Durazno": [
     {
       "nombre": "Sin definir(29)",
       "latitud": "Sin definir",
       "longitud": "Sin definir",
       "idProv": 29
-    },
+    }
+  ],
+
+  "Flores": [
     {
       "nombre": "Sin definir(30)",
       "latitud": "Sin definir",
       "longitud": "Sin definir",
       "idProv": 30
-    },
+    }
+  ],
+
+  "Florida": [
     {
       "nombre": "Sin definir(31)",
       "latitud": "Sin definir",
       "longitud": "Sin definir",
       "idProv": 31
-    },
+    }
+  ],
+
+  "Lavalleja": [
     {
       "nombre": "Sin definir(32)",
       "latitud": "Sin definir",
       "longitud": "Sin definir",
       "idProv": 32
-    },
+    }
+  ],
+
+  "Maldonado": [
     {
       "nombre": "Sin definir(33)",
       "latitud": "Sin definir",
       "longitud": "Sin definir",
       "idProv": 33
-    },
+    }
+  ],
+
+  "Montevideo": [
     {
       "nombre": "Sin definir(34)",
       "latitud": "Sin definir",
       "longitud": "Sin definir",
       "idProv": 34
-    },
+    }
+  ],
+
+  "Paysandu": [
     {
       "nombre": "Sin definir(35)",
       "latitud": "Sin definir",
       "longitud": "Sin definir",
       "idProv": 35
-    },
+    }
+  ],
+
+  "Rio Negro(Uruguay)": [
     {
       "nombre": "Sin definir(36)",
       "latitud": "Sin definir",
       "longitud": "Sin definir",
       "idProv": 36
-    },
+    }
+  ],
+
+  "Rivera": [
     {
       "nombre": "Sin definir(37)",
       "latitud": "Sin definir",
       "longitud": "Sin definir",
       "idProv": 37
-    },
+    }
+  ],
+
+  "Rocha": [
     {
       "nombre": "Sin definir(38)",
       "latitud": "Sin definir",
       "longitud": "Sin definir",
       "idProv": 38
-    },
+    }
+  ],
+
+  "Salto": [
     {
       "nombre": "Sin definir(39)",
       "latitud": "Sin definir",
       "longitud": "Sin definir",
       "idProv": 39
-    },
+    }
+  ],
+
+  "San Jose": [
     {
       "nombre": "Sin definir(40)",
       "latitud": "Sin definir",
       "longitud": "Sin definir",
       "idProv": 40
-    },
+    }
+  ],
+
+  "Soriano": [
     {
       "nombre": "Sin definir(41)",
       "latitud": "Sin definir",
       "longitud": "Sin definir",
       "idProv": 41
-    },
+    }
+  ],
+
+  "Tacuarembo": [
     {
       "nombre": "Sin definir(42)",
       "latitud": "Sin definir",
       "longitud": "Sin definir",
       "idProv": 42
-    },
+    }
+  ],
+
+  "Treinta y Tres": [
     {
       "nombre": "Sin definir",
       "latitud": "Sin definir",
@@ -3348,7 +3391,8 @@
       "idProv": 43
     }
   ],
-  "CiudadesMX": [
+
+  "Aguascalientes": [
     {
       "nombre": "Aguascalientes",
       "latitud": "21.88332939",
@@ -3414,7 +3458,10 @@
       "latitud": "22.21666908",
       "longitud": "-102.16665649",
       "idProv": 44
-    },
+    }
+  ],
+
+  "Baja California": [
     {
       "nombre": "Ensenada",
       "latitud": "31.86667061",
@@ -3474,7 +3521,10 @@
       "latitud": "26.60000038",
       "longitud": "-112.33332825",
       "idProv": 45
-    },
+    }
+  ],
+
+  "Baja California Sur": [
     {
       "nombre": "Comondu",
       "latitud": "26.06666946",
@@ -3504,7 +3554,10 @@
       "latitud": "26.60000038",
       "longitud": "-112.33332825",
       "idProv": 46
-    },
+    }
+  ],
+
+  "Campeche": [
     {
       "nombre": "Calakmul",
       "latitud": "18.00000000",
@@ -3570,7 +3623,10 @@
       "latitud": "19.83333015",
       "longitud": "-90.00000000",
       "idProv": 47
-    },
+    }
+  ],
+
+  "Chiapas": [
     {
       "nombre": "Acala",
       "latitud": "16.55393982",
@@ -4260,7 +4316,10 @@
       "latitud": "16.72425079",
       "longitud": "-92.77571869",
       "idProv": 48
-    },
+    }
+  ],
+
+  "Chihuahua": [
     {
       "nombre": "Ahumada",
       "latitud": "30.48174095",
@@ -4662,7 +4721,10 @@
       "latitud": "27.48944092",
       "longitud": "-105.84764099",
       "idProv": 49
-    },
+    }
+  ],
+
+  "Ciudad de Mexico": [
     {
       "nombre": "Alvaro Obregon(50)",
       "latitud": "19.37495995",
@@ -4758,7 +4820,10 @@
       "latitud": "19.27761078",
       "longitud": "-99.11591339",
       "idProv": 50
-    },
+    }
+  ],
+
+  "Coahuila Zaragoza": [
     {
       "nombre": "Abasolo(51)",
       "latitud": "27.14822006",
@@ -4974,7 +5039,10 @@
       "latitud": "28.72244072",
       "longitud": "-101.15434265",
       "idProv": 51
-    },
+    }
+  ],
+
+  "Colima": [
     {
       "nombre": "Armeria",
       "latitud": "18.95553970",
@@ -5034,7 +5102,10 @@
       "latitud": "19.30970001",
       "longitud": "-103.84436035",
       "idProv": 52
-    },
+    }
+  ],
+
+  "Durango": [
     {
       "nombre": "Canatlan",
       "latitud": "24.51758957",
@@ -5268,7 +5339,10 @@
       "latitud": "23.72172928",
       "longitud": "-103.97795868",
       "idProv": 53
-    },
+    }
+  ],
+
+  "Guanajuato": [
     {
       "nombre": "Abasolo(54)",
       "latitud": "20.50580025",
@@ -5544,7 +5618,10 @@
       "latitud": "20.18317032",
       "longitud": "-101.22573090",
       "idProv": 54
-    },
+    }
+  ],
+
+  "Guerrero": [
     {
       "nombre": "Acapulco de Juarez",
       "latitud": "16.92662048",
@@ -6030,7 +6107,10 @@
       "latitud": "17.71969032",
       "longitud": "-99.19568634",
       "idProv": 55
-    },
+    }
+  ],
+
+  "Hidalgo": [
     {
       "nombre": "Acatlan(56)",
       "latitud": "20.20857048",
@@ -6534,7 +6614,10 @@
       "latitud": "20.74379921",
       "longitud": "-99.35540009",
       "idProv": 56
-    },
+    }
+  ],
+
+  "Jalisco": [
     {
       "nombre": "Acatic",
       "latitud": "20.76420021",
@@ -7284,7 +7367,10 @@
       "latitud": "20.62260056",
       "longitud": "-103.04515839",
       "idProv": 57
-    },
+    }
+  ],
+
+  "Mexico": [
     {
       "nombre": "Alvaro Obregon(58)",
       "latitud": "19.37495995",
@@ -8130,7 +8216,10 @@
       "latitud": "19.79884911",
       "longitud": "-99.09702301",
       "idProv": 58
-    },
+    }
+  ],
+
+  "Michoacan Ocampo": [
     {
       "nombre": "Acuitzio",
       "latitud": "19.47178078",
@@ -8808,7 +8897,10 @@
       "latitud": "19.43197060",
       "longitud": "-100.35740662",
       "idProv": 59
-    },
+    }
+  ],
+
+  "Morelos": [
     {
       "nombre": "Amacuzac",
       "latitud": "18.60055923",
@@ -9006,7 +9098,10 @@
       "latitud": "18.80855942",
       "longitud": "-98.75273895",
       "idProv": 60
-    },
+    }
+  ],
+
+  "Nayarit": [
     {
       "nombre": "Acaponeta",
       "latitud": "22.48146057",
@@ -9126,7 +9221,10 @@
       "latitud": "21.39831924",
       "longitud": "-104.92388916",
       "idProv": 61
-    },
+    }
+  ],
+
+  "Nuevo Leon": [
     {
       "nombre": "Abasolo(62)",
       "latitud": "25.94782066",
@@ -9432,7 +9530,10 @@
       "latitud": "26.47039032",
       "longitud": "-100.38726044",
       "idProv": 62
-    },
+    }
+  ],
+
+  "Oaxaca": [
     {
       "nombre": "Abejones",
       "latitud": "17.43250084",
@@ -12852,7 +12953,10 @@
       "latitud": "16.78026962",
       "longitud": "-97.03453827",
       "idProv": 63
-    },
+    }
+  ],
+
+  "Puebla": [
     {
       "nombre": "Acajete(64)",
       "latitud": "19.10275078",
@@ -14154,7 +14258,10 @@
       "latitud": "18.37700081",
       "longitud": "-96.98165131",
       "idProv": 64
-    },
+    }
+  ],
+
+  "Queretaro": [
     {
       "nombre": "Amealco de Bonfil",
       "latitud": "20.16025925",
@@ -14262,7 +14369,10 @@
       "latitud": "20.91168022",
       "longitud": "-99.94567871",
       "idProv": 65
-    },
+    }
+  ],
+
+  "Quintana Roo": [
     {
       "nombre": "Bacalar",
       "latitud": "18.90566063",
@@ -14322,7 +14432,10 @@
       "latitud": "20.22617912",
       "longitud": "-87.51702118",
       "idProv": 66
-    },
+    }
+  ],
+
+  "San Luis Potosi": [
     {
       "nombre": "Ahualulco",
       "latitud": "22.45964050",
@@ -14670,7 +14783,10 @@
       "latitud": "22.02528000",
       "longitud": "-100.68907166",
       "idProv": 67
-    },
+    }
+  ],
+
+  "Sinaloa": [
     {
       "nombre": "Ahome",
       "latitud": "25.89892960",
@@ -14778,7 +14894,10 @@
       "latitud": "25.94103050",
       "longitud": "-108.09075928",
       "idProv": 68
-    },
+    }
+  ],
+
+  "Sonora": [
     {
       "nombre": "Aconchi",
       "latitud": "29.79400063",
@@ -15210,7 +15329,10 @@
       "latitud": "28.40122032",
       "longitud": "-108.95561981",
       "idProv": 69
-    },
+    }
+  ],
+
+  "Tabasco": [
     {
       "nombre": "Balancan",
       "latitud": "17.82644081",
@@ -15312,7 +15434,10 @@
       "latitud": "17.43342972",
       "longitud": "-91.30637360",
       "idProv": 70
-    },
+    }
+  ],
+
+  "Tamaulipas": [
     {
       "nombre": "Abasolo",
       "latitud": "24.10457993",
@@ -15570,7 +15695,10 @@
       "latitud": "23.00985909",
       "longitud": "-98.98314667",
       "idProv": 71
-    },
+    }
+  ],
+
+  "Tlaxcala": [
     {
       "nombre": "Acuamanala de Miguel Hidalgo",
       "latitud": "19.21986008",
@@ -15930,7 +16058,10 @@
       "latitud": "19.20313072",
       "longitud": "-97.91052246",
       "idProv": 72
-    },
+    }
+  ],
+
+  "Veracruz-Llave": [
     {
       "nombre": "Acajete",
       "latitud": "19.56814957",
@@ -17202,7 +17333,10 @@
       "latitud": "20.14035034",
       "longitud": "-97.56124878",
       "idProv": 73
-    },
+    }
+  ],
+
+  "Yucatan": [
     {
       "nombre": "Abala",
       "latitud": "20.66493034",
@@ -17874,7 +18008,10 @@
       "latitud": "21.28303909",
       "longitud": "-89.11892700",
       "idProv": 74
-    },
+    }
+  ],
+
+  "Zacatecas": [
     {
       "nombre": "Apozol",
       "latitud": "21.46769905",

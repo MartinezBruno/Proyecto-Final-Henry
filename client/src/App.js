@@ -15,11 +15,14 @@ import About from "./components/About";
 import Profile from "./components/Profile";
 import Footer from "./components/Footer";
 import ProfileDetails from "./components/ProfileDetails";
+import FloatCartButton from "./components/FloatCartButton";
+import Shopping from "./components/Shopping";
 
 function App() {
 
   const NavLayout = () =>(
     <>
+    <FloatCartButton />
     <NavBar />
     <Outlet />
     </>
@@ -43,6 +46,7 @@ function App() {
                   <Route path="login" element={<Login />} />
                   <Route path="about" element={<About />} />
                   <Route path="profile" element={<Profile />} />
+                  <Route path="shopping" element={<Shopping />} />
                   <Route path="home/:ProviderID" element={<ProfileDetails />} />
 
               </Route>
