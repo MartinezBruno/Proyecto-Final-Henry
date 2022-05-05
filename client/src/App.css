@@ -7,3 +7,8 @@ body{
   /* font-family: 'Montserrat'!important; */
   background-color: aliceBlue!important;
 }
+
+.nav-link.active {
+  color: rgb(255, 255, 255) !important;
+  background-color: rgb(67, 133, 255) !important;
+}
