@@ -1,7 +1,6 @@
 const { Proveedor, Servicio, Ciudad, Provincia, Pais, Precio, Proveedor_Servicio, Descripcion, Role } = require('../db')
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
-const axios = require('axios')
 
 const allProvs = async () => {
   let proveedorServ = await Proveedor_Servicio.findAll({
@@ -169,29 +168,75 @@ const getProvByID = async (req, res, next) => {
 
 const deleteServicio_Prov = async (req, res) => {
   const { provId, servId } = req.params
+  try {
+    let precioDisp = await Proveedor_Servicio.findOne({
+      where: [{ ServicioId: servId, ProveedorId: provId }],
+    })
 
-  let precioDisp = await Proveedor_Servicio.findOne({
-    where: [{ ServicioId: servId, ProveedorId: provId }],
-  })
-  console.log(precioDisp)
-  let precio = precioDisp.PrecioId
-  let descripcionDisp = precioDisp.DescripcionId
+    let precio = precioDisp.PrecioId
+    let descripcionDisp = precioDisp.DescripcionId
 
-  console.log(precio)
-  console.log(descripcionDisp)
+    await Descripcion.destroy({
+      where: [{ id: descripcionDisp }],
+    })
 
-  await Descripcion.destroy({
-    where: [{ id: descripcionDisp }],
-  })
+    await Precio.destroy({
+      where: [{ id: precio }],
+    })
 
-  await Precio.destroy({
-    where: [{ id: precio }],
-  })
+    await Proveedor_Servicio.destroy({
+      where: [{ ServicioId: servId, ProveedorId: provId }],
+    })
 
-  await Proveedor_Servicio.destroy({
-    where: [{ ServicioId: servId, ProveedorId: provId }],
-  })
-  res.status(200).send('borrado')
+    let allServices = await Proveedor_Servicio.findAll({
+      where: { ProveedorId: provId },
+    })
+
+    if (allServices[0] === undefined) {
+      let proveedor = await Proveedor.findOne({
+        where: { id: provId },
+      })
+
+      let servicio = {
+        NOMBRE_SERVICIO: 'Sin servicios disponibles',
+        REMOTE: true,
+        PRECIO: NaN,
+        DESCRIPCION: '',
+      }
+
+      let serviciosDisp = await Servicio.findOne({
+        where: {
+          NOMBRE_SERVICIO: servicio.NOMBRE_SERVICIO,
+          REMOTE: servicio.REMOTE,
+        },
+      })
+      await proveedor.addServicio(serviciosDisp)
+
+      let proveedor_servicio = await Proveedor_Servicio.findOne({
+        where: {
+          ProveedorId: proveedor.id,
+          ServicioId: serviciosDisp.id,
+        },
+      })
+
+      let [p, _created] = await Precio.findOrCreate({
+        where: {
+          PRECIO: servicio.PRECIO,
+        },
+      })
+      let d = await Descripcion.create({
+        DESCRIPCION: servicio.DESCRIPCION,
+      })
+
+      await proveedor_servicio.setPrecio(p)
+      await proveedor_servicio.setDescripcion(d)
+    }
+
+    return res.status(204).send({ msg: 'Servicio eliminado' })
+  } catch (error) {
+    console.error(error)
+    next(error)
+  }
 }
 
 const addServicio_Prov = async (req, res, next) => {
@@ -199,7 +244,7 @@ const addServicio_Prov = async (req, res, next) => {
   const { servicios } = req.body
   try {
     let proveedor = await Proveedor.findByPk(id)
-    if (!proveedor) return res.status(404).send({ msg: 'Proveedor no encontrado' })
+    if (!proveedor) return res.status(404).send({ message: 'Proveedor no encontrado' })
     let arrayServicios = servicios.map((servicio) => {
       return {
         NOMBRE_SERVICIO: servicio.NOMBRE_SERVICIO,
@@ -259,7 +304,7 @@ const addServicio_Prov = async (req, res, next) => {
       })
       proveedor_servicio.setDescripcion(d)
     }
-    return res.send({ message: 'Servicios agregados' })
+    return res.status(204).send({ message: 'Servicios agregados' })
   } catch (error) {
     console.error(error)
     next(error)
