@@ -86,8 +86,8 @@ const getProv = async (req, res, next) => {
     let proveedores = await allProvs()
     return res.status(200).send(proveedores)
   } catch (error) {
-    console.error(error)
     next(error)
+    return res.status(500).send(error)
   }
 }
 
@@ -160,7 +160,6 @@ const getProvByID = async (req, res, next) => {
     }
     return res.status(200).send(proveedorAMostrar)
   } catch (error) {
-    console.error(error.message)
     next(error)
     return res.status(404).send({ msg: 'Proveedor no encontrado' })
   }
@@ -234,8 +233,8 @@ const deleteServicio_Prov = async (req, res) => {
 
     return res.status(204).send({ msg: 'Servicio eliminado' })
   } catch (error) {
-    console.error(error)
     next(error)
+    return res.status(500).send(error)
   }
 }
 
@@ -264,7 +263,7 @@ const addServicio_Prov = async (req, res, next) => {
     proveedor.addServicios(serviciosDisp)
 
     for (let i = 0; i < arrayPrecios.length; i++) {
-      let [p, created] = await Precio.findOrCreate({
+      let [p, _created] = await Precio.findOrCreate({
         where: {
           PRECIO: arrayPrecios[i],
         },
@@ -306,43 +305,51 @@ const addServicio_Prov = async (req, res, next) => {
     }
     return res.status(204).send({ message: 'Servicios agregados' })
   } catch (error) {
-    console.error(error)
     next(error)
+    return res.status(500).send(error)
   }
 }
 
 const filtroPorProfesion = async (req, res) => {
   const { service } = req.params
-  console.log(service)
 
-  let servicios = await Servicio.findOne({
-    where: {
-      NOMBRE_SERVICIO: service,
-    },
-  })
-  console.log(servicios)
-  let servicioFilt = servicios.id
-  //     console.log(servicios.id)
-  let proveedorServ = await getProveedores()
-  console.log(proveedorServ)
-  let provFiltered = proveedorServ.filter((prov) => prov.servicio.id === servicioFilt)
-  return res.status(200).send(provFiltered)
+  try {
+    let servicios = await Servicio.findOne({
+      where: {
+        NOMBRE_SERVICIO: service,
+      },
+    })
+    console.log(servicios)
+    let servicioFilt = servicios.id
+    //     console.log(servicios.id)
+    let proveedorServ = await getProveedores()
+    console.log(proveedorServ)
+    let provFiltered = proveedorServ.filter((prov) => prov.servicio.id === servicioFilt)
+    return res.status(200).send(provFiltered)
+  } catch (error) {
+    next(error)
+    return res.status(500).send(error)
+  }
 }
 
 const filtroPorProvincia = async (req, res) => {
   const { provincia } = req.params
-  console.log(provincia)
-  let provincias = await Provincia.findOne({
-    where: {
-      NOMBRE_PROVINCIA: provincia,
-    },
-  })
-  console.log(provincias)
-  let filtProvincia = provincias.NOMBRE_PROVINCIA
-  let proveedores = await getProveedores()
-  let proveedorProvincia = proveedores.filter((provincia) => provincia.provincia === filtProvincia)
-  console.log(proveedorProvincia)
-  return res.status(200).send(proveedorProvincia)
+
+  try {
+    let provincias = await Provincia.findOne({
+      where: {
+        NOMBRE_PROVINCIA: provincia,
+      },
+    })
+
+    let filtProvincia = provincias.NOMBRE_PROVINCIA
+    let proveedores = await getProveedores()
+    let proveedorProvincia = proveedores.filter((provincia) => provincia.provincia === filtProvincia)
+    console.log(proveedorProvincia)
+    return res.status(200).send(proveedorProvincia)
+  } catch (error) {
+    return res.status(500).send(error)
+  }
 }
 
 const filtroProveedor = async (req, res, next) => {
@@ -363,8 +370,8 @@ const filtroProveedor = async (req, res, next) => {
         let proveedores = await allProvs()
         return res.status(200).send(proveedores)
       } catch (error) {
-        console.error(error)
         next(error)
+        return res.status(500).send(error)
       }
     }
     // FILTRO DE A UNO
@@ -374,8 +381,8 @@ const filtroProveedor = async (req, res, next) => {
         proveedores = proveedores.filter((prov) => prov.servicio.nombre === servicio)
         return res.status(200).send(proveedores)
       } catch (error) {
-        console.error(error)
         next(error)
+        return res.status(500).send(error)
       }
     }
     if (pais === 'Todos' && provincia === 'Todos' && ciudad !== 'Todos' && servicio === 'Todos' && remote === 'Todos') {
@@ -384,8 +391,8 @@ const filtroProveedor = async (req, res, next) => {
         proveedores = proveedores.filter((prov) => prov.ciudad === ciudad)
         return res.status(200).send(proveedores)
       } catch (error) {
-        console.error(error)
         next(error)
+        return res.status(500).send(error)
       }
     }
     if (pais === 'Todos' && provincia !== 'Todos' && ciudad === 'Todos' && servicio === 'Todos' && remote === 'Todos') {
@@ -394,8 +401,8 @@ const filtroProveedor = async (req, res, next) => {
         proveedores = proveedores.filter((prov) => prov.provincia === provincia)
         return res.status(200).send(proveedores)
       } catch (error) {
-        console.error(error)
         next(error)
+        return res.status(500).send(error)
       }
     }
     if (pais !== 'Todos' && provincia === 'Todos' && ciudad === 'Todos' && servicio === 'Todos' && remote === 'Todos') {
@@ -404,8 +411,8 @@ const filtroProveedor = async (req, res, next) => {
         proveedores = proveedores.filter((prov) => prov.pais === pais)
         return res.status(200).send(proveedores)
       } catch (error) {
-        console.error(error)
         next(error)
+        return res.status(500).send(error)
       }
     }
     //FILTRO DE A DOS
@@ -415,8 +422,8 @@ const filtroProveedor = async (req, res, next) => {
         proveedores = proveedores.filter((prov) => prov.ciudad === ciudad && prov.servicio.nombre === servicio)
         return res.status(200).send(proveedores)
       } catch (error) {
-        console.error(error)
         next(error)
+        return res.status(500).send(error)
       }
     }
     if (pais === 'Todos' && provincia !== 'Todos' && ciudad !== 'Todos' && servicio === 'Todos' && remote === 'Todos') {
@@ -425,8 +432,8 @@ const filtroProveedor = async (req, res, next) => {
         proveedores = proveedores.filter((prov) => prov.ciudad === ciudad && prov.provincia === provincia)
         return res.status(200).send(proveedores)
       } catch (error) {
-        console.error(error)
         next(error)
+        return res.status(500).send(error)
       }
     }
     if (pais !== 'Todos' && provincia !== 'Todos' && ciudad === 'Todos' && servicio === 'Todos' && remote === 'Todos') {
@@ -435,8 +442,8 @@ const filtroProveedor = async (req, res, next) => {
         proveedores = proveedores.filter((prov) => prov.pais === pais && prov.provincia === prov.provincia)
         return res.status(200).send(proveedores)
       } catch (error) {
-        console.error(error)
         next(error)
+        return res.status(500).send(error)
       }
     }
     if (pais !== 'Todos' && provincia === 'Todos' && ciudad === 'Todos' && servicio !== 'Todos' && remote === 'Todos') {
@@ -445,8 +452,8 @@ const filtroProveedor = async (req, res, next) => {
         proveedores = proveedores.filter((prov) => prov.pais === pais && prov.servicio.nombre === servicio)
         return res.status(200).send(proveedores)
       } catch (error) {
-        console.error(error)
         next(error)
+        return res.status(500).send(error)
       }
     }
     if (pais === 'Todos' && provincia !== 'Todos' && ciudad === 'Todos' && servicio !== 'Todos' && remote === 'Todos') {
@@ -455,8 +462,8 @@ const filtroProveedor = async (req, res, next) => {
         proveedores = proveedores.filter((prov) => prov.provincia === provincia && prov.servicio.nombre === servicio)
         return res.status(200).send(proveedores)
       } catch (error) {
-        console.error(error)
         next(error)
+        return res.status(500).send(error)
       }
     }
     // FILTRO DE A TRES
@@ -466,8 +473,8 @@ const filtroProveedor = async (req, res, next) => {
         proveedores = proveedores.filter((prov) => prov.provincia === provincia && prov.servicio.nombre === servicio && prov.ciudad === ciudad)
         return res.status(200).send(proveedores)
       } catch (error) {
-        console.error(error)
         next(error)
+        return res.status(500).send(error)
       }
     }
     if (pais !== 'Todos' && provincia !== 'Todos' && ciudad !== 'Todos' && servicio === 'Todos' && remote === 'Todos') {
@@ -476,8 +483,8 @@ const filtroProveedor = async (req, res, next) => {
         proveedores = proveedores.filter((prov) => prov.provincia === provincia && prov.pais === pais && prov.ciudad === ciudad)
         return res.status(200).send(proveedores)
       } catch (error) {
-        console.error(error)
         next(error)
+        return res.status(500).send(error)
       }
     }
     if (pais !== 'Todos' && provincia === 'Todos' && ciudad !== 'Todos' && servicio !== 'Todos' && remote === 'Todos') {
@@ -486,8 +493,8 @@ const filtroProveedor = async (req, res, next) => {
         proveedores = proveedores.filter((prov) => prov.servicio.nombre === servicio && prov.pais === pais && prov.ciudad === ciudad)
         return res.status(200).send(proveedores)
       } catch (error) {
-        console.error(error)
         next(error)
+        return res.status(500).send(error)
       }
     }
     if (pais !== 'Todos' && provincia !== 'Todos' && ciudad === 'Todos' && servicio !== 'Todos' && remote === 'Todos') {
@@ -496,8 +503,8 @@ const filtroProveedor = async (req, res, next) => {
         proveedores = proveedores.filter((prov) => prov.servicio.nombre === servicio && prov.pais === pais && prov.provincia === provincia)
         return res.status(200).send(proveedores)
       } catch (error) {
-        console.error(error)
         next(error)
+        return res.status(500).send(error)
       }
     }
     // FILTRO DE A CUATRO
@@ -509,8 +516,8 @@ const filtroProveedor = async (req, res, next) => {
         )
         return res.status(200).send(proveedores)
       } catch (error) {
-        console.error(error)
         next(error)
+        return res.status(500).send(error)
       }
     }
 
@@ -521,8 +528,8 @@ const filtroProveedor = async (req, res, next) => {
         proveedores = proveedores.filter((prov) => prov.servicio.remote === toBool(remote))
         return res.status(200).send(proveedores)
       } catch (error) {
-        console.error(error)
         next(error)
+        return res.status(500).send(error)
       }
     }
     // FILTRO DE A UNO
@@ -533,8 +540,8 @@ const filtroProveedor = async (req, res, next) => {
 
         return res.status(200).send(proveedores)
       } catch (error) {
-        console.error(error)
         next(error)
+        return res.status(500).send(error)
       }
     }
     if (pais === 'Todos' && provincia === 'Todos' && ciudad !== 'Todos' && servicio === 'Todos' && remote !== 'Todos') {
@@ -544,8 +551,8 @@ const filtroProveedor = async (req, res, next) => {
 
         return res.status(200).send(proveedores)
       } catch (error) {
-        console.error(error)
         next(error)
+        return res.status(500).send(error)
       }
     }
     if (pais === 'Todos' && provincia !== 'Todos' && ciudad === 'Todos' && servicio === 'Todos' && remote !== 'Todos') {
@@ -555,8 +562,8 @@ const filtroProveedor = async (req, res, next) => {
 
         return res.status(200).send(proveedores)
       } catch (error) {
-        console.error(error)
         next(error)
+        return res.status(500).send(error)
       }
     }
     if (pais !== 'Todos' && provincia === 'Todos' && ciudad === 'Todos' && servicio === 'Todos' && remote !== 'Todos') {
@@ -566,8 +573,8 @@ const filtroProveedor = async (req, res, next) => {
 
         return res.status(200).send(proveedores)
       } catch (error) {
-        console.error(error)
         next(error)
+        return res.status(500).send(error)
       }
     }
     //FILTRO DE A DOS
@@ -578,8 +585,8 @@ const filtroProveedor = async (req, res, next) => {
 
         return res.status(200).send(proveedores)
       } catch (error) {
-        console.error(error)
         next(error)
+        return res.status(500).send(error)
       }
     }
     if (pais === 'Todos' && provincia !== 'Todos' && ciudad !== 'Todos' && servicio === 'Todos' && remote !== 'Todos') {
@@ -589,8 +596,8 @@ const filtroProveedor = async (req, res, next) => {
 
         return res.status(200).send(proveedores)
       } catch (error) {
-        console.error(error)
         next(error)
+        return res.status(500).send(error)
       }
     }
     if (pais !== 'Todos' && provincia !== 'Todos' && ciudad === 'Todos' && servicio === 'Todos' && remote !== 'Todos') {
@@ -600,8 +607,8 @@ const filtroProveedor = async (req, res, next) => {
 
         return res.status(200).send(proveedores)
       } catch (error) {
-        console.error(error)
         next(error)
+        return res.status(500).send(error)
       }
     }
     if (pais !== 'Todos' && provincia === 'Todos' && ciudad === 'Todos' && servicio !== 'Todos' && remote !== 'Todos') {
@@ -611,8 +618,8 @@ const filtroProveedor = async (req, res, next) => {
 
         return res.status(200).send(proveedores)
       } catch (error) {
-        console.error(error)
         next(error)
+        return res.status(500).send(error)
       }
     }
     if (pais === 'Todos' && provincia !== 'Todos' && ciudad === 'Todos' && servicio !== 'Todos' && remote !== 'Todos') {
@@ -622,8 +629,8 @@ const filtroProveedor = async (req, res, next) => {
 
         return res.status(200).send(proveedores)
       } catch (error) {
-        console.error(error)
         next(error)
+        return res.status(500).send(error)
       }
     }
     // FILTRO DE A TRES
@@ -636,8 +643,8 @@ const filtroProveedor = async (req, res, next) => {
 
         return res.status(200).send(proveedores)
       } catch (error) {
-        console.error(error)
         next(error)
+        return res.status(500).send(error)
       }
     }
     if (pais !== 'Todos' && provincia !== 'Todos' && ciudad !== 'Todos' && servicio === 'Todos' && remote !== 'Todos') {
@@ -649,8 +656,8 @@ const filtroProveedor = async (req, res, next) => {
 
         return res.status(200).send(proveedores)
       } catch (error) {
-        console.error(error)
         next(error)
+        return res.status(500).send(error)
       }
     }
     if (pais !== 'Todos' && provincia === 'Todos' && ciudad !== 'Todos' && servicio !== 'Todos' && remote !== 'Todos') {
@@ -661,8 +668,8 @@ const filtroProveedor = async (req, res, next) => {
         )
         return res.status(200).send(proveedores)
       } catch (error) {
-        console.error(error)
         next(error)
+        return res.status(500).send(error)
       }
     }
     if (pais !== 'Todos' && provincia !== 'Todos' && ciudad === 'Todos' && servicio !== 'Todos' && remote !== 'Todos') {
@@ -673,8 +680,8 @@ const filtroProveedor = async (req, res, next) => {
         )
         return res.status(200).send(proveedores)
       } catch (error) {
-        console.error(error)
         next(error)
+        return res.status(500).send(error)
       }
     }
     // FILTRO DE A CUATRO
@@ -691,8 +698,8 @@ const filtroProveedor = async (req, res, next) => {
         )
         return res.status(200).send(proveedores)
       } catch (error) {
-        console.error(error)
         next(error)
+        return res.status(500).send(error)
       }
     }
   }
@@ -709,8 +716,8 @@ const filtroProveedor = async (req, res, next) => {
         try {
           return res.status(200).send(proveedores)
         } catch (error) {
-          console.error(error)
           next(error)
+          return res.status(500).send(error)
         }
       }
       // FILTRO DE A UNO
@@ -719,8 +726,8 @@ const filtroProveedor = async (req, res, next) => {
           proveedores = proveedores.filter((prov) => prov.servicio.nombre === servicio)
           return res.status(200).send(proveedores)
         } catch (error) {
-          console.error(error)
           next(error)
+          return res.status(500).send(error)
         }
       }
       if (pais === 'Todos' && provincia === 'Todos' && ciudad !== 'Todos' && servicio === 'Todos' && remote === 'Todos') {
@@ -728,8 +735,8 @@ const filtroProveedor = async (req, res, next) => {
           proveedores = proveedores.filter((prov) => prov.ciudad === ciudad)
           return res.status(200).send(proveedores)
         } catch (error) {
-          console.error(error)
           next(error)
+          return res.status(500).send(error)
         }
       }
       if (pais === 'Todos' && provincia !== 'Todos' && ciudad === 'Todos' && servicio === 'Todos' && remote === 'Todos') {
@@ -737,8 +744,8 @@ const filtroProveedor = async (req, res, next) => {
           proveedores = proveedores.filter((prov) => prov.provincia === provincia)
           return res.status(200).send(proveedores)
         } catch (error) {
-          console.error(error)
           next(error)
+          return res.status(500).send(error)
         }
       }
       if (pais !== 'Todos' && provincia === 'Todos' && ciudad === 'Todos' && servicio === 'Todos' && remote === 'Todos') {
@@ -746,8 +753,8 @@ const filtroProveedor = async (req, res, next) => {
           proveedores = proveedores.filter((prov) => prov.pais === pais)
           return res.status(200).send(proveedores)
         } catch (error) {
-          console.error(error)
           next(error)
+          return res.status(500).send(error)
         }
       }
       //FILTRO DE A DOS
@@ -756,8 +763,8 @@ const filtroProveedor = async (req, res, next) => {
           proveedores = proveedores.filter((prov) => prov.ciudad === ciudad && prov.servicio.nombre === servicio)
           return res.status(200).send(proveedores)
         } catch (error) {
-          console.error(error)
           next(error)
+          return res.status(500).send(error)
         }
       }
       if (pais === 'Todos' && provincia !== 'Todos' && ciudad !== 'Todos' && servicio === 'Todos' && remote === 'Todos') {
@@ -765,8 +772,8 @@ const filtroProveedor = async (req, res, next) => {
           proveedores = proveedores.filter((prov) => prov.ciudad === ciudad && prov.provincia === provincia)
           return res.status(200).send(proveedores)
         } catch (error) {
-          console.error(error)
           next(error)
+          return res.status(500).send(error)
         }
       }
       if (pais !== 'Todos' && provincia !== 'Todos' && ciudad === 'Todos' && servicio === 'Todos' && remote === 'Todos') {
@@ -774,8 +781,8 @@ const filtroProveedor = async (req, res, next) => {
           proveedores = proveedores.filter((prov) => prov.pais === pais && prov.provincia === prov.provincia)
           return res.status(200).send(proveedores)
         } catch (error) {
-          console.error(error)
           next(error)
+          return res.status(500).send(error)
         }
       }
       if (pais !== 'Todos' && provincia === 'Todos' && ciudad === 'Todos' && servicio !== 'Todos' && remote === 'Todos') {
@@ -783,8 +790,8 @@ const filtroProveedor = async (req, res, next) => {
           proveedores = proveedores.filter((prov) => prov.pais === pais && prov.servicio.nombre === servicio)
           return res.status(200).send(proveedores)
         } catch (error) {
-          console.error(error)
           next(error)
+          return res.status(500).send(error)
         }
       }
       if (pais === 'Todos' && provincia !== 'Todos' && ciudad === 'Todos' && servicio !== 'Todos' && remote === 'Todos') {
@@ -792,8 +799,8 @@ const filtroProveedor = async (req, res, next) => {
           proveedores = proveedores.filter((prov) => prov.provincia === provincia && prov.servicio.nombre === servicio)
           return res.status(200).send(proveedores)
         } catch (error) {
-          console.error(error)
           next(error)
+          return res.status(500).send(error)
         }
       }
       // FILTRO DE A TRES
@@ -802,8 +809,8 @@ const filtroProveedor = async (req, res, next) => {
           proveedores = proveedores.filter((prov) => prov.provincia === provincia && prov.servicio.nombre === servicio && prov.ciudad === ciudad)
           return res.status(200).send(proveedores)
         } catch (error) {
-          console.error(error)
           next(error)
+          return res.status(500).send(error)
         }
       }
       if (pais !== 'Todos' && provincia !== 'Todos' && ciudad !== 'Todos' && servicio === 'Todos' && remote === 'Todos') {
@@ -811,8 +818,8 @@ const filtroProveedor = async (req, res, next) => {
           proveedores = proveedores.filter((prov) => prov.provincia === provincia && prov.pais === pais && prov.ciudad === ciudad)
           return res.status(200).send(proveedores)
         } catch (error) {
-          console.error(error)
           next(error)
+          return res.status(500).send(error)
         }
       }
       if (pais !== 'Todos' && provincia === 'Todos' && ciudad !== 'Todos' && servicio !== 'Todos' && remote === 'Todos') {
@@ -820,8 +827,8 @@ const filtroProveedor = async (req, res, next) => {
           proveedores = proveedores.filter((prov) => prov.servicio.nombre === servicio && prov.pais === pais && prov.ciudad === ciudad)
           return res.status(200).send(proveedores)
         } catch (error) {
-          console.error(error)
           next(error)
+          return res.status(500).send(error)
         }
       }
       if (pais !== 'Todos' && provincia !== 'Todos' && ciudad === 'Todos' && servicio !== 'Todos' && remote === 'Todos') {
@@ -829,8 +836,8 @@ const filtroProveedor = async (req, res, next) => {
           proveedores = proveedores.filter((prov) => prov.servicio.nombre === servicio && prov.pais === pais && prov.provincia === provincia)
           return res.status(200).send(proveedores)
         } catch (error) {
-          console.error(error)
           next(error)
+          return res.status(500).send(error)
         }
       }
       // FILTRO DE A CUATRO
@@ -841,8 +848,8 @@ const filtroProveedor = async (req, res, next) => {
           )
           return res.status(200).send(proveedores)
         } catch (error) {
-          console.error(error)
           next(error)
+          return res.status(500).send(error)
         }
       }
 
@@ -852,8 +859,8 @@ const filtroProveedor = async (req, res, next) => {
           proveedores = proveedores.filter((prov) => prov.servicio.remote === toBool(remote))
           return res.status(200).send(proveedores)
         } catch (error) {
-          console.error(error)
           next(error)
+          return res.status(500).send(error)
         }
       }
       // FILTRO DE A UNO
@@ -863,8 +870,8 @@ const filtroProveedor = async (req, res, next) => {
 
           return res.status(200).send(proveedores)
         } catch (error) {
-          console.error(error)
           next(error)
+          return res.status(500).send(error)
         }
       }
       if (pais === 'Todos' && provincia === 'Todos' && ciudad !== 'Todos' && servicio === 'Todos' && remote !== 'Todos') {
@@ -873,8 +880,8 @@ const filtroProveedor = async (req, res, next) => {
 
           return res.status(200).send(proveedores)
         } catch (error) {
-          console.error(error)
           next(error)
+          return res.status(500).send(error)
         }
       }
       if (pais === 'Todos' && provincia !== 'Todos' && ciudad === 'Todos' && servicio === 'Todos' && remote !== 'Todos') {
@@ -883,8 +890,8 @@ const filtroProveedor = async (req, res, next) => {
 
           return res.status(200).send(proveedores)
         } catch (error) {
-          console.error(error)
           next(error)
+          return res.status(500).send(error)
         }
       }
       if (pais !== 'Todos' && provincia === 'Todos' && ciudad === 'Todos' && servicio === 'Todos' && remote !== 'Todos') {
@@ -893,8 +900,8 @@ const filtroProveedor = async (req, res, next) => {
 
           return res.status(200).send(proveedores)
         } catch (error) {
-          console.error(error)
           next(error)
+          return res.status(500).send(error)
         }
       }
       //FILTRO DE A DOS
@@ -904,8 +911,8 @@ const filtroProveedor = async (req, res, next) => {
 
           return res.status(200).send(proveedores)
         } catch (error) {
-          console.error(error)
           next(error)
+          return res.status(500).send(error)
         }
       }
       if (pais === 'Todos' && provincia !== 'Todos' && ciudad !== 'Todos' && servicio === 'Todos' && remote !== 'Todos') {
@@ -914,8 +921,8 @@ const filtroProveedor = async (req, res, next) => {
 
           return res.status(200).send(proveedores)
         } catch (error) {
-          console.error(error)
           next(error)
+          return res.status(500).send(error)
         }
       }
       if (pais !== 'Todos' && provincia !== 'Todos' && ciudad === 'Todos' && servicio === 'Todos' && remote !== 'Todos') {
@@ -924,8 +931,8 @@ const filtroProveedor = async (req, res, next) => {
 
           return res.status(200).send(proveedores)
         } catch (error) {
-          console.error(error)
           next(error)
+          return res.status(500).send(error)
         }
       }
       if (pais !== 'Todos' && provincia === 'Todos' && ciudad === 'Todos' && servicio !== 'Todos' && remote !== 'Todos') {
@@ -934,8 +941,8 @@ const filtroProveedor = async (req, res, next) => {
 
           return res.status(200).send(proveedores)
         } catch (error) {
-          console.error(error)
           next(error)
+          return res.status(500).send(error)
         }
       }
       if (pais === 'Todos' && provincia !== 'Todos' && ciudad === 'Todos' && servicio !== 'Todos' && remote !== 'Todos') {
@@ -946,8 +953,8 @@ const filtroProveedor = async (req, res, next) => {
 
           return res.status(200).send(proveedores)
         } catch (error) {
-          console.error(error)
           next(error)
+          return res.status(500).send(error)
         }
       }
       // FILTRO DE A TRES
@@ -959,8 +966,8 @@ const filtroProveedor = async (req, res, next) => {
 
           return res.status(200).send(proveedores)
         } catch (error) {
-          console.error(error)
           next(error)
+          return res.status(500).send(error)
         }
       }
       if (pais !== 'Todos' && provincia !== 'Todos' && ciudad !== 'Todos' && servicio === 'Todos' && remote !== 'Todos') {
@@ -971,8 +978,8 @@ const filtroProveedor = async (req, res, next) => {
 
           return res.status(200).send(proveedores)
         } catch (error) {
-          console.error(error)
           next(error)
+          return res.status(500).send(error)
         }
       }
       if (pais !== 'Todos' && provincia === 'Todos' && ciudad !== 'Todos' && servicio !== 'Todos' && remote !== 'Todos') {
@@ -982,8 +989,8 @@ const filtroProveedor = async (req, res, next) => {
           )
           return res.status(200).send(proveedores)
         } catch (error) {
-          console.error(error)
           next(error)
+          return res.status(500).send(error)
         }
       }
       if (pais !== 'Todos' && provincia !== 'Todos' && ciudad === 'Todos' && servicio !== 'Todos' && remote !== 'Todos') {
@@ -993,8 +1000,8 @@ const filtroProveedor = async (req, res, next) => {
           )
           return res.status(200).send(proveedores)
         } catch (error) {
-          console.error(error)
           next(error)
+          return res.status(500).send(error)
         }
       }
       // FILTRO DE A CUATRO
@@ -1010,13 +1017,13 @@ const filtroProveedor = async (req, res, next) => {
           )
           return res.status(200).send(proveedores)
         } catch (error) {
-          console.error(error)
           next(error)
+          return res.status(500).send(error)
         }
       }
     } catch (error) {
-      console.error(error)
       next(error)
+      return res.status(500).send(error)
     }
   }
 }

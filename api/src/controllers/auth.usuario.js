@@ -31,9 +31,9 @@ exports.signup = async (req, res) => {
       where: { id: 1 },
     })
     newUser.setRole(role)
-    res.send({ message: '¡Usuario registrado exitosamente!' })
+    return res.status(201).send({ message: '¡Usuario registrado exitosamente!' })
   } catch (error) {
-    res.status(500).send({ message: error.message })
+    return res.status(500).send({ message: error.message })
   }
 }
 
@@ -74,7 +74,7 @@ exports.signin = async (req, res) => {
     let authorities = []
     let roles = await user.getRole()
     authorities.push(roles.dataValues.name.toUpperCase())
-    res.status(200).send({
+    return res.status(200).send({
       id: user.id,
       nombreApellido: user.NOMBRE_APELLIDO_USUARIO,
       email: user.EMAIL,
@@ -83,12 +83,13 @@ exports.signin = async (req, res) => {
       pais: user.Pai ? user.Pai.NOMBRE_PAIS : 'Sin definir',
       provincia: user.Provincium ? user.Provincium.NOMBRE_PROVINCIA : 'Sin definir',
       ciudad: user.Ciudad ? user.Ciudad.NOMBRE_CIUDAD : 'Sin definir',
+      favoritos: user.FAVORITOS,
       Role: authorities[0],
       accessToken: token,
       refreshToken: refreshToken,
       message: '¡Bienvenido!',
     })
   } catch (error) {
-    res.status(500).send({ message: error.message })
+    return res.status(500).send({ message: error.message })
   }
 }

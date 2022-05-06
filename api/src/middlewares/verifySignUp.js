@@ -2,18 +2,7 @@ const ROLES = ['user', 'admin', 'moderator', 'proveedor']
 const { Proveedor, Usuario } = require('../db')
 
 checkDuplicateEmailOnProveedores = (req, res, next) => {
-  //Username
-  // Usuarios.findOne({
-  //   where: {
-  //     usuario: req.body.usuario,
-  //   },
-  // }).then((user) => {
-  //   if (user) {
-  //     res.status(400).send({
-  //       message: '¡Error! ¡El nombre de usuario ya se encuentra en uso!',
-  //     })
-  //     return
-  //   }
+
 
   //Email
   Proveedor.findOne({

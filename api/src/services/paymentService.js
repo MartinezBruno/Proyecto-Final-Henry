@@ -6,6 +6,7 @@ class PaymentService {
     const body = {
       items: servicios?.map((servicio) => {
         return {
+          id: servicio.id,
           title: servicio.nombre,
           description: servicio.descripcion,
           quantity: 1,

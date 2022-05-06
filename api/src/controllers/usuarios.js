@@ -100,9 +100,8 @@ const userBoard = (req, res) => {
 
 const putUser = async (req, res, next) => {
   const { id } = req.params
-  const { nombre_apellido_usuario, email, celular, imagen, fecha_nacimiento,} = req.body
+  const { nombre_apellido_usuario, email, celular, imagen, fecha_nacimiento } = req.body
   try {
-
     const usuarioEncontrado = await Usuario.findOne({
       where: { id: id },
     })
@@ -119,10 +118,10 @@ const putUser = async (req, res, next) => {
           },
           { where: { id: id } }
         )
-    res.send({ message: 'Usuario actualizado correctamente' })
+    return res.send({ message: 'Usuario actualizado correctamente' })
   } catch (error) {
-    console.error(error)
     next(error)
+    return res.status(500).send({ message: 'Error al actualizar usuario' })
   }
 }
 
