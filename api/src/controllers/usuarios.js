@@ -97,11 +97,11 @@ const moderatorBoard = (req, res) => {
 }
 
 const buyReview = async (req, res) => {
-  let { provId } = req.params
-  let { calificacion, comentario,ServicioId,UsuarioId} = req.body
+
+  let { calificacion, comentario,ServicioId,UsuarioId,idProveedor } = req.body
 
   let proveedor = await Proveedor.findOne({
-    where: { id: provId },
+    where: { id: idProveedor },
   })
   let calificaciones = proveedor.CALIFICACION
 
@@ -111,7 +111,7 @@ const buyReview = async (req, res) => {
         {
           CALIFICACION: [calificaciones, calificacion].flat(),
         },
-        { where: { id: provId } }
+        { where: { id: idProveedor } }
       )
 
 //---------------------------COMENTARIO-------------------------------------- 
@@ -120,7 +120,7 @@ const buyReview = async (req, res) => {
   })
   
    let provServ = await Proveedor_Servicio.findOne({
-     where: {ProveedorId: provId, ServicioId: ServicioId}
+     where: {ProveedorId: idProveedor, ServicioId: ServicioId}
    })
   
    let usuario = await Usuario.findOne({
@@ -131,7 +131,7 @@ const buyReview = async (req, res) => {
    comentarios.setUsuario(usuario)
 
    return res.status(200).send({message:'Reseña agregada con exito'})
-}
+} 
  
 module.exports = {
   getUserById,

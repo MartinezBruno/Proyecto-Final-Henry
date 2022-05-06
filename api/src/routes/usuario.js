@@ -29,7 +29,7 @@ router.get(
   controller.userBoard
 )
 
-router.put('/calificacion/:provId', buyReview)
+router.put('/calificacion', buyReview)
 
 router.get(
   '/test/mod',
