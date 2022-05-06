@@ -1,14 +1,19 @@
 import React, { useState } from "react";
 import styles from "../styles/filters.module.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { filterByRemote } from "../redux/slices/filters";
+import { filtroSupremo, setServicios } from "../redux/slices/provider";
 
 export default function NewFilters({ setCurrentPage }) {
     const [input, setInput] = useState({
         remoto: "",
     })
     const dispatch= useDispatch()
+    const { servicios } = useSelector((state) => state.provider)
+
+    useEffect(()=>{
+      dispatch(setServicios())
+    },[])
     
     let handleChange = (e) => {
         e.preventDefault();
@@ -18,9 +23,10 @@ export default function NewFilters({ setCurrentPage }) {
         })
     }
 
-    useEffect(() => {
-        dispatch(filterByRemote(input))
-    },[input])
+    // useEffect(() => {
+    //     dispatch(filtroSupremo(input))
+    // },[input])
+
     return (
         <>
           <div className="d-flex container align-items-center justify-content-center">
@@ -106,6 +112,38 @@ export default function NewFilters({ setCurrentPage }) {
                                 style={{ margin: "0px" }}
                               >
                                 ¿Remoto?
+                              </label>
+                            </div>
+                          </div>
+                          <div className="col-md-2 mb-3 mb-md-0">
+                            <div
+                              className="d-flex align-items-center justify-content-center form-outline text-center"
+                              style={{ flexDirection: "column" }}
+                            >
+                              <select
+                                name="remoto"
+                                className="form-control form-control-lg"
+                                onChange={(e) => handleChange(e)}
+                                style={{ textAlign: "center" }}
+                              >
+                                {
+                                  servicios?.map(serv => {
+                                    <option value={serv}>{serv}</option>
+                                  })
+                                }
+                                {/* <option disabled hidden>
+                                  Selecciona
+                                </option>
+                                <option value={"Todos"}>Todos</option>
+                                <option value={"Si"}>✓</option>
+                                <option value={"No"}>✘</option> */}
+                              </select>
+    
+                              <label
+                                className="form-label"
+                                style={{ margin: "0px" }}
+                              >
+                                Servicios
                               </label>
                             </div>
                           </div>
