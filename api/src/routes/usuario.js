@@ -14,8 +14,11 @@ const router = Router()
 router.use(express.json())
 
 // router.get('/:id', getProvByID)
+router.get('/:id', controller.getUserById)
 
-router.get('/:id', getUserById)
+router.put('/:userId/:provId', controller.addFavorito)
+
+router.delete('/:userId/:provId', controller.deleteFavorito)
 
 router.get('/test/all', controller.allAccess)
 
@@ -31,16 +34,8 @@ router.get(
 
 router.put('/calificacion', buyReview)
 
-router.get(
-  '/test/mod',
-  [authJwt.verifyToken, authJwt.isModerator],
-  controller.moderatorBoard
-)
+router.get('/test/mod', [authJwt.verifyToken, authJwt.isModerator], controller.moderatorBoard)
 
-router.get(
-  '/test/admin',
-  [authJwt.verifyToken, authJwt.isAdmin],
-  controller.adminBoard
-)
+router.get('/test/admin', [authJwt.verifyToken, authJwt.isAdmin], controller.adminBoard)
 
 module.exports = router

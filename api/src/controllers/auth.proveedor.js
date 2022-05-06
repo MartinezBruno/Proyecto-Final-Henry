@@ -6,7 +6,7 @@ var bcrypt = require('bcryptjs')
 
 exports.signup = async (req, res) => {
   // Guardar usuario en la base de datos
-  let { nombre, apellido, password, email, imagen, fecha_nacimiento, pais, provincia, servicios, ciudad } = req.body
+  let { nombre, apellido, password, email, imagen, fecha_nacimiento, pais, provincia, servicios, ciudad, celular } = req.body
 
   try {
     servicios?.length === 0 || servicios == null
@@ -55,6 +55,7 @@ exports.signup = async (req, res) => {
       IMAGEN: imagen,
       FECHA_NACIMIENTO: fecha_nacimiento,
       CALIFICACION: [],
+      CELULAR: celular,
     })
     let role = await Role.findOne({
       where: { id: 2 },
@@ -107,12 +108,9 @@ exports.signup = async (req, res) => {
       })
       await proveedor_servicio.setDescripcion(d)
     }
-
-    // rol de usuario común = 1
-
     return res.send({ message: '¡Proveedor registrado exitosamente!' })
   } catch (error) {
-    res.status(500).send({ message: error.message + ' error en el signup' })
+    res.status(500).send({ message: error.message })
   }
 }
 
@@ -150,6 +148,7 @@ exports.signin = async (req, res) => {
       id: proveedor.id,
       nombreApellido: proveedor.NOMBRE_APELLIDO_PROVEEDOR,
       email: proveedor.EMAIL,
+      celular: proveedor.CELULAR,
       imagen: proveedor.IMAGEN,
       fechaNacimiento: proveedor.FECHA_NACIMIENTO,
       calificacion: proveedor.CALIFICACION,

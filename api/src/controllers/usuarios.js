@@ -38,6 +38,58 @@ const getUserById = async (req, res) => {
   res.status(200).send(usuarioAMostrar)
 }
 
+const addFavorito = async (req, res, next) => {
+  const { userId, provId } = req.params
+  try {
+    let user = await Usuario.findOne({
+      where: { id: userId },
+    })
+    if (user === null) return res.status(404).send({ message: 'Usuario no encontrado' })
+
+    let favorites = user.FAVORITOS
+    if (favorites.includes(provId)) {
+      return res.status(200).send({ message: 'El usuario ya tiene a ese proveedor en sus favoritos' })
+    }
+    favorites.push(provId)
+    console.log(favorites)
+
+    await Usuario.update(
+      {
+        FAVORITOS: favorites,
+      },
+      { where: { id: userId } }
+    )
+    return res.status(204).send({ message: 'Favorito agregado' })
+  } catch (error) {
+    console.error(error)
+    next(error)
+  }
+}
+
+const deleteFavorito = async (req, res, next) => {
+  const { userId, provId } = req.params
+  try {
+    let user = await Usuario.findOne({
+      where: {
+        id: userId,
+      },
+    })
+    if (user === null) return res.status(404).send({ message: 'Usuario no encontrado' })
+    let favs = user.FAVORITOS.filter((fav) => fav !== provId)
+    await Usuario.update(
+      {
+        FAVORITOS: favs,
+      },
+      { where: { id: userId } }
+    )
+    return res.status(204).send({ message: 'Favorito eliminado' })
+  } catch (error) {
+    console.error(error)
+    next(error)
+    return res.status(500).send({ message: 'Error al eliminar favorito' })
+  }
+}
+
 const allAccess = (req, res) => {
   res.status(200).send('Public Content.')
 }
@@ -47,30 +99,18 @@ const userBoard = (req, res) => {
 }
 
 const putUser = async (req, res, next) => {
+  const { id } = req.params
+  const { nombre_apellido_usuario, email, celular, imagen, fecha_nacimiento } = req.body
   try {
-    const { id } = req.params
-    const { nombre, apellido, email, celular, imagen, fecha_nacimiento, pais, provincia, ciudad } = req.body
-
     const usuarioEncontrado = await Usuario.findOne({
       where: { id: id },
     })
-    const paisUser = await Pais.findOne({
-      where: { NOMBRE_PAIS: pais },
-    })
-    const provinciaUser = await Provincia.findOne({
-      where: { NOMBRE_PROVINCIA: provincia, PaiId: paisUser.id },
-    })
-    const ciudadUser = await Ciudad.findOne({
-      where: { NOMBRE_CIUDAD: ciudad, ProvinciumId: provinciaUser.id },
-    })
-
-    let parseName = `${nombre} ${apellido}`
 
     usuarioEncontrado === null
       ? res.status(404).send({ message: 'No se encontró un usuario con ese id' })
       : await Usuario.update(
           {
-            NOMBRE_APELLIDO_USUARIO: parseName,
+            NOMBRE_APELLIDO_USUARIO: nombre_apellido_usuario,
             EMAIL: email,
             CELULAR: celular,
             IMAGEN: imagen,
@@ -78,13 +118,10 @@ const putUser = async (req, res, next) => {
           },
           { where: { id: id } }
         )
-    await usuarioEncontrado.setPai(paisUser)
-    await usuarioEncontrado.setProvincium(provinciaUser)
-    await usuarioEncontrado.setCiudad(ciudadUser)
-    res.send({ message: 'Usuario actualizado correctamente' })
+    return res.send({ message: 'Usuario actualizado correctamente' })
   } catch (error) {
-    console.error(error)
     next(error)
+    return res.status(500).send({ message: 'Error al actualizar usuario' })
   }
 }
 
@@ -135,6 +172,8 @@ const buyReview = async (req, res) => {
  
 module.exports = {
   getUserById,
+  addFavorito,
+  deleteFavorito,
   allAccess,
   userBoard,
   adminBoard,
