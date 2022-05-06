@@ -1,4 +1,4 @@
-const { Proveedor, Servicio, Ciudad, Provincia, Pais, Precio, Proveedor_Servicio, Descripcion, Role } = require('../db')
+const { Proveedor, Servicio, Ciudad, Provincia, Pais, Precio, Proveedor_Servicio, Descripcion, Role, Pregunta, Usuario } = require('../db')
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 const axios = require('axios')
@@ -83,12 +83,44 @@ const allProvs = async () => {
 }
 
 const getProv = async (req, res, next) => {
-  try {
-    let proveedores = await allProvs()
-    return res.status(200).send(proveedores)
-  } catch (error) {
-    console.error(error)
-    next(error)
+  const { idProv, idServ } = req.query
+  if (!idProv && !idServ) {
+    try {
+      let proveedores = await allProvs()
+      return res.status(200).send(proveedores)
+    } catch (error) {
+      console.error(error)
+      next(error)
+    }
+  } else {
+    try {
+      let proveedores = await allProvs()
+      proveedores = proveedores.filter((prov) => prov.id === idProv && prov.servicio.id === parseInt(idServ))
+      let proveedorServicio = await Proveedor_Servicio.findAll({
+        where: { ServicioId: idServ, ProveedorId: idProv },
+      })
+      if (proveedorServicio) {
+        let preguntas = await Pregunta.findAll({
+          where: { ProveedorServicioId: proveedorServicio[0].dataValues.id },
+        })
+        let preguntasAMostrar = []
+        for (let i = 0; i < preguntas.length; i++) {
+          let usuario = await Usuario.findOne({ where: { id: preguntas[i].UsuarioId } })
+          preguntasAMostrar.push({ USUARIO: usuario.NOMBRE_APELLIDO_USUARIO, PREGUNTA: preguntas[i].PREGUNTA, RESPUESTA: preguntas[i].RESPUESTA })
+        }
+        console.log(preguntasAMostrar)
+        proveedores = proveedores.map((prov) => {
+          return {
+            ...prov,
+            preguntas: preguntasAMostrar,
+          }
+        })
+      }
+      return res.status(200).send(proveedores)
+    } catch (error) {
+      console.error(error)
+      next(error)
+    }
   }
 }
 
@@ -387,7 +419,7 @@ const filtroProveedor = async (req, res, next) => {
     if (pais !== 'Todos' && provincia !== 'Todos' && ciudad === 'Todos' && servicio === 'Todos' && remote === 'Todos') {
       try {
         let proveedores = await allProvs()
-        proveedores = proveedores.filter((prov) => prov.pais === pais && prov.provincia === prov.provincia)
+        proveedores = proveedores.filter((prov) => prov.pais === pais && prov.provincia === provincia)
         return res.status(200).send(proveedores)
       } catch (error) {
         console.error(error)
@@ -551,7 +583,7 @@ const filtroProveedor = async (req, res, next) => {
     if (pais !== 'Todos' && provincia !== 'Todos' && ciudad === 'Todos' && servicio === 'Todos' && remote !== 'Todos') {
       try {
         let proveedores = await allProvs()
-        proveedores = proveedores.filter((prov) => prov.pais === pais && prov.provincia === prov.provincia && prov.servicio.remote === toBool(remote))
+        proveedores = proveedores.filter((prov) => prov.pais === pais && prov.provincia === provincia && prov.servicio.remote === toBool(remote))
 
         return res.status(200).send(proveedores)
       } catch (error) {
@@ -726,7 +758,7 @@ const filtroProveedor = async (req, res, next) => {
       }
       if (pais !== 'Todos' && provincia !== 'Todos' && ciudad === 'Todos' && servicio === 'Todos' && remote === 'Todos') {
         try {
-          proveedores = proveedores.filter((prov) => prov.pais === pais && prov.provincia === prov.provincia)
+          proveedores = proveedores.filter((prov) => prov.pais === pais && prov.provincia === provincia)
           return res.status(200).send(proveedores)
         } catch (error) {
           console.error(error)
@@ -875,7 +907,7 @@ const filtroProveedor = async (req, res, next) => {
       }
       if (pais !== 'Todos' && provincia !== 'Todos' && ciudad === 'Todos' && servicio === 'Todos' && remote !== 'Todos') {
         try {
-          proveedores = proveedores.filter((prov) => prov.pais === pais && prov.provincia === prov.provincia && prov.servicio.remote === toBool(remote))
+          proveedores = proveedores.filter((prov) => prov.pais === pais && prov.provincia === provincia && prov.servicio.remote === toBool(remote))
 
           return res.status(200).send(proveedores)
         } catch (error) {
