@@ -107,7 +107,7 @@ const getProv = async (req, res, next) => {
         let preguntasAMostrar = []
         for (let i = 0; i < preguntas.length; i++) {
           let usuario = await Usuario.findOne({ where: { id: preguntas[i].UsuarioId } })
-          preguntasAMostrar.push({id:preguntas[i].id, USUARIO: usuario.NOMBRE_APELLIDO_USUARIO, PREGUNTA: preguntas[i].PREGUNTA, RESPUESTA: preguntas[i].RESPUESTA, horarioPregunta: preguntas[i].createdAt, horarioRespuesta: preguntas[i].updatedAt})
+          preguntasAMostrar.push({id:preguntas[i].id, USUARIO: usuario.NOMBRE_APELLIDO_USUARIO, PREGUNTA: preguntas[i].PREGUNTA, RESPUESTA: preguntas[i].RESPUESTA, horarioPregunta: Date(preguntas[i].createdAt), horarioRespuesta: Date(preguntas[i].updatedAt)})
         }
         // console.log(preguntasAMostrar)
         

@@ -1,4 +1,4 @@
-const { Usuario, Ciudad, Provincia, Pais, Proveedor ,Comentario, Proveedor_Servicio} = require('../db')
+const { Usuario, Ciudad, Provincia, Pais, Proveedor, Comentario, Proveedor_Servicio, Servicio, Precio } = require('../db')
 
 const getUserById = async (req, res) => {
   const { id } = req.params
@@ -97,8 +97,7 @@ const moderatorBoard = (req, res) => {
 }
 
 const buyReview = async (req, res) => {
-
-  let { calificacion, comentario,ServicioId,UsuarioId,idProveedor } = req.body
+  let { calificacion, comentario, ServicioId, UsuarioId, idProveedor } = req.body
 
   let proveedor = await Proveedor.findOne({
     where: { id: idProveedor },
@@ -114,25 +113,52 @@ const buyReview = async (req, res) => {
         { where: { id: idProveedor } }
       )
 
-//---------------------------COMENTARIO-------------------------------------- 
+  //---------------------------COMENTARIO--------------------------------------
   let comentarios = await Comentario.create({
-    COMENTARIO: comentario
+    COMENTARIO: comentario,
   })
-  
-   let provServ = await Proveedor_Servicio.findOne({
-     where: {ProveedorId: idProveedor, ServicioId: ServicioId}
-   })
-  
-   let usuario = await Usuario.findOne({
-     where: {id: UsuarioId}
-   })
-   
-   comentarios.setProveedor_Servicio(provServ)
-   comentarios.setUsuario(usuario)
 
-   return res.status(200).send({message:'Reseña agregada con exito'})
-} 
- 
+  let provServ = await Proveedor_Servicio.findOne({
+    where: { ProveedorId: idProveedor, ServicioId: ServicioId },
+  })
+
+  let usuario = await Usuario.findOne({
+    where: { id: UsuarioId },
+  })
+
+  comentarios.setProveedor_Servicio(provServ)
+  comentarios.setUsuario(usuario)
+
+  return res.status(200).send({ message: 'Reseña agregada con exito' })
+}
+
+const compraSucces = async (req, res) => {
+  let { datos } = req.body
+
+  let idProveedor = datos.map((compra) => compra.proveedorId)
+  let idUsuario = datos.map((compra) => compra.UsuarioId)
+  let idServicio = datos.map((compra) => compra.idServicio)
+
+  let RelacionCompra = []
+  for (let i = 0; i < idUsuario.length; i++) {
+    let ProvServ = await Proveedor_Servicio.findOne({
+      where: { ProveedorId: idProveedor[i], ServicioId: idServicio[i] },
+    })
+    //  console.log(ProvServ)
+    // console.log(ProvServ.PrecioId)
+
+    let servicioCompra = await Servicio.findAll({
+      where: { id: idServicio[i] },
+    })
+
+    // console.log(servicioCompra)
+    let PrecioServicio = await Precio.findAll({
+      where: { id: ProvServ.PrecioId },
+    })
+    
+  }
+}
+
 module.exports = {
   getUserById,
   allAccess,
@@ -141,4 +167,5 @@ module.exports = {
   moderatorBoard,
   putUser,
   buyReview,
+  compraSucces,
 }
