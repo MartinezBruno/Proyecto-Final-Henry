@@ -7,7 +7,9 @@ export const providerSlice = createSlice({
     allProviders: [],
     currentProviders: [],
     uniqueprovider: {},
-    servicios:[],
+    servicios: [],
+    provincias: [],
+    ciudades: [],
   },
   reducers: {
     //Reducer para el estado proveedor
@@ -24,11 +26,11 @@ export const providerSlice = createSlice({
     FilterByPrices: (state, action) => {
       state.currentProviders =
         action.payload === 'MenorMayor'
-          ? state.allProviders.sort(function (a, b) {
+          ? state.currentProviders.sort(function (a, b) {
               return a.servicio.precio - b.servicio.precio
             })
           : action.payload === 'MayorMenor'
-          ? state.allProviders.sort(function (a, b) {
+          ? state.currentProviders.sort(function (a, b) {
               return b.servicio.precio - a.servicio.precio
             })
           : state.allProviders
@@ -36,10 +38,26 @@ export const providerSlice = createSlice({
     FiltroSupremo: (state, action) => {
       state.currentProviders = action.payload
     },
+    SetProvincias: (state, action) => {
+      state.provincias = action.payload
+    },
+    SetCiudades: (state, action) => {
+      state.ciudades = action.payload
+    },
   },
 })
 
-export const { SetProvidersList, SetUniqueprovider, FilterByRemote, FilterByProfesion, SetServicios, FilterByPrices, FiltroSupremo } = providerSlice.actions
+export const {
+  SetProvidersList,
+  SetUniqueprovider,
+  FilterByRemote,
+  FilterByProfesion,
+  SetServicios,
+  FilterByPrices,
+  FiltroSupremo,
+  SetProvincias,
+  SetCiudades,
+} = providerSlice.actions
 
 export default providerSlice.reducer
 
@@ -57,10 +75,11 @@ export function getUniqueProvider(id) {
   }
 }
 
-export function setServicios(){
+export function setServicios() {
   return async function (dispatch) {
-    let info = await api.get("/servicios")
-    dispatch(SetServicios(info.data))
+    let info = await api.get('/servicios')
+    // console.log(info.data)
+    return dispatch(SetServicios(info.data))
   }
 }
 
@@ -70,11 +89,43 @@ export function filterByPrices(payload) {
   }
 }
 
-export function filtroSupremo(input){
-  return async function(dispatch){
-      let info = await api.get(`/proveedor/filtro?pais=Todos&provincia=Todos&ciudad=Todos&servicio=Todos&remote=${input.remoto}`)
-      // console.log(info.data)
-      dispatch(FiltroSupremo(info.data))
+export function filtroSupremo(input) {
+  return async function (dispatch) {
+    let info = await api.get(
+      `/proveedor/filtro?pais=${input.pais}&provincia=${input.provincia}&ciudad=${input.ciudad}&servicio=${input.servicio}&remote=${input.remoto}`
+    )
+    // console.log(info.data)
+    dispatch(FiltroSupremo(info.data))
   }
 }
 
+export function setProvincias(payload) {
+  return async function (dispatch) {
+    let info = await api.get(`/provincias/${payload}`)
+    dispatch(setProvincias(info.data))
+  }
+}
+export function setCiudades(payload) {
+  return async function (dispatch) {
+    let info = await api.get(`/ciudad/${payload}`)
+    dispatch(SetCiudades(info.data))
+  }
+}
+// export async function setProvincias(payload) {
+//   if (payload === 'Argentina') {
+//     return async function (dispatch) {
+//       let info = await api.get(`/provincias/ar`)
+//       dispatch(setProvincias(info.data))
+//     }
+//   } else if (payload === 'Uruguay') {
+//     return async function (dispatch) {
+//       let info = await api.get(`/provincias/uy`)
+//       dispatch(setProvincias(info.data))
+//     }
+//   } else if (payload === 'Mexico'){
+//     return async function (dispatch) {
+//       let info = await api.get(`/provincias/mx`)
+//       dispatch(setProvincias(info.data))
+//     }
+//   }
+// }

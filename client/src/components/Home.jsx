@@ -39,30 +39,30 @@ export default function Home() {
       <div className={`container-fluid ${styles.backgroundBlack}`}>
         <div className="container">
           {/* <Filters setCurrentPage={setCurrentPage} /> */}
-          <NewFilters />
+          <NewFilters setCurrentPage={setCurrentPage}/>
 
-          <Pagination currentPage= {currentPage} cardsInPage={cardsInPage} totalCards = {currentProviders?.length} setPagina = {setPagina}/>
 
           <div className="align-items-start d-flex flex-wrap justify-content-center">
           {cardsShowed?.length === 0 ? <CardNotFound /> : (
-              cardsShowed?.map((provider) => {
-                return (
-                  <Card
-                  nombre={provider.nombre_apellido_proveedor}
-                  imagen={provider.imagen}
-                  servicio={provider.servicio.nombre}
-                  descripcion={provider.servicio.descripcion}
-                  provincia={provider.provincia}
-                  ciudad={provider.ciudad}
-                  precio={provider.servicio.precio}
-                  id={provider.id}
-                  key={provider.email + provider.servicio.nombre}
-                  />
+            cardsShowed?.map((provider) => {
+              return (
+                <Card
+                nombre={provider.nombre_apellido_proveedor}
+                imagen={provider.imagen}
+                servicio={provider.servicio.nombre}
+                descripcion={provider.servicio.descripcion}
+                provincia={provider.provincia}
+                ciudad={provider.ciudad}
+                precio={provider.servicio.precio}
+                id={provider.id}
+                key={provider.email + provider.servicio.nombre + provider.servicio.precio}
+                />
                 );
               })
-            )
-        }
+              )
+            }
           </div>
+            <Pagination currentPage= {currentPage} cardsInPage={cardsInPage} totalCards = {currentProviders?.length} setPagina = {setPagina}/>
         </div>
       </div>
     </>
