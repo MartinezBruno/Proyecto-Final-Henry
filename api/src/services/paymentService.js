@@ -12,19 +12,22 @@ class PaymentService {
           unit_price: servicio.precio,
         }
       }),
+      expires: true,
+      expiration_date_from: new Date().toISOString(),
+      ezpiration_date_to: new Date('December 31, 2023').toISOString(),
       back_urls: {
         failure: '/failure',
         pending: '/pending',
         success: '/success',
       },
       order: {
-        type: "mercadopago",
+        type: 'mercadopago',
       },
       description: 'Pago de servicios, ATTEND',
       payer: {
-        entity_type: "individual",
-        type: "customer",
-        identification: {}
+        entity_type: 'individual',
+        type: 'customer',
+        identification: {},
       },
     }
 
