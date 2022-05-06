@@ -17,6 +17,15 @@ class PaymentService {
         pending: '/pending',
         success: 'http://localhost:3000/home',
       },
+      order: {
+        type: "mercadopago",
+      },
+      description: 'Pago de servicios, ATTEND',
+      payer: {
+        entity_type: "individual",
+        type: "customer",
+        identification: {}
+      },
     }
 
     const payment = await axios.post(url, body, {

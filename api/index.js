@@ -19,11 +19,11 @@ conn
   .then(() => paisesDb())
   .then(() => regionDb())
   .then(() => {
-    ciudadesDb()
     serviciosDb()
     initialRoles()
-    // autofillProveedores()
-    console.log('tamo ready')
+    // ciudadesDb().then(() => autofillProveedores())
+    ciudadesDb()
   })
-  
+  .then(() => console.log('tamo ready'))
+
 module.exports = { server }
