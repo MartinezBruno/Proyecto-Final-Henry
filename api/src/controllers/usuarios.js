@@ -99,30 +99,19 @@ const userBoard = (req, res) => {
 }
 
 const putUser = async (req, res, next) => {
+  const { id } = req.params
+  const { nombre_apellido_usuario, email, celular, imagen, fecha_nacimiento,} = req.body
   try {
-    const { id } = req.params
-    const { nombre, apellido, email, celular, imagen, fecha_nacimiento, pais, provincia, ciudad } = req.body
 
     const usuarioEncontrado = await Usuario.findOne({
       where: { id: id },
     })
-    const paisUser = await Pais.findOne({
-      where: { NOMBRE_PAIS: pais },
-    })
-    const provinciaUser = await Provincia.findOne({
-      where: { NOMBRE_PROVINCIA: provincia, PaiId: paisUser.id },
-    })
-    const ciudadUser = await Ciudad.findOne({
-      where: { NOMBRE_CIUDAD: ciudad, ProvinciumId: provinciaUser.id },
-    })
-
-    let parseName = `${nombre} ${apellido}`
 
     usuarioEncontrado === null
       ? res.status(404).send({ message: 'No se encontró un usuario con ese id' })
       : await Usuario.update(
           {
-            NOMBRE_APELLIDO_USUARIO: parseName,
+            NOMBRE_APELLIDO_USUARIO: nombre_apellido_usuario,
             EMAIL: email,
             CELULAR: celular,
             IMAGEN: imagen,
@@ -130,9 +119,6 @@ const putUser = async (req, res, next) => {
           },
           { where: { id: id } }
         )
-    await usuarioEncontrado.setPai(paisUser)
-    await usuarioEncontrado.setProvincium(provinciaUser)
-    await usuarioEncontrado.setCiudad(ciudadUser)
     res.send({ message: 'Usuario actualizado correctamente' })
   } catch (error) {
     console.error(error)
