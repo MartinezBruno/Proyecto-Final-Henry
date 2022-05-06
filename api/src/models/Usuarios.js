@@ -40,9 +40,5 @@ module.exports = (sequelize) => {
       allowNull: false,
       defaultValue: 123456789,
     },
-    COMPRAS: {
-      type: DataTypes.ARRAY(DataTypes.INTEGER),
-      defaultValue: [],
-    },
   })
 }

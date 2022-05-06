@@ -1,4 +1,4 @@
-const { Proveedor, Servicio, Ciudad, Provincia, Pais, Precio, Proveedor_Servicio, Descripcion, Role, Pregunta, Usuario, Comentario} = require('../db')
+const { Proveedor, Servicio, Ciudad, Provincia, Pais, Precio, Proveedor_Servicio, Descripcion, Role, Pregunta, Usuario, Comentario } = require('../db')
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 const axios = require('axios')
@@ -103,36 +103,36 @@ const getProv = async (req, res, next) => {
         let preguntas = await Pregunta.findAll({
           where: { ProveedorServicioId: proveedorServicio[0].dataValues.id },
         })
-        
+
         let preguntasAMostrar = []
         for (let i = 0; i < preguntas.length; i++) {
           let usuario = await Usuario.findOne({ where: { id: preguntas[i].UsuarioId } })
-          preguntasAMostrar.push({id:preguntas[i].id, USUARIO: usuario.NOMBRE_APELLIDO_USUARIO, PREGUNTA: preguntas[i].PREGUNTA, RESPUESTA: preguntas[i].RESPUESTA, horarioPregunta: Date(preguntas[i].createdAt), horarioRespuesta: Date(preguntas[i].updatedAt)})
+          preguntasAMostrar.push({
+            id: preguntas[i].id,
+            USUARIO: usuario.NOMBRE_APELLIDO_USUARIO,
+            PREGUNTA: preguntas[i].PREGUNTA,
+            RESPUESTA: preguntas[i].RESPUESTA,
+            horarioPregunta: preguntas[i].createdAt,
+            horarioRespuesta: preguntas[i].updatedAt,
+          })
         }
-        // console.log(preguntasAMostrar)
-        
-      
-      
+
         let Comentarios = await Comentario.findAll({
-        where: {ProveedorServicioId: proveedorServicio[0].dataValues.id, }
-      })
-      console.log(Comentarios)
-      
-      
-      
-      let UsuarioComentario = []
-      for (let i = 0; i < Comentarios.length; i++) {
-      let usuario = await Usuario.findOne({ where: { id: Comentarios[i].UsuarioId } })
-       UsuarioComentario.push  ({id:  Comentarios[i].id , USUARIO: usuario.NOMBRE_APELLIDO_USUARIO, COMENTARIO: Comentarios[i].COMENTARIO})
-    
-      }
-        
-        
+          where: { ProveedorServicioId: proveedorServicio[0].dataValues.id },
+        })
+        console.log(Comentarios)
+
+        let UsuarioComentario = []
+        for (let i = 0; i < Comentarios.length; i++) {
+          let usuario = await Usuario.findOne({ where: { id: Comentarios[i].UsuarioId } })
+          UsuarioComentario.push({ id: Comentarios[i].id, USUARIO: usuario.NOMBRE_APELLIDO_USUARIO, COMENTARIO: Comentarios[i].COMENTARIO })
+        }
+
         proveedores = proveedores.map((prov) => {
           return {
             ...prov,
             preguntas: preguntasAMostrar,
-            comentarios: UsuarioComentario
+            comentarios: UsuarioComentario,
           }
         })
       }
@@ -271,7 +271,7 @@ const addServicio_Prov = async (req, res, next) => {
     proveedor.addServicios(serviciosDisp)
 
     for (let i = 0; i < arrayPrecios.length; i++) {
-      let [p, created] = await Precio.findOrCreate({
+      let p = await Precio.create({
         where: {
           PRECIO: arrayPrecios[i],
         },

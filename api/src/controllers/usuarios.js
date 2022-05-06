@@ -1,4 +1,4 @@
-const { Usuario, Ciudad, Provincia, Pais, Proveedor, Comentario, Proveedor_Servicio, Servicio, Precio } = require('../db')
+const { Usuario, Ciudad, Provincia, Pais, Proveedor, Comentario, Proveedor_Servicio, Compra } = require('../db')
 
 const getUserById = async (req, res) => {
   const { id } = req.params
@@ -132,31 +132,26 @@ const buyReview = async (req, res) => {
   return res.status(200).send({ message: 'Reseña agregada con exito' })
 }
 
-const compraSucces = async (req, res) => {
+const compraSuccess = async (req, res) => {
   let { datos } = req.body
 
   let idProveedor = datos.map((compra) => compra.proveedorId)
   let idUsuario = datos.map((compra) => compra.UsuarioId)
   let idServicio = datos.map((compra) => compra.idServicio)
 
-  let RelacionCompra = []
   for (let i = 0; i < idUsuario.length; i++) {
-    let ProvServ = await Proveedor_Servicio.findOne({
+    let provServ = await Proveedor_Servicio.findOne({
       where: { ProveedorId: idProveedor[i], ServicioId: idServicio[i] },
     })
-    //  console.log(ProvServ)
-    // console.log(ProvServ.PrecioId)
 
-    let servicioCompra = await Servicio.findAll({
-      where: { id: idServicio[i] },
-    })
+    let usuario = await Usuario.findOne({ where: { id: idUsuario[i] } })
 
-    // console.log(servicioCompra)
-    let PrecioServicio = await Precio.findAll({
-      where: { id: ProvServ.PrecioId },
-    })
-    
+    let compra = await Compra.create()
+
+    compra.setUsuario(usuario)
+    compra.setProveedor_Servicio(provServ)
   }
+  res.status(200).send('Compra guardada en la DB')
 }
 
 module.exports = {
@@ -167,5 +162,5 @@ module.exports = {
   moderatorBoard,
   putUser,
   buyReview,
-  compraSucces,
+  compraSuccess,
 }
