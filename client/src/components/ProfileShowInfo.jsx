@@ -12,9 +12,11 @@ export default function ProfileShowInfo(props) {
 
   const dispatch = useDispatch();
   const { UniqueUser } = useSelector((state) => state.user)
+  const { user } = useSelector((state) => state.auth)
+
 
   useEffect(() => {
-    dispatch(getUser(1))
+    dispatch(getUser(user.id))
   },[dispatch])
 
   console.log(props.changeForm)

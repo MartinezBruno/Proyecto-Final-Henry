@@ -14,9 +14,11 @@ export default function ProfileEditInfo(props) {
 
   const dispatch = useDispatch()
   const { UniqueUser } = useSelector((state) => state.user)
+  const { user } = useSelector((state) => state.auth)
+
 
   useEffect(() => {
-    dispatch(getUser("384341a3-29f1-4042-8940-a73ad22d6911"))
+    dispatch(getUser(user.id))
   }, [dispatch])
 
   const [input, setInput] = useState({
@@ -51,7 +53,7 @@ export default function ProfileEditInfo(props) {
       )
     } else {
       //pasarle bien el ID y estamos
-      dispatch(ModifyUser(1, input))
+      dispatch(ModifyUser(user.id, input))
       props.changeForm(false)
       return alert('Perfil Actualizado Correctamente')
     }

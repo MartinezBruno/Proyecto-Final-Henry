@@ -2,6 +2,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import Card from "./Card";
 import Filters from "./Filters";
+import NewFilters from "./NewFilters";
 import CardNotFound from "./CardNotFound";
 import Pagination from "./Pagination";
 import styles from "../styles/home.module.css";
@@ -11,6 +12,8 @@ import { getAllProviders } from "../redux/slices/provider";
 export default function Home() {
   const dispatch = useDispatch();
   const { currentProviders } = useSelector((state) => state.provider);
+  const { isLoggedIn } = useSelector((state) => state.auth)
+
 
   //PAGINATION VARS
   let [currentPage, setCurrentPage] = useState(1);
@@ -27,7 +30,6 @@ export default function Home() {
     setCurrentPage(num)
 }
 
-
   useEffect(() => {
     dispatch(getAllProviders());
   }, [dispatch]);
@@ -36,7 +38,8 @@ export default function Home() {
     <>
       <div className={`container-fluid ${styles.backgroundBlack}`}>
         <div className="container">
-          <Filters setCurrentPage={setCurrentPage} />
+          {/* <Filters setCurrentPage={setCurrentPage} /> */}
+          <NewFilters />
 
           <Pagination currentPage= {currentPage} cardsInPage={cardsInPage} totalCards = {currentProviders?.length} setPagina = {setPagina}/>
 

@@ -45,7 +45,7 @@ export const updateStateFromStorage = (state) => {
 }
 
 export const payServices = (services) => async () => {
-  let infoData = (await api.post('/checkout/payment', services)).data.init_point
+  let infoData = (await api.post('/checkout/payment', services)).data
   console.log(infoData)
   return infoData
 }

@@ -44,8 +44,8 @@ export function userRegister(input) {
   return async function (dispatch) {
     try {
       await AuthService.userRegister(input)
-      let { data } = await dispatch(Register_Success())
-      dispatch(setMessage(data.message))
+      let data = await dispatch(Register_Success())
+      dispatch(setMessage(data.data.message))
     } catch (error) {
       const message = (error.data && error.data.message) || error.message || error.toString()
       dispatch(Register_Fail())
@@ -69,10 +69,13 @@ export function userLogin(usuario, contraseña) {
   return async function (dispatch) {
     try {
       var info = await AuthService.userLogin(usuario, contraseña)
-      if (info) return dispatch(Login_Success({ user: info }))
+      if (info) await dispatch(SetMessage(info.message))
+      if (info) await dispatch(Login_Success({ user: info }))
     } catch (error) {
+      const message = (error.data && error.data.message) || error.message || error.toString()
       dispatch(Login_Fail())
-      console.log(error)
+      console.log(Login_Fail())
+      dispatch(SetMessage(message))
     }
   }
 }

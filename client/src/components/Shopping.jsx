@@ -12,8 +12,9 @@ export default function Shopping() {
 
   const handleOnClick = async (services) => {
     let url = await dispatch(payServices(services))
-    window.location.href = `${url}`
+    window.location.href = `${url.init_point}`
   }
+
   return (
     <>
       <div className='container' style={{ marginTop: '2rem' }}>

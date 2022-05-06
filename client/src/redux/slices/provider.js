@@ -17,22 +17,6 @@ export const providerSlice = createSlice({
     SetUniqueprovider: (state, action) => {
       state.uniqueprovider = action.payload;
     },
-    FilterByRemote: (state, action) => {
-      state.currentProviders =
-        action.payload === "true"
-          ? state.allProviders.filter((prov) => prov.servicio.remote === true)
-          : state.allProviders;
-    },
-    FilterByProfesion: (state, action) => {
-      state.currentProviders =
-        action.payload.length > 0
-          ? state.allProviders.filter((prov) =>
-              prov.servicio.nombre
-                .toLowerCase()
-                .includes(action.payload.toLowerCase())
-            )
-          : state.allProviders;
-    },
     FilterByPrices: (state, action) => {
       state.currentProviders =
         action.payload === "MenorMayor"
@@ -76,16 +60,4 @@ export function filterByPrices(payload){
   return function(dispatch) {
     dispatch(FilterByPrices(payload))
   }
-}
-
-export function filterByRemote(payload) {
-  return function (dispatch) {
-    dispatch(FilterByRemote(payload));
-  };
-}
-
-export function filterByProfesion(payload) {
-  return function (dispatch) {
-    dispatch(FilterByProfesion(payload));
-  };
 }

@@ -40,11 +40,12 @@ export default function ProfileDetails() {
                       style={{ marginLeft: '-350px' }}></button>
                   </NavLink>
                   <img
-                    src={'https://bootdey.com/img/Content/avatar/avatar7.png'}
+                    src={uniqueprovider.imagen}
                     alt='Admin'
                     className='rounded-circle'
                     width='150'
                     height='150'
+                    onError={(e) => e.target.src="https://www.softzone.es/app/uploads/2018/04/guest.png?x=480&quality=20"}
                   />
                   <div className='mt-3'>
                     {/* MAPEO nombre:*/}
