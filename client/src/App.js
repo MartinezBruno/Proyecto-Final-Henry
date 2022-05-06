@@ -1,7 +1,5 @@
 import "./App.css";
-// import {useSelector, useDispatch} from 'react-redux'
 // import logo from './logo.svg';
-// import {pruebaFunction} from './redux/slices/prueba.js'
 import React from "react";
 import { Route, Routes, Outlet } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.css'

@@ -387,7 +387,7 @@ const filtroProveedor = async (req, res, next) => {
     if (pais !== 'Todos' && provincia !== 'Todos' && ciudad === 'Todos' && servicio === 'Todos' && remote === 'Todos') {
       try {
         let proveedores = await allProvs()
-        proveedores = proveedores.filter((prov) => prov.pais === pais && prov.provincia === prov.provincia)
+        proveedores = proveedores.filter((prov) => prov.pais === pais && prov.provincia === provincia)
         return res.status(200).send(proveedores)
       } catch (error) {
         console.error(error)

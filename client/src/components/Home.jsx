@@ -62,7 +62,9 @@ export default function Home() {
               )
             }
           </div>
-            <Pagination currentPage= {currentPage} cardsInPage={cardsInPage} totalCards = {currentProviders?.length} setPagina = {setPagina}/>
+          {
+            isLoggedIn ? <Pagination currentPage= {currentPage} cardsInPage={cardsInPage} totalCards = {currentProviders?.length} setPagina = {setPagina}/> : ""
+          }
         </div>
       </div>
     </>

@@ -16,6 +16,7 @@ export default function NewFilters({ setCurrentPage }) {
   const dispatch = useDispatch()
   const { servicios } = useSelector((state) => state.provider)
   const { ciudades } = useSelector((state) => state.provider)
+  const { provincias } = useSelector((state) => state.provider)
 
   const provArg = [
     'Catamarca',
@@ -33,6 +34,7 @@ export default function NewFilters({ setCurrentPage }) {
     'La Pampa',
     'La Rioja',
     'Mendoza',
+    'Neuquen'
   ]
 
   useEffect(() => {
@@ -44,6 +46,7 @@ export default function NewFilters({ setCurrentPage }) {
 
   let handleChange = (e) => {
     e.preventDefault()
+
     setInput({
       ...input,
       [e.target.name]: e.target.value,
@@ -54,7 +57,16 @@ export default function NewFilters({ setCurrentPage }) {
   useEffect(() => {
     dispatch(filtroSupremo(input))
     dispatch(setCiudades(input.provincia))
+    // dispatch(setProvincias(input.pais))
   }, [input])
+  
+  useEffect(() => {
+    dispatch(setCiudades(input.provincia))
+    setInput({
+      ...input,
+      ciudad: "Todos"
+    })
+  }, [input.provincia])
 
   let handleFilterByPrice = (e) => {
     e.preventDefault();
@@ -188,8 +200,8 @@ export default function NewFilters({ setCurrentPage }) {
                                   onChange={(e) => handleChange(e)}
                                   style={{ textAlign: 'center' }}>
                                   <option value={'Todos'}>Todos</option>
-                                  {provArg.map((p) => (
-                                    <option value={p}>{p}</option>
+                                  {provincias && provincias.map((p) => (
+                                    <option value={p.NOMBRE_PROVINCIA}>{p.NOMBRE_PROVINCIA}</option>
                                   ))}
                                 </select>
                                 <label className='form-label' style={{ margin: '0px' }}>
@@ -209,7 +221,7 @@ export default function NewFilters({ setCurrentPage }) {
                                   onChange={(e) => handleChange(e)}
                                   style={{ textAlign: 'center' }}>
                                   <option value={'Todos'}>Todos</option>
-                                  {ciudades.map((p) => (
+                                  {ciudades?.map((p) => (
                                     <option value={p.NOMBRE_CIUDAD}>{p.NOMBRE_CIUDAD}</option>
                                   ))}
                                 </select>

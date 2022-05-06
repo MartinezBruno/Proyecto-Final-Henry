@@ -89,6 +89,8 @@ export function filterByPrices(payload) {
   }
 }
 
+
+
 export function filtroSupremo(input) {
   return async function (dispatch) {
     let info = await api.get(
@@ -102,16 +104,18 @@ export function filtroSupremo(input) {
 export function setProvincias(payload) {
   return async function (dispatch) {
     let info = await api.get(`/provincias/${payload}`)
-    dispatch(setProvincias(info.data))
+    dispatch(SetProvincias(info.data))
   }
 }
+
 export function setCiudades(payload) {
   return async function (dispatch) {
-    let info = await api.get(`/ciudad/${payload}`)
+    let info = payload !== "Todos" && await api.get(`/ciudad/${payload}`)
     dispatch(SetCiudades(info.data))
   }
 }
-// export async function setProvincias(payload) {
+
+// export function setProvincias(payload) {
 //   if (payload === 'Argentina') {
 //     return async function (dispatch) {
 //       let info = await api.get(`/provincias/ar`)
