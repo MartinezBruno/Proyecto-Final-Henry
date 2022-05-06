@@ -2,7 +2,7 @@ const express = require('express')
 const { Router } = require('express')
 const { authJwt } = require('../middlewares')
 const controller = require('../controllers/usuarios')
-const { getUserById } = require('../controllers/usuarios')
+const { getUserById,buyReview } = require('../controllers/usuarios')
 
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
@@ -14,11 +14,14 @@ const router = Router()
 router.use(express.json())
 
 // router.get('/:id', getProvByID)
+
 router.get('/:id', getUserById)
 
 router.get('/test/all', controller.allAccess)
 
 router.get('/test/usuario', [authJwt.verifyToken], controller.userBoard)
+
+router.put('/usuario/:id', controller.putUser)
 
 router.get(
   '/test/proveedor',
@@ -26,7 +29,7 @@ router.get(
   controller.userBoard
 )
 
-router.put('/:id', controller.putUser)
+router.put('/calificacion/:provId', buyReview)
 
 router.get(
   '/test/mod',

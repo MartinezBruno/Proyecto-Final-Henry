@@ -1,4 +1,4 @@
-const { Usuario, Ciudad, Provincia, Pais } = require('../db')
+const { Usuario, Ciudad, Provincia, Pais, Proveedor ,Comentario, Proveedor_Servicio} = require('../db')
 
 const getUserById = async (req, res) => {
   const { id } = req.params
@@ -96,6 +96,43 @@ const moderatorBoard = (req, res) => {
   res.status(200).send('Moderator Content.')
 }
 
+const buyReview = async (req, res) => {
+  let { provId } = req.params
+  let { calificacion, comentario,ServicioId,UsuarioId} = req.body
+
+  let proveedor = await Proveedor.findOne({
+    where: { id: provId },
+  })
+  let calificaciones = proveedor.CALIFICACION
+
+  proveedor === null
+    ? { message: 'Proveedor no encontrado' }
+    : await Proveedor.update(
+        {
+          CALIFICACION: [calificaciones, calificacion].flat(),
+        },
+        { where: { id: provId } }
+      )
+
+//---------------------------COMENTARIO-------------------------------------- 
+  let comentarios = await Comentario.create({
+    COMENTARIO: comentario
+  })
+  
+   let provServ = await Proveedor_Servicio.findOne({
+     where: {ProveedorId: provId, ServicioId: ServicioId}
+   })
+  
+   let usuario = await Usuario.findOne({
+     where: {id: UsuarioId}
+   })
+   
+   comentarios.setProveedor_Servicio(provServ)
+   comentarios.setUsuario(usuario)
+
+   return res.status(200).send({message:'Reseña agregada con exito'})
+}
+ 
 module.exports = {
   getUserById,
   allAccess,
@@ -103,4 +140,5 @@ module.exports = {
   adminBoard,
   moderatorBoard,
   putUser,
+  buyReview,
 }
