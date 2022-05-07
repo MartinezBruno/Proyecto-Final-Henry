@@ -39,6 +39,7 @@ export default function NewFilters({ setCurrentPage }) {
   useEffect(() => {
     dispatch(filtroSupremo(input))
     dispatch(setCiudades(input.provincia))
+
     dispatch(setProvincias(input.pais))
   }, [input])
 
@@ -103,7 +104,6 @@ export default function NewFilters({ setCurrentPage }) {
                               </label>
                             </div>
                           </div>
-
                           <div className='col-md-2 mb-3 mb-md-0'>
                             <div id='location' className='form-outline text-center'>
                               <select
@@ -196,6 +196,7 @@ export default function NewFilters({ setCurrentPage }) {
                           ) : (
                             ''
                           )}
+
 
                           {input.provincia !== 'Todos' && input.pais !== 'Todos' && input.pais !== 'Uruguay' ? (
                             <div className='col-md-2 mb-3 mb-md-0'>
