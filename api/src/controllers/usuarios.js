@@ -1,4 +1,47 @@
-const { Usuario, Ciudad, Provincia, Pais, Proveedor ,Comentario, Proveedor_Servicio} = require('../db')
+const { Usuario, Ciudad, Provincia, Pais, Proveedor, Comentario, Proveedor_Servicio } = require('../db')
+
+const getUsers = async (req, res) => {
+  try {
+    let users = await Usuario.findAll({
+      include: [
+        {
+          model: Pais,
+          attributes: ['NOMBRE_PAIS'],
+        },
+        {
+          model: Provincia,
+          attributes: ['NOMBRE_PROVINCIA'],
+        },
+        {
+          model: Ciudad,
+          attributes: ['NOMBRE_CIUDAD'],
+        },
+      ],
+    })
+    let usersToSend = users.map((user) => {
+      return {
+        id: user.id,
+        nombre_apellido_usuario: user.NOMBRE_APELLIDO_USUARIO,
+        email: user.EMAIL,
+        celular: user.CELULAR,
+        imagen: user.IMAGEN,
+        fecha_nacimiento: user.FECHA_NACIMIENTO,
+        calificacion: user.CALIFICACION,
+        compras: user.COMPRAS,
+        favoritos: user.FAVORITOS,
+        creation_date: user.createdAt,
+        pais: user.Pai ? user.Pai.NOMBRE_PAIS : 'Sin definir',
+        provincia: user.Provincium ? user.Provincium.NOMBRE_PROVINCIA : 'Sin definir',
+        ciudad: user.Ciudad ? user.Ciudad.NOMBRE_CIUDAD : 'Sin definir',
+      }
+    })
+
+    return res.status(200).send(usersToSend)
+  } catch (error) {
+    console.error(error)
+    return res.status(500).send({ message: 'Error al obtener los usuarios' })
+  }
+}
 
 const getUserById = async (req, res) => {
   const { id } = req.params
@@ -29,13 +72,15 @@ const getUserById = async (req, res) => {
     imagen: user.IMAGEN,
     fecha_nacimiento: user.FECHA_NACIMIENTO,
     calificacion: user.CALIFICACION,
+    compras: user.COMPRAS,
+    favoritos: user.FAVORITOS,
     creation_date: user.createdAt,
     pais: user.Pai ? user.Pai.NOMBRE_PAIS : 'Sin definir',
     provincia: user.Provincium ? user.Provincium.NOMBRE_PROVINCIA : 'Sin definir',
     ciudad: user.Ciudad ? user.Ciudad.NOMBRE_CIUDAD : 'Sin definir',
   }
 
-  res.status(200).send(usuarioAMostrar)
+  return res.status(200).send(usuarioAMostrar)
 }
 
 const addFavorito = async (req, res, next) => {
@@ -134,8 +179,7 @@ const moderatorBoard = (req, res) => {
 }
 
 const buyReview = async (req, res) => {
-
-  let { calificacion, comentario,ServicioId,UsuarioId,idProveedor } = req.body
+  let { calificacion, comentario, ServicioId, UsuarioId, idProveedor } = req.body
 
   let proveedor = await Proveedor.findOne({
     where: { id: idProveedor },
@@ -151,26 +195,27 @@ const buyReview = async (req, res) => {
         { where: { id: idProveedor } }
       )
 
-//---------------------------COMENTARIO-------------------------------------- 
+  //---------------------------COMENTARIO--------------------------------------
   let comentarios = await Comentario.create({
-    COMENTARIO: comentario
+    COMENTARIO: comentario,
   })
-  
-   let provServ = await Proveedor_Servicio.findOne({
-     where: {ProveedorId: idProveedor, ServicioId: ServicioId}
-   })
-  
-   let usuario = await Usuario.findOne({
-     where: {id: UsuarioId}
-   })
-   
-   comentarios.setProveedor_Servicio(provServ)
-   comentarios.setUsuario(usuario)
 
-   return res.status(200).send({message:'Reseña agregada con exito'})
-} 
- 
+  let provServ = await Proveedor_Servicio.findOne({
+    where: { ProveedorId: idProveedor, ServicioId: ServicioId },
+  })
+
+  let usuario = await Usuario.findOne({
+    where: { id: UsuarioId },
+  })
+
+  comentarios.setProveedor_Servicio(provServ)
+  comentarios.setUsuario(usuario)
+
+  return res.status(200).send({ message: 'Reseña agregada con exito' })
+}
+
 module.exports = {
+  getUsers,
   getUserById,
   addFavorito,
   deleteFavorito,
