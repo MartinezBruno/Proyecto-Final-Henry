@@ -12,7 +12,8 @@ const {
   putUser,
   moderatorBoard,
   adminBoard,
-  compraSuccess,
+  compraSuccess
+
 } = require('../controllers/usuarios')
 
 // Importar todos los routers;

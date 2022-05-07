@@ -114,7 +114,6 @@ export function filtroSupremo(input) {
 export function setProvincias(payload) {
   return async function (dispatch) {
     let info = await api.get(`/provincias/${payload}`)
-
     dispatch(SetProvincias(info.data))
   }
 }

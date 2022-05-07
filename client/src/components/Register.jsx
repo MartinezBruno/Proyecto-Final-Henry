@@ -49,7 +49,7 @@ export default function Register() {
   // Vinculamos hacer dispatch cuando hayan cambio en cierta propiedad -> USER
   useEffect(() => {
     if (countriesInfo.name !== 'none') {
-      dispatch(chargeProvinces(countriesInfo.code))
+      dispatch(chargeProvinces(countriesInfo.name))
     }
   }, [countriesInfo.name])
 

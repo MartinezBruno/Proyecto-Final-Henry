@@ -9,6 +9,7 @@ import Login from './Login'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { getUser } from '../redux/slices/user'
+import { logout } from '../redux/slices/auth'
 
 
 export default function NavBar() {
@@ -28,6 +29,10 @@ export default function NavBar() {
 
   const handleCloseLogin = () => setShowLogin(false)
   const handleShowLogin = () => setShowLogin(true)
+
+  function handleLogout(e){
+    dispatch(logout())
+  }
 
   return (
     <>
@@ -123,26 +128,30 @@ export default function NavBar() {
               </NavLink> */}
             </div>
 
-            <div className='d-flex align-items-center justify-content-center text-center' style={{ flexDirection: 'column' }}>
+            <div className='d-flex align-items-center justify-content-center text-center' style={{ flexDirection: 'row' }}>
             <NavLink to='/profile' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')} style={{width:"150px"}}>
                 {/* <img src={UniqueUser.imagen} alt="nt" class="img-circle" width={"20px"}></img> */}
                 <img src={UniqueUser.imagen} alt="Cinque Terre" width="28px" height="28px" style={{borderRadius:"5000px", marginRight:"10px"}} onError={(e) => e.target.src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png"}/>
                 MI PERFIL
               </NavLink>
-              
-              {/* <Button
-                variant='primary'
-                onClick={handleShowRegister}
+              <NavLink to={'/'}>
+
+              <Button
+                variant='secondary'
+                onClick={() => handleLogout()}
                 className='btn btn-primary'
                 style={{
-                  color: 'white',
+                  color: 'black',
+                  backgroundColor:"lightgray",
                   borderRadius: '20px',
-                  // width: "180px",
-                  width: '12rem',
-                  fontWeight: 'bold',
+                  width: '7rem',
+                  fontSize:"12px"
                 }}>
-                REGISTRATE
+                  <i class="fa fa-sign-out" aria-hidden="true"></i>{" "}
+                Cerrar sesión
               </Button>
+                  </NavLink>
+              {/* 
               <a href='#' className='link-success'>
                 <p
                   style={{

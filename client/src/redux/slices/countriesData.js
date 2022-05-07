@@ -5,7 +5,7 @@ import api from '../../services/api'
 export const countriesSlice = createSlice({
   name: 'countries', //Nombre del slice
   initialState: {
-    countries: [{name: 'Argentina', code: 'ar' }, {name: 'México', code: 'mx' }, {name: 'Uruguay', code: 'uy' }],
+    countries: [{name: 'Argentina', code: 'ar' }, {name: 'Mexico', code: 'mx' }, {name: 'Uruguay', code: 'uy' }],
     provinces: [],
     cities: []
   },
@@ -25,10 +25,8 @@ export const { setProvinces, setCities } = countriesSlice.actions //La exporto p
 export default countriesSlice.reducer //Esta propiedad tiene todos los reducers que le metamos
 
 // export const chargeProvinces = async (country) => {
-  
 //   let provinces = (await api.get(`/provincias/${country}`)).data
 //   console.log(provinces)
-
 //   return async (dispatch) => {
 //     dispatch(setProvinces(provinces))
 //   }
