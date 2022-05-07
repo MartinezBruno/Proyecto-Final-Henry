@@ -1,4 +1,4 @@
-const { Usuario, Ciudad, Provincia, Pais, Proveedor, Comentario, Proveedor_Servicio } = require('../db')
+const { Usuario, Ciudad, Provincia, Pais, Proveedor, Comentario, Proveedor_Servicio, Compra } = require('../db')
 
 const getUsers = async (req, res) => {
   try {
@@ -221,15 +221,14 @@ const buyReview = async (req, res) => {
 
       comentarios.setProveedor_Servicio(provServ)
       comentarios.setUsuario(usuario)
-    return res.status(200).send({ message: 'Reseña agregada con exito' })
-    } else{
-     return res.status(400).send({message: 'Ya calificaste esta compra'})
+      return res.status(200).send({ message: 'Reseña agregada con exito' })
+    } else {
+      return res.status(400).send({ message: 'Ya calificaste esta compra' })
     }
   } else {
-     return res.status(400).send({ message: 'No puedes calificar este servicio ' })
-    }
+    return res.status(400).send({ message: 'No puedes calificar este servicio ' })
   }
-
+}
 
 const compraSuccess = async (req, res) => {
   let { datos } = req.body
