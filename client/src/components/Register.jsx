@@ -7,14 +7,17 @@ import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { providerRegister, userRegister } from '../redux/slices/auth'
 import { chargeCities, chargeProvinces } from '../redux/slices/countriesData'
+import { chargeAllUsers } from '../redux/slices/user'
 import { getAllProviders } from '../redux/slices/provider'
 import Swal from 'sweetalert2'
 import 'animate.css'
 
 export default function Register() {
   const { allProviders } = useSelector((state) => state.provider)
-  let providersEmail = allProviders?.map((el) => el.email)
+  const { allUsers } = useSelector((state) => state.user)
   let [termsAccepted, setTerms] = useState('disabled')
+  let providersEmail = allProviders?.map((el) => el.email)
+  let usersEmail = allUsers?.map((el) => el.email)
   let [termsAcceptedProvider, setTermsProvider] = useState('disabled')
   const { mensaje } = useSelector((state) => state.message)
   const { provinces, cities, countries } = useSelector((state) => state.countriesData)
@@ -36,9 +39,10 @@ export default function Register() {
     city: 'none',
     uruguayDone: false,
   })
-  //Sacamos todos los proveedores para filtrar su Email
+  //Sacamos todos los proveedores/usuarios para filtrar su Email
   useEffect(() => {
     dispatch(getAllProviders())
+    dispatch(chargeAllUsers())
   }, [dispatch])
 
   // Vinculamos hacer dispatch cuando hayan cambio en cierta propiedad -> USER
@@ -300,6 +304,12 @@ export default function Register() {
         : setErrors((prevState) => {
             return { ...prevState, [e.target.name]: 'Ingrese un email válido. Ej: example@example.com' }
           })
+
+          if (usersEmail.includes(e.target.value)) {
+            setErrors((prevState) => {
+              return { ...prevState, [e.target.name]: 'Este correo ya está en uso, intente con otro' }
+            })
+          }
 
       if (e.target.value === '') {
         setErrors((prevState) => {
