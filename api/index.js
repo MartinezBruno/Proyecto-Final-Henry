@@ -21,7 +21,7 @@ conn
   .then(() => {
     serviciosDb()
     initialRoles()
-    //ciudadesDb().then(() => autofillProveedores())
+    // ciudadesDb().then(() => autofillProveedores())
     ciudadesDb()
   })
   .then(() => console.log('tamo ready'))

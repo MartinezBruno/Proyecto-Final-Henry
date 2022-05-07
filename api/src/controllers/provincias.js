@@ -22,17 +22,17 @@ const getRegion = async (req, res) => {
   let region
   try {
     switch (code) {
-      case 'ar':
+      case 'Argentina':
         region = await Provincia.findAll({
           where: { PaiId: 1 },
         })
         break
-      case 'uy':
+      case 'Uruguay':
         region = await Provincia.findAll({
           where: { PaiId: 2 },
         })
         break
-      case 'mx':
+      case 'Mexico':
         region = await Provincia.findAll({
           where: { PaiId: 3 },
         })

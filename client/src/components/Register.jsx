@@ -4,11 +4,14 @@ import { Modal, Button, Container, Row, Col } from 'react-bootstrap'
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
 import { Link } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { providerRegister, userRegister } from '../redux/slices/auth'
 
 export default function Register() {
   let [termsAccepted, setTerms] = useState('disabled')
+  const {mensaje}  = useSelector((state) => state.message)
+  // let message ="hola"
+  console.log(mensaje)
   const dispatch = useDispatch()
 
   const [input, setInput] = useState({
@@ -21,7 +24,7 @@ export default function Register() {
     pais: '',
     provincia: '',
     ciudad: '',
-    celular: '',
+    celular: 0,
   })
   const [inputProvider, setInputProvider] = useState({
     nombre: '',
@@ -33,7 +36,7 @@ export default function Register() {
     pais: '',
     provincia: '',
     ciudad: '',
-    celular: '',
+    celular: 0,
   })
 
   function handleChecked(e) {
@@ -74,7 +77,7 @@ export default function Register() {
       ciudad: '',
       celular: '',
     })
-    alert('Se ha registrado Correctamente')
+    alert(`${mensaje}`)
   }
   function handleChangeProvider(e) {
     e.preventDefault()
@@ -206,7 +209,7 @@ export default function Register() {
                     {' '}
                     <i className='fa fa-mobile' aria-hidden='true'></i>{' '}
                     <input
-                      type='text'
+                      type='number'
                       className={styles.formControl}
                       name='celular'
                       placeholder='Celular'

@@ -3,47 +3,40 @@ import styles from '../styles/login.module.css'
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
 import { Link } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useState } from 'react'
 import { userLogin } from '../redux/slices/auth'
 
-
 export default function Login(props) {
+  const dispatch = useDispatch()
+  const { mensaje } = useSelector((state) => state.message)
+  console.log(mensaje)
+  const [input, setInput] = useState({
+    email: '',
+    password: '',
+  })
 
-    const dispatch = useDispatch()
-    const [login, setLogin] = useState("")
-    const [input, setInput] = useState({
-        email:"",
-        password:"",
+  function handleChange(e) {
+    e.preventDefault()
+    setInput({
+      ...input,
+      [e.target.name]: e.target.value,
     })
+  }
 
-    function handleChange(e){
-        e.preventDefault();
-        setInput({
-            ...input,
-            [e.target.name] : e.target.value
-        })
-    }
-
-    function handleSubmit(e){
-        dispatch(userLogin(input))
-        console.log(input)
-        setLogin(`logueado${setInput.email}`)
-    }
+  function handleSubmit(e) {
+    dispatch(userLogin(input))
+    console.log(input)
+  }
 
   if (props.isModal) {
     //Si se inicia sesión desde un modal
     return (
       <>
-        <Tabs
-          defaultActiveKey='Usuario'
-          id='uncontrolled-tab-example'
-          className='mb-3 text-center justify-content-center'>
+        <Tabs defaultActiveKey='Usuario' id='uncontrolled-tab-example' className='mb-3 text-center justify-content-center'>
           <Tab eventKey='Usuario' title='Como usuario'>
             <div className='container '>
-              <div
-                className='row d-flex align-items-center justify-content-center'
-                style={{ margin: '0px -220px 0px -220px' }}>
+              <div className='row d-flex align-items-center justify-content-center' style={{ margin: '0px -220px 0px -220px' }}>
                 <div className='col-md-6'>
                   <div className={`${styles.card}`}>
                     <div className='text-center mt-3'>
@@ -54,7 +47,7 @@ export default function Login(props) {
                           type='text'
                           className={styles.formControl}
                           placeholder='Correo electrónico'
-                          name="email"
+                          name='email'
                           value={input.email}
                           onChange={(e) => handleChange(e)}
                         />{' '}
@@ -66,19 +59,21 @@ export default function Login(props) {
                           type='password'
                           className={styles.formControl}
                           placeholder='Contraseña'
-                          name="password"
+                          name='password'
                           value={input.password}
                           onChange={(e) => handleChange(e)}
                         />{' '}
                       </div>
                       <div className={styles.formInput}></div>
 
-                      <button
-                        className={`btn btn-success mt-4 ${styles.signup}`}
-                        onClick={(e) => handleSubmit(e)}
-                        >
+                      <button className={`btn btn-success mt-4 ${styles.signup}`} onClick={(e) => handleSubmit(e)}>
                         Iniciar sesión
                       </button>
+                      {mensaje && (
+                        <div>
+                          <div role='alert'>{mensaje}</div>
+                        </div>
+                      )}
                     </div>
 
                     <div className='text-center mt-3'>
@@ -111,37 +106,22 @@ export default function Login(props) {
           </Tab>
           <Tab eventKey='Proveedor' title='Como proveedor'>
             <div className='container '>
-              <div
-                className='row d-flex align-items-center justify-content-center'
-                style={{ margin: '0px -220px 0px -220px' }}>
+              <div className='row d-flex align-items-center justify-content-center' style={{ margin: '0px -220px 0px -220px' }}>
                 <div className='col-md-6'>
                   <div className={`${styles.card}`}>
                     {/* <h5 className="mt-3 text-center">Iniciar sesión</h5>  */}
                     <div className='text-center mt-3'>
                       <div className={styles.formInput}>
                         {' '}
-                        <i className='fa fa-envelope'></i>{' '}
-                        <input
-                          type='text'
-                          className={styles.formControl}
-                          placeholder='Correo electrónico'
-                        />{' '}
+                        <i className='fa fa-envelope'></i> <input type='text' className={styles.formControl} placeholder='Correo electrónico' />{' '}
                       </div>
                       <div className={styles.formInput}>
                         {' '}
-                        <i className='fa fa-lock'></i>{' '}
-                        <input
-                          type='text'
-                          className={styles.formControl}
-                          placeholder='Contraseña'
-                        />{' '}
+                        <i className='fa fa-lock'></i> <input type='text' className={styles.formControl} placeholder='Contraseña' />{' '}
                       </div>
                       <div className={styles.formInput}></div>
 
-                      <button
-                        className={`btn btn-success mt-4 ${styles.signup}`}>
-                        Iniciar sesión
-                      </button>
+                      <button className={`btn btn-success mt-4 ${styles.signup}`}>Iniciar sesión</button>
                     </div>
 
                     <div className='text-center mt-3'>

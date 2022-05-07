@@ -30,6 +30,7 @@ export function getUser(id){
 export function modofyUser(id, payload){
     return async function(dispatch){
         await api.put(`/usuario/${id}`, payload);
+        console.log(payload)
         dispatch(ModifyUser())
     }
 }

@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import provider from "../slices/provider"
 import user from '../slices/user';
 import auth from '../slices/auth';
+import message from '../slices/message';
 import shoppingCart from '../slices/shoppingCart';
 
 export default configureStore({
@@ -10,6 +11,7 @@ export default configureStore({
         provider,
         user,
         auth,
-        shoppingCart
+        shoppingCart,
+        message,
     }
 });

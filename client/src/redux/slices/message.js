@@ -2,13 +2,13 @@ import { createSlice } from '@reduxjs/toolkit'
 
 export const messageSlice = createSlice({
   name: 'message',
-  initialState: {},
+  initialState: { mensaje: null},
   reducers: {
     SetMessage: (state, action) => {
-      return { message: action.payload }
+      state.mensaje = action.payload
     },
     ClearMessage: (state, action) => {
-      return { message: '' }
+      state.mensaje = action.payload
     },
   },
 })

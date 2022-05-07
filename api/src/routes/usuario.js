@@ -1,8 +1,7 @@
 const express = require('express')
 const { Router } = require('express')
 const { authJwt } = require('../middlewares')
-const controller = require('../controllers/usuarios')
-const { getUserById,buyReview } = require('../controllers/usuarios')
+const { getUserById, buyReview, allAccess, userBoard, putUser, compraSuccess, moderatorBoard, adminBoard } = require('../controllers/usuarios')
 
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
@@ -20,22 +19,20 @@ router.put('/:userId/:provId', controller.addFavorito)
 
 router.delete('/:userId/:provId', controller.deleteFavorito)
 
-router.get('/test/all', controller.allAccess)
+router.get('/test/all', allAccess)
 
-router.get('/test/usuario', [authJwt.verifyToken], controller.userBoard)
+router.get('/test/usuario', [authJwt.verifyToken], userBoard)
 
-router.put('/usuario/:id', controller.putUser)
+router.put('/usuario/:id', putUser)
 
-router.get(
-  '/test/proveedor',
-  [authJwt.verifyToken, authJwt.isProveedor],
-  controller.userBoard
-)
+router.get('/test/proveedor', [authJwt.verifyToken, authJwt.isProveedor], userBoard)
 
 router.put('/calificacion', buyReview)
 
-router.get('/test/mod', [authJwt.verifyToken, authJwt.isModerator], controller.moderatorBoard)
+router.patch('/compraSuccess', compraSuccess)
 
-router.get('/test/admin', [authJwt.verifyToken, authJwt.isAdmin], controller.adminBoard)
+router.get('/test/mod', [authJwt.verifyToken, authJwt.isModerator], moderatorBoard)
+
+router.get('/test/admin', [authJwt.verifyToken, authJwt.isAdmin], adminBoard)
 
 module.exports = router

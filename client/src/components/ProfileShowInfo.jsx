@@ -12,9 +12,11 @@ export default function ProfileShowInfo(props) {
 
   const dispatch = useDispatch();
   const { UniqueUser } = useSelector((state) => state.user)
+  const { user } = useSelector((state) => state.auth)
+
 
   useEffect(() => {
-    dispatch(getUser(1))
+    dispatch(getUser(user.id))
   },[dispatch])
 
   console.log(props.changeForm)
@@ -50,13 +52,13 @@ export default function ProfileShowInfo(props) {
             <div className='col-sm-9 text-secondary'>{UniqueUser.celular}</div>
           </div>
           <hr />
-          <div className='row'>
+          {/* <div className='row'>
             <div className='col-sm-3'>
               <h6 className='mb-0'>Ubicacion</h6>
             </div>
             <div className='col-sm-9 text-secondary'>{`${UniqueUser.pais}, ${UniqueUser.provincia}, ${UniqueUser.ciudad}`}</div>
-          </div>
-          <hr />
+          </div> 
+          <hr /> */}
           <div className='row'>
             <div className='col-sm-12'>
               <button
