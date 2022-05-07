@@ -25,5 +25,6 @@ conn
     ciudadesDb()
   })
   .then(() => console.log('tamo ready'))
+  .catch((err) => console.log(err))
 
 module.exports = { server }
