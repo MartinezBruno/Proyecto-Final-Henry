@@ -21,6 +21,7 @@ export default function Register() {
   let [termsAcceptedProvider, setTermsProvider] = useState('disabled')
   const { mensaje } = useSelector((state) => state.message)
   const { provinces, cities, countries } = useSelector((state) => state.countriesData)
+
   const dispatch = useDispatch()
 
   // Estado auxiliar para selects del pais/provincia/ciudad
@@ -169,7 +170,7 @@ export default function Register() {
     pais: '',
     provincia: '',
     ciudad: '',
-    celular: '',
+    celular: 0,
   })
 
   //OBJETO PROVIDER QUE SE MANDARA A LA RUTA PARA HACER EL REGISTER
@@ -184,7 +185,7 @@ export default function Register() {
     pais: '',
     provincia: '',
     ciudad: '',
-    celular: '',
+    celular: 0,
   })
 
   //FUNCION QUE MODIFICA EL OBJETO DEL USUARIO
@@ -216,7 +217,6 @@ export default function Register() {
     })
     // Swal.fire(`${mensaje}`, 'success')
     Swal.fire('¡Registrado con éxito', 'Ahora puedes iniciar sesión.', 'success')
-
     //alert(`${mensaje}`)
   }
 
@@ -691,7 +691,7 @@ export default function Register() {
                     {' '}
                     <i className='fa fa-mobile' aria-hidden='true'></i>{' '}
                     <input
-                      type='text'
+                      type='number'
                       className={styles.formControl}
                       name='celular'
                       placeholder='Celular'

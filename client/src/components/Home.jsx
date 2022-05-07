@@ -54,7 +54,8 @@ export default function Home() {
                 provincia={provider.provincia}
                 ciudad={provider.ciudad}
                 precio={provider.servicio.precio}
-                id={provider.id}
+                idProv={provider.id}
+                idServ={provider.servicio.id}
                 key={provider.email + provider.servicio.nombre + provider.servicio.precio}
                 />
                 );
@@ -62,7 +63,9 @@ export default function Home() {
               )
             }
           </div>
-            <Pagination currentPage= {currentPage} cardsInPage={cardsInPage} totalCards = {currentProviders?.length} setPagina = {setPagina}/>
+          {
+            isLoggedIn ? <Pagination currentPage= {currentPage} cardsInPage={cardsInPage} totalCards = {currentProviders?.length} setPagina = {setPagina}/> : ""
+          }
         </div>
       </div>
     </>

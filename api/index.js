@@ -25,6 +25,7 @@ conn
       autofillProveedores()
       console.log('tamo ready')
     })
+
   })
   .catch((err) => console.log(err))
 

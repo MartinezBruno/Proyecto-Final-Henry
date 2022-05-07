@@ -21,7 +21,7 @@ export default function ProfileDetails() {
 
   useEffect(() => {
     dispatch(getUniqueProvider(ProviderID))
-  }, [dispatch])
+  }, [dispatch, ProviderID])
 
   return (
     <div className='container' style={{ marginTop: '20px' }}>

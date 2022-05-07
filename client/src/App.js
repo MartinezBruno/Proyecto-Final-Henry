@@ -1,7 +1,5 @@
 import "./App.css";
-// import {useSelector, useDispatch} from 'react-redux'
 // import logo from './logo.svg';
-// import {pruebaFunction} from './redux/slices/prueba.js'
 import React from "react";
 import { Route, Routes, Outlet } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.css'
@@ -17,6 +15,8 @@ import Footer from "./components/Footer";
 import ProfileDetails from "./components/ProfileDetails";
 import FloatCartButton from "./components/FloatCartButton";
 import Shopping from "./components/Shopping";
+import SuccessFulPayment from "./components/SuccessfulPayment";
+import ServicesDetail from "./components/ServicesDetail";
 
 function App() {
 
@@ -48,7 +48,8 @@ function App() {
                   <Route path="profile" element={<Profile />} />
                   <Route path="shopping" element={<Shopping />} />
                   <Route path="home/:ProviderID" element={<ProfileDetails />} />
-
+                  <Route path="home/PaymentSucces" element={<SuccessFulPayment />} />
+                  <Route path="home/:idServ/:idProv" element={<ServicesDetail />} />
               </Route>
             
           </Routes>
