@@ -20,10 +20,13 @@ export const cartSlice = createSlice({
     updateState: (state, action) => {
       state.services = action.payload
     },
+    clearServices: (state, action) => {
+      state.services = []
+    }
   },
 })
 
-export const { setCart, deleteItem, updateState } = cartSlice.actions //La exporto para que la action este "visible" a la funcion pruebaFuncion
+export const { setCart, deleteItem, updateState, clearServices } = cartSlice.actions //La exporto para que la action este "visible" a la funcion pruebaFuncion
 
 export default cartSlice.reducer //Esta propiedad tiene todos los reducers que le metamos
 
@@ -48,4 +51,10 @@ export const payServices = (services) => async () => {
   let infoData = (await api.post('/checkout/payment', services)).data
   console.log(infoData)
   return infoData
+}
+
+export const clearCart = () => {
+  return (dispatch) => {
+    dispatch(clearServices())
+  }
 }
