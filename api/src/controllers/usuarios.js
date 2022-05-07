@@ -99,38 +99,55 @@ const moderatorBoard = (req, res) => {
 const buyReview = async (req, res) => {
   let { calificacion, comentario, ServicioId, UsuarioId, idProveedor } = req.body
 
+  let provServ = await Proveedor_Servicio.findOne({
+    where: { ProveedorId: idProveedor, ServicioId: ServicioId },
+  })
+  // console.log(provServ.id)
+
   let proveedor = await Proveedor.findOne({
     where: { id: idProveedor },
   })
   let calificaciones = proveedor.CALIFICACION
 
-  proveedor === null
-    ? { message: 'Proveedor no encontrado' }
-    : await Proveedor.update(
-        {
-          CALIFICACION: [calificaciones, calificacion].flat(),
-        },
-        { where: { id: idProveedor } }
-      )
-
-  //---------------------------COMENTARIO--------------------------------------
-  let comentarios = await Comentario.create({
-    COMENTARIO: comentario,
+  let verificacionCompra = await Compra.findAll({
+    where: { UsuarioId: UsuarioId, ProveedorServicioId: provServ.id },
   })
 
-  let provServ = await Proveedor_Servicio.findOne({
-    where: { ProveedorId: idProveedor, ServicioId: ServicioId },
+  let verifacionComent = await Comentario.findAll({
+    where: { UsuarioId: UsuarioId, ProveedorServicioId: provServ.id },
   })
+  console.log(verifacionComent.length)
+  console.log(verificacionCompra.length)
+  if (verificacionCompra.length > 0) {
+    if (verifacionComent.length === 0) {
+      console.log('hola')
+      proveedor === null
+        ? { message: 'Proveedor no encontrado' }
+        : await Proveedor.update(
+            {
+              CALIFICACION: [calificaciones, calificacion].flat(),
+            },
+            { where: { id: idProveedor } }
+          )
+      //---------------------------COMENTARIO--------------------------------------
+      let comentarios = await Comentario.create({
+        COMENTARIO: comentario,
+      })
+      let usuario = await Usuario.findOne({
+        where: { id: UsuarioId },
+      })
 
-  let usuario = await Usuario.findOne({
-    where: { id: UsuarioId },
-  })
+      comentarios.setProveedor_Servicio(provServ)
+      comentarios.setUsuario(usuario)
+    return res.status(200).send({ message: 'Reseña agregada con exito' })
+    } else{
+     return res.status(400).send({message: 'Ya calificaste esta compra'})
+    }
+  } else {
+     return res.status(400).send({ message: 'No puedes calificar este servicio ' })
+    }
+  }
 
-  comentarios.setProveedor_Servicio(provServ)
-  comentarios.setUsuario(usuario)
-
-  return res.status(200).send({ message: 'Reseña agregada con exito' })
-}
 
 const compraSuccess = async (req, res) => {
   let { datos } = req.body
