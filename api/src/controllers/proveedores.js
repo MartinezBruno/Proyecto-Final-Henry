@@ -56,6 +56,16 @@ const allProvs = async () => {
     })
   }
 
+  function promedio(calificaciones) {
+    var suma = 0
+    for (let i = 0; i < calificaciones.length; i++) {
+      suma = suma + calificaciones[i]
+    }
+    let promedio = suma / calificaciones.length
+    promedio = Math.round(promedio)
+    return promedio
+  }
+
   ProveedoresAMostrar = ProveedoresAMostrar.map((prov) => {
     return {
       id: prov.proveedor.id,
@@ -63,7 +73,8 @@ const allProvs = async () => {
       email: prov.proveedor.EMAIL,
       imagen: prov.proveedor.IMAGEN,
       fecha_nacimiento: prov.proveedor.FECHA_NACIMIENTO,
-      calificacion: prov.proveedor.CALIFICACION,
+      calificacion: promedio(prov.proveedor.CALIFICACION),
+      serviciosCompletados: prov.proveedor.CALIFICACION.length,
       status: prov.proveedor.STATUS,
       creation_date: prov.proveedor.createdAt,
       ciudad: prov.proveedor.Ciudad ? prov.proveedor.Ciudad.NOMBRE_CIUDAD : 'Sin definir',
@@ -106,7 +117,7 @@ const getProv = async (req, res, next) => {
         let preguntasAMostrar = []
         for (let i = 0; i < preguntas.length; i++) {
           let usuario = await Usuario.findOne({ where: { id: preguntas[i].UsuarioId } })
-          preguntasAMostrar.push({
+          preguntasAMostrar.unshift({
             id: preguntas[i].id,
             USUARIO: usuario.NOMBRE_APELLIDO_USUARIO,
             PREGUNTA: preguntas[i].PREGUNTA,
@@ -125,7 +136,7 @@ const getProv = async (req, res, next) => {
         let UsuarioComentario = []
         for (let i = 0; i < Comentarios.length; i++) {
           let usuario = await Usuario.findOne({ where: { id: Comentarios[i].UsuarioId } })
-          UsuarioComentario.push({ id: Comentarios[i].id, USUARIO: usuario.NOMBRE_APELLIDO_USUARIO, COMENTARIO: Comentarios[i].COMENTARIO })
+          UsuarioComentario.unshift({ id: Comentarios[i].id, USUARIO: usuario.NOMBRE_APELLIDO_USUARIO, COMENTARIO: Comentarios[i].COMENTARIO })
         }
 
         proveedores = proveedores.map((prov) => {
