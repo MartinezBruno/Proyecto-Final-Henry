@@ -1,7 +1,18 @@
 const express = require('express')
 const { Router } = require('express')
 const { authJwt } = require('../middlewares')
-const { getUserById, buyReview, allAccess, userBoard, putUser, compraSuccess, moderatorBoard, adminBoard } = require('../controllers/usuarios')
+const {
+  getUsers,
+  getUserById,
+  buyReview,
+  addFavorito,
+  deleteFavorito,
+  allAccess,
+  userBoard,
+  putUser,
+  moderatorBoard,
+  adminBoard,
+} = require('../controllers/usuarios')
 
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
@@ -13,11 +24,13 @@ const router = Router()
 router.use(express.json())
 
 // router.get('/:id', getProvByID)
-router.get('/:id', controller.getUserById)
+router.get('/', getUsers)
 
-router.put('/:userId/:provId', controller.addFavorito)
+router.get('/:id', getUserById)
 
-router.delete('/:userId/:provId', controller.deleteFavorito)
+router.put('/:userId/:provId', addFavorito)
+
+router.delete('/:userId/:provId', deleteFavorito)
 
 router.get('/test/all', allAccess)
 

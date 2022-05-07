@@ -1,4 +1,47 @@
-const { Usuario, Ciudad, Provincia, Pais, Proveedor, Comentario, Proveedor_Servicio, Compra } = require('../db')
+const { Usuario, Ciudad, Provincia, Pais, Proveedor, Comentario, Proveedor_Servicio } = require('../db')
+
+const getUsers = async (req, res) => {
+  try {
+    let users = await Usuario.findAll({
+      include: [
+        {
+          model: Pais,
+          attributes: ['NOMBRE_PAIS'],
+        },
+        {
+          model: Provincia,
+          attributes: ['NOMBRE_PROVINCIA'],
+        },
+        {
+          model: Ciudad,
+          attributes: ['NOMBRE_CIUDAD'],
+        },
+      ],
+    })
+    let usersToSend = users.map((user) => {
+      return {
+        id: user.id,
+        nombre_apellido_usuario: user.NOMBRE_APELLIDO_USUARIO,
+        email: user.EMAIL,
+        celular: user.CELULAR,
+        imagen: user.IMAGEN,
+        fecha_nacimiento: user.FECHA_NACIMIENTO,
+        calificacion: user.CALIFICACION,
+        compras: user.COMPRAS,
+        favoritos: user.FAVORITOS,
+        creation_date: user.createdAt,
+        pais: user.Pai ? user.Pai.NOMBRE_PAIS : 'Sin definir',
+        provincia: user.Provincium ? user.Provincium.NOMBRE_PROVINCIA : 'Sin definir',
+        ciudad: user.Ciudad ? user.Ciudad.NOMBRE_CIUDAD : 'Sin definir',
+      }
+    })
+
+    return res.status(200).send(usersToSend)
+  } catch (error) {
+    console.error(error)
+    return res.status(500).send({ message: 'Error al obtener los usuarios' })
+  }
+}
 
 const getUserById = async (req, res) => {
   const { id } = req.params
@@ -29,13 +72,15 @@ const getUserById = async (req, res) => {
     imagen: user.IMAGEN,
     fecha_nacimiento: user.FECHA_NACIMIENTO,
     calificacion: user.CALIFICACION,
+    compras: user.COMPRAS,
+    favoritos: user.FAVORITOS,
     creation_date: user.createdAt,
     pais: user.Pai ? user.Pai.NOMBRE_PAIS : 'Sin definir',
     provincia: user.Provincium ? user.Provincium.NOMBRE_PROVINCIA : 'Sin definir',
     ciudad: user.Ciudad ? user.Ciudad.NOMBRE_CIUDAD : 'Sin definir',
   }
 
-  res.status(200).send(usuarioAMostrar)
+  return res.status(200).send(usuarioAMostrar)
 }
 
 const addFavorito = async (req, res, next) => {
@@ -192,6 +237,7 @@ const compraSuccess = async (req, res) => {
 }
 
 module.exports = {
+  getUsers,
   getUserById,
   addFavorito,
   deleteFavorito,

@@ -317,7 +317,7 @@ const addServicio_Prov = async (req, res, next) => {
 
     for (let i = 0; i < arrayPrecios.length; i++) {
       let p = await Precio.create({
-          PRECIO: arrayPrecios[i],
+        PRECIO: arrayPrecios[i],
       })
       let proovedor = await Proveedor.findOne({ where: { id: id } })
       let servicio = await Servicio.findOne({

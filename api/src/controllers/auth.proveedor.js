@@ -68,10 +68,8 @@ exports.signup = async (req, res) => {
     await newProveedor.setRole(role)
 
     for (let i = 0; i < arrayPrecios.length; i++) {
-      let [p, _created] = await Precio.findOrCreate({
-        where: {
-          PRECIO: arrayPrecios[i],
-        },
+      let p = await Precio.create({
+        PRECIO: arrayPrecios[i],
       })
       let proveedor = await Proveedor.findOne({ where: { EMAIL: email } })
       let servicio = await Servicio.findOne({
