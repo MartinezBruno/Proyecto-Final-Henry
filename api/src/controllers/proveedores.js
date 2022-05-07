@@ -56,6 +56,18 @@ const allProvs = async () => {
     })
   }
 
+  function promedio (calificaciones) {
+    var suma = 0
+     for(let i=0 ;i<calificaciones.length; i++) {
+       suma = suma + calificaciones[i]
+     }
+   let promedio = suma/calificaciones.length
+    promedio = Math.round(promedio)
+    return promedio
+ }
+ 
+  
+  
   ProveedoresAMostrar = ProveedoresAMostrar.map((prov) => {
     return {
       id: prov.proveedor.id,
@@ -63,7 +75,8 @@ const allProvs = async () => {
       email: prov.proveedor.EMAIL,
       imagen: prov.proveedor.IMAGEN,
       fecha_nacimiento: prov.proveedor.FECHA_NACIMIENTO,
-      calificacion: prov.proveedor.CALIFICACION,
+      calificacion: promedio(prov.proveedor.CALIFICACION) ,
+      serviciosCompletados: prov.proveedor.CALIFICACION.length,
       status: prov.proveedor.STATUS,
       creation_date: prov.proveedor.createdAt,
       ciudad: prov.proveedor.Ciudad ? prov.proveedor.Ciudad.NOMBRE_CIUDAD : 'Sin definir',

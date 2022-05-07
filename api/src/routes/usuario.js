@@ -42,7 +42,7 @@ router.get('/test/proveedor', [authJwt.verifyToken, authJwt.isProveedor], userBo
 
 router.put('/calificacion', buyReview)
 
-router.patch('/compraSuccess', compraSuccess)
+router.post('/compraSuccess', compraSuccess)
 
 router.get('/test/mod', [authJwt.verifyToken, authJwt.isModerator], moderatorBoard)
 
