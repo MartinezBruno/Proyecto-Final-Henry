@@ -2,30 +2,31 @@ import React from 'react'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { getUniqueProvider } from '../redux/slices/provider'
+import { getServiceProvider } from '../redux/slices/provider'
 import { addToCart, updateStateFromStorage } from '../redux/slices/shoppingCart'
 import { services } from '../redux/slices/shoppingCart'
 import styles from '../styles/profile.module.css'
 import { NavLink } from 'react-router-dom'
+import { useState } from 'react'
 
 export default function ProfileDetails() {
-  let { ProviderID } = useParams()
-  // console.log(ProviderID);
+  let { idProv } = useParams()
+  let { idServ } = useParams()
 
   const dispatch = useDispatch()
-  const { uniqueprovider } = useSelector((state) => state.provider)
-  const { services } = useSelector((state) => state.shoppingCart)
-  // localStorage('cartList', JSON.stringify(services))
+  const { serviceProvider } = useSelector((state) => state.provider)
+
+  const num = 1
 
   useEffect(() => {
-    dispatch(getUniqueProvider(ProviderID))
-  }, [dispatch])
+    dispatch(getServiceProvider(idProv, idServ))
+  }, [dispatch, idProv, idServ])
 
   return (
     <div className='container' style={{ marginTop: '20px' }}>
       <div className={styles.mainBody}>
         <div className={`row gutters-sm ${styles.guttersSm}`}>
-          <div className='col-md-12 row'>
+          <div className='col-md-12 row' style={{ flexDirection: 'row-reverse' }}>
             <div className={`col-md-4 mb-3 ${styles.mb3}`}>
               <div className={styles.card}>
                 <div className={`card-body ${styles.cardBody}`}>
@@ -35,7 +36,7 @@ export default function ProfileDetails() {
                       <button type='submit' className='btn-close' aria-label='Close' style={{ marginLeft: '-350px' }}></button>
                     </NavLink>
                     <img
-                      src={uniqueprovider.imagen}
+                      src={serviceProvider[0]?.imagen}
                       alt='Admin'
                       className='rounded-circle'
                       width='150'
@@ -44,15 +45,16 @@ export default function ProfileDetails() {
                     />
                     <div className='mt-3'>
                       {/* MAPEO nombre:*/}
-                      <h4>{uniqueprovider.nombre_apellido_proveedor}</h4>
+                      <h4>{serviceProvider[0]?.nombre_apellido_proveedor}</h4>
                       {/* MAPEO STATUS (PROOVEDOR U OTRO) */}
                       <p className='text-secondary mb-1'>Proveedor de servicio.</p>
                       {/* MAPEO CIUDAD */}
-                      <p className='text-muted font-size-sm'>{uniqueprovider.ciudad + ', ' + uniqueprovider.provincia}</p>
-                      <button className='btn btn-primary' style={{ margin: '7px' }}>
-                        Contratar
-                      </button>
-                      <button className='btn btn-outline-primary'>Mensaje</button>
+                      <p className='text-muted font-size-sm'>{serviceProvider[0]?.ciudad + ', ' + serviceProvider[0]?.provincia}</p>
+                      <NavLink to={`/home/${idProv}`}>
+                        <button className='btn btn-primary' style={{ margin: '7px' }}>
+                          Ver Perfil
+                        </button>
+                      </NavLink>
                     </div>
                   </div>
                 </div>
@@ -67,22 +69,101 @@ export default function ProfileDetails() {
                       <i className='fa fa-angle-right' aria-hidden='true'></i> Calificación:{' '}
                     </h6>
                     <ul className='list-inline small'>
-                      {/* INICIA MAPEO CALIFICACION */}
-                      <li className='list-inline-item m-0'>
-                        <i className='fa fa-star text-success'></i>
-                      </li>
-                      <li className='list-inline-item m-0'>
-                        <i className='fa fa-star text-success'></i>
-                      </li>
-                      <li className='list-inline-item m-0'>
-                        <i className='fa fa-star text-success'></i>
-                      </li>
-                      <li className='list-inline-item m-0'>
-                        <i className='fa fa-star text-success'></i>
-                      </li>
-                      <li className='list-inline-item m-0'>
-                        <i className='fa fa-star-o text-success'></i>
-                      </li>
+                      <div>
+                        { serviceProvider[0]?.calificacion[0] === 1 ?
+                        <>
+                        <li className='list-inline-item m-0'>
+                          <i className='fa fa-star text-success'></i>
+                        </li>
+                        <li className='list-inline-item m-0'>
+                          <i className='fa fa-star-o text-success'></i>
+                        </li>
+                        <li className='list-inline-item m-0'>
+                          <i className='fa fa-star-o text-success'></i>
+                        </li>
+                        <li className='list-inline-item m-0'>
+                          <i className='fa fa-star-o text-success'></i>
+                        </li>
+                        <li className='list-inline-item m-0'>
+                          <i className='fa fa-star-o text-success'></i>
+                        </li>
+                        </> : serviceProvider[0]?.calificacion[0] === 2 ?
+                        <>
+                        <li className='list-inline-item m-0'>
+                          <i className='fa fa-star text-success'></i>
+                        </li>
+                        <li className='list-inline-item m-0'>
+                          <i className='fa fa-star text-success'></i>
+                        </li>
+                        <li className='list-inline-item m-0'>
+                          <i className='fa fa-star-o text-success'></i>
+                        </li>
+                        <li className='list-inline-item m-0'>
+                          <i className='fa fa-star-o text-success'></i>
+                        </li>
+                        <li className='list-inline-item m-0'>
+                          <i className='fa fa-star-o text-success'></i>
+                        </li>
+                        </> : serviceProvider[0]?.calificacion[0] === 3 ?
+                        <>
+                        <li className='list-inline-item m-0'>
+                          <i className='fa fa-star text-success'></i>
+                        </li>
+                        <li className='list-inline-item m-0'>
+                          <i className='fa fa-star text-success'></i>
+                        </li>
+                        <li className='list-inline-item m-0'>
+                          <i className='fa fa-star text-success'></i>
+                        </li>
+                        <li className='list-inline-item m-0'>
+                          <i className='fa fa-star-o text-success'></i>
+                        </li>
+                        <li className='list-inline-item m-0'>
+                          <i className='fa fa-star-o text-success'></i>
+                        </li>
+                        </> : serviceProvider[0]?.calificacion[0] === 4 ?
+                        <>
+                        <li className='list-inline-item m-0'>
+                          <i className='fa fa-star text-success'></i>
+                        </li>
+                        <li className='list-inline-item m-0'>
+                          <i className='fa fa-star text-success'></i>
+                        </li>
+                        <li className='list-inline-item m-0'>
+                          <i className='fa fa-star text-success'></i>
+                        </li>
+                        <li className='list-inline-item m-0'>
+                          <i className='fa fa-star text-success'></i>
+                        </li>
+                        <li className='list-inline-item m-0'>
+                          <i className='fa fa-star-o text-success'></i>
+                        </li>
+                        </> : serviceProvider[0]?.calificacion[0] === 5 ?
+                        <>
+                        <li className='list-inline-item m-0'>
+                          <i className='fa fa-star text-success'></i>
+                        </li>
+                        <li className='list-inline-item m-0'>
+                          <i className='fa fa-star text-success'></i>
+                        </li>
+                        <li className='list-inline-item m-0'>
+                          <i className='fa fa-star text-success'></i>
+                        </li>
+                        <li className='list-inline-item m-0'>
+                          <i className='fa fa-star text-success'></i>
+                        </li>
+                        <li className='list-inline-item m-0'>
+                          <i className='fa fa-star text-success'></i>
+                        </li>
+                        </>
+
+
+
+
+
+
+                         : "s" }
+                      </div>
                       {/* CIERRA MAPEO CALIFICACION */}
                     </ul>
                   </li>
@@ -104,21 +185,32 @@ export default function ProfileDetails() {
                 <div className='row'>
                   <div className='col'>
                     <h5 className='mb-0 text-center text-secondary'>
-                      <i className='fa fa-commenting-o' aria-hidden='true'></i> PREGUNTAS
+                      <i className='fa fa-commenting-o' aria-hidden='true'></i> DETALLES COMPLETOS
                     </h5>
                   </div>
                 </div>
                 <hr />
                 <div className='list-group'>
                   <span className='list-group-item list-group-item-action list-group-item-light'>
-                    <b>Usuario1:</b> <br /> Me encanto el proveedor, recomendado
+                    <b>Nombre: </b> {serviceProvider[0]?.servicio.nombre}
                   </span>
                   <span className='list-group-item list-group-item-action list-group-item-light'>
-                    <b>Usuario2:</b>
-                    <br /> Servicio rapido, el precio es excelente, lo recomiendo
+                    <b>Descripcion: </b> {serviceProvider[0]?.servicio.descripcion}
                   </span>
                   <span className='list-group-item list-group-item-action list-group-item-light'>
-                    <b>Usuario3:</b> <br /> Llego 20 minutos tarde y se fue puntual, Un desastre.
+                    <b>Precio:</b> ${serviceProvider[0]?.servicio.precio}
+                  </span>
+                  <span className='list-group-item list-group-item-action list-group-item-light'>
+                    <b>Remoto</b>
+                    {serviceProvider[0]?.servicio.remote === true ? (
+                      <td>
+                        <i className='fa fa-check text-success' aria-hidden='true'></i>
+                      </td>
+                    ) : (
+                      <td>
+                        <i className='fa fa-times text-danger' aria-hidden='true'></i>
+                      </td>
+                    )}
                   </span>
                 </div>
                 <div className='row'>
@@ -143,16 +235,24 @@ export default function ProfileDetails() {
                   <hr />
                   <div className='list-group'>
                     {/* { MAPEO DE CADA PREGUNTA HECHA AL PROVEDOR } */}
-                    <span className='list-group-item list-group-item-action list-group-item-light'>
-                      <b>Usuario1:</b> <br /> Me encanto el proveedor, recomendado
-                    </span>
-                    <span className='list-group-item list-group-item-action list-group-item-light'>
-                      <b>Usuario2:</b>
-                      <br /> Servicio rapido, el precio es excelente, lo recomiendo
-                    </span>
-                    <span className='list-group-item list-group-item-action list-group-item-light'>
-                      <b>Usuario3:</b> <br /> Llego 20 minutos tarde y se fue puntual, Un desastre.
-                    </span>
+
+                    {serviceProvider &&
+                      serviceProvider[0]?.preguntas.map((preg) => (
+                        <>
+                          <span
+                            className='list-group-item list-group-item-action list-group-item-light'
+                            style={{ marginBottom: '10px', border: '1px solid lightgray' }}>
+                            <b style={{ color: 'seagreen' }}>
+                              {}
+                              {preg.USUARIO}:
+                            </b>
+                            <p style={{ fontSize: '15px', margin: '0px', marginLeft: '7px' }}>{preg.PREGUNTA}</p>
+                            <b style={{ color: 'steelblue' }}>{serviceProvider[0]?.nombre_apellido_proveedor}:</b>
+                            <p style={{ fontSize: '15px', margin: '0px', marginLeft: '7px' }}>{preg.RESPUESTA}</p>
+                          </span>
+                          {/* <hr /> */}
+                        </>
+                      ))}
                   </div>
                   <div className='row'>
                     <div className='col-sm-12'>{/* <button className="btn btn-dark">EDITAR</button> */}</div>
@@ -174,17 +274,24 @@ export default function ProfileDetails() {
                   </div>
                   <hr />
                   <div className='list-group'>
-                    {/* { MAPEO DE CADA CALIFICACION HECHA AL PROVEDOR } */}
-                    <span className='list-group-item list-group-item-action list-group-item-light'>
-                      <b>Usuario1:</b> <br /> Me encanto el proveedor, recomendado
-                    </span>
-                    <span className='list-group-item list-group-item-action list-group-item-light'>
-                      <b>Usuario2:</b>
-                      <br /> Servicio rapido, el precio es excelente, lo recomiendo
-                    </span>
-                    <span className='list-group-item list-group-item-action list-group-item-light'>
-                      <b>Usuario3:</b> <br /> Llego 20 minutos tarde y se fue puntual, Un desastre.
-                    </span>
+                    {/* { MAPEO DE CADA COMENTARIO HECHO AL PROVEDOR } */}
+                    {serviceProvider &&
+                      serviceProvider[0]?.comentarios.map((com) => (
+                        <>
+                          <span
+                            className='list-group-item list-group-item-action list-group-item-light '
+                            style={{ marginBottom: '10px', border: '1px solid lightgray' }}>
+                            <b style={{}}>
+                              {}
+                              {com.USUARIO}:
+                            </b>
+                            <p style={{ fontSize: '15px', margin: '0px', marginLeft: '7px' }}>{com.COMENTARIO}</p>
+                            {/* <b style={{color:"steelblue"}}>{serviceProvider[0]?.nombre_apellido_proveedor}:</b> 
+                          <p style={{fontSize:"15px",margin:"0px", marginLeft:"7px"}}>{preg.RESPUESTA}</p> */}
+                          </span>
+                          {/* <hr /> */}
+                        </>
+                      ))}
                   </div>
                   <div className='row'>
                     <div className='col-sm-12'>{/* <button className="btn btn-dark">EDITAR</button> */}</div>

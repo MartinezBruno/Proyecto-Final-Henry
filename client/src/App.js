@@ -49,7 +49,7 @@ function App() {
                   <Route path="shopping" element={<Shopping />} />
                   <Route path="home/:ProviderID" element={<ProfileDetails />} />
                   <Route path="home/PaymentSucces" element={<SuccessFulPayment />} />
-                  <Route path="home/serviceDetail" element={<ServicesDetail />} />
+                  <Route path="home/:idServ/:idProv" element={<ServicesDetail />} />
               </Route>
             
           </Routes>

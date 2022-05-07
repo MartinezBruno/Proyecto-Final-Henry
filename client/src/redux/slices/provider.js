@@ -7,7 +7,7 @@ export const providerSlice = createSlice({
     allProviders: [],
     currentProviders: [],
     uniqueprovider: {},
-    serviceProvider:{},
+    serviceProvider: {},
     servicios: [],
     provincias: [],
     ciudades: [],
@@ -66,10 +66,9 @@ export const {
 
 export default providerSlice.reducer
 
-export function setServiceProvider({idProv, idServ}){
+export function getServiceProvider(idProv, idServ){
   return async function(dispatch){
-    let info = await api.get(`/proveedor?idProv=${idProv}&idServ=${idServ}`)
-    console.log(info.data)
+    var info = await api.get(`/proveedor?idProv=${idProv}&idServ=${idServ}`)
     dispatch(SetServiceProvider(info.data))
   }
 }
