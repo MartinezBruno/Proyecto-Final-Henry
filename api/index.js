@@ -10,7 +10,7 @@ const autofillProveedores = require('./src/routes/automatic-post')
 
 // Syncing all the models at once.
 conn
-  .sync({ force: false })
+  .sync({ force: true })
   .then(() => {
     server.listen(process.env.DB_PORT, () => {
       console.log(`%s listening at ${process.env.DB_PORT}`) // eslint-disable-line no-console
@@ -21,7 +21,7 @@ conn
   .then(() => {
     serviciosDb()
     initialRoles()
-    // ciudadesDb().then(() => autofillProveedores())
+    ciudadesDb().then(() => autofillProveedores())
     ciudadesDb()
   })
   .then(() => console.log('tamo ready'))
