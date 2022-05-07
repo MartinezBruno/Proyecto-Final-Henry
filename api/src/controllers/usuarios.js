@@ -119,7 +119,7 @@ const buyReview = async (req, res) => {
   console.log(verifacionComent.length)
   console.log(verificacionCompra.length)
   if (verificacionCompra.length > 0) {
-    if (verifacionComent.length === 0) {
+    if (verifacionComent.length === 0 || verifacionComent.length < verificacionCompra.length) {
       console.log('hola')
       proveedor === null
         ? { message: 'Proveedor no encontrado' }
