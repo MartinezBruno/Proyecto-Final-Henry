@@ -7,6 +7,7 @@ export const providerSlice = createSlice({
     allProviders: [],
     currentProviders: [],
     uniqueprovider: {},
+    serviceProvider:{},
     servicios: [],
     provincias: [],
     ciudades: [],
@@ -44,6 +45,9 @@ export const providerSlice = createSlice({
     SetCiudades: (state, action) => {
       state.ciudades = action.payload
     },
+    SetServiceProvider: (state, action) => {
+      state.serviceProvider = action.payload
+    }
   },
 })
 
@@ -57,9 +61,18 @@ export const {
   FiltroSupremo,
   SetProvincias,
   SetCiudades,
+  SetServiceProvider,
 } = providerSlice.actions
 
 export default providerSlice.reducer
+
+export function setServiceProvider({idProv, idServ}){
+  return async function(dispatch){
+    let info = await api.get(`/proveedor?idProv=${idProv}&idServ=${idServ}`)
+    console.log(info.data)
+    dispatch(SetServiceProvider(info.data))
+  }
+}
 
 export function getAllProviders() {
   return async function (dispatch) {
@@ -78,7 +91,6 @@ export function getUniqueProvider(id) {
 export function setServicios() {
   return async function (dispatch) {
     let info = await api.get('/servicios')
-    // console.log(info.data)
     return dispatch(SetServicios(info.data))
   }
 }
@@ -89,14 +101,13 @@ export function filterByPrices(payload) {
   }
 }
 
-
-
 export function filtroSupremo(input) {
   return async function (dispatch) {
-    let info = await api.get(
+    let info = input.search.length === 0 ? await api.get(
       `/proveedor/filtro?pais=${input.pais}&provincia=${input.provincia}&ciudad=${input.ciudad}&servicio=${input.servicio}&remote=${input.remoto}`
+    ) : await api.get(
+      `/proveedor/filtro?pais=${input.pais}&provincia=${input.provincia}&ciudad=${input.ciudad}&servicio=${input.servicio}&remote=${input.remoto}&search=${input.search}`
     )
-    // console.log(info.data)
     dispatch(FiltroSupremo(info.data))
   }
 }
@@ -114,22 +125,3 @@ export function setCiudades(payload) {
     dispatch(SetCiudades(info.data))
   }
 }
-
-// export function setProvincias(payload) {
-//   if (payload === 'Argentina') {
-//     return async function (dispatch) {
-//       let info = await api.get(`/provincias/ar`)
-//       dispatch(setProvincias(info.data))
-//     }
-//   } else if (payload === 'Uruguay') {
-//     return async function (dispatch) {
-//       let info = await api.get(`/provincias/uy`)
-//       dispatch(setProvincias(info.data))
-//     }
-//   } else if (payload === 'Mexico'){
-//     return async function (dispatch) {
-//       let info = await api.get(`/provincias/mx`)
-//       dispatch(setProvincias(info.data))
-//     }
-//   }
-// }

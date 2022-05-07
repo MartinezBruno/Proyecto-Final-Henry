@@ -22,12 +22,10 @@ export default function ProfileEditInfo(props) {
   }, [dispatch])
 
   const [input, setInput] = useState({
-    nombre: UniqueUser.nombre_apellido_usuario,
+    nombre_apellido_usuario: UniqueUser.nombre_apellido_usuario,
     email: UniqueUser.email,
-    nacimiento: UniqueUser.fecha_nacimiento,
+    fecha_nacimiento: UniqueUser.fecha_nacimiento,
     celular: UniqueUser.celular,
-    ubicacion:
-      UniqueUser.pais + ', ' + UniqueUser.provincia + ', ' + UniqueUser.ciudad,
   })
 
   let handleChange = (e) => {
@@ -44,10 +42,8 @@ export default function ProfileEditInfo(props) {
       input.nombre.length === 0 ||
       input.email.length === 0 ||
       input.nacimiento.length === 0 ||
-      input.celular.length === 0 ||
-      input.ubicacion.length === 0
+      input.celular.length === 0
     ) {
-      props.changeForm(false)
       return alert(
         'Error al modificar sus Datos, Por favor llene todos los campos'
       )
@@ -71,9 +67,9 @@ export default function ProfileEditInfo(props) {
             <div className='col-sm-9 text-secondary'>
               <input
                 type='text'
-                name='nombre'
+                name='nombre_apellido_usuario'
                 className='form-control'
-                value={input.nombre}
+                value={input.nombre_apellido_usuario}
                 onChange={(e) => handleChange(e)}
               />
             </div>
@@ -99,9 +95,9 @@ export default function ProfileEditInfo(props) {
             <div className='col-sm-9 text-secondary'>
               <input
                 type='text'
-                name='nacimiento'
+                name='fecha_nacimiento'
                 className='form-control'
-                value={input.nacimiento}
+                value={input.fecha_nacimiento}
                 onChange={(e) => handleChange(e)}
               />
             </div>
@@ -120,7 +116,7 @@ export default function ProfileEditInfo(props) {
               />
             </div>
           </div>
-          <div className='row mb-3'>
+          {/* <div className='row mb-3'>
             <div className='col-sm-3'>
               <h6 className='mb-0'>Ubicacion</h6>
             </div>
@@ -132,7 +128,7 @@ export default function ProfileEditInfo(props) {
                 value={input.ubicacion}
               />
             </div>
-          </div>
+          </div> */}
           <div className='row'>
             <div className='col-sm-3'></div>
             <div className='col-sm-9 text-secondary'>

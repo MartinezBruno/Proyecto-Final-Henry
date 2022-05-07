@@ -54,7 +54,8 @@ export default function Home() {
                 provincia={provider.provincia}
                 ciudad={provider.ciudad}
                 precio={provider.servicio.precio}
-                id={provider.id}
+                idProv={provider.id}
+                idServ={provider.servicio.id}
                 key={provider.email + provider.servicio.nombre + provider.servicio.precio}
                 />
                 );

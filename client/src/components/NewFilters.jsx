@@ -12,30 +12,12 @@ export default function NewFilters({ setCurrentPage }) {
     pais: 'Todos',
     provincia: 'Todos',
     ciudad: 'Todos',
+    search: '',
   })
   const dispatch = useDispatch()
   const { servicios } = useSelector((state) => state.provider)
   const { ciudades } = useSelector((state) => state.provider)
   const { provincias } = useSelector((state) => state.provider)
-
-  const provArg = [
-    'Catamarca',
-    'Chaco',
-    'Chubut',
-    'Ciudad Autonoma de Buenos Aires',
-    'Cordoba',
-    'Corrientes',
-    'Provincia de Buenos Aires',
-    'Cordoba',
-    'Corrientes',
-    'Entre Rios',
-    'Formosa',
-    'Jujuy',
-    'La Pampa',
-    'La Rioja',
-    'Mendoza',
-    'Neuquen'
-  ]
 
   useEffect(() => {
     dispatch(setServicios())
@@ -57,19 +39,19 @@ export default function NewFilters({ setCurrentPage }) {
   useEffect(() => {
     dispatch(filtroSupremo(input))
     dispatch(setCiudades(input.provincia))
-    // dispatch(setProvincias(input.pais))
+    dispatch(setProvincias(input.pais))
   }, [input])
-  
+
   useEffect(() => {
     dispatch(setCiudades(input.provincia))
     setInput({
       ...input,
-      ciudad: "Todos"
+      ciudad: 'Todos',
     })
   }, [input.provincia])
 
   let handleFilterByPrice = (e) => {
-    e.preventDefault();
+    e.preventDefault()
     dispatch(filterByPrices(e.target.value))
   }
 
@@ -77,13 +59,13 @@ export default function NewFilters({ setCurrentPage }) {
     <>
       <div style={{ textAlign: 'center' }}>
         <p>
-          <a class='btn btn-primary' data-bs-toggle='collapse' href='#collapseExample' role='button' aria-expanded='false' aria-controls='collapseExample' >
+          <a className='btn btn-primary' data-bs-toggle='collapse' href='#collapseExample' role='button' aria-expanded='false' aria-controls='collapseExample'>
             Filtrar
           </a>
         </p>
       </div>
-      <div class='collapse ' id='collapseExample'>
-        <div class='card card-body'>
+      <div className='collapse ' id='collapseExample'>
+        <div className='card card-body'>
           <div className='d-flex container align-items-center justify-content-center'>
             <section>
               <div className={styles.searchbg}>
@@ -93,31 +75,34 @@ export default function NewFilters({ setCurrentPage }) {
                     <div className={`"card" ${styles.searchbg}`}>
                       <div className='card-body'>
                         <div className='row justify-content-center'>
-                          {/* <div className='col-md-5 mb-3 mb-md-0'>
-                        <div id='basic' className='form-outline text-center'>
-                          <div style={{ display: 'flex' }}>
-                            <input
-                              type='text'
-                              placeholder='Profesion...'
-                              //   onChange={(e) => handleOnChange(e)}
-                              id='form1'
-                              className='form-control form-control-lg'
-                              autoComplete='off'
-                            />
-                            <input
-                              className='btn btn-secondary btn-block btn-lg'
-                              style={{ marginLeft: '10px' }}
-                              type='submit'
-                              value='🔍'
-                              //   onClick={(e) => handleOnSubmit(e)}
-                            />
-                          </div>
+                          <div className='col-md-12 mb-3 mb-md-3' style={{ display: 'flex', justifyContent:"center" }}>
+                            <div id='basic' className='form-outline text-center' >
+                              <div style={{ display: 'flex' }}>
+                                <input
+                                  type='text'
+                                  placeholder='Nombre del Proveedor...'
+                                  name='search'
+                                  value={input.search}
+                                  onChange={(e) => handleChange(e)}
+                                  // id='form1'
+                                  className='form-control form-control-lg'
+                                  style={{width: "500px"}}
+                                  autoComplete='off'
+                                />
+                                <input
+                                  className='btn btn-secondary btn-block btn-lg'
+                                  style={{ marginLeft: '5px' }}
+                                  type='submit'
+                                  value='🔍'
+                                  //   onClick={(e) => handleOnSubmit(e)}
+                                />
+                              </div>
 
-                          <label className='form-label' htmlFor='form1'>
-                            ¿Qué servicio / profesion buscas?
-                          </label>
-                        </div>
-                      </div> */}
+                              <label className='form-label' htmlFor='form1'>
+                                ¿Qué servicio / profesion buscas?
+                              </label>
+                            </div>
+                          </div>
 
                           <div className='col-md-2 mb-3 mb-md-0'>
                             <div id='location' className='form-outline text-center'>
@@ -125,8 +110,7 @@ export default function NewFilters({ setCurrentPage }) {
                                 name='cost'
                                 className='form-control form-control-lg'
                                 style={{ textAlign: 'center' }}
-                                onChange={(e) => handleFilterByPrice(e)}
-                              >
+                                onChange={(e) => handleFilterByPrice(e)}>
                                 <option disabled hidden>
                                   Selecciona
                                 </option>
@@ -191,7 +175,7 @@ export default function NewFilters({ setCurrentPage }) {
                               </label>
                             </div>
                           </div>
-                          {input.pais === 'Argentina' ? (
+                          {input.pais !== 'Todos' ? (
                             <div className='col-md-2 mb-3 mb-md-0'>
                               <div className='d-flex align-items-center justify-content-center form-outline text-center' style={{ flexDirection: 'column' }}>
                                 <select
@@ -200,7 +184,7 @@ export default function NewFilters({ setCurrentPage }) {
                                   onChange={(e) => handleChange(e)}
                                   style={{ textAlign: 'center' }}>
                                   <option value={'Todos'}>Todos</option>
-                                  {provincias && provincias.map((p) => (
+                                  {provincias?.map((p) => (
                                     <option value={p.NOMBRE_PROVINCIA}>{p.NOMBRE_PROVINCIA}</option>
                                   ))}
                                 </select>
@@ -212,7 +196,8 @@ export default function NewFilters({ setCurrentPage }) {
                           ) : (
                             ''
                           )}
-                          {input.provincia !== 'Todos' && input.pais === 'Argentina' ? (
+
+                          {input.provincia !== 'Todos' && input.pais !== 'Todos' && input.pais !== 'Uruguay' ? (
                             <div className='col-md-2 mb-3 mb-md-0'>
                               <div className='d-flex align-items-center justify-content-center form-outline text-center' style={{ flexDirection: 'column' }}>
                                 <select

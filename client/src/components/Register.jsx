@@ -24,7 +24,7 @@ export default function Register() {
     pais: '',
     provincia: '',
     ciudad: '',
-    celular: '',
+    celular: 0,
   })
   const [inputProvider, setInputProvider] = useState({
     nombre: '',
@@ -36,7 +36,7 @@ export default function Register() {
     pais: '',
     provincia: '',
     ciudad: '',
-    celular: '',
+    celular: 0,
   })
 
   function handleChecked(e) {
@@ -209,7 +209,7 @@ export default function Register() {
                     {' '}
                     <i className='fa fa-mobile' aria-hidden='true'></i>{' '}
                     <input
-                      type='text'
+                      type='number'
                       className={styles.formControl}
                       name='celular'
                       placeholder='Celular'

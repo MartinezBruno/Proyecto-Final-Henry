@@ -15,6 +15,8 @@ import Footer from "./components/Footer";
 import ProfileDetails from "./components/ProfileDetails";
 import FloatCartButton from "./components/FloatCartButton";
 import Shopping from "./components/Shopping";
+import SuccessFulPayment from "./components/SuccessfulPayment";
+import ServicesDetail from "./components/ServicesDetail";
 
 function App() {
 
@@ -46,7 +48,8 @@ function App() {
                   <Route path="profile" element={<Profile />} />
                   <Route path="shopping" element={<Shopping />} />
                   <Route path="home/:ProviderID" element={<ProfileDetails />} />
-
+                  <Route path="home/PaymentSucces" element={<SuccessFulPayment />} />
+                  <Route path="home/serviceDetail" element={<ServicesDetail />} />
               </Route>
             
           </Routes>
