@@ -37,8 +37,16 @@ module.exports = (sequelize) => {
 
     CELULAR: {
       type: DataTypes.INTEGER,
+    },
+
+    FAVORITOS: {
+      type: DataTypes.ARRAY(DataTypes.UUID),
       allowNull: false,
-      defaultValue: 123456789,
+      defaultValue: [],
+    },
+    COMPRAS: {
+      type: DataTypes.ARRAY(DataTypes.INTEGER),
+      defaultValue: [],
     },
   })
 }

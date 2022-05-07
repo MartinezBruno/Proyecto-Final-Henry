@@ -28,9 +28,9 @@ const getCiudades = async (req, res) => {
     let ciudades = await Ciudad.findAll({
       where: { ProvinciumId: provincia.id },
     })
-    res.status(200).send(ciudades)
+    return res.status(200).send(ciudades)
   } catch (error) {
-    res.status(404).send('Ciudades no encontradas')
+    return res.status(404).send('Ciudades no encontradas')
   }
 }
 

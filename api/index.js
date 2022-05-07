@@ -21,9 +21,11 @@ conn
   .then(() => {
     serviciosDb()
     initialRoles()
-    ciudadesDb().then(() => autofillProveedores())
-    ciudadesDb()
+    ciudadesDb().then(() => {
+      autofillProveedores()
+      console.log('tamo ready')
+    })
   })
-  .then(() => console.log('tamo ready'))
+  .catch((err) => console.log(err))
 
 module.exports = { server }
