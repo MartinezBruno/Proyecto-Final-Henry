@@ -1,77 +1,52 @@
-const { getQuota, counter, BATTUTA_KEY } = require('./quotesVerify')
-const axios = require('axios')
 const { Provincia, Pais } = require('../db')
+const { provincia } = require('../dbFill/ubicacion')
 
-const getProvincias = async (req, res) => {
-  try {
-    await getQuota()
-    const { code } = req.params
-    if (!code)
-      return res.status(400).send({
-        msg: 'No se ha enviado el código de país o el código es inexistente',
+const regionDb = async () => {
+  for (let i = 0; i < provincia.length; i++) {
+    try {
+      let pais = await Pais.findOne({
+        where: { id: provincia[i].idPais },
       })
-    const regionURL = `http://battuta.medunes.net/api/region/${code}/all/?key=${BATTUTA_KEY[counter]}`
-    let provincias = (await axios.get(regionURL)).data
-    provincias = provincias.map((provincia) => provincia.region)
-    let pais
+      let [provincias, _created] = await Provincia.findOrCreate({
+        where: { id: provincia[i].id, NOMBRE_PROVINCIA: provincia[i].nombre },
+      })
+      provincias.setPai(pais)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+const getRegion = async (req, res) => {
+  const { code } = req.params
+  let region
+  try {
     switch (code) {
-      case 'ar':
-        pais = 'Argentina'
-        provincias = provincias.map(function (prov) {
-          if (prov.includes('Province')) {
-            return prov
-              .split(' ')
-              .filter((el) => el !== 'Province')
-              .join(' ')
-          } else {
-            return prov
-          }
+      case 'Argentina':
+        region = await Provincia.findAll({
+          where: { PaiId: 1 },
         })
         break
-      case 'uy':
-        pais = 'Uruguay'
-        provincias = provincias.map(function (prov) {
-          if (prov.includes('Departamento de')) {
-            return prov
-              .split(' ')
-              .filter((el) => el !== 'Departamento' && el !== 'de')
-              .join(' ')
-          }
+      case 'Uruguay':
+        region = await Provincia.findAll({
+          where: { PaiId: 2 },
         })
         break
-      case 'mx':
-        pais = 'Mexico'
-        provincias = provincias
-          .map(function (prov) {
-            if (prov.includes('Estado de')) {
-              return prov
-                .split(' ')
-                .filter((el) => el !== 'Estado' && el !== 'de')
-                .join(' ')
-            } else {
-              return prov
-            }
-          })
-          .sort()
+      case 'Mexico':
+        region = await Provincia.findAll({
+          where: { PaiId: 3 },
+        })
         break
       default:
-        break
+        region = [{ nombre: 'No encontrado' }]
     }
-    let paisDb = await Pais.findOne({
-      where: { NOMBRE_PAIS: pais },
-    })
-    provincias.forEach(async (provincia) => {
-      let [prov, _created] = await Provincia.findOrCreate({
-        where: { NOMBRE_PROVINCIA: provincia },
-      })
-      prov.setPai(paisDb)
-    })
-    return res.status(200).send(provincias)
+    res.status(200).send(region)
   } catch (error) {
-    console.log(error)
+    res.status(404).send(error)
   }
 }
 
 module.exports = {
-  getProvincias,
+  regionDb,
+  getRegion,
 }

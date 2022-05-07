@@ -242,26 +242,23 @@ let arrayProveedores = [
         NOMBRE_SERVICIO: servicios[8].NOMBRE_SERVICIO,
         REMOTE: servicios[8].REMOTE,
         PRECIO: Math.trunc(Math.random(0, 1) * 1000),
-        DESCRIPCION:
-          'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
+        DESCRIPCION: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
       },
       {
         NOMBRE_SERVICIO: servicios[9].NOMBRE_SERVICIO,
         REMOTE: servicios[9].REMOTE,
         PRECIO: Math.trunc(Math.random(0, 1) * 1000),
-        DESCRIPCION:
-          'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
+        DESCRIPCION: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
       },
       {
         NOMBRE_SERVICIO: servicios[10].NOMBRE_SERVICIO,
         REMOTE: servicios[10].REMOTE,
         PRECIO: Math.trunc(Math.random(0, 1) * 1000),
-        DESCRIPCION:
-          'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
+        DESCRIPCION: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
       },
     ],
     provincia: 'Misiones',
-    ciudad: 'Departamento de Posadas',
+    ciudad: 'Departamento de Capital',
   },
   {
     nombre: 'Oscar',
@@ -276,26 +273,23 @@ let arrayProveedores = [
         NOMBRE_SERVICIO: servicios[11].NOMBRE_SERVICIO,
         REMOTE: servicios[11].REMOTE,
         PRECIO: Math.trunc(Math.random(0, 1) * 1000),
-        DESCRIPCION:
-          'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
+        DESCRIPCION: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
       },
       {
         NOMBRE_SERVICIO: servicios[12].NOMBRE_SERVICIO,
         REMOTE: servicios[12].REMOTE,
         PRECIO: Math.trunc(Math.random(0, 1) * 1000),
-        DESCRIPCION:
-          'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
+        DESCRIPCION: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
       },
       {
         NOMBRE_SERVICIO: servicios[13].NOMBRE_SERVICIO,
         REMOTE: servicios[13].REMOTE,
         PRECIO: Math.trunc(Math.random(0, 1) * 1000),
-        DESCRIPCION:
-          'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
+        DESCRIPCION: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
       },
     ],
     provincia: 'Misiones',
-    ciudad: 'Departamento de Posadas',
+    ciudad: 'Departamento de Capital',
   },
   {
     nombre: 'George',
@@ -310,22 +304,19 @@ let arrayProveedores = [
         NOMBRE_SERVICIO: servicios[14].NOMBRE_SERVICIO,
         REMOTE: servicios[14].REMOTE,
         PRECIO: Math.trunc(Math.random(0, 1) * 1000),
-        DESCRIPCION:
-          'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
+        DESCRIPCION: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
       },
       {
         NOMBRE_SERVICIO: servicios[15].NOMBRE_SERVICIO,
         REMOTE: servicios[15].REMOTE,
         PRECIO: Math.trunc(Math.random(0, 1) * 1000),
-        DESCRIPCION:
-          'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
+        DESCRIPCION: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
       },
       {
         NOMBRE_SERVICIO: servicios[1].NOMBRE_SERVICIO,
         REMOTE: servicios[1].REMOTE,
         PRECIO: Math.trunc(Math.random(0, 1) * 1000),
-        DESCRIPCION:
-          'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
+        DESCRIPCION: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
       },
     ],
     provincia: 'Provincia de Buenos Aires',
@@ -344,22 +335,19 @@ let arrayProveedores = [
         NOMBRE_SERVICIO: servicios[2].NOMBRE_SERVICIO,
         REMOTE: servicios[2].REMOTE,
         PRECIO: Math.trunc(Math.random(0, 1) * 1000),
-        DESCRIPCION:
-          'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
+        DESCRIPCION: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
       },
       {
         NOMBRE_SERVICIO: servicios[3].NOMBRE_SERVICIO,
         REMOTE: servicios[3].REMOTE,
         PRECIO: Math.trunc(Math.random(0, 1) * 1000),
-        DESCRIPCION:
-          'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
+        DESCRIPCION: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
       },
       {
         NOMBRE_SERVICIO: servicios[5].NOMBRE_SERVICIO,
         REMOTE: servicios[5].REMOTE,
         PRECIO: Math.trunc(Math.random(0, 1) * 1000),
-        DESCRIPCION:
-          'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
+        DESCRIPCION: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
       },
     ],
     provincia: 'Provincia de Buenos Aires',
@@ -378,22 +366,19 @@ let arrayProveedores = [
         NOMBRE_SERVICIO: servicios[5].NOMBRE_SERVICIO,
         REMOTE: servicios[5].REMOTE,
         PRECIO: Math.trunc(Math.random(0, 1) * 1000),
-        DESCRIPCION:
-          'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
+        DESCRIPCION: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
       },
       {
         NOMBRE_SERVICIO: servicios[5].NOMBRE_SERVICIO,
         REMOTE: servicios[5].REMOTE,
         PRECIO: Math.trunc(Math.random(0, 1) * 1000),
-        DESCRIPCION:
-          'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
+        DESCRIPCION: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
       },
       {
         NOMBRE_SERVICIO: servicios[6].NOMBRE_SERVICIO,
         REMOTE: servicios[6].REMOTE,
         PRECIO: Math.trunc(Math.random(0, 1) * 1000),
-        DESCRIPCION:
-          'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
+        DESCRIPCION: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
       },
     ],
     provincia: 'Provincia de Buenos Aires',
@@ -412,22 +397,19 @@ let arrayProveedores = [
         NOMBRE_SERVICIO: servicios[6].NOMBRE_SERVICIO,
         REMOTE: servicios[6].REMOTE,
         PRECIO: Math.trunc(Math.random(0, 1) * 1000),
-        DESCRIPCION:
-          'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
+        DESCRIPCION: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
       },
       {
         NOMBRE_SERVICIO: servicios[8].NOMBRE_SERVICIO,
         REMOTE: servicios[8].REMOTE,
         PRECIO: Math.trunc(Math.random(0, 1) * 1000),
-        DESCRIPCION:
-          'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
+        DESCRIPCION: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
       },
       {
         NOMBRE_SERVICIO: servicios[7].NOMBRE_SERVICIO,
         REMOTE: servicios[7].REMOTE,
         PRECIO: Math.trunc(Math.random(0, 1) * 1000),
-        DESCRIPCION:
-          'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
+        DESCRIPCION: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
       },
     ],
     provincia: 'Provincia de Buenos Aires',
@@ -446,22 +428,19 @@ let arrayProveedores = [
         NOMBRE_SERVICIO: servicios[10].NOMBRE_SERVICIO,
         REMOTE: servicios[10].REMOTE,
         PRECIO: Math.trunc(Math.random(0, 1) * 1000),
-        DESCRIPCION:
-          'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
+        DESCRIPCION: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
       },
       {
         NOMBRE_SERVICIO: servicios[5].NOMBRE_SERVICIO,
         REMOTE: servicios[5].REMOTE,
         PRECIO: Math.trunc(Math.random(0, 1) * 1000),
-        DESCRIPCION:
-          'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
+        DESCRIPCION: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
       },
       {
         NOMBRE_SERVICIO: servicios[3].NOMBRE_SERVICIO,
         REMOTE: servicios[3].REMOTE,
         PRECIO: Math.trunc(Math.random(0, 1) * 1000),
-        DESCRIPCION:
-          'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
+        DESCRIPCION: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
       },
     ],
     provincia: 'Provincia de Buenos Aires',

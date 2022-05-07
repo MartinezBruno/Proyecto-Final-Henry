@@ -2,17 +2,21 @@ const express = require('express')
 const router = express.Router()
 
 const {
-  createProv,
   getProv,
   getProvByID,
   deleteServicio_Prov,
-  updateProvServices,
+  addServicio_Prov,
+  filtroPorProfesion,
+  filtroPorProvincia,
+  filtroProveedor,
 } = require('../controllers/proveedores.js')
 
 router.get('/', getProv)
+router.get('/filtro', filtroProveedor)
 router.get('/:id', getProvByID)
-router.post('/:id', updateProvServices)
-router.post('/', createProv)
+router.post('/:id', addServicio_Prov)
 router.delete('/:servId/:provId', deleteServicio_Prov)
-
+// router.get('/filter?pais&provincia&ciudad&profesion', queryFilter)
+router.get('/filter/:service', filtroPorProfesion)
+router.get('/filterP/:provincia', filtroPorProvincia)
 module.exports = router

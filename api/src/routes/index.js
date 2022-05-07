@@ -8,18 +8,23 @@ const proveedor = require('./proveedor')
 const auth = require('./auth')
 const usuario = require('./usuario')
 const bulkcreate = require('./bulkcreate')
+const checkout = require('./checkout')
+const pregunta = require('./pregunta')
+const chat = require('./chat')
 
-
-router.get("/", (req, res) => {
-  res.send('API Attend Group Company');
-});
-router.use("/provincias", region);
-router.use("/ciudad", ciudad);
-router.use("/servicios", servicio);
-router.use("/proveedor", proveedor);
-router.use("/auth", auth);
-router.use("/test", usuario);
+router.get('/', (req, res) => {
+  res.send('API Attend Group Company')
+})
+router.use('/provincias', region)
+router.use('/ciudad', ciudad)
+router.use('/servicios', servicio)
+router.use('/proveedor', proveedor)
+router.use('/auth', auth)
+router.use('/test', usuario)
 router.use('/bulkcreate', bulkcreate)
 router.use('/usuario', usuario)
+router.use('/checkout', checkout)
+router.use('/pregunta', pregunta)
+router.use('/chat', chat)
 
 module.exports = router

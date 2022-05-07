@@ -1,70 +1,75 @@
-import React from 'react';
+import React from 'react'
 import styles from '../styles/profile.module.css'
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { getUser } from '../redux/slices/user';
 
-export default function ProfileShowInfo(props){
-    console.log(props.changeForm)
-    return (
-        <>
-        
-        
-        <div className={`${styles.card} mb-3 ${styles.mb3}`}>
-                <div className={`card-body ${styles.cardBody}`}>
-                  <div className="row">
-                    <div className="col-sm-3">
-                      <h6 className="mb-0">Nombre completo</h6>
-                    </div>
-                    <div className="col-sm-9 text-secondary">
-                      Antonio Tralice
-                    </div>
-                  </div>
-                  <hr />
-                  <div className="row">
-                    <div className="col-sm-3">
-                      <h6 className="mb-0">Email</h6>
-                    </div>
-                    <div className="col-sm-9 text-secondary">
-                      toni@henry.com
-                    </div>
-                  </div>
-                  <hr />
-                  <div className="row">
-                    <div className="col-sm-3">
-                      <h6 className="mb-0">Teléfono</h6>
-                    </div>
-                    <div className="col-sm-9 text-secondary">
-                      (123) 123456789
-                    </div>
-                  </div>
-                  <hr />
-                  <div className="row">
-                    <div className="col-sm-3">
-                      <h6 className="mb-0">Celular</h6>
-                    </div>
-                    <div className="col-sm-9 text-secondary">
-                        (123) 123456789
-                    </div>
-                  </div>
-                  <hr />
-                  <div className="row">
-                    <div className="col-sm-3">
-                      <h6 className="mb-0">Dirección</h6>
-                    </div>
-                    <div className="col-sm-9 text-secondary">
-                      Cordoba, Argentina
-                    </div>
-                  </div>
-                  <hr />
-                  <div className="row">
-                    <div className="col-sm-12">
-                      <button className="btn btn-dark " onClick={()=>props.changeForm(true)}>EDITAR</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-        
-        
-        
-        
-        </>
-    )
+export default function ProfileShowInfo(props) {
+
+  function handleSave() {
+    props.changeForm(false)
+  }
+
+  const dispatch = useDispatch();
+  const { UniqueUser } = useSelector((state) => state.user)
+  const { user } = useSelector((state) => state.auth)
+
+
+  useEffect(() => {
+    dispatch(getUser(user.id))
+  },[dispatch])
+
+  console.log(props.changeForm)
+  return (
+    <>
+      <div className={`${styles.card} mb-3 ${styles.mb3}`}>
+        <div className={`card-body ${styles.cardBody}`}>
+          <div className='row'>
+            <div className='col-sm-3'>
+              <h6 className='mb-0'>Nombre completo</h6>
+            </div>
+            <div className='col-sm-9 text-secondary'>{UniqueUser.nombre_apellido_usuario}</div>
+          </div>
+          <hr />
+          <div className='row'>
+            <div className='col-sm-3'>
+              <h6 className='mb-0'>Email</h6>
+            </div>
+            <div className='col-sm-9 text-secondary'>{UniqueUser.email}</div>
+          </div>
+          <hr />
+          <div className='row'>
+            <div className='col-sm-3'>
+              <h6 className='mb-0'>Fecha de Nacimiento</h6>
+            </div>
+            <div className='col-sm-9 text-secondary'>{UniqueUser.fecha_nacimiento}</div>
+          </div>
+          <hr />
+          <div className='row'>
+            <div className='col-sm-3'>
+              <h6 className='mb-0'>Celular</h6>
+            </div>
+            <div className='col-sm-9 text-secondary'>{UniqueUser.celular}</div>
+          </div>
+          <hr />
+          {/* <div className='row'>
+            <div className='col-sm-3'>
+              <h6 className='mb-0'>Ubicacion</h6>
+            </div>
+            <div className='col-sm-9 text-secondary'>{`${UniqueUser.pais}, ${UniqueUser.provincia}, ${UniqueUser.ciudad}`}</div>
+          </div> 
+          <hr /> */}
+          <div className='row'>
+            <div className='col-sm-12'>
+              <button
+                className='btn btn-dark '
+                onClick={() => props.changeForm(true)}>
+                EDITAR
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  )
 }
