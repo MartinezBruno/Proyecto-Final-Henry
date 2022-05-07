@@ -396,7 +396,11 @@ export default function Register() {
         : setErrorsProvider((prevState) => {
             return { ...prevState, [e.target.name]: 'Ingrese un email válido. Ej: example@example.com' }
           })
-
+          if (providersEmail.includes(e.target.value)) {
+            setErrorsProvider((prevState) => {
+              return { ...prevState, [e.target.name]: 'Este correo ya está en uso, intente con otro' }
+            })
+          }
       if (e.target.value === '') {
         setErrorsProvider((prevState) => {
           return { ...prevState, [e.target.name]: 'Es obligatorio ingresar un EMAIL.' }
