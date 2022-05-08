@@ -24,6 +24,7 @@ export const cartSlice = createSlice({
     },
     clearServices: (state, action) => {
       state.services = []
+      localStorage.setItem('cartList', JSON.stringify(state.services))
     },
     setAcumuladorServices: (state, action) => {
       state.acumServices = action.payload
