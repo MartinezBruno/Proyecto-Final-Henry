@@ -8,9 +8,12 @@ import Badge from 'react-bootstrap/Badge'
 import Button from 'react-bootstrap/Button'
 import { Link } from 'react-router-dom'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
+import Swal from 'sweetalert2'
+
 
 export default function FloatCartButton() {
   const { services, acumServices } = useSelector((state) => state.shoppingCart)
+  const { isLoggedIn } = useSelector((state) => state.auth)
   let dispatch = useDispatch()
 
   let servicesToMap = [...services]
@@ -27,9 +30,30 @@ export default function FloatCartButton() {
 
   //Control del overlay del carrito:
   const [show, setShow] = useState(false)
-  const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
-
+  const handleClose = () => setShow(false)
+  const handleFinish = () => {
+    if(!isLoggedIn){
+      Swal.fire({
+        title: '<strong>Debes estar <u>Logueado</u> para poder comprar</strong>',
+        icon: 'warning',
+        html:
+          '<a href="http://localhost:3000/login">Inicia sesión</a> para continuar con su compra. ' +
+          'Si no tienes una cuenta, <a href="http://localhost:3000/register">Regístrate</a> de forma rápida y sencilla.',
+        showCloseButton: true,
+        // showCancelButton: true,
+        focusConfirm: false,
+        confirmButtonText:
+          '<i class="fa fa-thumbs-up"></i> Cerrar',
+        confirmButtonAriaLabel: 'Thumbs up, great!',
+        cancelButtonText:
+          '<i class="fa fa-thumbs-down"></i>',
+        cancelButtonAriaLabel: 'Thumbs down'
+      })
+    }else{
+      window.location.href("/shopping")
+    }
+  }
   //Objeto del carrito acumulativo
 
   // let individualServices = {}
@@ -151,12 +175,11 @@ export default function FloatCartButton() {
                 </span>
               </div>
               <div>
-                <Link to='/shopping'>
-                  {' '}
-                  <Button variant='success' style={{ width: '100%' }} onClick={handleClose}>
+                
+                  <Button variant='success' style={{ width: '100%' }} onClick={handleFinish}>
                     <i className='fa fa-lock' aria-hidden='true'></i> Terminar compra
                   </Button>
-                </Link>
+                
               </div>
             </div>
           </Offcanvas.Body>

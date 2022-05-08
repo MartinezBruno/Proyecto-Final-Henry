@@ -12,7 +12,7 @@ import { getAllProviders } from '../redux/slices/provider'
 import Swal from 'sweetalert2'
 import 'animate.css'
 
-export default function Register() {
+export default function Register({isModal}) {
   const { allProviders } = useSelector((state) => state.provider)
   const { allUsers } = useSelector((state) => state.user)
   let [termsAccepted, setTerms] = useState('disabled')
@@ -588,14 +588,14 @@ export default function Register() {
           if (prop === 'imagen') {
             //NO CONTAMOS imagen
           } else {
-            console.log(input[prop], prop, 'sumó')
+            // console.log(input[prop], prop, 'sumó')
             dataEmpty++
           }
         }
       }
       for (let prop in errors) {
         if (errors[prop]) {
-          console.log(errors[prop], prop, 'sumó')
+          // console.log(errors[prop], prop, 'sumó')
           errorsCounter++
         }
       }
@@ -605,7 +605,7 @@ export default function Register() {
       } else if (dataEmpty === 0 || errorsCounter === 0) {
         setTerms('')
       }
-      console.log(errorsCounter, dataEmpty)
+      // console.log(errorsCounter, dataEmpty)
     }
 
     if (termsAccepted === '') {
@@ -623,14 +623,14 @@ export default function Register() {
         if (prop === 'imagen') {
           //NO CONTAMOS imagen
         } else {
-          console.log(input[prop], prop, 'sumó')
+          // console.log(input[prop], prop, 'sumó')
           dataEmpty++
         }
       }
     }
     for (let prop in errors) {
       if (errors[prop]) {
-        console.log(errors[prop], prop, 'sumó')
+        // console.log(errors[prop], prop, 'sumó')
         errorsCounter++
       }
     }
@@ -640,7 +640,7 @@ export default function Register() {
     } else if (dataEmpty === 0 || errorsCounter === 0) {
       handleSubmitUser(e)
     }
-    console.log(errorsCounter, dataEmpty)
+    // console.log(errorsCounter, dataEmpty)
   }
 
   //FUNCION QUE HACE EL TOGGLE DEL BUTON AL ACEPTAR LOS TERMINOS Y CHEQUEA SI HAY ERRORES, Y DATA EN EL OBJETO A ENVIAR --------------> PROVIDER
@@ -710,525 +710,986 @@ export default function Register() {
     }
   }
 
-  return (
-    <>
-      <Container>
-        <Col md={12}>
-          <div className={`${styles.card} ${styles.myTabs}`}>
-            {' '}
-            <span className={styles.circle}>
-              <i className='fa fa-check'></i>
-            </span>
-            <h5 className='mt-3 '>
-              Unete a la comunidad profesional
-              <br /> más completa de la red.
-            </h5>{' '}
-            <small className='mt-2 text-muted'>Conecta con miles de profesionistas de calidad o encuentra a tus potenciales clientes. </small>
-            <br />
-            <br />
-            <Tabs defaultActiveKey='Usuario' className={`mb-3 text-center justify-content-center ${styles.myTabs}`}>
-              {/* PESTAÑA DE USUARIO */}
-              <Tab eventKey='Usuario' title='Registrar usuario'>
-                <div className='text-center mt-3'>
-                  <div className={styles.halfInputContainer}>
-                    <div className={styles.formInput}>
-                      {' '}
-                      <i className='fa fa-user' style={{ left: '15px' }}></i>{' '}
-                      <input
-                        type='text'
-                        className={styles.formControl}
-                        style={{ width: '12rem' }}
-                        name='nombre'
-                        placeholder='Nombre'
-                        value={input.nombre}
-                        onChange={(e) => handleChangeUser(e)}
-                      />{' '}
-                    </div>
-                    <div className={styles.formInput}>
-                      {' '}
-                      <i className='fa fa-address-card' style={{ left: '13px' }}></i>
-                      <input
-                        type='text'
-                        className={styles.formControl}
-                        style={{ width: '12rem' }}
-                        name='apellido'
-                        placeholder='Apellido'
-                        value={input.apellido}
-                        onChange={(e) => handleChangeUser(e)}
-                      />
-                    </div>
-                  </div>
-
-                  {/* MENSAJE DE ERROR DE NOMBRE Y APELLIDO */}
-
-                  {errors.nombre && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errors.nombre}</p>}
-                  {errors.apellido && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errors.apellido}</p>}
-
-                  <div className={styles.formInput}>
-                    {' '}
-                    <i className='fa fa-envelope'></i>{' '}
-                    <input
-                      type='text'
-                      className={styles.formControl}
-                      name='email'
-                      placeholder='Correo electrónico'
-                      value={input.email}
-                      onChange={(e) => handleChangeUser(e)}
-                    />{' '}
-                  </div>
-                  {errors.email && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errors.email}</p>}
-
-                  <div className={styles.formInput}>
-                    {' '}
-                    <i className='fa fa-lock'></i>{' '}
-                    <input
-                      type='password'
-                      className={styles.formControl}
-                      name='password'
-                      placeholder='Contraseña'
-                      value={input.password}
-                      onChange={(e) => handleChangeUser(e)}
-                    />{' '}
-                  </div>
-                  {errors.password && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errors.password}</p>}
-
-                  <div className={styles.formInput}>
-                    {' '}
-                    <i className='fa fa-camera' aria-hidden='true'></i>{' '}
-                    <input
-                      type='text'
-                      className={styles.formControl}
-                      name='imagen'
-                      placeholder='Imagen'
-                      value={input.imagen}
-                      onChange={(e) => handleChangeUser(e)}
-                    />{' '}
-                  </div>
-                  {errors.imagen && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errors.imagen}</p>}
-
-                  <div className={styles.formInput}>
-                    {' '}
-                    <i className='fa fa-mobile' aria-hidden='true'></i>{' '}
-                    <input
-                      type='number'
-                      className={styles.formControl}
-                      name='celular'
-                      placeholder='Celular'
-                      value={input.celular}
-                      onChange={(e) => handleChangeUser(e)}
-                    />{' '}
-                  </div>
-                  {errors.celular && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errors.celular}</p>}
-
-                  <div className={styles.formInput}>
-                    <label htmlFor='date'>Fecha nacimiento:</label>
-                    <input
-                      type='date'
-                      className={styles.formControl}
-                      name='fecha_nacimiento'
-                      placeholder='Fecha de nacimiento'
-                      value={input.fecha_nacimiento}
-                      onChange={(e) => handleChangeUser(e)}
-                    />
-                  </div>
-                  {errors.fecha_nacimiento && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errors.fecha_nacimiento}</p>}
-
-                  <div className={styles.halfInputContainer}>
-                    <div className={styles.formInput}>
-                      {' '}
-                      <i className='fa fa-globe' aria-hidden='true' style={{ left: '15px' }}></i>{' '}
-                      <select
-                        className={styles.formControl}
-                        style={{ width: '12rem' }}
-                        name='pais'
-                        onChange={(e) => {
-                          handleChangeUser(e)
-                        }}>
-                        <option selected disabled hidden>
-                          Selecciona país
-                        </option>
-
-                        {countries.length > 0
-                          ? countries?.map((el, i) => {
-                              return (
-                                <option key={i} id={el.code} value={el.name}>
-                                  {el.name}
-                                </option>
-                              )
-                            })
-                          : 'Cargando...'}
-                      </select>
-                    </div>
-
-                    {input.pais ? (
-                      <div className={styles.formInput}>
-                        <i className='fa fa-map-marker' aria-hidden='true' style={{ left: '15px' }}></i>{' '}
-                        <select className={styles.formControl} style={{ width: '12rem' }} name='provincia' onChange={(e) => handleChangeUser(e)}>
-                          <option selected disabled hidden>
-                            Selecciona provincia
-                          </option>
-
-                          {provinces.length > 0 ? (
-                            provinces?.map((el, i) => {
-                              return (
-                                <option key={i} value={el.NOMBRE_PROVINCIA}>
-                                  {el.NOMBRE_PROVINCIA}
-                                </option>
-                              )
-                            })
-                          ) : (
-                            <option>Cargando...</option>
-                          )}
-                        </select>
-                      </div>
-                    ) : null}
-
-                    {input.provincia && input.pais !== 'Uruguay' ? (
+  if(isModal){
+    return (
+      <>
+        <Container>
+          <Col md={12}>
+            <div className={`${styles.card} ${styles.myTabs}`}>
+              {' '}
+              <span className={styles.circle}>
+                <i className='fa fa-check'></i>
+              </span>
+              <h5 className='mt-3 '>
+                Unete a la comunidad profesional
+                <br /> más completa de la red.
+              </h5>{' '}
+              <small className='mt-2 text-muted'>Conecta con miles de profesionistas de calidad o encuentra a tus potenciales clientes. </small>
+              <br />
+              <br />
+              <Tabs defaultActiveKey='Usuario' className={`mb-3 text-center justify-content-center ${styles.myTabs}`}>
+                {/* PESTAÑA DE USUARIO */}
+                <Tab eventKey='Usuario' title='Registrar usuario'>
+                  <div className='text-center mt-3'>
+                    <div className={styles.halfInputContainer}>
                       <div className={styles.formInput}>
                         {' '}
-                        <i className='fa fa-building' aria-hidden='true' style={{ left: '15px' }}>
-                          {' '}
-                        </i>{' '}
-                        <select
+                        <i className='fa fa-user' style={{ left: '15px' }}></i>{' '}
+                        <input
                           type='text'
                           className={styles.formControl}
                           style={{ width: '12rem' }}
-                          name='ciudad'
-                          placeholder='Ciudad'
-                          value={input.ciudad}
-                          onChange={(e) => handleChangeUser(e)}>
-                          <option selected disabled hidden>
-                            Selecciona ciudad
-                          </option>
-                          {cities?.length > 0 ? (
-                            cities?.map((el, i) => {
-                              return (
-                                <option key={i} value={el.NOMBRE_CIUDAD}>
-                                  {el.NOMBRE_CIUDAD}
-                                </option>
-                              )
-                            })
-                          ) : (
-                            <option>Cargando...</option>
-                          )}
-                        </select>
+                          name='nombre'
+                          placeholder='Nombre'
+                          value={input.nombre}
+                          onChange={(e) => handleChangeUser(e)}
+                        />{' '}
                       </div>
-                    ) : null}
-
-                    {input.pais === 'Uruguay' && cities?.length > 0 && !cities.map((el) => el.NOMBRE_CIUDAD).includes(input.ciudad) ? isUruguay() : null}
-                  </div>
-
-                  <div className={styles.formInput}></div>
-                  <div className='form-check d-flex justify-content-center'>
-                    {' '}
-                    <input className='form-check-input' type='checkbox' name='checked' id='flexCheckChecked' onChange={(e) => handleChecked(e)} />{' '}
-                    <label className={styles.formCheckLabel} htmlFor='flexCheckChecked'>
-                      {' '}
-                      Acepto términos y condiciones.{' '}
-                    </label>{' '}
-                  </div>
-                  {/* <button className={`btn btn-success mt-4 ${styles.signup} ${termsAccepted}`} onClick={(e) => handleSubmitUser(e)}> */}
-                  <button className={`btn btn-success mt-4 ${styles.signup} ${termsAccepted}`} onClick={(e) => finalCheck(e)}>
-                    Confirmar registro
-                  </button>
-                </div>
-
-                <div className='text-center mt-3'>
-                  {' '}
-                  <span>O registrate usando:</span>{' '}
-                </div>
-                <div className='d-flex justify-content-center mt-4'>
-                  {' '}
-                  <span className={styles.social}>
-                    <i className='fa fa-google'></i>
-                  </span>{' '}
-                  <span className={styles.social}>
-                    <i className='fa fa-facebook'></i>
-                  </span>{' '}
-                  <span className={styles.social}>
-                    <i className='fa fa-linkedin'></i>
-                  </span>{' '}
-                </div>
-                <div className='text-center mt-4'>
-                  {' '}
-                  <span>¿Ya estás registrado?</span>{' '}
-                  <Link to='/login' className='text-decoration-none'>
-                    Inicia sesión
-                  </Link>{' '}
-                </div>
-              </Tab>
-
-              <Tab eventKey='Proveedor' title='Registrar proovedor'>
-                <div className='text-center mt-3'>
-                  <div className={styles.halfInputContainer}>
-                    <div className={styles.formInput}>
-                      {' '}
-                      <i className='fa fa-user' style={{ left: '15px' }}></i>{' '}
-                      <input
-                        type='text'
-                        className={styles.formControl}
-                        style={{ width: '12rem' }}
-                        name='nombre'
-                        placeholder='Nombre'
-                        value={inputProvider.nombre}
-                        onChange={(e) => handleChangeProvider(e)}
-                      />{' '}
-                    </div>
-                    <div className={styles.formInput}>
-                      {' '}
-                      <i className='fa fa-address-card' style={{ left: '13px' }}></i>
-                      <input
-                        type='text'
-                        className={styles.formControl}
-                        style={{ width: '12rem' }}
-                        name='apellido'
-                        placeholder='Apellido'
-                        value={inputProvider.apellido}
-                        onChange={(e) => handleChangeProvider(e)}
-                      />
-                    </div>
-                  </div>
-
-                  {/* MENSAJE DE ERROR DE NOMBRE Y APELLIDO */}
-
-                  {errorsProvider.nombre && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.nombre}</p>}
-                  {errorsProvider.apellido && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.apellido}</p>}
-
-                  <div className={styles.formInput}>
-                    {' '}
-                    <i className='fa fa-envelope'></i>{' '}
-                    <input
-                      type='text'
-                      className={styles.formControl}
-                      name='email'
-                      placeholder='Correo electrónico'
-                      value={inputProvider.email}
-                      onChange={(e) => handleChangeProvider(e)}
-                    />{' '}
-                  </div>
-                  {errorsProvider.email && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.email}</p>}
-
-                  <div className={styles.formInput}>
-                    {' '}
-                    <i className='fa fa-lock'></i>{' '}
-                    <input
-                      type='password'
-                      className={styles.formControl}
-                      name='password'
-                      placeholder='Contraseña'
-                      value={inputProvider.password}
-                      onChange={(e) => handleChangeProvider(e)}
-                    />{' '}
-                  </div>
-                  {errorsProvider.password && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.password}</p>}
-
-                  <div className={styles.formInput}>
-                    {' '}
-                    <i className='fa fa-camera' aria-hidden='true'></i>{' '}
-                    <input
-                      type='text'
-                      className={styles.formControl}
-                      name='imagen'
-                      placeholder='Imagen'
-                      value={inputProvider.imagen}
-                      onChange={(e) => handleChangeProvider(e)}
-                    />{' '}
-                  </div>
-                  {errorsProvider.imagen && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.imagen}</p>}
-
-                  <div className={styles.formInput}>
-                    {' '}
-                    <i className='fa fa-mobile' aria-hidden='true'></i>{' '}
-                    <input
-                      type='text'
-                      className={styles.formControl}
-                      name='celular'
-                      placeholder='Celular'
-                      value={inputProvider.celular}
-                      onChange={(e) => handleChangeProvider(e)}
-                    />{' '}
-                  </div>
-                  {errorsProvider.celular && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.celular}</p>}
-
-                  <div className={styles.formInput}>
-                    <label htmlFor='date'>Fecha nacimiento:</label>
-                    <input
-                      type='date'
-                      className={styles.formControl}
-                      name='fecha_nacimiento'
-                      placeholder='Fecha de nacimiento'
-                      value={inputProvider.fecha_nacimiento}
-                      onChange={(e) => handleChangeProvider(e)}
-                    />
-                  </div>
-                  {errorsProvider.fecha_nacimiento && (
-                    <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.fecha_nacimiento}</p>
-                  )}
-
-                  <div className={styles.halfInputContainer}>
-                    <div className={styles.formInput}>
-                      {' '}
-                      <i className='fa fa-globe' aria-hidden='true' style={{ left: '15px' }}></i>{' '}
-                      <select
-                        className={styles.formControl}
-                        style={{ width: '12rem' }}
-                        name='pais'
-                        onChange={(e) => {
-                          handleChangeProvider(e)
-                        }}>
-                        <option selected disabled hidden>
-                          Selecciona país
-                        </option>
-
-                        {countries.length > 0
-                          ? countries?.map((el, i) => {
-                              return (
-                                <option key={i} id={el.code} value={el.name}>
-                                  {el.name}
-                                </option>
-                              )
-                            })
-                          : 'Cargando...'}
-                      </select>
-                    </div>
-
-                    {inputProvider.pais ? (
-                      <div className={styles.formInput}>
-                        <i className='fa fa-map-marker' aria-hidden='true' style={{ left: '15px' }}></i>{' '}
-                        <select className={styles.formControl} style={{ width: '12rem' }} name='provincia' onChange={(e) => handleChangeProvider(e)}>
-                          <option selected disabled hidden>
-                            Selecciona provincia
-                          </option>
-
-                          {provinces.length > 0 ? (
-                            provinces?.map((el, i) => {
-                              return (
-                                <option key={i} value={el.NOMBRE_PROVINCIA}>
-                                  {el.NOMBRE_PROVINCIA}
-                                </option>
-                              )
-                            })
-                          ) : (
-                            <option>Cargando...</option>
-                          )}
-                        </select>
-                      </div>
-                    ) : null}
-
-                    {inputProvider.provincia && inputProvider.pais !== 'Uruguay' ? (
                       <div className={styles.formInput}>
                         {' '}
-                        <i className='fa fa-building' aria-hidden='true' style={{ left: '15px' }}>
-                          {' '}
-                        </i>{' '}
-                        <select
+                        <i className='fa fa-address-card' style={{ left: '13px' }}></i>
+                        <input
                           type='text'
                           className={styles.formControl}
                           style={{ width: '12rem' }}
-                          name='ciudad'
-                          placeholder='Ciudad'
-                          value={inputProvider.ciudad}
-                          onChange={(e) => handleChangeProvider(e)}>
+                          name='apellido'
+                          placeholder='Apellido'
+                          value={input.apellido}
+                          onChange={(e) => handleChangeUser(e)}
+                        />
+                      </div>
+                    </div>
+  
+                    {/* MENSAJE DE ERROR DE NOMBRE Y APELLIDO */}
+  
+                    {errors.nombre && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errors.nombre}</p>}
+                    {errors.apellido && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errors.apellido}</p>}
+  
+                    <div className={styles.formInput}>
+                      {' '}
+                      <i className='fa fa-envelope'></i>{' '}
+                      <input
+                        type='text'
+                        className={styles.formControl}
+                        name='email'
+                        placeholder='Correo electrónico'
+                        value={input.email}
+                        onChange={(e) => handleChangeUser(e)}
+                      />{' '}
+                    </div>
+                    {errors.email && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errors.email}</p>}
+  
+                    <div className={styles.formInput}>
+                      {' '}
+                      <i className='fa fa-lock'></i>{' '}
+                      <input
+                        type='password'
+                        className={styles.formControl}
+                        name='password'
+                        placeholder='Contraseña'
+                        value={input.password}
+                        onChange={(e) => handleChangeUser(e)}
+                      />{' '}
+                    </div>
+                    {errors.password && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errors.password}</p>}
+  
+                    <div className={styles.formInput}>
+                      {' '}
+                      <i className='fa fa-camera' aria-hidden='true'></i>{' '}
+                      <input
+                        type='text'
+                        className={styles.formControl}
+                        name='imagen'
+                        placeholder='Imagen'
+                        value={input.imagen}
+                        onChange={(e) => handleChangeUser(e)}
+                      />{' '}
+                    </div>
+                    {errors.imagen && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errors.imagen}</p>}
+  
+                    <div className={styles.formInput}>
+                      {' '}
+                      <i className='fa fa-mobile' aria-hidden='true'></i>{' '}
+                      <input
+                        type='number'
+                        className={styles.formControl}
+                        name='celular'
+                        placeholder='Celular'
+                        value={input.celular}
+                        onChange={(e) => handleChangeUser(e)}
+                      />{' '}
+                    </div>
+                    {errors.celular && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errors.celular}</p>}
+  
+                    <div className={styles.formInput}>
+                      <label htmlFor='date'>Fecha nacimiento:</label>
+                      <input
+                        type='date'
+                        className={styles.formControl}
+                        name='fecha_nacimiento'
+                        placeholder='Fecha de nacimiento'
+                        value={input.fecha_nacimiento}
+                        onChange={(e) => handleChangeUser(e)}
+                      />
+                    </div>
+                    {errors.fecha_nacimiento && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errors.fecha_nacimiento}</p>}
+  
+                    <div className={styles.halfInputContainer}>
+                      <div className={styles.formInput}>
+                        {' '}
+                        <i className='fa fa-globe' aria-hidden='true' style={{ left: '15px' }}></i>{' '}
+                        <select
+                          className={styles.formControl}
+                          style={{ width: '12rem' }}
+                          name='pais'
+                          onChange={(e) => {
+                            handleChangeUser(e)
+                          }}>
                           <option selected disabled hidden>
-                            Selecciona ciudad
+                            Selecciona país
                           </option>
-                          {cities?.length > 0 ? (
-                            cities?.map((el, i) => {
-                              return (
-                                <option key={i} value={el.NOMBRE_CIUDAD}>
-                                  {el.NOMBRE_CIUDAD}
-                                </option>
-                              )
-                            })
-                          ) : (
-                            <option>Cargando...</option>
-                          )}
+  
+                          {countries.length > 0
+                            ? countries?.map((el, i) => {
+                                return (
+                                  <option key={i} id={el.code} value={el.name}>
+                                    {el.name}
+                                  </option>
+                                )
+                              })
+                            : 'Cargando...'}
                         </select>
                       </div>
-                    ) : null}
-
-                    {inputProvider.pais === 'Uruguay' && cities?.length > 0 && !cities.map((el) => el.NOMBRE_CIUDAD).includes(inputProvider.ciudad)
-                      ? isUruguayProvider()
-                      : null}
-                  </div>
-
-                  <div className={styles.formInput}></div>
-                  <div className='form-check d-flex justify-content-center'>
-                    {' '}
-                    <input className='form-check-input' type='checkbox' name='checked' id='flexCheckChecked' onChange={(e) => handleCheckedProvider(e)} />{' '}
-                    <label className={styles.formCheckLabel} htmlFor='flexCheckChecked'>
-                      {' '}
-                      Acepto términos y condiciones.{' '}
-                    </label>{' '}
-                  </div>
-                  {/* <button className={`btn btn-success mt-4 ${styles.signup} ${termsAcceptedProvider}`} onClick={(e) => handleSubmitUser(e)}> */}
-                  <button className={`btn btn-success mt-4 ${styles.signup} ${termsAcceptedProvider}`} onClick={(e) => finalCheckProvider(e)}>
-                    Confirmar registro
-                  </button>
-                </div>
-
-                <div className='text-center mt-3'>
-                  {' '}
-                  <span>O registrate usando:</span>{' '}
-                </div>
-                <div className='d-flex justify-content-center mt-4'>
-                  {' '}
-                  <span className={styles.social}>
-                    <i className='fa fa-google'></i>
-                  </span>{' '}
-                  <span className={styles.social}>
-                    <i className='fa fa-facebook'></i>
-                  </span>{' '}
-                  <span className={styles.social}>
-                    <i className='fa fa-linkedin'></i>
-                  </span>{' '}
-                </div>
-                <div className='text-center mt-4'>
-                  {' '}
-                  <span>¿Ya estás registrado?</span>{' '}
-                  <Link to='/login' className='text-decoration-none'>
-                    Inicia sesión
-                  </Link>{' '}
-                </div>
-              </Tab>
-            </Tabs>
-          </div>
-        </Col>
-      </Container>
-
-      {/* <div className="container ">
-    <div className="row d-flex align-items-center justify-content-center" style={{margin:'0px -220px 0px -220px'}}>
-        <div className="col-md-6">
-            <div className={`${styles.card}`}> <span className={styles.circle}><i className="fa fa-check"></i></span>
-                <h5 className="mt-3 ">Unete a la comunidad profesional<br /> más completa de la red.</h5> <small className="mt-2 text-muted">Conecta con miles de profesionistas de calidad o encuentra a tus potenciales clientes. </small>
-                <div className="text-center mt-3">
-                    <div className={styles.formInput}> <i className="fa fa-user"></i> <input type="text" className={styles.formControl} placeholder="Nombre y apellido"/> </div>
-                    <div className={styles.formInput}> <i className="fa fa-envelope"></i> <input type="text" className={styles.formControl} placeholder="Correo electrónico" /> </div>
-                    <div className={styles.formInput}> <i className="fa fa-lock"></i> <input type="text" className={styles.formControl} placeholder="Contraseña"/> </div>
-                    <div className={styles.formInput}> 
-                    
-                    
-
-                    <label htmlFor="role" className='text-muted'>¿Que deseas hacer?</label> <br /> 
-
-                        <select className={styles.selectArea}name="role" id="role">
-                        <option value="hire">Contratar servicios</option>
-                        <option value="offer">Vender mis servicios</option>
-                        </select>
-                    
-                    
+  
+                      {input.pais ? (
+                        <div className={styles.formInput}>
+                          <i className='fa fa-map-marker' aria-hidden='true' style={{ left: '15px' }}></i>{' '}
+                          <select className={styles.formControl} style={{ width: '12rem' }} name='provincia' onChange={(e) => handleChangeUser(e)}>
+                            <option selected disabled hidden>
+                              Selecciona provincia
+                            </option>
+  
+                            {provinces.length > 0 ? (
+                              provinces?.map((el, i) => {
+                                return (
+                                  <option key={i} value={el.NOMBRE_PROVINCIA}>
+                                    {el.NOMBRE_PROVINCIA}
+                                  </option>
+                                )
+                              })
+                            ) : (
+                              <option>Cargando...</option>
+                            )}
+                          </select>
+                        </div>
+                      ) : null}
+  
+                      {input.provincia && input.pais !== 'Uruguay' ? (
+                        <div className={styles.formInput}>
+                          {' '}
+                          <i className='fa fa-building' aria-hidden='true' style={{ left: '15px' }}>
+                            {' '}
+                          </i>{' '}
+                          <select
+                            type='text'
+                            className={styles.formControl}
+                            style={{ width: '12rem' }}
+                            name='ciudad'
+                            placeholder='Ciudad'
+                            value={input.ciudad}
+                            onChange={(e) => handleChangeUser(e)}>
+                            <option selected disabled hidden>
+                              Selecciona ciudad
+                            </option>
+                            {cities?.length > 0 ? (
+                              cities?.map((el, i) => {
+                                return (
+                                  <option key={i} value={el.NOMBRE_CIUDAD}>
+                                    {el.NOMBRE_CIUDAD}
+                                  </option>
+                                )
+                              })
+                            ) : (
+                              <option>Cargando...</option>
+                            )}
+                          </select>
+                        </div>
+                      ) : null}
+  
+                      {input.pais === 'Uruguay' && cities?.length > 0 && !cities.map((el) => el.NOMBRE_CIUDAD).includes(input.ciudad) ? isUruguay() : null}
                     </div>
-                    <div className="form-check d-flex justify-content-center"> <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked" /> <label className={styles.formCheckLabel} htmlFor="flexCheckChecked"> Acepto todas las condiciones </label> </div> 
-                    <button className={`btn btn-success mt-4 ${styles.signup}`}>Confirmar registro</button>
-                </div>
-
-                <div className="text-center mt-3"> <span>O registrate usando:</span> </div>
-                <div className="d-flex justify-content-center mt-4"> <span className={styles.social}><i className="fa fa-google"></i></span> <span className={styles.social}><i className="fa fa-facebook"></i></span> <span className={styles.social}><i className="fa fa-linkedin"></i></span> </div>
-                <div className="text-center mt-4"> <span>¿Ya estás registrado?</span> <Link to="/login" className="text-decoration-none">Inicia sesión</Link> </div>
+  
+                    <div className={styles.formInput}></div>
+                    <div className='form-check d-flex justify-content-center'>
+                      {' '}
+                      <input className='form-check-input' type='checkbox' name='checked' id='flexCheckChecked' onChange={(e) => handleChecked(e)} />{' '}
+                      <label className={styles.formCheckLabel} htmlFor='flexCheckChecked'>
+                        {' '}
+                        Acepto términos y condiciones.{' '}
+                      </label>{' '}
+                    </div>
+                    {/* <button className={`btn btn-success mt-4 ${styles.signup} ${termsAccepted}`} onClick={(e) => handleSubmitUser(e)}> */}
+                    <button className={`btn btn-success mt-4 ${styles.signup} ${termsAccepted}`} onClick={(e) => finalCheck(e)}>
+                      Confirmar registro
+                    </button>
+                  </div>
+  
+                  <div className='text-center mt-3'>
+                    {' '}
+                    <span>O registrate usando:</span>{' '}
+                  </div>
+                  <div className='d-flex justify-content-center mt-4'>
+                    {' '}
+                    <span className={styles.social}>
+                      <i className='fa fa-google'></i>
+                    </span>{' '}
+                    <span className={styles.social}>
+                      <i className='fa fa-facebook'></i>
+                    </span>{' '}
+                    <span className={styles.social}>
+                      <i className='fa fa-linkedin'></i>
+                    </span>{' '}
+                  </div>
+                  <div className='text-center mt-4'>
+                    {' '}
+                    <span>¿Ya estás registrado?</span>{' '}
+                    <Link to='/login' className='text-decoration-none'>
+                      Inicia sesión
+                    </Link>{' '}
+                  </div>
+                </Tab>
+  
+                <Tab eventKey='Proveedor' title='Registrar proovedor'>
+                  <div className='text-center mt-3'>
+                    <div className={styles.halfInputContainer}>
+                      <div className={styles.formInput}>
+                        {' '}
+                        <i className='fa fa-user' style={{ left: '15px' }}></i>{' '}
+                        <input
+                          type='text'
+                          className={styles.formControl}
+                          style={{ width: '12rem' }}
+                          name='nombre'
+                          placeholder='Nombre'
+                          value={inputProvider.nombre}
+                          onChange={(e) => handleChangeProvider(e)}
+                        />{' '}
+                      </div>
+                      <div className={styles.formInput}>
+                        {' '}
+                        <i className='fa fa-address-card' style={{ left: '13px' }}></i>
+                        <input
+                          type='text'
+                          className={styles.formControl}
+                          style={{ width: '12rem' }}
+                          name='apellido'
+                          placeholder='Apellido'
+                          value={inputProvider.apellido}
+                          onChange={(e) => handleChangeProvider(e)}
+                        />
+                      </div>
+                    </div>
+  
+                    {/* MENSAJE DE ERROR DE NOMBRE Y APELLIDO */}
+  
+                    {errorsProvider.nombre && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.nombre}</p>}
+                    {errorsProvider.apellido && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.apellido}</p>}
+  
+                    <div className={styles.formInput}>
+                      {' '}
+                      <i className='fa fa-envelope'></i>{' '}
+                      <input
+                        type='text'
+                        className={styles.formControl}
+                        name='email'
+                        placeholder='Correo electrónico'
+                        value={inputProvider.email}
+                        onChange={(e) => handleChangeProvider(e)}
+                      />{' '}
+                    </div>
+                    {errorsProvider.email && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.email}</p>}
+  
+                    <div className={styles.formInput}>
+                      {' '}
+                      <i className='fa fa-lock'></i>{' '}
+                      <input
+                        type='password'
+                        className={styles.formControl}
+                        name='password'
+                        placeholder='Contraseña'
+                        value={inputProvider.password}
+                        onChange={(e) => handleChangeProvider(e)}
+                      />{' '}
+                    </div>
+                    {errorsProvider.password && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.password}</p>}
+  
+                    <div className={styles.formInput}>
+                      {' '}
+                      <i className='fa fa-camera' aria-hidden='true'></i>{' '}
+                      <input
+                        type='text'
+                        className={styles.formControl}
+                        name='imagen'
+                        placeholder='Imagen'
+                        value={inputProvider.imagen}
+                        onChange={(e) => handleChangeProvider(e)}
+                      />{' '}
+                    </div>
+                    {errorsProvider.imagen && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.imagen}</p>}
+  
+                    <div className={styles.formInput}>
+                      {' '}
+                      <i className='fa fa-mobile' aria-hidden='true'></i>{' '}
+                      <input
+                        type='text'
+                        className={styles.formControl}
+                        name='celular'
+                        placeholder='Celular'
+                        value={inputProvider.celular}
+                        onChange={(e) => handleChangeProvider(e)}
+                      />{' '}
+                    </div>
+                    {errorsProvider.celular && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.celular}</p>}
+  
+                    <div className={styles.formInput}>
+                      <label htmlFor='date'>Fecha nacimiento:</label>
+                      <input
+                        type='date'
+                        className={styles.formControl}
+                        name='fecha_nacimiento'
+                        placeholder='Fecha de nacimiento'
+                        value={inputProvider.fecha_nacimiento}
+                        onChange={(e) => handleChangeProvider(e)}
+                      />
+                    </div>
+                    {errorsProvider.fecha_nacimiento && (
+                      <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.fecha_nacimiento}</p>
+                    )}
+  
+                    <div className={styles.halfInputContainer}>
+                      <div className={styles.formInput}>
+                        {' '}
+                        <i className='fa fa-globe' aria-hidden='true' style={{ left: '15px' }}></i>{' '}
+                        <select
+                          className={styles.formControl}
+                          style={{ width: '12rem' }}
+                          name='pais'
+                          onChange={(e) => {
+                            handleChangeProvider(e)
+                          }}>
+                          <option selected disabled hidden>
+                            Selecciona país
+                          </option>
+  
+                          {countries.length > 0
+                            ? countries?.map((el, i) => {
+                                return (
+                                  <option key={i} id={el.code} value={el.name}>
+                                    {el.name}
+                                  </option>
+                                )
+                              })
+                            : 'Cargando...'}
+                        </select>
+                      </div>
+  
+                      {inputProvider.pais ? (
+                        <div className={styles.formInput}>
+                          <i className='fa fa-map-marker' aria-hidden='true' style={{ left: '15px' }}></i>{' '}
+                          <select className={styles.formControl} style={{ width: '12rem' }} name='provincia' onChange={(e) => handleChangeProvider(e)}>
+                            <option selected disabled hidden>
+                              Selecciona provincia
+                            </option>
+  
+                            {provinces.length > 0 ? (
+                              provinces?.map((el, i) => {
+                                return (
+                                  <option key={i} value={el.NOMBRE_PROVINCIA}>
+                                    {el.NOMBRE_PROVINCIA}
+                                  </option>
+                                )
+                              })
+                            ) : (
+                              <option>Cargando...</option>
+                            )}
+                          </select>
+                        </div>
+                      ) : null}
+  
+                      {inputProvider.provincia && inputProvider.pais !== 'Uruguay' ? (
+                        <div className={styles.formInput}>
+                          {' '}
+                          <i className='fa fa-building' aria-hidden='true' style={{ left: '15px' }}>
+                            {' '}
+                          </i>{' '}
+                          <select
+                            type='text'
+                            className={styles.formControl}
+                            style={{ width: '12rem' }}
+                            name='ciudad'
+                            placeholder='Ciudad'
+                            value={inputProvider.ciudad}
+                            onChange={(e) => handleChangeProvider(e)}>
+                            <option selected disabled hidden>
+                              Selecciona ciudad
+                            </option>
+                            {cities?.length > 0 ? (
+                              cities?.map((el, i) => {
+                                return (
+                                  <option key={i} value={el.NOMBRE_CIUDAD}>
+                                    {el.NOMBRE_CIUDAD}
+                                  </option>
+                                )
+                              })
+                            ) : (
+                              <option>Cargando...</option>
+                            )}
+                          </select>
+                        </div>
+                      ) : null}
+  
+                      {inputProvider.pais === 'Uruguay' && cities?.length > 0 && !cities.map((el) => el.NOMBRE_CIUDAD).includes(inputProvider.ciudad)
+                        ? isUruguayProvider()
+                        : null}
+                    </div>
+  
+                    <div className={styles.formInput}></div>
+                    <div className='form-check d-flex justify-content-center'>
+                      {' '}
+                      <input className='form-check-input' type='checkbox' name='checked' id='flexCheckChecked' onChange={(e) => handleCheckedProvider(e)} />{' '}
+                      <label className={styles.formCheckLabel} htmlFor='flexCheckChecked'>
+                        {' '}
+                        Acepto términos y condiciones.{' '}
+                      </label>{' '}
+                    </div>
+                    {/* <button className={`btn btn-success mt-4 ${styles.signup} ${termsAcceptedProvider}`} onClick={(e) => handleSubmitUser(e)}> */}
+                    <button className={`btn btn-success mt-4 ${styles.signup} ${termsAcceptedProvider}`} onClick={(e) => finalCheckProvider(e)}>
+                      Confirmar registro
+                    </button>
+                  </div>
+  
+                  <div className='text-center mt-3'>
+                    {' '}
+                    <span>O registrate usando:</span>{' '}
+                  </div>
+                  <div className='d-flex justify-content-center mt-4'>
+                    {' '}
+                    <span className={styles.social}>
+                      <i className='fa fa-google'></i>
+                    </span>{' '}
+                    <span className={styles.social}>
+                      <i className='fa fa-facebook'></i>
+                    </span>{' '}
+                    <span className={styles.social}>
+                      <i className='fa fa-linkedin'></i>
+                    </span>{' '}
+                  </div>
+                  <div className='text-center mt-4'>
+                    {' '}
+                    <span>¿Ya estás registrado?</span>{' '}
+                    <Link to='/login' className='text-decoration-none'>
+                      Inicia sesión
+                    </Link>{' '}
+                  </div>
+                </Tab>
+              </Tabs>
             </div>
+          </Col>
+        </Container>
+  
+      </>
+    )
+  } else {
+    return (
+      <>
+        <div className="d-flex container align-items-center justify-content-center" style={{marginTop:'1rem'}}>
+
+<div className="col-6" style={{borderRadius: '10px', border: '1px solid DarkGray', background: 'white', boxShadow: '0 0 5px 1px rgba(0, 0, 0, 0.4)'}}>
+          <Col md={12}>
+            <div className={`${styles.card} ${styles.myTabs}`} style={{padding:'3rem'}}>
+              {' '}
+              <span className={styles.circle}>
+                <i className='fa fa-check'></i>
+              </span>
+              <h5 className='mt-3 '>
+                Unete a la comunidad profesional
+                <br /> más completa de la red.
+              </h5>{' '}
+              <small className='mt-2 text-muted'>Conecta con miles de profesionistas de calidad o encuentra a tus potenciales clientes. </small>
+              <br />
+              <br />
+              <Tabs defaultActiveKey='Usuario' className={`mb-3 text-center justify-content-center ${styles.myTabs}`}>
+                {/* PESTAÑA DE USUARIO */}
+                <Tab eventKey='Usuario' title='Registrar usuario'>
+                  <div className='text-center mt-3'>
+                    <div className={styles.halfInputContainer}>
+                      <div className={styles.formInput}>
+                        {' '}
+                        <i className='fa fa-user' style={{ left: '15px' }}></i>{' '}
+                        <input
+                          type='text'
+                          className={styles.formControl}
+                          style={{ width: '12rem' }}
+                          name='nombre'
+                          placeholder='Nombre'
+                          value={input.nombre}
+                          onChange={(e) => handleChangeUser(e)}
+                        />{' '}
+                      </div>
+                      <div className={styles.formInput}>
+                        {' '}
+                        <i className='fa fa-address-card' style={{ left: '13px' }}></i>
+                        <input
+                          type='text'
+                          className={styles.formControl}
+                          style={{ width: '12rem' }}
+                          name='apellido'
+                          placeholder='Apellido'
+                          value={input.apellido}
+                          onChange={(e) => handleChangeUser(e)}
+                        />
+                      </div>
+                    </div>
+  
+                    {/* MENSAJE DE ERROR DE NOMBRE Y APELLIDO */}
+  
+                    {errors.nombre && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errors.nombre}</p>}
+                    {errors.apellido && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errors.apellido}</p>}
+  
+                    <div className={styles.formInputPage}>
+                      {' '}
+                      <i className='fa fa-envelope' style={{left:'5rem!important'}}></i>{' '}
+                      <input
+                        type='text'
+                        className={styles.formControl}
+                        name='email'
+                        placeholder='Correo electrónico'
+                        value={input.email}
+                        onChange={(e) => handleChangeUser(e)}
+                      />{' '}
+                    </div>
+                    {errors.email && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errors.email}</p>}
+  
+                    <div className={styles.formInputPage}>
+                      {' '}
+                      <i className='fa fa-lock'></i>{' '}
+                      <input
+                        type='password'
+                        className={styles.formControl}
+                        name='password'
+                        placeholder='Contraseña'
+                        value={input.password}
+                        onChange={(e) => handleChangeUser(e)}
+                      />{' '}
+                    </div>
+                    {errors.password && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errors.password}</p>}
+  
+                    <div className={styles.formInputPage}>
+                      {' '}
+                      <i className='fa fa-camera' aria-hidden='true'></i>{' '}
+                      <input
+                        type='text'
+                        className={styles.formControl}
+                        name='imagen'
+                        placeholder='Imagen'
+                        value={input.imagen}
+                        onChange={(e) => handleChangeUser(e)}
+                      />{' '}
+                    </div>
+                    {errors.imagen && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errors.imagen}</p>}
+  
+                    <div className={styles.formInputPage}>
+                      {' '}
+                      <i className='fa fa-mobile' aria-hidden='true'></i>{' '}
+                      <input
+                        type='number'
+                        className={styles.formControl}
+                        name='celular'
+                        placeholder='Celular'
+                        value={input.celular}
+                        onChange={(e) => handleChangeUser(e)}
+                      />{' '}
+                    </div>
+                    {errors.celular && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errors.celular}</p>}
+  
+                    <div className={styles.formInput}>
+                      <label htmlFor='date'>Fecha nacimiento:</label>
+                      <input
+                        type='date'
+                        className={styles.formControl}
+                        name='fecha_nacimiento'
+                        placeholder='Fecha de nacimiento'
+                        value={input.fecha_nacimiento}
+                        onChange={(e) => handleChangeUser(e)}
+                      />
+                    </div>
+                    {errors.fecha_nacimiento && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errors.fecha_nacimiento}</p>}
+  
+                    <div className={styles.halfInputContainer}>
+                      <div className={styles.formInput}>
+                        {' '}
+                        <i className='fa fa-globe' aria-hidden='true' style={{ left: '15px' }}></i>{' '}
+                        <select
+                          className={styles.formControl}
+                          style={{ width: '12rem' }}
+                          name='pais'
+                          onChange={(e) => {
+                            handleChangeUser(e)
+                          }}>
+                          <option selected disabled hidden>
+                            Selecciona país
+                          </option>
+  
+                          {countries.length > 0
+                            ? countries?.map((el, i) => {
+                                return (
+                                  <option key={i} id={el.code} value={el.name}>
+                                    {el.name}
+                                  </option>
+                                )
+                              })
+                            : 'Cargando...'}
+                        </select>
+                      </div>
+  
+                      {input.pais ? (
+                        <div className={styles.formInput}>
+                          <i className='fa fa-map-marker' aria-hidden='true' style={{ left: '15px' }}></i>{' '}
+                          <select className={styles.formControl} style={{ width: '12rem' }} name='provincia' onChange={(e) => handleChangeUser(e)}>
+                            <option selected disabled hidden>
+                              Selecciona provincia
+                            </option>
+  
+                            {provinces.length > 0 ? (
+                              provinces?.map((el, i) => {
+                                return (
+                                  <option key={i} value={el.NOMBRE_PROVINCIA}>
+                                    {el.NOMBRE_PROVINCIA}
+                                  </option>
+                                )
+                              })
+                            ) : (
+                              <option>Cargando...</option>
+                            )}
+                          </select>
+                        </div>
+                      ) : null}
+  
+                      {input.provincia && input.pais !== 'Uruguay' ? (
+                        <div className={styles.formInput}>
+                          {' '}
+                          <i className='fa fa-building' aria-hidden='true' style={{ left: '15px' }}>
+                            {' '}
+                          </i>{' '}
+                          <select
+                            type='text'
+                            className={styles.formControl}
+                            style={{ width: '12rem' }}
+                            name='ciudad'
+                            placeholder='Ciudad'
+                            value={input.ciudad}
+                            onChange={(e) => handleChangeUser(e)}>
+                            <option selected disabled hidden>
+                              Selecciona ciudad
+                            </option>
+                            {cities?.length > 0 ? (
+                              cities?.map((el, i) => {
+                                return (
+                                  <option key={i} value={el.NOMBRE_CIUDAD}>
+                                    {el.NOMBRE_CIUDAD}
+                                  </option>
+                                )
+                              })
+                            ) : (
+                              <option>Cargando...</option>
+                            )}
+                          </select>
+                        </div>
+                      ) : null}
+  
+                      {input.pais === 'Uruguay' && cities?.length > 0 && !cities.map((el) => el.NOMBRE_CIUDAD).includes(input.ciudad) ? isUruguay() : null}
+                    </div>
+  
+                    <div className={styles.formInput}></div>
+                    <div className='form-check d-flex justify-content-center'>
+                      {' '}
+                      <input className='form-check-input' type='checkbox' name='checked' id='flexCheckChecked' onChange={(e) => handleChecked(e)} />{' '}
+                      <label className={styles.formCheckLabel} htmlFor='flexCheckChecked'>
+                        {' '}
+                        Acepto términos y condiciones.{' '}
+                      </label>{' '}
+                    </div>
+                    {/* <button className={`btn btn-success mt-4 ${styles.signup} ${termsAccepted}`} onClick={(e) => handleSubmitUser(e)}> */}
+                    <button className={`btn btn-success mt-4 ${styles.signup} ${termsAccepted}`} onClick={(e) => finalCheck(e)}>
+                      Confirmar registro
+                    </button>
+                  </div>
+  
+                  <div className='text-center mt-3'>
+                    {' '}
+                    <span>O registrate usando:</span>{' '}
+                  </div>
+                  <div className='d-flex justify-content-center mt-4'>
+                    {' '}
+                    <span className={styles.social}>
+                      <i className='fa fa-google'></i>
+                    </span>{' '}
+                    <span className={styles.social}>
+                      <i className='fa fa-facebook'></i>
+                    </span>{' '}
+                    <span className={styles.social}>
+                      <i className='fa fa-linkedin'></i>
+                    </span>{' '}
+                  </div>
+                  <div className='text-center mt-4'>
+                    {' '}
+                    <span>¿Ya estás registrado?</span>{' '}
+                    <Link to='/login' className='text-decoration-none'>
+                      Inicia sesión
+                    </Link>{' '}
+                  </div>
+                </Tab>
+  
+                <Tab eventKey='Proveedor' title='Registrar proovedor'>
+                  <div className='text-center mt-3'>
+                    <div className={styles.halfInputContainer}>
+                      <div className={styles.formInput}>
+                        {' '}
+                        <i className='fa fa-user' style={{ left: '15px' }}></i>{' '}
+                        <input
+                          type='text'
+                          className={styles.formControl}
+                          style={{ width: '12rem' }}
+                          name='nombre'
+                          placeholder='Nombre'
+                          value={inputProvider.nombre}
+                          onChange={(e) => handleChangeProvider(e)}
+                        />{' '}
+                      </div>
+                      <div className={styles.formInput}>
+                        {' '}
+                        <i className='fa fa-address-card' style={{ left: '13px' }}></i>
+                        <input
+                          type='text'
+                          className={styles.formControl}
+                          style={{ width: '12rem' }}
+                          name='apellido'
+                          placeholder='Apellido'
+                          value={inputProvider.apellido}
+                          onChange={(e) => handleChangeProvider(e)}
+                        />
+                      </div>
+                    </div>
+  
+                    {/* MENSAJE DE ERROR DE NOMBRE Y APELLIDO */}
+  
+                    {errorsProvider.nombre && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.nombre}</p>}
+                    {errorsProvider.apellido && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.apellido}</p>}
+  
+                    <div className={styles.formInput}>
+                      {' '}
+                      <i className='fa fa-envelope'></i>{' '}
+                      <input
+                        type='text'
+                        className={styles.formControl}
+                        name='email'
+                        placeholder='Correo electrónico'
+                        value={inputProvider.email}
+                        onChange={(e) => handleChangeProvider(e)}
+                      />{' '}
+                    </div>
+                    {errorsProvider.email && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.email}</p>}
+  
+                    <div className={styles.formInput}>
+                      {' '}
+                      <i className='fa fa-lock'></i>{' '}
+                      <input
+                        type='password'
+                        className={styles.formControl}
+                        name='password'
+                        placeholder='Contraseña'
+                        value={inputProvider.password}
+                        onChange={(e) => handleChangeProvider(e)}
+                      />{' '}
+                    </div>
+                    {errorsProvider.password && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.password}</p>}
+  
+                    <div className={styles.formInput}>
+                      {' '}
+                      <i className='fa fa-camera' aria-hidden='true'></i>{' '}
+                      <input
+                        type='text'
+                        className={styles.formControl}
+                        name='imagen'
+                        placeholder='Imagen'
+                        value={inputProvider.imagen}
+                        onChange={(e) => handleChangeProvider(e)}
+                      />{' '}
+                    </div>
+                    {errorsProvider.imagen && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.imagen}</p>}
+  
+                    <div className={styles.formInput}>
+                      {' '}
+                      <i className='fa fa-mobile' aria-hidden='true'></i>{' '}
+                      <input
+                        type='text'
+                        className={styles.formControl}
+                        name='celular'
+                        placeholder='Celular'
+                        value={inputProvider.celular}
+                        onChange={(e) => handleChangeProvider(e)}
+                      />{' '}
+                    </div>
+                    {errorsProvider.celular && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.celular}</p>}
+  
+                    <div className={styles.formInput}>
+                      <label htmlFor='date'>Fecha nacimiento:</label>
+                      <input
+                        type='date'
+                        className={styles.formControl}
+                        name='fecha_nacimiento'
+                        placeholder='Fecha de nacimiento'
+                        value={inputProvider.fecha_nacimiento}
+                        onChange={(e) => handleChangeProvider(e)}
+                      />
+                    </div>
+                    {errorsProvider.fecha_nacimiento && (
+                      <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.fecha_nacimiento}</p>
+                    )}
+  
+                    <div className={styles.halfInputContainer}>
+                      <div className={styles.formInput}>
+                        {' '}
+                        <i className='fa fa-globe' aria-hidden='true' style={{ left: '15px' }}></i>{' '}
+                        <select
+                          className={styles.formControl}
+                          style={{ width: '12rem' }}
+                          name='pais'
+                          onChange={(e) => {
+                            handleChangeProvider(e)
+                          }}>
+                          <option selected disabled hidden>
+                            Selecciona país
+                          </option>
+  
+                          {countries.length > 0
+                            ? countries?.map((el, i) => {
+                                return (
+                                  <option key={i} id={el.code} value={el.name}>
+                                    {el.name}
+                                  </option>
+                                )
+                              })
+                            : 'Cargando...'}
+                        </select>
+                      </div>
+  
+                      {inputProvider.pais ? (
+                        <div className={styles.formInput}>
+                          <i className='fa fa-map-marker' aria-hidden='true' style={{ left: '15px' }}></i>{' '}
+                          <select className={styles.formControl} style={{ width: '12rem' }} name='provincia' onChange={(e) => handleChangeProvider(e)}>
+                            <option selected disabled hidden>
+                              Selecciona provincia
+                            </option>
+  
+                            {provinces.length > 0 ? (
+                              provinces?.map((el, i) => {
+                                return (
+                                  <option key={i} value={el.NOMBRE_PROVINCIA}>
+                                    {el.NOMBRE_PROVINCIA}
+                                  </option>
+                                )
+                              })
+                            ) : (
+                              <option>Cargando...</option>
+                            )}
+                          </select>
+                        </div>
+                      ) : null}
+  
+                      {inputProvider.provincia && inputProvider.pais !== 'Uruguay' ? (
+                        <div className={styles.formInput}>
+                          {' '}
+                          <i className='fa fa-building' aria-hidden='true' style={{ left: '15px' }}>
+                            {' '}
+                          </i>{' '}
+                          <select
+                            type='text'
+                            className={styles.formControl}
+                            style={{ width: '12rem' }}
+                            name='ciudad'
+                            placeholder='Ciudad'
+                            value={inputProvider.ciudad}
+                            onChange={(e) => handleChangeProvider(e)}>
+                            <option selected disabled hidden>
+                              Selecciona ciudad
+                            </option>
+                            {cities?.length > 0 ? (
+                              cities?.map((el, i) => {
+                                return (
+                                  <option key={i} value={el.NOMBRE_CIUDAD}>
+                                    {el.NOMBRE_CIUDAD}
+                                  </option>
+                                )
+                              })
+                            ) : (
+                              <option>Cargando...</option>
+                            )}
+                          </select>
+                        </div>
+                      ) : null}
+  
+                      {inputProvider.pais === 'Uruguay' && cities?.length > 0 && !cities.map((el) => el.NOMBRE_CIUDAD).includes(inputProvider.ciudad)
+                        ? isUruguayProvider()
+                        : null}
+                    </div>
+  
+                    <div className={styles.formInput}></div>
+                    <div className='form-check d-flex justify-content-center'>
+                      {' '}
+                      <input className='form-check-input' type='checkbox' name='checked' id='flexCheckChecked' onChange={(e) => handleCheckedProvider(e)} />{' '}
+                      <label className={styles.formCheckLabel} htmlFor='flexCheckChecked'>
+                        {' '}
+                        Acepto términos y condiciones.{' '}
+                      </label>{' '}
+                    </div>
+                    {/* <button className={`btn btn-success mt-4 ${styles.signup} ${termsAcceptedProvider}`} onClick={(e) => handleSubmitUser(e)}> */}
+                    <button className={`btn btn-success mt-4 ${styles.signup} ${termsAcceptedProvider}`} onClick={(e) => finalCheckProvider(e)}>
+                      Confirmar registro
+                    </button>
+                  </div>
+  
+                  <div className='text-center mt-3'>
+                    {' '}
+                    <span>O registrate usando:</span>{' '}
+                  </div>
+                  <div className='d-flex justify-content-center mt-4'>
+                    {' '}
+                    <span className={styles.social}>
+                      <i className='fa fa-google'></i>
+                    </span>{' '}
+                    <span className={styles.social}>
+                      <i className='fa fa-facebook'></i>
+                    </span>{' '}
+                    <span className={styles.social}>
+                      <i className='fa fa-linkedin'></i>
+                    </span>{' '}
+                  </div>
+                  <div className='text-center mt-4'>
+                    {' '}
+                    <span>¿Ya estás registrado?</span>{' '}
+                    <Link to='/login' className='text-decoration-none'>
+                      Inicia sesión
+                    </Link>{' '}
+                  </div>
+                </Tab>
+              </Tabs>
+            </div>
+          </Col>
         </div>
-    </div>
-</div> */}
-    </>
-  )
+</div>  
+      </>
+    )
+  }
+
 }

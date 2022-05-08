@@ -33,7 +33,20 @@
     position: absolute;
     font-size: 18px;
     top: 17px;
-    left: 30px;
+    left: 44px;
+}
+
+.formInputPage {
+    position: relative;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.formInputPage i {
+    position: absolute;
+    font-size: 18px;
+    top: 17px;
+    left: 45px;
 }
 
 .formControl {

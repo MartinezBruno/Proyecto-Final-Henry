@@ -4,6 +4,8 @@ const chat = async (req, res) => {
   const { idUsuario, idProveedor, mensajeProveedor, mensajeUsuario } = req.body
   let usuario = await Usuario.findOne({ where: { id: idUsuario } })
   let proveedor = await Proveedor.findOne({ where: { id: idProveedor } })
+  const now = new Date();
+const current = now.getHours() + ':' + now.getMinutes();
   try {
     if (mensajeUsuario) {
       let chat = await Chat.findOrCreate({
@@ -11,11 +13,10 @@ const chat = async (req, res) => {
       })
 
       let arrayChat = chat[0].CHAT
+      let ultimoMensaje = chat[0].updatedAt
 
-      arrayChat.unshift(usuario.NOMBRE_APELLIDO_USUARIO + ': ' + mensajeUsuario)
-      console.log(arrayChat)
+      arrayChat.unshift(usuario.NOMBRE_APELLIDO_USUARIO + ': ' + mensajeUsuario + ' ' + current)
       await Chat.update({ CHAT: arrayChat }, { where: { id: chat[0].id } })
-
       return res.status(200).send('Mensaje de Usuario enviado correctamente')
     }
     if (mensajeProveedor) {
@@ -24,8 +25,8 @@ const chat = async (req, res) => {
       })
 
       let arrayChat = chat[0].CHAT
-
-      arrayChat.unshift(proveedor.NOMBRE_APELLIDO_PROVEEDOR + ': ' + mensajeProveedor)
+      let ultimoMensaje = chat[0].updatedAt
+      arrayChat.unshift(proveedor.NOMBRE_APELLIDO_PROVEEDOR + ': ' + mensajeProveedor + current)
       console.log(arrayChat)
       await Chat.update({ CHAT: arrayChat }, { where: { id: chat[0].id } })
 
@@ -37,7 +38,7 @@ const chat = async (req, res) => {
 }
 
 const getChat = async (req, res) => {
-  const { idUsuario, idProveedor } = req.query
+  const { idUsuario, idProveedor } = req.body
   try {
     let chat = await Chat.findOne({
       where: { ProveedorId: idProveedor, UsuarioId: idUsuario },
