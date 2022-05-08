@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize')
 
 module.exports = (sequelize) => {
   // defino el modelo
-  sequelize.define('Usuario', {
+  sequelize.define('Admin', {
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
@@ -23,7 +23,6 @@ module.exports = (sequelize) => {
 
     IMAGEN: {
       type: DataTypes.STRING,
-      defaultValue: 'https://www.softzone.es/app/uploads-softzone.es/2018/04/guest.png?x=480&quality=20',
     },
 
     FECHA_NACIMIENTO: {
