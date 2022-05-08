@@ -588,14 +588,14 @@ export default function Register() {
           if (prop === 'imagen') {
             //NO CONTAMOS imagen
           } else {
-            console.log(input[prop], prop, 'sumó')
+            // console.log(input[prop], prop, 'sumó')
             dataEmpty++
           }
         }
       }
       for (let prop in errors) {
         if (errors[prop]) {
-          console.log(errors[prop], prop, 'sumó')
+          // console.log(errors[prop], prop, 'sumó')
           errorsCounter++
         }
       }
@@ -605,7 +605,7 @@ export default function Register() {
       } else if (dataEmpty === 0 || errorsCounter === 0) {
         setTerms('')
       }
-      console.log(errorsCounter, dataEmpty)
+      // console.log(errorsCounter, dataEmpty)
     }
 
     if (termsAccepted === '') {
@@ -623,14 +623,14 @@ export default function Register() {
         if (prop === 'imagen') {
           //NO CONTAMOS imagen
         } else {
-          console.log(input[prop], prop, 'sumó')
+          // console.log(input[prop], prop, 'sumó')
           dataEmpty++
         }
       }
     }
     for (let prop in errors) {
       if (errors[prop]) {
-        console.log(errors[prop], prop, 'sumó')
+        // console.log(errors[prop], prop, 'sumó')
         errorsCounter++
       }
     }
@@ -640,7 +640,7 @@ export default function Register() {
     } else if (dataEmpty === 0 || errorsCounter === 0) {
       handleSubmitUser(e)
     }
-    console.log(errorsCounter, dataEmpty)
+    // console.log(errorsCounter, dataEmpty)
   }
 
   //FUNCION QUE HACE EL TOGGLE DEL BUTON AL ACEPTAR LOS TERMINOS Y CHEQUEA SI HAY ERRORES, Y DATA EN EL OBJETO A ENVIAR --------------> PROVIDER

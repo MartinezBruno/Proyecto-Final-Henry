@@ -47,10 +47,11 @@ export function userRegister(input) {
       let data = await dispatch(Register_Success())
       dispatch(setMessage(data.data.message))
     } catch (error) {
-      const message = (error.data && error.data.message) || error.message || error.toString()
+      const message = (error.data && error.data.message) || error.response.data.message || error.message || error.toString()
       dispatch(Register_Fail())
       dispatch(SetMessage(message))
-      // console.log(error)
+      console.log(error)
+      console.log(message)
     }
   }
 }

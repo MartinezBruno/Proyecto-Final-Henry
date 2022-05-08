@@ -59,128 +59,12 @@ export default function ProfileDetails() {
               </div>
 
               {/* SECCION DE CALIFICACION / DATOS EXTRAS */}
-
-              <div className={`${styles.card} mt-3`}>
-                <ul className='list-group list-group-flush'>
-                  <li className='list-group-item d-flex justify-content-between align-items-center flex-wrap'>
-                    <h6 className='mb-0'>
-                      <i className='fa fa-angle-right' aria-hidden='true'></i> Calificación:{' '}
-                    </h6>
-                    <ul className='list-inline small'>
-                      <div>
-                        { serviceProvider[0]?.calificacion[0] === 1 ?
-                        <>
-                        <li className='list-inline-item m-0'>
-                          <i className='fa fa-star text-success'></i>
-                        </li>
-                        <li className='list-inline-item m-0'>
-                          <i className='fa fa-star-o text-success'></i>
-                        </li>
-                        <li className='list-inline-item m-0'>
-                          <i className='fa fa-star-o text-success'></i>
-                        </li>
-                        <li className='list-inline-item m-0'>
-                          <i className='fa fa-star-o text-success'></i>
-                        </li>
-                        <li className='list-inline-item m-0'>
-                          <i className='fa fa-star-o text-success'></i>
-                        </li>
-                        </> : serviceProvider[0]?.calificacion[0] === 2 ?
-                        <>
-                        <li className='list-inline-item m-0'>
-                          <i className='fa fa-star text-success'></i>
-                        </li>
-                        <li className='list-inline-item m-0'>
-                          <i className='fa fa-star text-success'></i>
-                        </li>
-                        <li className='list-inline-item m-0'>
-                          <i className='fa fa-star-o text-success'></i>
-                        </li>
-                        <li className='list-inline-item m-0'>
-                          <i className='fa fa-star-o text-success'></i>
-                        </li>
-                        <li className='list-inline-item m-0'>
-                          <i className='fa fa-star-o text-success'></i>
-                        </li>
-                        </> : serviceProvider[0]?.calificacion[0] === 3 ?
-                        <>
-                        <li className='list-inline-item m-0'>
-                          <i className='fa fa-star text-success'></i>
-                        </li>
-                        <li className='list-inline-item m-0'>
-                          <i className='fa fa-star text-success'></i>
-                        </li>
-                        <li className='list-inline-item m-0'>
-                          <i className='fa fa-star text-success'></i>
-                        </li>
-                        <li className='list-inline-item m-0'>
-                          <i className='fa fa-star-o text-success'></i>
-                        </li>
-                        <li className='list-inline-item m-0'>
-                          <i className='fa fa-star-o text-success'></i>
-                        </li>
-                        </> : serviceProvider[0]?.calificacion[0] === 4 ?
-                        <>
-                        <li className='list-inline-item m-0'>
-                          <i className='fa fa-star text-success'></i>
-                        </li>
-                        <li className='list-inline-item m-0'>
-                          <i className='fa fa-star text-success'></i>
-                        </li>
-                        <li className='list-inline-item m-0'>
-                          <i className='fa fa-star text-success'></i>
-                        </li>
-                        <li className='list-inline-item m-0'>
-                          <i className='fa fa-star text-success'></i>
-                        </li>
-                        <li className='list-inline-item m-0'>
-                          <i className='fa fa-star-o text-success'></i>
-                        </li>
-                        </> : serviceProvider[0]?.calificacion[0] === 5 ?
-                        <>
-                        <li className='list-inline-item m-0'>
-                          <i className='fa fa-star text-success'></i>
-                        </li>
-                        <li className='list-inline-item m-0'>
-                          <i className='fa fa-star text-success'></i>
-                        </li>
-                        <li className='list-inline-item m-0'>
-                          <i className='fa fa-star text-success'></i>
-                        </li>
-                        <li className='list-inline-item m-0'>
-                          <i className='fa fa-star text-success'></i>
-                        </li>
-                        <li className='list-inline-item m-0'>
-                          <i className='fa fa-star text-success'></i>
-                        </li>
-                        </>
-
-
-
-
-
-
-                         : "No tiene Calificaciones" }
-                      </div>
-                      {/* CIERRA MAPEO CALIFICACION */}
-                    </ul>
-                  </li>
-                  <li className='list-group-item d-flex justify-content-between align-items-center flex-wrap'>
-                    <h6 className='mb-0'>
-                      <i className='fa fa-angle-right' aria-hidden='true'></i> Antiguedad:
-                    </h6>
-                    {/* INICIA MAPEO DE FECHA DE REGISTRO */}
-                    <span className='text-secondary'>hace un mes.</span>
-                    {/* CIERRA MAPEO DE FECHA DE REGISTRO */}
-                  </li>
-                </ul>
-              </div>
             </div>
 
             {/* DESCRIPCION */}
             <div className={`col-md-8 mb-3 ${styles.mb3}`}>
               <div className={`card-body ${styles.cardBody}`}>
-                <div className='row'>
+                <div className='row' style={{ alignContent: 'center' }}>
                   <div className='col'>
                     <h5 className='mb-0 text-center text-secondary'>
                       <i className='fa fa-commenting-o' aria-hidden='true'></i> DETALLES COMPLETOS
@@ -198,18 +82,133 @@ export default function ProfileDetails() {
                   <span className='list-group-item list-group-item-action list-group-item-light'>
                     <b>Precio:</b> ${serviceProvider[0]?.servicio.precio}
                   </span>
-                  <span className='list-group-item list-group-item-action list-group-item-light'>
+                  <span className='list-group-item list-group-item-action list-group-item-light' style={{ display: 'flex' }}>
                     <b>Remoto</b>
                     {serviceProvider[0]?.servicio.remote === true ? (
                       <td>
-                        <i className='fa fa-check text-success' aria-hidden='true'></i>
+                        <i className='fa fa-check text-success' aria-hidden='true' style={{ marginLeft: '10px', fontWeight: 'bold' }}></i>
                       </td>
                     ) : (
                       <td>
-                        <i className='fa fa-times text-danger' aria-hidden='true'></i>
+                        <i className='fa fa-times text-danger' aria-hidden='true' style={{ marginLeft: '10px', fontWeight: 'bold' }}></i>
                       </td>
                     )}
                   </span>
+                  <div className={`${styles.card} mt-3`}>
+                    <ul className='list-group list-group-flush'>
+                      <li className='list-group-item d-flex justify-content-between align-items-center flex-wrap'>
+                        <h6 className='mb-0'>
+                          <i className='fa fa-angle-right' aria-hidden='true'></i> Calificación:{' '}
+                        </h6>
+                        <ul className='list-inline small'>
+                          <div>
+                            {serviceProvider[0]?.calificacion === 1 ? (
+                              <>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star-o text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star-o text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star-o text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star-o text-success'></i>
+                                </li>
+                              </>
+                            ) : serviceProvider[0]?.calificacion === 2 ? (
+                              <>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star-o text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star-o text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star-o text-success'></i>
+                                </li>
+                              </>
+                            ) : serviceProvider[0]?.calificacion === 3 ? (
+                              <>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star-o text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star-o text-success'></i>
+                                </li>
+                              </>
+                            ) : serviceProvider[0]?.calificacion === 4 ? (
+                              <>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star-o text-success'></i>
+                                </li>
+                              </>
+                            ) : serviceProvider[0]?.calificacion === 5 ? (
+                              <>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star text-success'></i>
+                                </li>
+                              </>
+                            ) : (
+                              'No tiene Calificaciones'
+                            )}
+                          </div>
+                          {/* CIERRA MAPEO CALIFICACION */}
+                        </ul>
+                      </li>
+                      <li className='list-group-item d-flex justify-content-between align-items-center flex-wrap'>
+                        <h6 className='mb-0'>
+                          <i className='fa fa-angle-right' aria-hidden='true'></i> Antiguedad:
+                        </h6>
+                        {/* INICIA MAPEO DE FECHA DE REGISTRO */}
+                        <span className='text-secondary'>hace un mes.</span>
+                        {/* CIERRA MAPEO DE FECHA DE REGISTRO */}
+                      </li>
+                    </ul>
+                  </div>
                 </div>
                 <div className='row'>
                   <div className='col-sm-12'>{/* <button className="btn btn-dark">EDITAR</button> */}</div>
@@ -234,7 +233,7 @@ export default function ProfileDetails() {
                   <div className='list-group'>
                     {/* { MAPEO DE CADA PREGUNTA HECHA AL PROVEDOR } */}
 
-                    {serviceProvider &&
+                    {serviceProvider[0]?.preguntas.length > 0 ? (
                       serviceProvider[0]?.preguntas.map((preg) => (
                         <>
                           <span
@@ -250,7 +249,12 @@ export default function ProfileDetails() {
                           </span>
                           {/* <hr /> */}
                         </>
-                      ))}
+                      ))
+                    ) : (
+                      <p style={{ textAlign: 'center', color: 'gray', fontSize: '15px', margin: '0px', marginLeft: '7px' }}>
+                        Nadie hizo Preguntas todavía. ¡Hacé la primera!
+                      </p>
+                    )}
                   </div>
                   <div className='row'>
                     <div className='col-sm-12'>{/* <button className="btn btn-dark">EDITAR</button> */}</div>
@@ -273,7 +277,7 @@ export default function ProfileDetails() {
                   <hr />
                   <div className='list-group'>
                     {/* { MAPEO DE CADA COMENTARIO HECHO AL PROVEDOR } */}
-                    {serviceProvider &&
+                    {serviceProvider[0]?.comentarios.length > 0 ? (
                       serviceProvider[0]?.comentarios.map((com) => (
                         <>
                           <span
@@ -289,7 +293,12 @@ export default function ProfileDetails() {
                           </span>
                           {/* <hr /> */}
                         </>
-                      ))}
+                      ))
+                    ) : (
+                      <p style={{ textAlign: 'center', color: 'gray', fontSize: '15px', margin: '0px', marginLeft: '7px' }}>
+                        Nadie hizo Comentarios todavía. ¡Hacé el primero!
+                      </p>
+                    )}
                   </div>
                   <div className='row'>
                     <div className='col-sm-12'>{/* <button className="btn btn-dark">EDITAR</button> */}</div>
