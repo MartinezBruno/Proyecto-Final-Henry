@@ -8,13 +8,16 @@ import { services } from '../redux/slices/shoppingCart'
 import styles from '../styles/profile.module.css'
 import { NavLink } from 'react-router-dom'
 import { useState } from 'react'
+var moment = require('moment');
 
 export default function ProfileDetails() {
   let { ProviderID } = useParams()
   console.log(ProviderID)
+  
 
   const dispatch = useDispatch()
   const { uniqueprovider } = useSelector((state) => state.provider)
+  const { serviceProvider } = useSelector((state) => state.provider)
   const { services } = useSelector((state) => state.shoppingCart)
   const [favoritos, setFavoritos] = useState(false)
   // localStorage('cartList', JSON.stringify(services))
@@ -55,11 +58,11 @@ export default function ProfileDetails() {
                     {/* MAPEO CIUDAD */}
                     <p className='text-muted font-size-sm'>{uniqueprovider.ciudad + ', ' + uniqueprovider.provincia}</p>
                     {favoritos === false ? (
-                      <button className='btn btn-primary' style={{ margin: '7px' }} onClick={() => handleFav()}>
+                      <button className='btn btn-primary' style={{ margin: '7px', fontWeight:"bold"}} onClick={() => handleFav()}>
                         Agregar a Favoritos
                       </button>
                     ) : (
-                      <button className='btn btn-secondary' style={{ margin: '7px', backgroundColor:"red" }} onClick={() => handleFav()}>
+                      <button className='btn btn-secondary' style={{ margin: '7px', backgroundColor:"red", fontWeight:"bold"}} onClick={() => handleFav()}>
                         Eliminar de Favoritos
                       </button>
                     )}
@@ -75,25 +78,106 @@ export default function ProfileDetails() {
               <ul className='list-group list-group-flush'>
                 <li className='list-group-item d-flex justify-content-between align-items-center flex-wrap'>
                   <h6 className='mb-0'>
-                    <i className='fa fa-angle-right' aria-hidden='true'></i> Calificación:{' '}
+                    <i className='fa fa-angle-right' aria-hidden='true'></i> Calificación :{' '} 
                   </h6>
                   <ul className='list-inline small'>
                     {/* INICIA MAPEO CALIFICACION */}
-                    <li className='list-inline-item m-0'>
-                      <i className='fa fa-star text-success'></i>
-                    </li>
-                    <li className='list-inline-item m-0'>
-                      <i className='fa fa-star text-success'></i>
-                    </li>
-                    <li className='list-inline-item m-0'>
-                      <i className='fa fa-star text-success'></i>
-                    </li>
-                    <li className='list-inline-item m-0'>
-                      <i className='fa fa-star text-success'></i>
-                    </li>
-                    <li className='list-inline-item m-0'>
-                      <i className='fa fa-star-o text-success'></i>
-                    </li>
+                    <div>
+                    {serviceProvider[0]?.calificacion === 1 ? (
+                              <>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star-o text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star-o text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star-o text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star-o text-success'></i>
+                                </li>
+                                
+                              </>
+                            ) : serviceProvider[0]?.calificacion === 2 ? (
+                              <>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star-o text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star-o text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star-o text-success'></i>
+                                </li>
+                              </>
+                            ) : serviceProvider[0]?.calificacion === 3 ? (
+                              <>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star-o text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star-o text-success'></i>
+                                </li>
+                              </>
+                            ) : serviceProvider[0]?.calificacion === 4 ? (
+                              <>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star-o text-success'></i>
+                                </li>
+                              </>
+                            ) : serviceProvider[0]?.calificacion === 5 ? (
+                              <>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star text-success'></i>
+                                </li>
+                              </>
+                            ) : (
+                              'No tiene Calificaciones'
+                            )}
+                    </div>
                     {/* CIERRA MAPEO CALIFICACION */}
                   </ul>
                 </li>
@@ -102,7 +186,15 @@ export default function ProfileDetails() {
                     <i className='fa fa-angle-right' aria-hidden='true'></i> Antiguedad:
                   </h6>
                   {/* INICIA MAPEO DE FECHA DE REGISTRO */}
-                  <span className='text-secondary'>hace un mes.</span>
+                  <span className='text-secondary'>{moment(serviceProvider[0]?.creation_date, "YYYY-MM-DD").fromNow()} </span>
+                  {/* CIERRA MAPEO DE FECHA DE REGISTRO */}
+                </li>
+                <li className='list-group-item d-flex justify-content-between align-items-center flex-wrap'>
+                  <h6 className='mb-0'>
+                    <i className='fa fa-angle-right' aria-hidden='true'></i> Servicios Completados:
+                  </h6>
+                  {/* INICIA MAPEO DE FECHA DE REGISTRO */}
+                  <span className='text-secondary'>{serviceProvider[0]?.serviciosCompletados} </span>
                   {/* CIERRA MAPEO DE FECHA DE REGISTRO */}
                 </li>
               </ul>

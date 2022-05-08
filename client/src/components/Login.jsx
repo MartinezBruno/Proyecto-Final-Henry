@@ -132,7 +132,7 @@ export default function Login(props) {
                       </div>
                       <div className={styles.formInput}>
                         {' '}
-                        <i className='fa fa-lock'></i> <input type='text' className={styles.formControl} placeholder='Contraseña' />{' '}
+                        <i className='fa fa-lock'></i> <input type='password' className={styles.formControl} placeholder='Contraseña' />{' '}
                       </div>
                       <div className={styles.formInput}></div>
 
