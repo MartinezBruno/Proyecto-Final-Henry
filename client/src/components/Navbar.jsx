@@ -90,7 +90,7 @@ export default function NavBar() {
                   </Modal.Title>
                 </Modal.Header>
                 <Modal.Body className='show-grid'>
-                  <Register />
+                  <Register isModal={true}/>
                 </Modal.Body>
               </Modal>
 
