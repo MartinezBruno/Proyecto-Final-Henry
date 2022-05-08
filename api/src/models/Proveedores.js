@@ -13,7 +13,7 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
     },
     CELULAR: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
     },
     PASSWORD: {
       type: DataTypes.STRING,

@@ -37,7 +37,7 @@ module.exports = (sequelize) => {
     },
 
     CELULAR: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
     },
 
     FAVORITOS: {
