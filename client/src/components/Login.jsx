@@ -6,11 +6,13 @@ import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useState } from 'react'
 import { userLogin } from '../redux/slices/auth'
+import Swal from 'sweetalert2'
+
 
 export default function Login(props) {
   const dispatch = useDispatch()
   const { mensaje } = useSelector((state) => state.message)
-  console.log(mensaje)
+  const { isLoggedIn } = useSelector((state) => state.auth)
   const [input, setInput] = useState({
     email: '',
     password: '',
@@ -27,6 +29,19 @@ export default function Login(props) {
   function handleSubmit(e) {
     dispatch(userLogin(input))
     console.log(input)
+    if(isLoggedIn){
+      Swal.fire(
+        'Te has logueado Exitosamente!',
+        '',
+        'success',
+        )
+    }else{
+      Swal.fire(
+        'Datos incorrectos!',
+        '',
+        'error',
+        )
+    }
   }
 
   if (props.isModal) {
