@@ -4,10 +4,11 @@ import { Link } from 'react-router-dom'
 import styles from '../styles/FloatCartButton.module.css'
 import Badge from 'react-bootstrap/Badge'
 import Button from 'react-bootstrap/Button'
-import { deleteService, payServices } from '../redux/slices/shoppingCart'
+import { deleteService, payServices, deleteAllOfOneService, addToCart, clearCart } from '../redux/slices/shoppingCart'
+import ButtonGroup from 'react-bootstrap/ButtonGroup'
 
 export default function Shopping() {
-  let { services } = useSelector((state) => state.shoppingCart)
+  let { services, acumServices } = useSelector((state) => state.shoppingCart)
   let dispatch = useDispatch()
 
   const handleOnClick = async (services) => {
@@ -26,15 +27,16 @@ export default function Shopping() {
               <thead className='table-dark'>
                 <tr style={{ border: 'none' }}>
                   <th scope='col'>SERVICIO</th>
-                  <th scope='col'>PRECIO</th>
-                  <th scope='col'></th>
+                  <th scope='col'>COSTO</th>
+                  <th scope='col'>CANTIDAD</th>
+                  <th scope='col'>TOTAL</th>
                   <th scope='col'> </th>
                 </tr>
               </thead>
               <tbody>
                 {/* MAP DE TODOS LOS SERVICIOS */}
 
-                {services?.map((serv) => {
+                {acumServices?.map((serv) => {
                   return (
                     <tr>
                       <td>
@@ -49,8 +51,42 @@ export default function Shopping() {
                       <td>
                         <p style={{ marginTop: '40%' }}>{'$' + serv.precio}</p>
                       </td>
+
+                      <td>
+                        <p style={{ marginTop: '25%' }}>{serv.count}</p>
+                      </td>
+
+                      <td>
+                        <p style={{ marginTop: '40%' }}>{'$' + serv.count * serv.precio}</p>
+                      </td>
                       <td className={styles.flexTd}>
-                        <button
+                        <ButtonGroup size='sm' style={{ marginTop: '20%' }}>
+                          <Button
+                            variant='secondary'
+                            style={{ fontSize: '0.8rem' }}
+                            onClick={() => {
+                              dispatch(addToCart(serv))
+                            }}>
+                            <i className='fa fa-plus-circle' aria-hidden='true'></i>
+                          </Button>
+                          <Button
+                            variant='secondary'
+                            style={{ fontSize: '0.8rem' }}
+                            onClick={() => {
+                              dispatch(deleteService(services, serv.id, serv.provID))
+                            }}>
+                            {' '}
+                            <i className='fa fa-minus-circle' aria-hidden='true'></i>
+                          </Button>
+                          <Button
+                            variant='danger'
+                            onClick={() => {
+                              dispatch(deleteAllOfOneService(services, serv.id, serv.provID))
+                            }}>
+                            <i className='fa fa-trash' aria-hidden='true'></i>
+                          </Button>
+                        </ButtonGroup>
+                        {/* <button
                           className='btn btn-danger'
                           style={{ padding: '5px', margin: '1rem 0px' }}
                           onClick={() => {
@@ -61,13 +97,20 @@ export default function Shopping() {
                           {' '}
                           <i className='fa fa-trash' aria-hidden='true'></i>
                           <span> Quitar</span>
-                        </button>
+                        </button> */}
                       </td>
                     </tr>
                   )
                 })}
               </tbody>
             </table>
+            <div className='container text-center'>
+              <div className='container text-center'>
+                {acumServices?.length>0 ? <Button variant='outline-danger' onClick={() => dispatch(clearCart())}>
+                  Limpiar carrito
+                </Button> : <p>AUN NO AGREGAS NADA A TU CARRITO</p>}
+              </div>
+            </div>
 
             <div>
               <span style={{ fontSize: '1.5rem' }}>
@@ -80,9 +123,9 @@ export default function Shopping() {
                 Seguir buscando
               </Button>
             </Link>
-            <Button variant='success' onClick={() => handleOnClick({ services: services })}>
+            {acumServices.length>0 ? <Button variant='success' onClick={() => handleOnClick({ services: services })}>
               <i className='fa fa-lock' aria-hidden='true'></i> PAGAR AHORA
-            </Button>
+            </Button> : null}
           </div>
         </div>
       </div>
