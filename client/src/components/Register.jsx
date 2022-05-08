@@ -19,6 +19,7 @@ export default function Register({isModal}) {
   let providersEmail = allProviders?.map((el) => el.email)
   let usersEmail = allUsers?.map((el) => el.email)
   let [termsAcceptedProvider, setTermsProvider] = useState('disabled')
+  const { registerSucces } = useSelector((state) => state.auth)
   const { mensaje } = useSelector((state) => state.message)
   const { provinces, cities, countries } = useSelector((state) => state.countriesData)
 
@@ -202,21 +203,25 @@ export default function Register({isModal}) {
 
   // FUNCION QUE HACE DISPATCH A LA RUTA PARA CREAR EL USUARIO Y LIMPIA LOS CAMPOS
   function handleSubmitUser(e) {
-    dispatch(userRegister(input))
-    setInput({
-      nombre: '',
-      apellido: '',
-      password: '',
-      email: '',
-      imagen: '',
-      fecha_nacimiento: '',
-      pais: '',
-      provincia: '',
-      ciudad: '',
-      celular: '',
-    })
+     dispatch(userRegister(input))
+     if(registerSucces === true){
+      setInput({
+        nombre: '',
+        apellido: '',
+        password: '',
+        email: '',
+        imagen: '',
+        fecha_nacimiento: '',
+        pais: '',
+        provincia: '',
+        ciudad: '',
+        celular: '',
+      })
+      Swal.fire('¡Registrado con éxito!', 'Ahora puedes iniciar sesión.', 'success')
+    }else{
+      Swal.fire('¡Ha habido un error al Registrarse!', 'Por favor intente nuevamente', 'error')
+    }
     // Swal.fire(`${mensaje}`, 'success')
-    Swal.fire('¡Registrado con éxito', 'Ahora puedes iniciar sesión.', 'success')
     //alert(`${mensaje}`)
   }
 
