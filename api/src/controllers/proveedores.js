@@ -117,7 +117,7 @@ const getProv = async (req, res, next) => {
         let preguntasAMostrar = []
         for (let i = 0; i < preguntas.length; i++) {
           let usuario = await Usuario.findOne({ where: { id: preguntas[i].UsuarioId } })
-          preguntasAMostrar.push({
+          preguntasAMostrar.unshift({
             id: preguntas[i].id,
             USUARIO: usuario.NOMBRE_APELLIDO_USUARIO,
             PREGUNTA: preguntas[i].PREGUNTA,
@@ -136,7 +136,7 @@ const getProv = async (req, res, next) => {
         let UsuarioComentario = []
         for (let i = 0; i < Comentarios.length; i++) {
           let usuario = await Usuario.findOne({ where: { id: Comentarios[i].UsuarioId } })
-          UsuarioComentario.push({ id: Comentarios[i].id, USUARIO: usuario.NOMBRE_APELLIDO_USUARIO, COMENTARIO: Comentarios[i].COMENTARIO })
+          UsuarioComentario.unshift({ id: Comentarios[i].id, USUARIO: usuario.NOMBRE_APELLIDO_USUARIO, COMENTARIO: Comentarios[i].COMENTARIO })
         }
 
         proveedores = proveedores.map((prov) => {
