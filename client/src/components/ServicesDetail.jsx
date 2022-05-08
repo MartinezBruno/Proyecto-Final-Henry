@@ -8,18 +8,20 @@ import { services } from '../redux/slices/shoppingCart'
 import styles from '../styles/profile.module.css'
 import { NavLink } from 'react-router-dom'
 import { useState } from 'react'
+var moment = require('moment');
+moment.locale('es-us');
 
 export default function ProfileDetails() {
   let { idProv } = useParams()
   let { idServ } = useParams()
-
+  
   const dispatch = useDispatch()
   const { serviceProvider } = useSelector((state) => state.provider)
-
+  
   useEffect(() => {
     dispatch(getServiceProvider(idProv, idServ))
   }, [dispatch, idProv, idServ])
-
+  
   return (
     <div className='container' style={{ marginTop: '20px' }}>
       <div className={styles.mainBody}>
@@ -204,7 +206,7 @@ export default function ProfileDetails() {
                           <i className='fa fa-angle-right' aria-hidden='true'></i> Antiguedad:
                         </h6>
                         {/* INICIA MAPEO DE FECHA DE REGISTRO */}
-                        <span className='text-secondary'>hace un mes.</span>
+                        <span className='text-secondary'>{moment(serviceProvider[0]?.creation_date, "YYYY-MM-DD").fromNow()}</span>
                         {/* CIERRA MAPEO DE FECHA DE REGISTRO */}
                       </li>
                     </ul>

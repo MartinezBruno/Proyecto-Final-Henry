@@ -7,13 +7,15 @@ const user = JSON.parse(sessionStorage.getItem('user'))
 
 export const authSlice = createSlice({
   name: 'auth',
-  initialState: user ? { isLoggedIn: true, user } : { isLoggedIn: false, user: null },
+  initialState: user ? { isLoggedIn: true, user, registerSuccess: false } : { isLoggedIn: false, user: null, registerSuccess: false },
   reducers: {
     Register_Success: (state, action) => {
       state.isLoggedIn = false
+      state.registerSuccess = true
     },
     Register_Fail: (state, action) => {
       state.isLoggedIn = false
+      state.registerSuccess = false
     },
     Login_Success: (state, action) => {
       state.isLoggedIn = true
