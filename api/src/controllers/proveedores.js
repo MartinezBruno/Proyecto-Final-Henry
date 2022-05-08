@@ -1088,6 +1088,48 @@ const filtroProveedor = async (req, res, next) => {
   }
 }
 
+const getManyProveedores = async (req, res, next) => {
+  const { favorites } = req.body
+  try {
+    let proveedores = []
+    for (let i = 0; i < favorites.length; i++) {
+      const proveedor = await Proveedor.findByPk(favorites[i], {
+        include: [
+          {
+            model: Pais,
+            attributes: ['NOMBRE_PAIS'],
+          },
+          {
+            model: Provincia,
+            attributes: ['NOMBRE_PROVINCIA'],
+          },
+          {
+            model: Ciudad,
+            attributes: ['NOMBRE_CIUDAD'],
+          },
+        ],
+      })
+      proveedores.push(proveedor)
+    }
+    proveedores = proveedores.map((proveedor) => {
+      return {
+        id: proveedor.id,
+        nombreApellido: proveedor.NOMBRE_APELLIDO_PROVEEDOR,
+        email: proveedor.EMAIL,
+        celular: proveedor.CELULAR,
+        imagen: proveedor.IMAGEN,
+        calificacion: proveedor.CALIFICACION,
+        ciudad: proveedor.Ciudad ? proveedor.Ciudad.NOMBRE_CIUDAD : 'Sin definir',
+        provincia: proveedor.Provincium ? proveedor.Provincium.NOMBRE_PROVINCIA : 'Sin definir',
+        pais: proveedor.Pai.NOMBRE_PAIS,
+      }
+    })
+
+    return res.status(200).send(proveedores)
+  } catch (error) {
+    return res.status(500).send(error)
+  }
+}
 module.exports = {
   getProv,
   getProvByID,
@@ -1096,4 +1138,5 @@ module.exports = {
   filtroPorProfesion,
   filtroPorProvincia,
   filtroProveedor,
+  getManyProveedores,
 }
