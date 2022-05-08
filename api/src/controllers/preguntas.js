@@ -15,9 +15,10 @@ const addPregunta = async (req, res) => {
     let preguntaCreada = await Pregunta.create({ PREGUNTA: pregunta })
     preguntaCreada.setUsuario(usuario)
     preguntaCreada.setProveedor_Servicio(proveedorServicio)
-    res.status(200).send('Pregunta enviada')
+    return res.status(200).send('Pregunta enviada')
   } catch (error) {
-    console.log(error)
+    // console.log(error)
+    return res.status(500).send({ message: 'Error al enviar la pregunta' })
   }
 }
 
@@ -32,7 +33,6 @@ const addRespuesta = async (req, res) => {
     if (!proveedor) return res.status(404).send({ message: 'No existe id Proveedor' })
     let pregunta = await Pregunta.findOne({ where: { id: idPregunta } })
     if (!pregunta) return res.status(404).send({ message: 'No existe id Pregunta' })
-
     let proveedorServicio = await Proveedor_Servicio.findOne({ where: { id: pregunta.ProveedorServicioId } })
     if (idProveedor !== proveedorServicio.ProveedorId) return res.status(404).send({ message: 'Proveedor no valido para responder esta pregunta' })
 
@@ -42,9 +42,10 @@ const addRespuesta = async (req, res) => {
       },
       { where: { id: idPregunta } }
     )
-    res.status(200).send('Respuesta enviada')
+    return res.status(200).send('Respuesta enviada')
   } catch (error) {
-    console.log(error)
+    console.error(error)
+    return res.status(500).send({ message: 'Error al enviar respuesta' })
   }
 }
 
