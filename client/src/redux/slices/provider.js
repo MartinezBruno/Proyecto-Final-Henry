@@ -124,3 +124,21 @@ export function setCiudades(payload) {
     dispatch(SetCiudades(info.data))
   }
 }
+// export async function setProvincias(payload) {
+//   if (payload === 'Argentina') {
+//     return async function (dispatch) {
+//       let info = await api.get(`/provincias/ar`)
+//       dispatch(setProvincias(info.data))
+//     }
+//   } else if (payload === 'Uruguay') {
+//     return async function (dispatch) {
+//       let info = await api.get(`/provincias/uy`)
+//       dispatch(setProvincias(info.data))
+//     }
+//   } else if (payload === 'Mexico'){
+//     return async function (dispatch) {
+//       let info = await api.get(`/provincias/mx`)
+//       dispatch(setProvincias(info.data))
+//     }
+//   }
+// }

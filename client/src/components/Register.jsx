@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styles from '../styles/register.module.css'
 import { Modal, Button, Container, Row, Col } from 'react-bootstrap'
 import Tabs from 'react-bootstrap/Tabs'
@@ -6,13 +6,159 @@ import Tab from 'react-bootstrap/Tab'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { providerRegister, userRegister } from '../redux/slices/auth'
+import { chargeCities, chargeProvinces } from '../redux/slices/countriesData'
+import { chargeAllUsers } from '../redux/slices/user'
+import { getAllProviders } from '../redux/slices/provider'
+import Swal from 'sweetalert2'
+import 'animate.css'
 
 export default function Register() {
+  const { allProviders } = useSelector((state) => state.provider)
+  const { allUsers } = useSelector((state) => state.user)
   let [termsAccepted, setTerms] = useState('disabled')
-  const {mensaje}  = useSelector((state) => state.message)
-  // let message ="hola"
-  console.log(mensaje)
+  let providersEmail = allProviders?.map((el) => el.email)
+  let usersEmail = allUsers?.map((el) => el.email)
+  let [termsAcceptedProvider, setTermsProvider] = useState('disabled')
+  const { mensaje } = useSelector((state) => state.message)
+  const { provinces, cities, countries } = useSelector((state) => state.countriesData)
+
   const dispatch = useDispatch()
+
+  // Estado auxiliar para selects del pais/provincia/ciudad
+  const [countriesInfo, setCountriesInfo] = useState({
+    name: 'none',
+    code: 'none',
+    province: 'none',
+    city: 'none',
+    uruguayDone: false,
+  })
+
+  const [countriesInfoProvider, setCountriesInfoProvider] = useState({
+    name: 'none',
+    code: 'none',
+    province: 'none',
+    city: 'none',
+    uruguayDone: false,
+  })
+  //Sacamos todos los proveedores/usuarios para filtrar su Email
+  useEffect(() => {
+    dispatch(getAllProviders())
+    dispatch(chargeAllUsers())
+  }, [dispatch])
+
+  // Vinculamos hacer dispatch cuando hayan cambio en cierta propiedad -> USER
+  useEffect(() => {
+    if (countriesInfo.name !== 'none') {
+      dispatch(chargeProvinces(countriesInfo.name))
+    }
+  }, [countriesInfo.name])
+
+  useEffect(() => {
+    if (countriesInfo.province !== 'none') {
+      dispatch(chargeCities(countriesInfo.province))
+    }
+  }, [countriesInfo.province])
+
+  // Vinculamos hacer dispatch cuando hayan cambio en cierta propiedad -> PROVIDER
+  useEffect(() => {
+    if (countriesInfoProvider.name !== 'none') {
+      dispatch(chargeProvinces(countriesInfoProvider.name))
+    }
+  }, [countriesInfoProvider.name])
+
+  useEffect(() => {
+    if (countriesInfoProvider.province !== 'none') {
+      dispatch(chargeCities(countriesInfoProvider.province))
+    }
+  }, [countriesInfoProvider.province])
+
+  //FUNCION ESPECIAL PARA QUE A URUGUAY SE LE ASIGNE AUTOMATICAMENTE UNA CIUDAD "SIN DEFINIR" DE ACUERDO AL ID DE PROVINCIA -> USER
+  function isUruguay() {
+    setInput((prevState) => {
+      return { ...prevState, ciudad: cities[0].NOMBRE_CIUDAD }
+    })
+    setCountriesInfo((prevState) => {
+      return { ...prevState, uruguayDone: true }
+    })
+  }
+  //FUNCION ESPECIAL PARA QUE A URUGUAY SE LE ASIGNE AUTOMATICAMENTE UNA CIUDAD "SIN DEFINIR" DE ACUERDO AL ID DE PROVINCIA -> PROVIDER
+  function isUruguayProvider() {
+    setInputProvider((prevState) => {
+      return { ...prevState, ciudad: cities[0].NOMBRE_CIUDAD }
+    })
+    setCountriesInfoProvider((prevState) => {
+      return { ...prevState, uruguayDone: true }
+    })
+  }
+
+  //FUNCION QUE GUARDA EN UN ESTADO LOCAL LAS OPCIONES DE UBICACION SELECCIONADAS POR EL USUARIO
+  function handleCountriesData(e) {
+    if (e.target.name === 'pais') {
+      let nombresPais = countries.map((el) => el.name)
+      if (nombresPais.includes(e.target.value)) {
+        let pais = countries.filter((el) => el.name === e.target.value)
+        setCountriesInfo((prevState) => {
+          return { ...prevState, name: e.target.value, code: pais[0].code }
+        })
+      }
+    }
+
+    if (e.target.name === 'provincia') {
+      let nombresProvincias = provinces.map((el) => el.NOMBRE_PROVINCIA)
+      if (nombresProvincias.includes(e.target.value)) {
+        let provincia = provinces.filter((el) => el.NOMBRE_PROVINCIA === e.target.value)
+        setCountriesInfo((prevState) => {
+          return { ...prevState, province: provincia[0].NOMBRE_PROVINCIA }
+        })
+      }
+    }
+
+    if (e.target.name === 'ciudad') {
+      let nombresCiudades = cities.map((el) => el.NOMBRE_CIUDAD)
+      if (nombresCiudades.includes(e.target.value)) {
+        let ciudad = cities.filter((el) => el.NOMBRE_CIUDAD === e.target.value)
+        // console.log(ciudad)
+        setCountriesInfo((prevState) => {
+          return { ...prevState, city: ciudad[0].NOMBRE_CIUDAD }
+        })
+      }
+    }
+  }
+
+  function handleCountriesDataProvider(e) {
+    if (e.target.name === 'pais') {
+      let nombresPais = countries.map((el) => el.name)
+      if (nombresPais.includes(e.target.value)) {
+        let pais = countries.filter((el) => el.name === e.target.value)
+        setCountriesInfoProvider((prevState) => {
+          return { ...prevState, name: e.target.value, code: pais[0].code }
+        })
+      }
+    }
+
+    if (e.target.name === 'provincia') {
+      let nombresProvincias = provinces.map((el) => el.NOMBRE_PROVINCIA)
+      if (nombresProvincias.includes(e.target.value)) {
+        let provincia = provinces.filter((el) => el.NOMBRE_PROVINCIA === e.target.value)
+        setCountriesInfoProvider((prevState) => {
+          return { ...prevState, province: provincia[0].NOMBRE_PROVINCIA }
+        })
+      }
+    }
+
+    if (e.target.name === 'ciudad') {
+      let nombresCiudades = cities.map((el) => el.NOMBRE_CIUDAD)
+      if (nombresCiudades.includes(e.target.value)) {
+        let ciudad = cities.filter((el) => el.NOMBRE_CIUDAD === e.target.value)
+        // console.log(ciudad)
+        setCountriesInfoProvider((prevState) => {
+          return { ...prevState, city: ciudad[0].NOMBRE_CIUDAD }
+        })
+      }
+    }
+  }
+
+  //OBJETO USUARIO QUE SE MANDARA A LA RUTA PARA HACER EL REGISTER
 
   const [input, setInput] = useState({
     nombre: '',
@@ -24,8 +170,11 @@ export default function Register() {
     pais: '',
     provincia: '',
     ciudad: '',
-    celular: 0,
+    celular: '',
   })
+
+  //OBJETO PROVIDER QUE SE MANDARA A LA RUTA PARA HACER EL REGISTER
+
   const [inputProvider, setInputProvider] = useState({
     nombre: '',
     apellido: '',
@@ -36,33 +185,22 @@ export default function Register() {
     pais: '',
     provincia: '',
     ciudad: '',
-    celular: 0,
+    celular: '',
   })
 
-  function handleChecked(e) {
-    if (termsAccepted === 'disabled') {
-      setTerms('')
-    }
-    if (termsAccepted === '') {
-      setTerms('disabled')
-    }
-  }
-
+  //FUNCION QUE MODIFICA EL OBJETO DEL USUARIO
   function handleChangeUser(e) {
     e.preventDefault()
-    if (e.target.name === 'celular') {
-      setInput({
-        ...input,
-        [e.target.name]: parseInt(e.target.value),
-      })
-    } else {
-      setInput({
-        ...input,
-        [e.target.name]: e.target.value,
-      })
-    }
+    handleCountriesData(e) //Controlador de paises
+    handleErrorsUser(e) //controlador de errores
+
+    setInput({
+      ...input,
+      [e.target.name]: e.target.value,
+    })
   }
 
+  // FUNCION QUE HACE DISPATCH A LA RUTA PARA CREAR EL USUARIO Y LIMPIA LOS CAMPOS
   function handleSubmitUser(e) {
     dispatch(userRegister(input))
     setInput({
@@ -77,25 +215,25 @@ export default function Register() {
       ciudad: '',
       celular: '',
     })
-    alert(`${mensaje}`)
+    // Swal.fire(`${mensaje}`, 'success')
+    Swal.fire('¡Registrado con éxito', 'Ahora puedes iniciar sesión.', 'success')
+    //alert(`${mensaje}`)
   }
+
   function handleChangeProvider(e) {
     e.preventDefault()
-    if (e.target.name === 'celular') {
-      setInputProvider({
-        ...inputProvider,
-        [e.target.name]: parseInt(e.target.value),
-      })
-    } else {
+    handleCountriesDataProvider(e) //Controlador de paises
+    handleErrorsProvider(e) //controlador de errores
+
       setInputProvider({
         ...inputProvider,
         [e.target.name]: e.target.value,
       })
-    }
+    
   }
 
   function handleSubmitProvider(e) {
-    dispatch(providerRegister(input))
+    dispatch(providerRegister(inputProvider))
     setInputProvider({
       nombre: '',
       apellido: '',
@@ -108,7 +246,468 @@ export default function Register() {
       ciudad: '',
       celular: '',
     })
-    alert('Se ha registrado Correctamente')
+    Swal.fire('¡Registrado con éxito', 'Ahora puedes iniciar sesión.', 'success')
+  }
+
+  //FORMULARIO CONTROLADO FUNCIONES DE USUARIO
+  let [errors, setErrors] = useState({
+    nombre: '',
+    apellido: '',
+    email: '',
+    password: '',
+    imagen: '',
+    fecha_nacimiento: '',
+    celular: '',
+    conditions: '',
+    checked: '',
+  })
+  function handleErrorsUser(e) {
+    if (e.target.name === 'nombre') {
+      ;/^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$/g.test(e.target.value)
+        ? setErrors((prevState) => {
+            return { ...prevState, [e.target.name]: '' }
+          })
+        : setErrors((prevState) => {
+            return { ...prevState, [e.target.name]: 'El NOMBRE solo debe contener letras.' }
+          })
+
+      if (e.target.value === '') {
+        setErrors((prevState) => {
+          return { ...prevState, [e.target.name]: 'El NOMBRE no puede estar vacío' }
+        })
+      }
+    }
+
+    if (e.target.name === 'apellido') {
+      ;/^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$/g.test(e.target.value)
+        ? setErrors((prevState) => {
+            return { ...prevState, [e.target.name]: '' }
+          })
+        : setErrors((prevState) => {
+            return { ...prevState, [e.target.name]: 'El APELLIDO solo debe contener letras.' }
+          })
+
+      if (e.target.value === '') {
+        setErrors((prevState) => {
+          return { ...prevState, [e.target.name]: 'El APELLIDO no puede estar vacío' }
+        })
+      }
+    }
+
+    if (e.target.name === 'email') {
+      ;/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/.test(
+        e.target.value
+      )
+        ? setErrors((prevState) => {
+            return { ...prevState, [e.target.name]: '' }
+          })
+        : setErrors((prevState) => {
+            return { ...prevState, [e.target.name]: 'Ingrese un email válido. Ej: example@example.com' }
+          })
+
+          if (usersEmail.includes(e.target.value)) {
+            setErrors((prevState) => {
+              return { ...prevState, [e.target.name]: 'Este correo ya está en uso, intente con otro' }
+            })
+          }
+
+      if (e.target.value === '') {
+        setErrors((prevState) => {
+          return { ...prevState, [e.target.name]: 'Es obligatorio ingresar un EMAIL.' }
+        })
+      }
+    }
+
+
+    if (e.target.name === 'celular') {
+      !isNaN(e.target.value * 1)
+        ? setErrors((prevState) => {
+            return { ...prevState, [e.target.name]: '' }
+          })
+        : setErrors((prevState) => {
+            return { ...prevState, [e.target.name]: 'Solo debe ingresar numeros' }
+          })
+
+          if(!(e.target.value.length > 5)){
+            setErrors((prevState) => {
+              return { ...prevState, [e.target.name]: 'El numero celular debe tener entre 6 a 15 dígitos' }
+            })
+          }
+
+          if((e.target.value.length > 15)){
+            setErrors((prevState) => {
+              return { ...prevState, [e.target.name]: 'El numero celular debe tener entre 6 a 15 dígitos' }
+            })
+          }
+
+
+      if (e.target.value === '') {
+        setErrors((prevState) => {
+          return { ...prevState, [e.target.name]: 'Es obligatorio ingresar un NUMERO DE CELULAR.' }
+        })
+      }
+    }
+
+    if (e.target.name === 'password') {
+      ;/^.{6,}$/.test(e.target.value)
+        ? setErrors((prevState) => {
+            return { ...prevState, [e.target.name]: '' }
+          })
+        : setErrors((prevState) => {
+            return { ...prevState, [e.target.name]: 'La contraseña debe tener al menos 6 caracteres.' }
+          })
+
+      if (e.target.value === '') {
+        setErrors((prevState) => {
+          return { ...prevState, [e.target.name]: 'Es obligatorio ingresar una CONTRASEÑA' }
+        })
+      }
+    }
+
+    if (e.target.name === 'imagen') {
+      /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/g.test(e.target.value)
+        ? setErrors((prevState) => {
+            return { ...prevState, [e.target.name]: '' }
+          })
+        : setErrors((prevState) => {
+            return { ...prevState, [e.target.name]: 'Ingrese un LINK DE IMAGEN válido' }
+          })
+
+      if (e.target.value === '') {
+        setErrors((prevState) => {
+          return { ...prevState, [e.target.name]: 'Es obligatorio ingresar un LINK DE IMAGEN' }
+        })
+      }
+    }
+
+    if (e.target.name === 'fecha_nacimiento') {
+      let year=e.target.value.slice(0,4)
+      let month = e.target.value.slice(5,7)
+      let day = e.target.value.slice(-2)
+
+      setErrors((prevState) => {
+        return { ...prevState, [e.target.name]: '' }
+      })
+
+      if (day < 1 || day > 31) {
+        setErrors((prevState) => {
+          return { ...prevState, [e.target.name]: 'Ingrese un día válido.' }
+        })
+      }
+
+      if (month < 1 || month > 12) {
+        setErrors((prevState) => {
+          return { ...prevState, [e.target.name]: 'Ingrese un mes válido.' }
+        })
+      }
+
+
+      if (year < 1900 || year > new Date().getFullYear()) {
+        setErrors((prevState) => {
+          return { ...prevState, [e.target.name]: 'Ingrese un año válido.' }
+        })
+      }
+    }
+  }
+
+  //FORMULARIO CONTROLADO FUNCIONES DE USUARIO   ---------->PROVIDER
+  let [errorsProvider, setErrorsProvider] = useState({
+    nombre: '',
+    apellido: '',
+    email: '',
+    password: '',
+    imagen: '',
+    fecha_nacimiento: '',
+    celular: '',
+    conditions: '',
+    checked: '',
+  })
+  function handleErrorsProvider(e) {
+    if (e.target.name === 'nombre') {
+      ;/^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$/g.test(e.target.value)
+        ? setErrorsProvider((prevState) => {
+            return { ...prevState, [e.target.name]: '' }
+          })
+        : setErrorsProvider((prevState) => {
+            return { ...prevState, [e.target.name]: 'El NOMBRE solo debe contener letras.' }
+          })
+
+      if (e.target.value === '') {
+        setErrorsProvider((prevState) => {
+          return { ...prevState, [e.target.name]: 'El NOMBRE no puede estar vacío' }
+        })
+      }
+    }
+
+    if (e.target.name === 'apellido') {
+      ;/^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$/g.test(e.target.value)
+        ? setErrorsProvider((prevState) => {
+            return { ...prevState, [e.target.name]: '' }
+          })
+        : setErrorsProvider((prevState) => {
+            return { ...prevState, [e.target.name]: 'El APELLIDO solo debe contener letras.' }
+          })
+
+      if (e.target.value === '') {
+        setErrorsProvider((prevState) => {
+          return { ...prevState, [e.target.name]: 'El APELLIDO no puede estar vacío' }
+        })
+      }
+    }
+
+    if (e.target.name === 'email') {
+      ;/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/.test(
+        e.target.value
+      )
+        ? setErrorsProvider((prevState) => {
+            return { ...prevState, [e.target.name]: '' }
+          })
+        : setErrorsProvider((prevState) => {
+            return { ...prevState, [e.target.name]: 'Ingrese un email válido. Ej: example@example.com' }
+          })
+          if (providersEmail.includes(e.target.value)) {
+            setErrorsProvider((prevState) => {
+              return { ...prevState, [e.target.name]: 'Este correo ya está en uso, intente con otro' }
+            })
+          }
+      if (e.target.value === '') {
+        setErrorsProvider((prevState) => {
+          return { ...prevState, [e.target.name]: 'Es obligatorio ingresar un EMAIL.' }
+        })
+      }
+    }
+
+    if (e.target.name === 'celular') {
+      !isNaN(e.target.value * 1)
+        ? setErrorsProvider((prevState) => {
+            return { ...prevState, [e.target.name]: '' }
+          })
+        : setErrorsProvider((prevState) => {
+            return { ...prevState, [e.target.name]: 'Solo debe ingresar numeros' }
+          })
+
+
+          if(!(e.target.value.length > 5)){
+            setErrorsProvider((prevState) => {
+              return { ...prevState, [e.target.name]: 'El numero celular debe tener entre 6 a 15 dígitos' }
+            })
+          }
+
+          if((e.target.value.length > 15)){
+            setErrorsProvider((prevState) => {
+              return { ...prevState, [e.target.name]: 'El numero celular debe tener entre 6 a 15 dígitos' }
+            })
+          }
+
+
+      if (e.target.value === '') {
+        setErrorsProvider((prevState) => {
+          return { ...prevState, [e.target.name]: 'Es obligatorio ingresar un NUMERO DE CELULAR.' }
+        })
+      }
+    }
+
+    if (e.target.name === 'password') {
+      ;/^.{6,}$/.test(e.target.value)
+        ? setErrorsProvider((prevState) => {
+            return { ...prevState, [e.target.name]: '' }
+          })
+        : setErrorsProvider((prevState) => {
+            return { ...prevState, [e.target.name]: 'La contraseña debe tener al menos 6 caracteres.' }
+          })
+
+      if (e.target.value === '') {
+        setErrorsProvider((prevState) => {
+          return { ...prevState, [e.target.name]: 'Es obligatorio ingresar una CONTRASEÑA' }
+        })
+      }
+    }
+
+
+    if (e.target.name === 'imagen') {
+      /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/g.test(e.target.value)
+        ? setErrorsProvider((prevState) => {
+            return { ...prevState, [e.target.name]: '' }
+          })
+        : setErrorsProvider((prevState) => {
+            return { ...prevState, [e.target.name]: 'Ingrese un LINK DE IMAGEN válido' }
+          })
+
+      if (e.target.value === '') {
+        setErrorsProvider((prevState) => {
+          return { ...prevState, [e.target.name]: 'Es obligatorio ingresar un LINK DE IMAGEN' }
+        })
+      }
+    }
+
+    if (e.target.name === 'fecha_nacimiento') {
+      let year=e.target.value.slice(0,4)
+      let month = e.target.value.slice(5,7)
+      let day = e.target.value.slice(-2)
+
+      setErrorsProvider((prevState) => {
+        return { ...prevState, [e.target.name]: '' }
+      })
+
+      if (day < 1 || day > 31) {
+        setErrorsProvider((prevState) => {
+          return { ...prevState, [e.target.name]: 'Ingrese un día válido.' }
+        })
+      }
+
+      if (month < 1 || month > 12) {
+        setErrorsProvider((prevState) => {
+          return { ...prevState, [e.target.name]: 'Ingrese un mes válido.' }
+        })
+      }
+
+
+      if (year < 1900 || year > new Date().getFullYear()) {
+        setErrorsProvider((prevState) => {
+          return { ...prevState, [e.target.name]: 'Ingrese un año válido.' }
+        })
+      }
+    }
+  }
+
+  //FUNCION QUE HACE EL TOGGLE DEL BUTON AL ACEPTAR LOS TERMINOS Y CHEQUEA SI HAY ERRORES, Y DATA EN EL OBJETO A ENVIAR
+  function handleChecked(e) {
+    //Se checkea
+    let errorsCounter = 0
+    let dataEmpty = 0
+    if (termsAccepted === 'disabled') {
+      setTerms('')
+
+      setErrors((prevState) => {
+        return { ...prevState, [e.target.name]: '' }
+      })
+
+      for (let prop in input) {
+        if (input[prop] === '') {
+          // console.log(input[prop])
+          if (prop === 'imagen') {
+            //NO CONTAMOS imagen
+          } else {
+            console.log(input[prop], prop, 'sumó')
+            dataEmpty++
+          }
+        }
+      }
+      for (let prop in errors) {
+        if (errors[prop]) {
+          console.log(errors[prop], prop, 'sumó')
+          errorsCounter++
+        }
+      }
+
+      if (dataEmpty > 0 || errorsCounter > 0) {
+        setTerms('disabled')
+      } else if (dataEmpty === 0 || errorsCounter === 0) {
+        setTerms('')
+      }
+      console.log(errorsCounter, dataEmpty)
+    }
+
+    if (termsAccepted === '') {
+      setTerms('disabled')
+    }
+  }
+
+  function finalCheck(e) {
+    let errorsCounter = 0
+    let dataEmpty = 0
+
+    for (let prop in input) {
+      if (input[prop] === '') {
+        // console.log(input[prop])
+        if (prop === 'imagen') {
+          //NO CONTAMOS imagen
+        } else {
+          console.log(input[prop], prop, 'sumó')
+          dataEmpty++
+        }
+      }
+    }
+    for (let prop in errors) {
+      if (errors[prop]) {
+        console.log(errors[prop], prop, 'sumó')
+        errorsCounter++
+      }
+    }
+
+    if (dataEmpty > 0 || errorsCounter > 0) {
+      Swal.fire('¡Ha ocurrido un error!', 'Revisa los datos ingresados', 'error')
+    } else if (dataEmpty === 0 || errorsCounter === 0) {
+      handleSubmitUser(e)
+    }
+    console.log(errorsCounter, dataEmpty)
+  }
+
+  //FUNCION QUE HACE EL TOGGLE DEL BUTON AL ACEPTAR LOS TERMINOS Y CHEQUEA SI HAY ERRORES, Y DATA EN EL OBJETO A ENVIAR --------------> PROVIDER
+  function handleCheckedProvider(e) {
+    //Se checkea
+    let errorsCounter = 0
+    let dataEmpty = 0
+    if (termsAccepted === 'disabled') {
+      setTermsProvider('')
+
+      setErrorsProvider((prevState) => {
+        return { ...prevState, [e.target.name]: '' }
+      })
+
+      for (let prop in inputProvider) {
+        if (inputProvider[prop] === '') {
+          // console.log(input[prop])
+          if (prop === 'imagen') {
+            //NO CONTAMOS imagen
+          } else {
+            dataEmpty++
+          }
+        }
+      }
+      for (let prop in errorsProvider) {
+        if (errorsProvider[prop]) {
+          errorsCounter++
+        }
+      }
+
+      if (dataEmpty > 0 || errorsCounter > 0) {
+        setTermsProvider('disabled')
+      } else if (dataEmpty === 0 || errorsCounter === 0) {
+        setTermsProvider('')
+      }
+    }
+
+    if (termsAcceptedProvider === '') {
+      setTermsProvider('disabled')
+    }
+  }
+
+  function finalCheckProvider(e) {
+    let errorsCounter = 0
+    let dataEmpty = 0
+
+    for (let prop in inputProvider) {
+      if (inputProvider[prop] === '') {
+        // console.log(input[prop])
+        if (prop === 'imagen') {
+          //NO CONTAMOS imagen
+        } else {
+          dataEmpty++
+        }
+      }
+    }
+    for (let prop in errorsProvider) {
+      if (errorsProvider[prop]) {
+        errorsCounter++
+      }
+    }
+
+    if (dataEmpty > 0 || errorsCounter > 0) {
+      Swal.fire('¡Ha ocurrido un error!', 'Revisa los datos ingresados', 'error')
+    } else if (dataEmpty === 0 || errorsCounter === 0) {
+      handleSubmitProvider(e)
+    }
   }
 
   return (
@@ -124,24 +723,17 @@ export default function Register() {
               Unete a la comunidad profesional
               <br /> más completa de la red.
             </h5>{' '}
-            <small className='mt-2 text-muted'>
-              Conecta con miles de profesionistas de calidad o encuentra a tus
-              potenciales clientes.{' '}
-            </small>
+            <small className='mt-2 text-muted'>Conecta con miles de profesionistas de calidad o encuentra a tus potenciales clientes. </small>
             <br />
             <br />
-            <Tabs
-              defaultActiveKey='Usuario'
-              className={`mb-3 text-center justify-content-center ${styles.myTabs}`}>
+            <Tabs defaultActiveKey='Usuario' className={`mb-3 text-center justify-content-center ${styles.myTabs}`}>
               {/* PESTAÑA DE USUARIO */}
               <Tab eventKey='Usuario' title='Registrar usuario'>
                 <div className='text-center mt-3'>
                   <div className={styles.halfInputContainer}>
                     <div className={styles.formInput}>
                       {' '}
-                      <i
-                        className='fa fa-user'
-                        style={{ left: '15px' }}></i>{' '}
+                      <i className='fa fa-user' style={{ left: '15px' }}></i>{' '}
                       <input
                         type='text'
                         className={styles.formControl}
@@ -154,9 +746,7 @@ export default function Register() {
                     </div>
                     <div className={styles.formInput}>
                       {' '}
-                      <i
-                        className='fa fa-address-card'
-                        style={{ left: '13px' }}></i>
+                      <i className='fa fa-address-card' style={{ left: '13px' }}></i>
                       <input
                         type='text'
                         className={styles.formControl}
@@ -165,9 +755,14 @@ export default function Register() {
                         placeholder='Apellido'
                         value={input.apellido}
                         onChange={(e) => handleChangeUser(e)}
-                      />{' '}
+                      />
                     </div>
                   </div>
+
+                  {/* MENSAJE DE ERROR DE NOMBRE Y APELLIDO */}
+
+                  {errors.nombre && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errors.nombre}</p>}
+                  {errors.apellido && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errors.apellido}</p>}
 
                   <div className={styles.formInput}>
                     {' '}
@@ -181,6 +776,8 @@ export default function Register() {
                       onChange={(e) => handleChangeUser(e)}
                     />{' '}
                   </div>
+                  {errors.email && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errors.email}</p>}
+
                   <div className={styles.formInput}>
                     {' '}
                     <i className='fa fa-lock'></i>{' '}
@@ -193,6 +790,8 @@ export default function Register() {
                       onChange={(e) => handleChangeUser(e)}
                     />{' '}
                   </div>
+                  {errors.password && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errors.password}</p>}
+
                   <div className={styles.formInput}>
                     {' '}
                     <i className='fa fa-camera' aria-hidden='true'></i>{' '}
@@ -205,6 +804,8 @@ export default function Register() {
                       onChange={(e) => handleChangeUser(e)}
                     />{' '}
                   </div>
+                  {errors.imagen && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errors.imagen}</p>}
+
                   <div className={styles.formInput}>
                     {' '}
                     <i className='fa fa-mobile' aria-hidden='true'></i>{' '}
@@ -217,12 +818,10 @@ export default function Register() {
                       onChange={(e) => handleChangeUser(e)}
                     />{' '}
                   </div>
+                  {errors.celular && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errors.celular}</p>}
+
                   <div className={styles.formInput}>
                     <label htmlFor='date'>Fecha nacimiento:</label>
-                    <i
-                      className='fa fa-calendar'
-                      style={{ top: '40px' }}
-                      aria-hidden='true'></i>{' '}
                     <input
                       type='date'
                       className={styles.formControl}
@@ -232,89 +831,104 @@ export default function Register() {
                       onChange={(e) => handleChangeUser(e)}
                     />
                   </div>
+                  {errors.fecha_nacimiento && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errors.fecha_nacimiento}</p>}
+
                   <div className={styles.halfInputContainer}>
                     <div className={styles.formInput}>
                       {' '}
-                      <i
-                        className='fa fa-globe'
-                        aria-hidden='true'
-                        style={{ left: '15px' }}></i>{' '}
-                      <input
-                        type='text'
+                      <i className='fa fa-globe' aria-hidden='true' style={{ left: '15px' }}></i>{' '}
+                      <select
                         className={styles.formControl}
                         style={{ width: '12rem' }}
                         name='pais'
-                        placeholder='País'
-                        value={input.pais}
-                        onChange={(e) => handleChangeUser(e)}
-                      />{' '}
+                        onChange={(e) => {
+                          handleChangeUser(e)
+                        }}>
+                        <option selected disabled hidden>
+                          Selecciona país
+                        </option>
+
+                        {countries.length > 0
+                          ? countries?.map((el, i) => {
+                              return (
+                                <option key={i} id={el.code} value={el.name}>
+                                  {el.name}
+                                </option>
+                              )
+                            })
+                          : 'Cargando...'}
+                      </select>
                     </div>
-                    <div className={styles.formInput}>
-                      {' '}
-                      <i
-                        className='fa fa-map-marker'
-                        aria-hidden='true'
-                        style={{ left: '15px' }}></i>{' '}
-                      <input
-                        type='text'
-                        className={styles.formControl}
-                        style={{ width: '12rem' }}
-                        name='provincia'
-                        placeholder='Provincia'
-                        value={input.provincia}
-                        onChange={(e) => handleChangeUser(e)}
-                      />{' '}
-                    </div>
-                    <div className={styles.formInput}>
-                      {' '}
-                      <i
-                        className='fa fa-building'
-                        aria-hidden='true'
-                        style={{ left: '15px' }}>
+
+                    {input.pais ? (
+                      <div className={styles.formInput}>
+                        <i className='fa fa-map-marker' aria-hidden='true' style={{ left: '15px' }}></i>{' '}
+                        <select className={styles.formControl} style={{ width: '12rem' }} name='provincia' onChange={(e) => handleChangeUser(e)}>
+                          <option selected disabled hidden>
+                            Selecciona provincia
+                          </option>
+
+                          {provinces.length > 0 ? (
+                            provinces?.map((el, i) => {
+                              return (
+                                <option key={i} value={el.NOMBRE_PROVINCIA}>
+                                  {el.NOMBRE_PROVINCIA}
+                                </option>
+                              )
+                            })
+                          ) : (
+                            <option>Cargando...</option>
+                          )}
+                        </select>
+                      </div>
+                    ) : null}
+
+                    {input.provincia && input.pais !== 'Uruguay' ? (
+                      <div className={styles.formInput}>
                         {' '}
-                      </i>{' '}
-                      <input
-                        type='text'
-                        className={styles.formControl}
-                        style={{ width: '12rem' }}
-                        name='ciudad'
-                        placeholder='Ciudad'
-                        value={input.ciudad}
-                        onChange={(e) => handleChangeUser(e)}
-                      />{' '}
-                    </div>
+                        <i className='fa fa-building' aria-hidden='true' style={{ left: '15px' }}>
+                          {' '}
+                        </i>{' '}
+                        <select
+                          type='text'
+                          className={styles.formControl}
+                          style={{ width: '12rem' }}
+                          name='ciudad'
+                          placeholder='Ciudad'
+                          value={input.ciudad}
+                          onChange={(e) => handleChangeUser(e)}>
+                          <option selected disabled hidden>
+                            Selecciona ciudad
+                          </option>
+                          {cities?.length > 0 ? (
+                            cities?.map((el, i) => {
+                              return (
+                                <option key={i} value={el.NOMBRE_CIUDAD}>
+                                  {el.NOMBRE_CIUDAD}
+                                </option>
+                              )
+                            })
+                          ) : (
+                            <option>Cargando...</option>
+                          )}
+                        </select>
+                      </div>
+                    ) : null}
+
+                    {input.pais === 'Uruguay' && cities?.length > 0 && !cities.map((el) => el.NOMBRE_CIUDAD).includes(input.ciudad) ? isUruguay() : null}
                   </div>
 
-                  <div className={styles.formInput}>
-                    <label htmlFor='role' className='text-muted'>
-                      ¿Que deseas hacer?
-                    </label>{' '}
-                    <br />
-                    {/* <select className={styles.selectArea}name="role" id="role">
-                        <option value="hire">Contratar servicios</option>
-                        <option value="offer">Vender mis servicios</option>
-                        </select> */}
-                  </div>
+                  <div className={styles.formInput}></div>
                   <div className='form-check d-flex justify-content-center'>
                     {' '}
-                    <input
-                      className='form-check-input'
-                      type='checkbox'
-                      value=''
-                      id='flexCheckChecked'
-                      onChange={handleChecked}
-                    />{' '}
-                    <label
-                      className={styles.formCheckLabel}
-                      htmlFor='flexCheckChecked'>
+                    <input className='form-check-input' type='checkbox' name='checked' id='flexCheckChecked' onChange={(e) => handleChecked(e)} />{' '}
+                    <label className={styles.formCheckLabel} htmlFor='flexCheckChecked'>
                       {' '}
-                      Acepto todas las condiciones{' '}
+                      Acepto términos y condiciones.{' '}
                     </label>{' '}
                   </div>
-                  <button
-                    className={`btn btn-success mt-4 ${styles.signup} ${termsAccepted}`}
-                    onClick={(e) => handleSubmitUser(e)}
-                    >
+                  {/* <button className={`btn btn-success mt-4 ${styles.signup} ${termsAccepted}`} onClick={(e) => handleSubmitUser(e)}> */}
+                  <button className={`btn btn-success mt-4 ${styles.signup} ${termsAccepted}`} onClick={(e) => finalCheck(e)}>
                     Confirmar registro
                   </button>
                 </div>
@@ -344,14 +958,12 @@ export default function Register() {
                 </div>
               </Tab>
 
-              <Tab eventKey='Proveedor' title='Registrar proveedor'>
+              <Tab eventKey='Proveedor' title='Registrar proovedor'>
                 <div className='text-center mt-3'>
                   <div className={styles.halfInputContainer}>
                     <div className={styles.formInput}>
                       {' '}
-                      <i
-                        className='fa fa-user'
-                        style={{ left: '15px' }}></i>{' '}
+                      <i className='fa fa-user' style={{ left: '15px' }}></i>{' '}
                       <input
                         type='text'
                         className={styles.formControl}
@@ -364,9 +976,7 @@ export default function Register() {
                     </div>
                     <div className={styles.formInput}>
                       {' '}
-                      <i
-                        className='fa fa-address-card'
-                        style={{ left: '13px' }}></i>
+                      <i className='fa fa-address-card' style={{ left: '13px' }}></i>
                       <input
                         type='text'
                         className={styles.formControl}
@@ -375,9 +985,14 @@ export default function Register() {
                         placeholder='Apellido'
                         value={inputProvider.apellido}
                         onChange={(e) => handleChangeProvider(e)}
-                      />{' '}
+                      />
                     </div>
                   </div>
+
+                  {/* MENSAJE DE ERROR DE NOMBRE Y APELLIDO */}
+
+                  {errorsProvider.nombre && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.nombre}</p>}
+                  {errorsProvider.apellido && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.apellido}</p>}
 
                   <div className={styles.formInput}>
                     {' '}
@@ -391,6 +1006,8 @@ export default function Register() {
                       onChange={(e) => handleChangeProvider(e)}
                     />{' '}
                   </div>
+                  {errorsProvider.email && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.email}</p>}
+
                   <div className={styles.formInput}>
                     {' '}
                     <i className='fa fa-lock'></i>{' '}
@@ -403,6 +1020,8 @@ export default function Register() {
                       onChange={(e) => handleChangeProvider(e)}
                     />{' '}
                   </div>
+                  {errorsProvider.password && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.password}</p>}
+
                   <div className={styles.formInput}>
                     {' '}
                     <i className='fa fa-camera' aria-hidden='true'></i>{' '}
@@ -415,6 +1034,8 @@ export default function Register() {
                       onChange={(e) => handleChangeProvider(e)}
                     />{' '}
                   </div>
+                  {errorsProvider.imagen && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.imagen}</p>}
+
                   <div className={styles.formInput}>
                     {' '}
                     <i className='fa fa-mobile' aria-hidden='true'></i>{' '}
@@ -427,12 +1048,10 @@ export default function Register() {
                       onChange={(e) => handleChangeProvider(e)}
                     />{' '}
                   </div>
+                  {errorsProvider.celular && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.celular}</p>}
+
                   <div className={styles.formInput}>
                     <label htmlFor='date'>Fecha nacimiento:</label>
-                    <i
-                      className='fa fa-calendar'
-                      style={{ top: '40px' }}
-                      aria-hidden='true'></i>{' '}
                     <input
                       type='date'
                       className={styles.formControl}
@@ -442,89 +1061,108 @@ export default function Register() {
                       onChange={(e) => handleChangeProvider(e)}
                     />
                   </div>
+                  {errorsProvider.fecha_nacimiento && (
+                    <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.fecha_nacimiento}</p>
+                  )}
+
                   <div className={styles.halfInputContainer}>
                     <div className={styles.formInput}>
                       {' '}
-                      <i
-                        className='fa fa-globe'
-                        aria-hidden='true'
-                        style={{ left: '15px' }}></i>{' '}
-                      <input
-                        type='text'
+                      <i className='fa fa-globe' aria-hidden='true' style={{ left: '15px' }}></i>{' '}
+                      <select
                         className={styles.formControl}
                         style={{ width: '12rem' }}
                         name='pais'
-                        placeholder='País'
-                        value={inputProvider.pais}
-                        onChange={(e) => handleChangeProvider(e)}
-                      />{' '}
+                        onChange={(e) => {
+                          handleChangeProvider(e)
+                        }}>
+                        <option selected disabled hidden>
+                          Selecciona país
+                        </option>
+
+                        {countries.length > 0
+                          ? countries?.map((el, i) => {
+                              return (
+                                <option key={i} id={el.code} value={el.name}>
+                                  {el.name}
+                                </option>
+                              )
+                            })
+                          : 'Cargando...'}
+                      </select>
                     </div>
-                    <div className={styles.formInput}>
-                      {' '}
-                      <i
-                        className='fa fa-map-marker'
-                        aria-hidden='true'
-                        style={{ left: '15px' }}></i>{' '}
-                      <input
-                        type='text'
-                        className={styles.formControl}
-                        style={{ width: '12rem' }}
-                        name='provincia'
-                        placeholder='Provincia'
-                        value={inputProvider.provincia}
-                        onChange={(e) => handleChangeProvider(e)}
-                      />{' '}
-                    </div>
-                    <div className={styles.formInput}>
-                      {' '}
-                      <i
-                        className='fa fa-building'
-                        aria-hidden='true'
-                        style={{ left: '15px' }}>
+
+                    {inputProvider.pais ? (
+                      <div className={styles.formInput}>
+                        <i className='fa fa-map-marker' aria-hidden='true' style={{ left: '15px' }}></i>{' '}
+                        <select className={styles.formControl} style={{ width: '12rem' }} name='provincia' onChange={(e) => handleChangeProvider(e)}>
+                          <option selected disabled hidden>
+                            Selecciona provincia
+                          </option>
+
+                          {provinces.length > 0 ? (
+                            provinces?.map((el, i) => {
+                              return (
+                                <option key={i} value={el.NOMBRE_PROVINCIA}>
+                                  {el.NOMBRE_PROVINCIA}
+                                </option>
+                              )
+                            })
+                          ) : (
+                            <option>Cargando...</option>
+                          )}
+                        </select>
+                      </div>
+                    ) : null}
+
+                    {inputProvider.provincia && inputProvider.pais !== 'Uruguay' ? (
+                      <div className={styles.formInput}>
                         {' '}
-                      </i>{' '}
-                      <input
-                        type='text'
-                        className={styles.formControl}
-                        style={{ width: '12rem' }}
-                        name='ciudad'
-                        placeholder='Ciudad'
-                        value={inputProvider.ciudad}
-                        onChange={(e) => handleChangeProvider(e)}
-                      />{' '}
-                    </div>
+                        <i className='fa fa-building' aria-hidden='true' style={{ left: '15px' }}>
+                          {' '}
+                        </i>{' '}
+                        <select
+                          type='text'
+                          className={styles.formControl}
+                          style={{ width: '12rem' }}
+                          name='ciudad'
+                          placeholder='Ciudad'
+                          value={inputProvider.ciudad}
+                          onChange={(e) => handleChangeProvider(e)}>
+                          <option selected disabled hidden>
+                            Selecciona ciudad
+                          </option>
+                          {cities?.length > 0 ? (
+                            cities?.map((el, i) => {
+                              return (
+                                <option key={i} value={el.NOMBRE_CIUDAD}>
+                                  {el.NOMBRE_CIUDAD}
+                                </option>
+                              )
+                            })
+                          ) : (
+                            <option>Cargando...</option>
+                          )}
+                        </select>
+                      </div>
+                    ) : null}
+
+                    {inputProvider.pais === 'Uruguay' && cities?.length > 0 && !cities.map((el) => el.NOMBRE_CIUDAD).includes(inputProvider.ciudad)
+                      ? isUruguayProvider()
+                      : null}
                   </div>
 
-                  <div className={styles.formInput}>
-                    <label htmlFor='role' className='text-muted'>
-                      ¿Que deseas hacer?
-                    </label>{' '}
-                    <br />
-                    {/* <select className={styles.selectArea}name="role" id="role">
-                        <option value="hire">Contratar servicios</option>
-                        <option value="offer">Vender mis servicios</option>
-                        </select> */}
-                  </div>
+                  <div className={styles.formInput}></div>
                   <div className='form-check d-flex justify-content-center'>
                     {' '}
-                    <input
-                      className='form-check-input'
-                      type='checkbox'
-                      value=''
-                      id='flexCheckChecked'
-                      onChange={handleChecked}
-                    />{' '}
-                    <label
-                      className={styles.formCheckLabel}
-                      htmlFor='flexCheckChecked'>
+                    <input className='form-check-input' type='checkbox' name='checked' id='flexCheckChecked' onChange={(e) => handleCheckedProvider(e)} />{' '}
+                    <label className={styles.formCheckLabel} htmlFor='flexCheckChecked'>
                       {' '}
-                      Acepto todas las condiciones{' '}
+                      Acepto términos y condiciones.{' '}
                     </label>{' '}
                   </div>
-                  <button
-                    className={`btn btn-success mt-4 ${styles.signup} ${termsAccepted}`}
-                    onClick={(e) => handleSubmitProvider(e)}
-                    >
+                  {/* <button className={`btn btn-success mt-4 ${styles.signup} ${termsAcceptedProvider}`} onClick={(e) => handleSubmitUser(e)}> */}
+                  <button className={`btn btn-success mt-4 ${styles.signup} ${termsAcceptedProvider}`} onClick={(e) => finalCheckProvider(e)}>
                     Confirmar registro
                   </button>
                 </div>

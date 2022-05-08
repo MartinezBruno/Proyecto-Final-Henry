@@ -16,8 +16,6 @@ export default function ProfileDetails() {
   const dispatch = useDispatch()
   const { serviceProvider } = useSelector((state) => state.provider)
 
-  const num = 1
-
   useEffect(() => {
     dispatch(getServiceProvider(idProv, idServ))
   }, [dispatch, idProv, idServ])
@@ -162,7 +160,7 @@ export default function ProfileDetails() {
 
 
 
-                         : "s" }
+                         : "No tiene Calificaciones" }
                       </div>
                       {/* CIERRA MAPEO CALIFICACION */}
                     </ul>
