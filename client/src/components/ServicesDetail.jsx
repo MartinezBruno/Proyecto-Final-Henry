@@ -68,99 +68,99 @@ export default function ProfileDetails() {
                     </h6>
                     <ul className='list-inline small'>
                       <div>
-                        { serviceProvider[0]?.calificacion[0] === 1 ?
-                        <>
-                        <li className='list-inline-item m-0'>
-                          <i className='fa fa-star text-success'></i>
-                        </li>
-                        <li className='list-inline-item m-0'>
-                          <i className='fa fa-star-o text-success'></i>
-                        </li>
-                        <li className='list-inline-item m-0'>
-                          <i className='fa fa-star-o text-success'></i>
-                        </li>
-                        <li className='list-inline-item m-0'>
-                          <i className='fa fa-star-o text-success'></i>
-                        </li>
-                        <li className='list-inline-item m-0'>
-                          <i className='fa fa-star-o text-success'></i>
-                        </li>
-                        </> : serviceProvider[0]?.calificacion[0] === 2 ?
-                        <>
-                        <li className='list-inline-item m-0'>
-                          <i className='fa fa-star text-success'></i>
-                        </li>
-                        <li className='list-inline-item m-0'>
-                          <i className='fa fa-star text-success'></i>
-                        </li>
-                        <li className='list-inline-item m-0'>
-                          <i className='fa fa-star-o text-success'></i>
-                        </li>
-                        <li className='list-inline-item m-0'>
-                          <i className='fa fa-star-o text-success'></i>
-                        </li>
-                        <li className='list-inline-item m-0'>
-                          <i className='fa fa-star-o text-success'></i>
-                        </li>
-                        </> : serviceProvider[0]?.calificacion[0] === 3 ?
-                        <>
-                        <li className='list-inline-item m-0'>
-                          <i className='fa fa-star text-success'></i>
-                        </li>
-                        <li className='list-inline-item m-0'>
-                          <i className='fa fa-star text-success'></i>
-                        </li>
-                        <li className='list-inline-item m-0'>
-                          <i className='fa fa-star text-success'></i>
-                        </li>
-                        <li className='list-inline-item m-0'>
-                          <i className='fa fa-star-o text-success'></i>
-                        </li>
-                        <li className='list-inline-item m-0'>
-                          <i className='fa fa-star-o text-success'></i>
-                        </li>
-                        </> : serviceProvider[0]?.calificacion[0] === 4 ?
-                        <>
-                        <li className='list-inline-item m-0'>
-                          <i className='fa fa-star text-success'></i>
-                        </li>
-                        <li className='list-inline-item m-0'>
-                          <i className='fa fa-star text-success'></i>
-                        </li>
-                        <li className='list-inline-item m-0'>
-                          <i className='fa fa-star text-success'></i>
-                        </li>
-                        <li className='list-inline-item m-0'>
-                          <i className='fa fa-star text-success'></i>
-                        </li>
-                        <li className='list-inline-item m-0'>
-                          <i className='fa fa-star-o text-success'></i>
-                        </li>
-                        </> : serviceProvider[0]?.calificacion[0] === 5 ?
-                        <>
-                        <li className='list-inline-item m-0'>
-                          <i className='fa fa-star text-success'></i>
-                        </li>
-                        <li className='list-inline-item m-0'>
-                          <i className='fa fa-star text-success'></i>
-                        </li>
-                        <li className='list-inline-item m-0'>
-                          <i className='fa fa-star text-success'></i>
-                        </li>
-                        <li className='list-inline-item m-0'>
-                          <i className='fa fa-star text-success'></i>
-                        </li>
-                        <li className='list-inline-item m-0'>
-                          <i className='fa fa-star text-success'></i>
-                        </li>
-                        </>
-
-
-
-
-
-
-                         : "No tiene Calificaciones" }
+                        {serviceProvider[0]?.calificacion === 1 ? (
+                          <>
+                            <li className='list-inline-item m-0'>
+                              <i className='fa fa-star text-success'></i>
+                            </li>
+                            <li className='list-inline-item m-0'>
+                              <i className='fa fa-star-o text-success'></i>
+                            </li>
+                            <li className='list-inline-item m-0'>
+                              <i className='fa fa-star-o text-success'></i>
+                            </li>
+                            <li className='list-inline-item m-0'>
+                              <i className='fa fa-star-o text-success'></i>
+                            </li>
+                            <li className='list-inline-item m-0'>
+                              <i className='fa fa-star-o text-success'></i>
+                            </li>
+                          </>
+                        ) : serviceProvider[0]?.calificacion === 2 ? (
+                          <>
+                            <li className='list-inline-item m-0'>
+                              <i className='fa fa-star text-success'></i>
+                            </li>
+                            <li className='list-inline-item m-0'>
+                              <i className='fa fa-star text-success'></i>
+                            </li>
+                            <li className='list-inline-item m-0'>
+                              <i className='fa fa-star-o text-success'></i>
+                            </li>
+                            <li className='list-inline-item m-0'>
+                              <i className='fa fa-star-o text-success'></i>
+                            </li>
+                            <li className='list-inline-item m-0'>
+                              <i className='fa fa-star-o text-success'></i>
+                            </li>
+                          </>
+                        ) : serviceProvider[0]?.calificacion === 3 ? (
+                          <>
+                            <li className='list-inline-item m-0'>
+                              <i className='fa fa-star text-success'></i>
+                            </li>
+                            <li className='list-inline-item m-0'>
+                              <i className='fa fa-star text-success'></i>
+                            </li>
+                            <li className='list-inline-item m-0'>
+                              <i className='fa fa-star text-success'></i>
+                            </li>
+                            <li className='list-inline-item m-0'>
+                              <i className='fa fa-star-o text-success'></i>
+                            </li>
+                            <li className='list-inline-item m-0'>
+                              <i className='fa fa-star-o text-success'></i>
+                            </li>
+                          </>
+                        ) : serviceProvider[0]?.calificacion === 4 ? (
+                          <>
+                            <li className='list-inline-item m-0'>
+                              <i className='fa fa-star text-success'></i>
+                            </li>
+                            <li className='list-inline-item m-0'>
+                              <i className='fa fa-star text-success'></i>
+                            </li>
+                            <li className='list-inline-item m-0'>
+                              <i className='fa fa-star text-success'></i>
+                            </li>
+                            <li className='list-inline-item m-0'>
+                              <i className='fa fa-star text-success'></i>
+                            </li>
+                            <li className='list-inline-item m-0'>
+                              <i className='fa fa-star-o text-success'></i>
+                            </li>
+                          </>
+                        ) : serviceProvider[0]?.calificacion === 5 ? (
+                          <>
+                            <li className='list-inline-item m-0'>
+                              <i className='fa fa-star text-success'></i>
+                            </li>
+                            <li className='list-inline-item m-0'>
+                              <i className='fa fa-star text-success'></i>
+                            </li>
+                            <li className='list-inline-item m-0'>
+                              <i className='fa fa-star text-success'></i>
+                            </li>
+                            <li className='list-inline-item m-0'>
+                              <i className='fa fa-star text-success'></i>
+                            </li>
+                            <li className='list-inline-item m-0'>
+                              <i className='fa fa-star text-success'></i>
+                            </li>
+                          </>
+                        ) : (
+                          'No tiene Calificaciones'
+                        )}
                       </div>
                       {/* CIERRA MAPEO CALIFICACION */}
                     </ul>
