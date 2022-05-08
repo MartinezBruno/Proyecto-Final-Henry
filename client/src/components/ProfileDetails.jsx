@@ -10,7 +10,7 @@ import { NavLink } from 'react-router-dom'
 
 export default function ProfileDetails() {
   let { ProviderID } = useParams()
-  // console.log(ProviderID);
+  console.log(ProviderID);
 
   const dispatch = useDispatch()
   const { uniqueprovider } = useSelector((state) => state.provider)
@@ -21,7 +21,7 @@ export default function ProfileDetails() {
 
   useEffect(() => {
     dispatch(getUniqueProvider(ProviderID))
-  }, [dispatch, ProviderID])
+  }, [dispatch])
 
   return (
     <div className='container' style={{ marginTop: '20px' }}>

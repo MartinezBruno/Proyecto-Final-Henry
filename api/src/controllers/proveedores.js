@@ -131,7 +131,7 @@ const getProv = async (req, res, next) => {
         let Comentarios = await Comentario.findAll({
           where: { ProveedorServicioId: proveedorServicio[0].dataValues.id },
         })
-        console.log(Comentarios)
+        // console.log(Comentarios)
 
         let UsuarioComentario = []
         for (let i = 0; i < Comentarios.length; i++) {
@@ -282,10 +282,8 @@ const deleteServicio_Prov = async (req, res) => {
         },
       })
 
-      let [p, _created] = await Precio.findOrCreate({
-        where: {
-          PRECIO: servicio.PRECIO,
-        },
+      let p = await Precio.findOrCreate({
+        PRECIO: servicio.PRECIO,
       })
       let d = await Descripcion.create({
         DESCRIPCION: servicio.DESCRIPCION,
@@ -381,11 +379,11 @@ const filtroPorProfesion = async (req, res) => {
         NOMBRE_SERVICIO: service,
       },
     })
-    console.log(servicios)
+    // console.log(servicios)
     let servicioFilt = servicios.id
     //     console.log(servicios.id)
     let proveedorServ = await getProveedores()
-    console.log(proveedorServ)
+    // console.log(proveedorServ)
     let provFiltered = proveedorServ.filter((prov) => prov.servicio.id === servicioFilt)
     return res.status(200).send(provFiltered)
   } catch (error) {
@@ -407,7 +405,7 @@ const filtroPorProvincia = async (req, res) => {
     let filtProvincia = provincias.NOMBRE_PROVINCIA
     let proveedores = await getProveedores()
     let proveedorProvincia = proveedores.filter((provincia) => provincia.provincia === filtProvincia)
-    console.log(proveedorProvincia)
+    // console.log(proveedorProvincia)
     return res.status(200).send(proveedorProvincia)
   } catch (error) {
     return res.status(500).send(error)

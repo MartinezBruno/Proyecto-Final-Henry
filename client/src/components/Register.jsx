@@ -62,7 +62,7 @@ export default function Register() {
   // Vinculamos hacer dispatch cuando hayan cambio en cierta propiedad -> PROVIDER
   useEffect(() => {
     if (countriesInfoProvider.name !== 'none') {
-      dispatch(chargeProvinces(countriesInfoProvider.code))
+      dispatch(chargeProvinces(countriesInfoProvider.name))
     }
   }, [countriesInfoProvider.name])
 
@@ -170,7 +170,7 @@ export default function Register() {
     pais: '',
     provincia: '',
     ciudad: '',
-    celular: 0,
+    celular: '',
   })
 
   //OBJETO PROVIDER QUE SE MANDARA A LA RUTA PARA HACER EL REGISTER
@@ -185,7 +185,7 @@ export default function Register() {
     pais: '',
     provincia: '',
     ciudad: '',
-    celular: 0,
+    celular: '',
   })
 
   //FUNCION QUE MODIFICA EL OBJETO DEL USUARIO
@@ -318,6 +318,7 @@ export default function Register() {
       }
     }
 
+
     if (e.target.name === 'celular') {
       !isNaN(e.target.value * 1)
         ? setErrors((prevState) => {
@@ -326,6 +327,19 @@ export default function Register() {
         : setErrors((prevState) => {
             return { ...prevState, [e.target.name]: 'Solo debe ingresar numeros' }
           })
+
+          if(!(e.target.value.length > 5)){
+            setErrors((prevState) => {
+              return { ...prevState, [e.target.name]: 'El numero celular debe tener entre 6 a 15 dígitos' }
+            })
+          }
+
+          if((e.target.value.length > 15)){
+            setErrors((prevState) => {
+              return { ...prevState, [e.target.name]: 'El numero celular debe tener entre 6 a 15 dígitos' }
+            })
+          }
+
 
       if (e.target.value === '') {
         setErrors((prevState) => {
@@ -346,6 +360,51 @@ export default function Register() {
       if (e.target.value === '') {
         setErrors((prevState) => {
           return { ...prevState, [e.target.name]: 'Es obligatorio ingresar una CONTRASEÑA' }
+        })
+      }
+    }
+
+    if (e.target.name === 'imagen') {
+      /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/g.test(e.target.value)
+        ? setErrors((prevState) => {
+            return { ...prevState, [e.target.name]: '' }
+          })
+        : setErrors((prevState) => {
+            return { ...prevState, [e.target.name]: 'Ingrese un LINK DE IMAGEN válido' }
+          })
+
+      if (e.target.value === '') {
+        setErrors((prevState) => {
+          return { ...prevState, [e.target.name]: 'Es obligatorio ingresar un LINK DE IMAGEN' }
+        })
+      }
+    }
+
+    if (e.target.name === 'fecha_nacimiento') {
+      let year=e.target.value.slice(0,4)
+      let month = e.target.value.slice(5,7)
+      let day = e.target.value.slice(-2)
+
+      setErrors((prevState) => {
+        return { ...prevState, [e.target.name]: '' }
+      })
+
+      if (day < 1 || day > 31) {
+        setErrors((prevState) => {
+          return { ...prevState, [e.target.name]: 'Ingrese un día válido.' }
+        })
+      }
+
+      if (month < 1 || month > 12) {
+        setErrors((prevState) => {
+          return { ...prevState, [e.target.name]: 'Ingrese un mes válido.' }
+        })
+      }
+
+
+      if (year < 1900 || year > new Date().getFullYear()) {
+        setErrors((prevState) => {
+          return { ...prevState, [e.target.name]: 'Ingrese un año válido.' }
         })
       }
     }
@@ -427,6 +486,20 @@ export default function Register() {
             return { ...prevState, [e.target.name]: 'Solo debe ingresar numeros' }
           })
 
+
+          if(!(e.target.value.length > 5)){
+            setErrorsProvider((prevState) => {
+              return { ...prevState, [e.target.name]: 'El numero celular debe tener entre 6 a 15 dígitos' }
+            })
+          }
+
+          if((e.target.value.length > 15)){
+            setErrorsProvider((prevState) => {
+              return { ...prevState, [e.target.name]: 'El numero celular debe tener entre 6 a 15 dígitos' }
+            })
+          }
+
+
       if (e.target.value === '') {
         setErrorsProvider((prevState) => {
           return { ...prevState, [e.target.name]: 'Es obligatorio ingresar un NUMERO DE CELULAR.' }
@@ -446,6 +519,52 @@ export default function Register() {
       if (e.target.value === '') {
         setErrorsProvider((prevState) => {
           return { ...prevState, [e.target.name]: 'Es obligatorio ingresar una CONTRASEÑA' }
+        })
+      }
+    }
+
+
+    if (e.target.name === 'imagen') {
+      /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/g.test(e.target.value)
+        ? setErrorsProvider((prevState) => {
+            return { ...prevState, [e.target.name]: '' }
+          })
+        : setErrorsProvider((prevState) => {
+            return { ...prevState, [e.target.name]: 'Ingrese un LINK DE IMAGEN válido' }
+          })
+
+      if (e.target.value === '') {
+        setErrorsProvider((prevState) => {
+          return { ...prevState, [e.target.name]: 'Es obligatorio ingresar un LINK DE IMAGEN' }
+        })
+      }
+    }
+
+    if (e.target.name === 'fecha_nacimiento') {
+      let year=e.target.value.slice(0,4)
+      let month = e.target.value.slice(5,7)
+      let day = e.target.value.slice(-2)
+
+      setErrorsProvider((prevState) => {
+        return { ...prevState, [e.target.name]: '' }
+      })
+
+      if (day < 1 || day > 31) {
+        setErrorsProvider((prevState) => {
+          return { ...prevState, [e.target.name]: 'Ingrese un día válido.' }
+        })
+      }
+
+      if (month < 1 || month > 12) {
+        setErrorsProvider((prevState) => {
+          return { ...prevState, [e.target.name]: 'Ingrese un mes válido.' }
+        })
+      }
+
+
+      if (year < 1900 || year > new Date().getFullYear()) {
+        setErrorsProvider((prevState) => {
+          return { ...prevState, [e.target.name]: 'Ingrese un año válido.' }
         })
       }
     }

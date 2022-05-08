@@ -96,7 +96,7 @@ const addFavorito = async (req, res, next) => {
       return res.status(200).send({ message: 'El usuario ya tiene a ese proveedor en sus favoritos' })
     }
     favorites.push(provId)
-    console.log(favorites)
+    // console.log(favorites)
 
     await Usuario.update(
       {
@@ -198,11 +198,11 @@ const buyReview = async (req, res) => {
   let verifacionComent = await Comentario.findAll({
     where: { UsuarioId: UsuarioId, ProveedorServicioId: provServ.id },
   })
-  console.log(verifacionComent.length)
-  console.log(verificacionCompra.length)
+  // console.log(verifacionComent.length)
+  // console.log(verificacionCompra.length)
   if (verificacionCompra.length > 0) {
     if (verifacionComent.length === 0 || verifacionComent.length < verificacionCompra.length) {
-      console.log('hola')
+      // console.log('hola')
       proveedor === null
         ? { message: 'Proveedor no encontrado' }
         : await Proveedor.update(

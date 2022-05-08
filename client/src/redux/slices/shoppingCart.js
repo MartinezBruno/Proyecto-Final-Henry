@@ -6,6 +6,7 @@ export const cartSlice = createSlice({
   name: 'shoppingCart', //Nombre del slice
   initialState: {
     services: [],
+    acumServices: [],
   },
   reducers: {
     //Aqui van las actions para el estado "test"
@@ -14,19 +15,23 @@ export const cartSlice = createSlice({
       localStorage.setItem('cartList', JSON.stringify(state.services))
     },
     deleteItem: (state, action) => {
-      state.services = state.services.filter((el) => el.id !== action.payload)
-      localStorage.setItem('cartList', JSON.stringify(state.services.slice(0, state.services.length - 1)))
+      state.services = action.payload
+      // localStorage.setItem('cartList', JSON.stringify(state.services.slice(0, state.services.length - 1)))
+      localStorage.setItem('cartList', JSON.stringify(state.services))
     },
     updateState: (state, action) => {
       state.services = action.payload
     },
     clearServices: (state, action) => {
       state.services = []
-    }
+    },
+    setAcumuladorServices: (state, action) => {
+      state.acumServices = action.payload
+    },
   },
 })
 
-export const { setCart, deleteItem, updateState, clearServices } = cartSlice.actions //La exporto para que la action este "visible" a la funcion pruebaFuncion
+export const { setCart, deleteItem, updateState, clearServices, setAcumuladorServices } = cartSlice.actions //La exporto para que la action este "visible" a la funcion pruebaFuncion
 
 export default cartSlice.reducer //Esta propiedad tiene todos los reducers que le metamos
 
@@ -36,11 +41,54 @@ export const addToCart = (serviceData) => {
   }
 }
 
-export const deleteService = (serviceID) => {
-  return (dispatch) => {
-    dispatch(deleteItem(serviceID))
+export function deleteService(services, serviceID, provID) {
+
+  let servicesCopy = [...services]
+  
+
+  for (var i = 0; i < servicesCopy.length; i++) {
+    if ((servicesCopy[i].id === serviceID) && (servicesCopy[i].provID === provID)) {
+      servicesCopy.splice(i, 1)
+      break
+    }
+  }
+
+  return async function (dispatch) {
+    dispatch(deleteItem(servicesCopy))
   }
 }
+
+export function deleteAllOfOneService(services, serviceID, provID) {
+
+  let servicesCopy = [...services]
+  let flag=true
+
+  while(flag){
+  let servicesKey = servicesCopy.map(el=> `${el.id}_${el.provID}`)
+
+  if(servicesKey.includes(`${serviceID}_${provID}`)){
+    for (var i = 0; i < servicesCopy.length; i++) {
+      if ((servicesCopy[i].id === serviceID) && (servicesCopy[i].provID === provID)) {
+        servicesCopy.splice(i, 1)
+        break
+      }
+    }
+  } else{
+    flag=false;
+  }
+
+  }
+
+
+
+
+  return async function (dispatch) {
+    dispatch(deleteItem(servicesCopy))
+  }
+}
+
+
+
 export const updateStateFromStorage = (state) => {
   return (dispatch) => {
     dispatch(updateState(state))
@@ -56,5 +104,38 @@ export const payServices = (services) => async () => {
 export const clearCart = () => {
   return (dispatch) => {
     dispatch(clearServices())
+  }
+}
+
+export const setAcumServices = (services) => {
+  let individualServices = {}
+
+  services?.forEach((el) => {
+    if (individualServices[[`${el.id}_${el.provID}`]]) {
+      individualServices[`${el.id}_${el.provID}`].count++
+    } else {
+      individualServices[`${el.id}_${el.provID}`] = {
+        id: el.id,
+        nombre: el.nombre,
+        remote: el.remote,
+        precio: el.precio,
+        descripcion: el.descripcion,
+        provID: el.provID,
+        provName: el.provName,
+        count: 1,
+      }
+    }
+  })
+
+  let individualServicesToMap = (function () {
+    let servicesArr = []
+    for (let prop in individualServices) {
+      servicesArr.push(individualServices[prop])
+    }
+     return servicesArr
+  })()
+
+  return (dispatch) => {
+    dispatch(setAcumuladorServices(individualServicesToMap))
   }
 }
