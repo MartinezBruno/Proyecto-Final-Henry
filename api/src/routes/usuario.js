@@ -12,8 +12,8 @@ const {
   putUser,
   moderatorBoard,
   adminBoard,
-  compraSuccess
-
+  compraSuccess,
+  misCompras,
 } = require('../controllers/usuarios')
 
 // Importar todos los routers;
@@ -26,6 +26,7 @@ const router = Router()
 router.use(express.json())
 
 // router.get('/:id', getProvByID)
+
 router.get('/', getUsers)
 
 router.get('/:id', getUserById)
@@ -45,6 +46,8 @@ router.get('/test/proveedor', [authJwt.verifyToken, authJwt.isProveedor], userBo
 router.put('/calificacion', buyReview)
 
 router.post('/compraSuccess', compraSuccess)
+
+router.get('/compraSuccess/misCompras', misCompras)
 
 router.get('/test/mod', [authJwt.verifyToken, authJwt.isModerator], moderatorBoard)
 
