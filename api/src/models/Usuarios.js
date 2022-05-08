@@ -23,6 +23,7 @@ module.exports = (sequelize) => {
 
     IMAGEN: {
       type: DataTypes.STRING,
+      defaultValue: 'https://www.softzone.es/app/uploads-softzone.es/2018/04/guest.png?x=480&quality=20',
     },
 
     FECHA_NACIMIENTO: {
