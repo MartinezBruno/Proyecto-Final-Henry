@@ -231,25 +231,31 @@ const buyReview = async (req, res) => {
 }
 
 const compraSuccess = async (req, res) => {
-  let { datos } = req.body
+  let { cart, id } = req.body
+  console.log(cart)
+  console.log(id)
+  try {
+    let idProveedor = cart.map((compra) => compra.provID)
+    let idUsuario = id
+    let idServicio = cart.map((compra) => compra.id)
 
-  let idProveedor = datos.map((compra) => compra.proveedorId)
-  let idUsuario = datos.map((compra) => compra.UsuarioId)
-  let idServicio = datos.map((compra) => compra.idServicio)
+    for (let i = 0; i < idProveedor.length; i++) {
+      let provServ = await Proveedor_Servicio.findOne({
+        where: { ProveedorId: idProveedor[i], ServicioId: idServicio[i] },
+      })
 
-  for (let i = 0; i < idUsuario.length; i++) {
-    let provServ = await Proveedor_Servicio.findOne({
-      where: { ProveedorId: idProveedor[i], ServicioId: idServicio[i] },
-    })
+      let usuario = await Usuario.findOne({ where: { id: idUsuario } })
 
-    let usuario = await Usuario.findOne({ where: { id: idUsuario[i] } })
+      let compra = await Compra.create()
 
-    let compra = await Compra.create()
-
-    compra.setUsuario(usuario)
-    compra.setProveedor_Servicio(provServ)
+      compra.setUsuario(usuario)
+      compra.setProveedor_Servicio(provServ)
+    }
+    return res.status(200).send({ message: 'Compra guardada en la DB' })
+  } catch (error) {
+    console.error(error)
+    return res.status(500).send({ message: 'Error al guardar compra' })
   }
-  res.status(200).send('Compra guardada en la DB')
 }
 
 module.exports = {
