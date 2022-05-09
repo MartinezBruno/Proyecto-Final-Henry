@@ -63,22 +63,23 @@ function ProfileProveedor() {
                   {/* MAP DE TODOS LOS SERVICIOS */}
 
                   {uniqueprovider.servicios?.map((serv) => {
-                    return (
-                      <tr>
-                        <td>{serv.nombre}</td>
-                        {serv.remote === true ? (
-                          <td>
-                            <i className='fa fa-check text-success' aria-hidden='true'></i>
-                          </td>
-                        ) : (
-                          <td>
-                            <i className='fa fa-times text-danger' aria-hidden='true'></i>
-                          </td>
-                        )}
-                        <td>{'$' + serv.precio}</td>
-                        <td>{serv.descripcion}</td>
-                      </tr>
-                    )
+                    if (serv.nombre !== 'Sin servicios disponibles')
+                      return (
+                        <tr>
+                          <td>{serv.nombre}</td>
+                          {serv.remote === true ? (
+                            <td>
+                              <i className='fa fa-check text-success' aria-hidden='true'></i>
+                            </td>
+                          ) : (
+                            <td>
+                              <i className='fa fa-times text-danger' aria-hidden='true'></i>
+                            </td>
+                          )}
+                          <td>{'$' + serv.precio}</td>
+                          <td>{serv.descripcion}</td>
+                        </tr>
+                      )
                   })}
                 </tbody>
               </table>
