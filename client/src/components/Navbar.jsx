@@ -17,7 +17,6 @@ export default function NavBar() {
   const [showLogin, setShowLogin] = useState(false)
 
   const { isLoggedIn } = useSelector((state) => state.auth)
-
   const dispatch = useDispatch()
 
   const handleCloseRegister = () => setShowRegister(false)
@@ -117,6 +116,10 @@ export default function NavBar() {
               </NavLink>
               <NavLink to='/about' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
                 SOBRE NOSOTROS
+              </NavLink>
+
+              <NavLink to='/purchases' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
+                TUS COMPRAS
               </NavLink>
 
               {/* <NavLink to='/profile' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>

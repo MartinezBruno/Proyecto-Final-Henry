@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import ProfileEditInfoProv from './ProfileEditInfoProv'
 import ProfileShowInfoProv from './ProfileShowInfoProv'
 import { getUniqueProvider } from '../redux/slices/provider'
-import AddService from './addService'
+import AddService from './AddService'
 
 function ProfileProveedor() {
   const [isEditing, setEditing] = useState(false)
