@@ -372,22 +372,6 @@ export default function Register({ isModal }) {
       }
     }
 
-    if (e.target.name === 'imagen') {
-      ;/(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/g.test(e.target.value)
-        ? setErrors((prevState) => {
-            return { ...prevState, [e.target.name]: '' }
-          })
-        : setErrors((prevState) => {
-            return { ...prevState, [e.target.name]: 'Ingrese un LINK DE IMAGEN válido' }
-          })
-
-      if (e.target.value === '') {
-        setErrors((prevState) => {
-          return { ...prevState, [e.target.name]: 'Es obligatorio ingresar un LINK DE IMAGEN' }
-        })
-      }
-    }
-
     if (e.target.name === 'fecha_nacimiento') {
       let year = e.target.value.slice(0, 4)
       let month = e.target.value.slice(5, 7)
