@@ -207,6 +207,7 @@ const getProvByID = async (req, res, next) => {
       email: proveedor.EMAIL,
       imagen: proveedor.IMAGEN,
       fecha_nacimiento: proveedor.FECHA_NACIMIENTO,
+      celular: proveedor.CELULAR,
       calificacion: proveedor.CALIFICACION,
       creation_date: proveedor.createdAt,
       ciudad: proveedor.Ciudad ? proveedor.Ciudad.NOMBRE_CIUDAD : 'Sin definir',
@@ -767,10 +768,7 @@ const filtroProveedor = async (req, res, next) => {
   if (search) {
     try {
       let proveedores = await allProvs()
-      proveedores = proveedores.filter(
-        (prov) =>
-          prov.nombre_apellido_proveedor.toLowerCase().includes(search.toLowerCase())
-      )
+      proveedores = proveedores.filter((prov) => prov.nombre_apellido_proveedor.toLowerCase().includes(search.toLowerCase()))
       // TODOS
       if (pais === 'Todos' && provincia === 'Todos' && ciudad === 'Todos' && servicio === 'Todos' && remote === 'Todos') {
         try {
