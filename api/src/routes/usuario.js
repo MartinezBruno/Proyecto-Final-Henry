@@ -38,11 +38,12 @@ router.get('/test/all', allAccess)
 
 router.get('/test/usuario', [authJwt.verifyToken], userBoard)
 
+router.put('/calificacion', buyReview)
+
 router.put('/:id', putUser)
 
 router.get('/test/proveedor', [authJwt.verifyToken, authJwt.isProveedor], userBoard)
 
-router.put('/calificacion', buyReview)
 
 router.post('/compraSuccess', compraSuccess)
 
