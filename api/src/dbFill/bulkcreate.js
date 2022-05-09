@@ -34,7 +34,6 @@ let arrayProveedores = [
     apellido: 'Martinez',
     password: '1234',
     email: 'pedro@gmail.com',
-    imagen: 'https://thispersondoesnotexist.com/',
     fecha_nacimiento: '24-04-1988',
     pais: 'Argentina',
     servicios: [
@@ -53,7 +52,6 @@ let arrayProveedores = [
     apellido: 'Gonzales',
     password: '1235',
     email: 'bruno@gmail.com',
-    imagen: 'https://thispersondoesnotexist.com/',
     fecha_nacimiento: '24-04-1990',
     pais: 'Argentina',
     servicios: [
@@ -78,7 +76,6 @@ let arrayProveedores = [
     apellido: 'Tincho',
     password: '1236',
     email: 'martin@gmail.com',
-    imagen: 'https://thispersondoesnotexist.com/',
     fecha_nacimiento: '24-04-1980',
     pais: 'Argentina',
     servicios: [
