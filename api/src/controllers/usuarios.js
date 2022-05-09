@@ -273,6 +273,7 @@ const misCompras = async (req, res) => {
       arrayCompras.unshift({
         proveedor: proveedor.NOMBRE_APELLIDO_PROVEEDOR,
         idProveedor: proveedor.id,
+        idServicio: servicio.id,
         servicio: servicio.NOMBRE_SERVICIO,
         precio: precio.PRECIO,
         descripcion: descripcion.DESCRIPCION,
