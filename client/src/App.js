@@ -18,7 +18,7 @@ import Shopping from './components/Shopping'
 import SuccessFulPayment from './components/SuccessfulPayment'
 import FailedPayment from './components/FailedPayment'
 import ServicesDetail from './components/ServicesDetail'
-import AddService from './components/AddService'
+// import addService from './components/AddService'
 import Purchases from './components/Purchases'
 
 function App() {
