@@ -38,7 +38,7 @@ export const authSlice = createSlice({
   },
 })
 
-export const { Register_Success, Register_Fail, Login_Success, Login_Fail, Logout, Refresh_Token, Put_User } = authSlice.actions
+export const { Register_Success, Register_Fail, Login_Success, Login_Fail, Logout, Refresh_Token, Put_User, } = authSlice.actions
 
 export default authSlice.reducer
 
@@ -46,11 +46,11 @@ export function userRegister(input) {
   return async function (dispatch) {
     try {
       await AuthService.userRegister(input)
-      let data = await dispatch(Register_Success())
-      dispatch(setMessage(data.data.message))
+      await dispatch(Register_Success(true))
+      // dispatch(setMessage(data.data.message))
     } catch (error) {
       const message = (error.data && error.data.message) || error.response.data.message || error.message || error.toString()
-      dispatch(Register_Fail())
+      dispatch(Register_Fail(false))
       dispatch(SetMessage(message))
       console.log(error)
       console.log(message)

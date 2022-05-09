@@ -100,7 +100,7 @@ export default function ProfileDetails() {
                     <ul className='list-group list-group-flush'>
                       <li className='list-group-item d-flex justify-content-between align-items-center flex-wrap'>
                         <h6 className='mb-0'>
-                          <i className='fa fa-angle-right' aria-hidden='true'></i> Calificación:{' '}
+                          <i className='fa fa-angle-right' aria-hidden='true'></i> Calificación Promedio del Proveedor:{' '}
                         </h6>
                         <ul className='list-inline small'>
                           <div>
@@ -203,7 +203,7 @@ export default function ProfileDetails() {
                       </li>
                       <li className='list-group-item d-flex justify-content-between align-items-center flex-wrap'>
                         <h6 className='mb-0'>
-                          <i className='fa fa-angle-right' aria-hidden='true'></i> Antiguedad:
+                          <i className='fa fa-angle-right' aria-hidden='true'></i> Antiguedad del Proveedor en ATTEND:
                         </h6>
                         {/* INICIA MAPEO DE FECHA DE REGISTRO */}
                         <span className='text-secondary'>{moment(serviceProvider[0]?.creation_date, "YYYY-MM-DD").fromNow()}</span>
