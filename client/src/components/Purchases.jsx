@@ -75,9 +75,9 @@ export default function Purchases() {
                   </tr>
                 </thead>
                 <tbody>
-                  {purchases?.map((el) => {
+                  {purchases?.map((el,index) => {
                     return (
-                      <tr>
+                      <tr key={index}>
                         <td>
                           <div>
                             <span>
@@ -100,13 +100,14 @@ export default function Purchases() {
                         <td>
                           {/* <Button variant="secondary" onClick={()=>calificarProveedor(usuarioId, 'ProviderID', 'Servicio')}>Calificar y comentar</Button> */}
                           <Button
+                            key ={index}
                             variant='secondary'
                             onClick={() => {
                               handleShow()
                             }}>
                             Califica tu servicio
                           </Button>
-
+ 
                           <Modal show={show} onHide={handleClose}>
                             <Modal.Header closeButton>
                               <Modal.Title>Califica tu servicio</Modal.Title>
