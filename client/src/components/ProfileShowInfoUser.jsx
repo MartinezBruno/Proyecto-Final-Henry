@@ -1,25 +1,23 @@
 import React from 'react'
 import styles from '../styles/profile.module.css'
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { getUser } from '../redux/slices/user';
+import { useDispatch, useSelector } from 'react-redux'
+import { useEffect } from 'react'
+import { getUser } from '../redux/slices/user'
 
 export default function ProfileShowInfo(props) {
-
   function handleSave() {
     props.changeForm(false)
   }
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
   const { UniqueUser } = useSelector((state) => state.user)
   const { user } = useSelector((state) => state.auth)
 
-
   useEffect(() => {
     dispatch(getUser(user.id))
-  },[dispatch])
+  }, [dispatch])
 
-  console.log(props.changeForm)
+  // console.log(props.changeForm)
   return (
     <>
       <div className={`${styles.card} mb-3 ${styles.mb3}`}>
@@ -61,9 +59,7 @@ export default function ProfileShowInfo(props) {
           <hr /> */}
           <div className='row'>
             <div className='col-sm-12'>
-              <button
-                className='btn btn-dark '
-                onClick={() => props.changeForm(true)}>
+              <button className='btn btn-dark ' onClick={() => props.changeForm(true)}>
                 EDITAR
               </button>
             </div>

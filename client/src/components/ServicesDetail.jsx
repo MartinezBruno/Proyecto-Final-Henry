@@ -2,26 +2,38 @@ import React from 'react'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { getServiceProvider } from '../redux/slices/provider'
+import { getServiceProvider, RefreshService } from '../redux/slices/provider'
+import { Button, Modal } from 'react-bootstrap'
+import Questions from './Questions'
 import { addToCart, updateStateFromStorage } from '../redux/slices/shoppingCart'
 import { services } from '../redux/slices/shoppingCart'
 import styles from '../styles/profile.module.css'
 import { NavLink } from 'react-router-dom'
 import { useState } from 'react'
-var moment = require('moment');
-moment.locale('es-us');
+var moment = require('moment')
+moment.locale('es-us')
 
 export default function ProfileDetails() {
   let { idProv } = useParams()
   let { idServ } = useParams()
-  
+
   const dispatch = useDispatch()
   const { serviceProvider } = useSelector((state) => state.provider)
-  
+  const [showQuestions, setShowQuestions] = useState(false)
+  const [order, setOrder] = useState("ordenado")
+
+  const handleCloseQuestions = () => setShowQuestions(false)
+  const handleshowQuestions = () => setShowQuestions(true)
+
   useEffect(() => {
     dispatch(getServiceProvider(idProv, idServ))
   }, [dispatch, idProv, idServ])
-  
+
+  useEffect(() => {
+    order === true ? setOrder(false) : setOrder(true)
+    dispatch(RefreshService())
+  },[serviceProvider[0]?.preguntas])
+
   return (
     <div className='container' style={{ marginTop: '20px' }}>
       <div className={styles.mainBody}>
@@ -206,7 +218,7 @@ export default function ProfileDetails() {
                           <i className='fa fa-angle-right' aria-hidden='true'></i> Antiguedad del Proveedor en ATTEND:
                         </h6>
                         {/* INICIA MAPEO DE FECHA DE REGISTRO */}
-                        <span className='text-secondary'>{moment(serviceProvider[0]?.creation_date, "YYYY-MM-DD").fromNow()}</span>
+                        <span className='text-secondary'>{moment(serviceProvider[0]?.creation_date, 'YYYY-MM-DD').fromNow()}</span>
                         {/* CIERRA MAPEO DE FECHA DE REGISTRO */}
                       </li>
                     </ul>
@@ -260,6 +272,21 @@ export default function ProfileDetails() {
                   </div>
                   <div className='row'>
                     <div className='col-sm-12'>{/* <button className="btn btn-dark">EDITAR</button> */}</div>
+                  </div>
+                  <div class='d-grid gap-2 col-6 mx-auto'>
+                    <button class='btn btn-primary ' type='button' style={{ margin: 'auto', marginTop: '20px', width: '210px' }} onClick={handleshowQuestions}>
+                      Hacer una pregunta
+                    </button>
+                    <Modal show={showQuestions} onHide={handleCloseQuestions}>
+                      <Modal.Header closeButton>
+                        <Modal.Title>
+                          <h5>¡Preguntale a tu Proveedor!</h5>
+                        </Modal.Title>
+                      </Modal.Header>
+                      <Modal.Body>
+                        <Questions isModal={true} />
+                      </Modal.Body>
+                    </Modal>
                   </div>
                 </div>
               </div>

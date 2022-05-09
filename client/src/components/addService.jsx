@@ -11,7 +11,8 @@ import api from '../services/api'
 
 export default function AddService(props) {
   //   let { provID } = props
-  let provID = '015bf663-daa8-4401-860a-2cd153c29908'
+  const { user } = useSelector((state) => state.auth)
+  let provID = user.id
   let dispatch = useDispatch()
   let { dbServices } = useSelector((state) => state.services)
   let [serviceOptions, setServiceOptions] = useState({
@@ -41,11 +42,7 @@ export default function AddService(props) {
 
     api
       .post('/proveedor/' + proveedorID, services)
-      .then((r) => Swal.fire(
-        'Éxito',
-        '¡Haz agregado un servicio!',
-        'success'
-      ))
+      .then((r) => Swal.fire('Éxito', '¡Haz agregado un servicio!', 'success'))
       .catch((err) =>
         Swal.fire({
           icon: 'error',
@@ -53,6 +50,7 @@ export default function AddService(props) {
           text: 'Ha ocurrido un error, inténtelo nuevamente',
         })
       )
+    window.location.reload()
   }
 
   function handleForm(e) {
