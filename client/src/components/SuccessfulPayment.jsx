@@ -17,7 +17,14 @@ export default function SuccessfulPayment() {
   useEffect(() => {
     let shoppingCart = JSON.parse(localStorage.getItem('cartList'))
     let user = JSON.parse(sessionStorage.getItem('user'))
-    paymentSuccess(shoppingCart, user.id)
+
+    let dataParaMandar = shoppingCart.map(el=> {
+      return {provID: el.provID, id: el.id}
+  })
+  
+  let dataFormateada={cart: dataParaMandar, id: user.id}
+
+    paymentSuccess(dataFormateada)
     localStorage.clear()
     dispatch(clearServices())
   }, [dispatch])

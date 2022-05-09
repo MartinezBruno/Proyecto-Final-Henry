@@ -16,7 +16,11 @@ export default function Purchases() {
     return (
       <>
         <div className='container mt-3'>
+        <div className='row align-items-center justify-content-center text-center'>
+          <div className='col-6'>
           <h1>Hola</h1>
+        </div>
+        </div>
         </div>
       </>
     )
