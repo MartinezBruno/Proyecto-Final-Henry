@@ -10,7 +10,6 @@ import { Link } from 'react-router-dom'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Swal from 'sweetalert2'
 
-
 export default function FloatCartButton() {
   const { services, acumServices } = useSelector((state) => state.shoppingCart)
   const { isLoggedIn } = useSelector((state) => state.auth)
@@ -33,7 +32,7 @@ export default function FloatCartButton() {
   const handleShow = () => setShow(true)
   const handleClose = () => setShow(false)
   const handleFinish = () => {
-    if(!isLoggedIn){
+    if (!isLoggedIn) {
       Swal.fire({
         title: '<strong>Debes estar <u>Logueado</u> para poder comprar</strong>',
         icon: 'warning',
@@ -43,15 +42,13 @@ export default function FloatCartButton() {
         showCloseButton: true,
         // showCancelButton: true,
         focusConfirm: false,
-        confirmButtonText:
-          '<i class="fa fa-thumbs-up"></i> Cerrar',
+        confirmButtonText: '<i class="fa fa-thumbs-up"></i> Cerrar',
         confirmButtonAriaLabel: 'Thumbs up, great!',
-        cancelButtonText:
-          '<i class="fa fa-thumbs-down"></i>',
-        cancelButtonAriaLabel: 'Thumbs down'
+        cancelButtonText: '<i class="fa fa-thumbs-down"></i>',
+        cancelButtonAriaLabel: 'Thumbs down',
       })
-    }else{
-      window.location.href("/shopping")
+    } else {
+      window.location.href = '/shopping'
     }
   }
   //Objeto del carrito acumulativo
@@ -175,11 +172,9 @@ export default function FloatCartButton() {
                 </span>
               </div>
               <div>
-                
-                  <Button variant='success' style={{ width: '100%' }} onClick={handleFinish}>
-                    <i className='fa fa-lock' aria-hidden='true'></i> Terminar compra
-                  </Button>
-                
+                <Button variant='success' style={{ width: '100%' }} onClick={handleFinish}>
+                  <i className='fa fa-lock' aria-hidden='true'></i> Terminar compra
+                </Button>
               </div>
             </div>
           </Offcanvas.Body>
