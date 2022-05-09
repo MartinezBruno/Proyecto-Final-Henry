@@ -11,9 +11,7 @@ import { useState } from 'react'
 
 export default function ProfileDetails() {
   let { ProviderID } = useParams()
-var moment = require('moment');
-
-
+  var moment = require('moment')
 
   const dispatch = useDispatch()
   
@@ -68,105 +66,104 @@ var moment = require('moment');
               <ul className='list-group list-group-flush'>
                 <li className='list-group-item d-flex justify-content-between align-items-center flex-wrap'>
                   <h6 className='mb-0'>
-                    <i className='fa fa-angle-right' aria-hidden='true'></i> Calificación :{' '} 
+                    <i className='fa fa-angle-right' aria-hidden='true'></i> Calificación :{' '}
                   </h6>
                   <ul className='list-inline small'>
                     {/* INICIA MAPEO CALIFICACION */}
                     <div>
-                    {serviceProvider[0]?.calificacion === 1 ? (
-                              <>
-                                <li className='list-inline-item m-0'>
-                                  <i className='fa fa-star text-success'></i>
-                                </li>
-                                <li className='list-inline-item m-0'>
-                                  <i className='fa fa-star-o text-success'></i>
-                                </li>
-                                <li className='list-inline-item m-0'>
-                                  <i className='fa fa-star-o text-success'></i>
-                                </li>
-                                <li className='list-inline-item m-0'>
-                                  <i className='fa fa-star-o text-success'></i>
-                                </li>
-                                <li className='list-inline-item m-0'>
-                                  <i className='fa fa-star-o text-success'></i>
-                                </li>
-                                
-                              </>
-                            ) : serviceProvider[0]?.calificacion === 2 ? (
-                              <>
-                                <li className='list-inline-item m-0'>
-                                  <i className='fa fa-star text-success'></i>
-                                </li>
-                                <li className='list-inline-item m-0'>
-                                  <i className='fa fa-star text-success'></i>
-                                </li>
-                                <li className='list-inline-item m-0'>
-                                  <i className='fa fa-star-o text-success'></i>
-                                </li>
-                                <li className='list-inline-item m-0'>
-                                  <i className='fa fa-star-o text-success'></i>
-                                </li>
-                                <li className='list-inline-item m-0'>
-                                  <i className='fa fa-star-o text-success'></i>
-                                </li>
-                              </>
-                            ) : serviceProvider[0]?.calificacion === 3 ? (
-                              <>
-                                <li className='list-inline-item m-0'>
-                                  <i className='fa fa-star text-success'></i>
-                                </li>
-                                <li className='list-inline-item m-0'>
-                                  <i className='fa fa-star text-success'></i>
-                                </li>
-                                <li className='list-inline-item m-0'>
-                                  <i className='fa fa-star text-success'></i>
-                                </li>
-                                <li className='list-inline-item m-0'>
-                                  <i className='fa fa-star-o text-success'></i>
-                                </li>
-                                <li className='list-inline-item m-0'>
-                                  <i className='fa fa-star-o text-success'></i>
-                                </li>
-                              </>
-                            ) : serviceProvider[0]?.calificacion === 4 ? (
-                              <>
-                                <li className='list-inline-item m-0'>
-                                  <i className='fa fa-star text-success'></i>
-                                </li>
-                                <li className='list-inline-item m-0'>
-                                  <i className='fa fa-star text-success'></i>
-                                </li>
-                                <li className='list-inline-item m-0'>
-                                  <i className='fa fa-star text-success'></i>
-                                </li>
-                                <li className='list-inline-item m-0'>
-                                  <i className='fa fa-star text-success'></i>
-                                </li>
-                                <li className='list-inline-item m-0'>
-                                  <i className='fa fa-star-o text-success'></i>
-                                </li>
-                              </>
-                            ) : serviceProvider[0]?.calificacion === 5 ? (
-                              <>
-                                <li className='list-inline-item m-0'>
-                                  <i className='fa fa-star text-success'></i>
-                                </li>
-                                <li className='list-inline-item m-0'>
-                                  <i className='fa fa-star text-success'></i>
-                                </li>
-                                <li className='list-inline-item m-0'>
-                                  <i className='fa fa-star text-success'></i>
-                                </li>
-                                <li className='list-inline-item m-0'>
-                                  <i className='fa fa-star text-success'></i>
-                                </li>
-                                <li className='list-inline-item m-0'>
-                                  <i className='fa fa-star text-success'></i>
-                                </li>
-                              </>
-                            ) : (
-                              'No tiene Calificaciones'
-                            )}
+                      {serviceProvider[0]?.calificacion === 1 ? (
+                        <>
+                          <li className='list-inline-item m-0'>
+                            <i className='fa fa-star text-success'></i>
+                          </li>
+                          <li className='list-inline-item m-0'>
+                            <i className='fa fa-star-o text-success'></i>
+                          </li>
+                          <li className='list-inline-item m-0'>
+                            <i className='fa fa-star-o text-success'></i>
+                          </li>
+                          <li className='list-inline-item m-0'>
+                            <i className='fa fa-star-o text-success'></i>
+                          </li>
+                          <li className='list-inline-item m-0'>
+                            <i className='fa fa-star-o text-success'></i>
+                          </li>
+                        </>
+                      ) : serviceProvider[0]?.calificacion === 2 ? (
+                        <>
+                          <li className='list-inline-item m-0'>
+                            <i className='fa fa-star text-success'></i>
+                          </li>
+                          <li className='list-inline-item m-0'>
+                            <i className='fa fa-star text-success'></i>
+                          </li>
+                          <li className='list-inline-item m-0'>
+                            <i className='fa fa-star-o text-success'></i>
+                          </li>
+                          <li className='list-inline-item m-0'>
+                            <i className='fa fa-star-o text-success'></i>
+                          </li>
+                          <li className='list-inline-item m-0'>
+                            <i className='fa fa-star-o text-success'></i>
+                          </li>
+                        </>
+                      ) : serviceProvider[0]?.calificacion === 3 ? (
+                        <>
+                          <li className='list-inline-item m-0'>
+                            <i className='fa fa-star text-success'></i>
+                          </li>
+                          <li className='list-inline-item m-0'>
+                            <i className='fa fa-star text-success'></i>
+                          </li>
+                          <li className='list-inline-item m-0'>
+                            <i className='fa fa-star text-success'></i>
+                          </li>
+                          <li className='list-inline-item m-0'>
+                            <i className='fa fa-star-o text-success'></i>
+                          </li>
+                          <li className='list-inline-item m-0'>
+                            <i className='fa fa-star-o text-success'></i>
+                          </li>
+                        </>
+                      ) : serviceProvider[0]?.calificacion === 4 ? (
+                        <>
+                          <li className='list-inline-item m-0'>
+                            <i className='fa fa-star text-success'></i>
+                          </li>
+                          <li className='list-inline-item m-0'>
+                            <i className='fa fa-star text-success'></i>
+                          </li>
+                          <li className='list-inline-item m-0'>
+                            <i className='fa fa-star text-success'></i>
+                          </li>
+                          <li className='list-inline-item m-0'>
+                            <i className='fa fa-star text-success'></i>
+                          </li>
+                          <li className='list-inline-item m-0'>
+                            <i className='fa fa-star-o text-success'></i>
+                          </li>
+                        </>
+                      ) : serviceProvider[0]?.calificacion === 5 ? (
+                        <>
+                          <li className='list-inline-item m-0'>
+                            <i className='fa fa-star text-success'></i>
+                          </li>
+                          <li className='list-inline-item m-0'>
+                            <i className='fa fa-star text-success'></i>
+                          </li>
+                          <li className='list-inline-item m-0'>
+                            <i className='fa fa-star text-success'></i>
+                          </li>
+                          <li className='list-inline-item m-0'>
+                            <i className='fa fa-star text-success'></i>
+                          </li>
+                          <li className='list-inline-item m-0'>
+                            <i className='fa fa-star text-success'></i>
+                          </li>
+                        </>
+                      ) : (
+                        'No tiene Calificaciones'
+                      )}
                     </div>
                     {/* CIERRA MAPEO CALIFICACION */}
                   </ul>
@@ -176,7 +173,7 @@ var moment = require('moment');
                     <i className='fa fa-angle-right' aria-hidden='true'></i> Antiguedad:
                   </h6>
                   {/* INICIA MAPEO DE FECHA DE REGISTRO */}
-                  <span className='text-secondary'>{moment(serviceProvider[0]?.creation_date, "YYYY-MM-DD").fromNow()} </span>
+                  <span className='text-secondary'>{moment(serviceProvider[0]?.creation_date, 'YYYY-MM-DD').fromNow()} </span>
                   {/* CIERRA MAPEO DE FECHA DE REGISTRO */}
                 </li>
                 <li className='list-group-item d-flex justify-content-between align-items-center flex-wrap'>

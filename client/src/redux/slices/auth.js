@@ -62,9 +62,11 @@ export function providerRegister(input) {
     try {
       var info = await AuthService.providerRegister(input)
       if (info) dispatch(Register_Success())
+      return info
     } catch (error) {
       dispatch(Register_Fail())
       console.log(error)
+      return error
     }
   }
 }
