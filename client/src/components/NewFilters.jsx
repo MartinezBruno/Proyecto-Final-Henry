@@ -29,7 +29,6 @@ export default function NewFilters({ setCurrentPage }) {
 
   let handleChange = (e) => {
     e.preventDefault()
-
     setInput({
       ...input,
       [e.target.name]: e.target.value,
@@ -39,10 +38,17 @@ export default function NewFilters({ setCurrentPage }) {
 
   useEffect(() => {
     dispatch(filtroSupremo(input))
-    dispatch(setCiudades(input.provincia))
-
-    dispatch(setProvincias(input.pais))
+    // dispatch(setCiudades(input.provincia))
+    // dispatch(setProvincias(input.pais))
   }, [input])
+  
+  useEffect(() => {
+    dispatch(setProvincias(input.pais))
+    setInput({
+      ...input,
+      provincia: 'Todos',
+    })
+  },[input.pais])
 
   useEffect(() => {
     dispatch(setCiudades(input.provincia))
@@ -50,11 +56,13 @@ export default function NewFilters({ setCurrentPage }) {
       ...input,
       ciudad: 'Todos',
     })
-  }, [input.provincia])
+  },[input.provincia])
+
 
   let handleFilterByPrice = (e) => {
     e.preventDefault()
     dispatch(filterByPrices(e.target.value))
+    setCurrentPage(1)
   }
 
   return (
@@ -179,7 +187,6 @@ export default function NewFilters({ setCurrentPage }) {
                               <div className='d-flex align-items-center justify-content-center form-outline text-center' style={{ flexDirection: 'column' }}>
                                 <select
                                   name='provincia'
-                                  
                                   className='form-control form-control-lg'
                                   onChange={(e) => handleChange(e)}
                                   style={{ textAlign: 'center' }}>
@@ -208,11 +215,11 @@ export default function NewFilters({ setCurrentPage }) {
                                   style={{ textAlign: 'center' }}>
                                   <option value={'Todos'}>Todos</option>
                                   {ciudades?.map((p) => (
-                                    <option value={p.NOMBRE_CIUDAD}>{p.NOMBRE_CIUDAD}</option>
+                                    <option key={p.NOMBRE_CIUDAD} value={p.NOMBRE_CIUDAD} > {p.NOMBRE_CIUDAD} </option>
                                   ))}
                                 </select>
                                 <label className='form-label' style={{ margin: '0px' }}>
-                                  ciudad
+                                  Ciudad
                                 </label>
                               </div>
                             </div>
