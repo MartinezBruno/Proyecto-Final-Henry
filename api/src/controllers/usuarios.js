@@ -224,7 +224,7 @@ const buyReview = async (req, res) => {
       comentarios.setUsuario(usuario)
       return res.status(200).send({ message: 'Reseña agregada con exito' })
     } else {
-      return res.status(400).send({ message: 'Ya calificaste esta compra' })
+      return res.status(402).send({ message: 'Ya calificaste esta compra' })
     }
   } else {
     return res.status(400).send({ message: 'No puedes calificar este servicio ' })
