@@ -220,49 +220,53 @@ export default function ProfileDetails() {
                     {/* MAP DE TODOS LOS SERVICIOS */}
 
                     {uniqueprovider.servicios?.map((serv) => {
-                      return (
-                        <tr>
-                          <td>{serv.nombre}</td>
-                          {serv.remote === true ? (
-                            <td>
-                              <i className='fa fa-check text-success' aria-hidden='true'></i>
-                            </td>
-                          ) : (
-                            <td>
-                              <i className='fa fa-times text-danger' aria-hidden='true'></i>
-                            </td>
-                          )}
-                          <td>{'$' + serv.precio}</td>
-                          {role === 'USUARIO' && (
-                            <>
+                      if (serv.nombre !== 'Sin servicios disponibles')
+                        return (
+                          <tr>
+                            <td>{serv.nombre}</td>
+                            {serv.remote === true ? (
                               <td>
-                                <NavLink to={`/home/${serv.id}/${uniqueprovider.id}`}>
-                                  <button className='btn ' style={{ padding: '5px', backgroundColor: 'steelBlue', color: 'white' }}>
-                                    {' '}
-                                    <i class='fa fa-info-circle' aria-hidden='true'></i> Detalles
-                                  </button>
-                                </NavLink>
+                                <i className='fa fa-check text-success' aria-hidden='true'></i>
                               </td>
+                            ) : (
+                              <td>
+                                <i className='fa fa-times text-danger' aria-hidden='true'></i>
+                              </td>
+                            )}
+                            <td>{'$' + serv.precio}</td>
+                            {role === 'USUARIO' && (
+                              <>
+                                <td>
+                                  <NavLink to={`/home/${serv.id}/${uniqueprovider.id}`}>
+                                    <button className='btn ' style={{ padding: '5px', backgroundColor: 'steelBlue', color: 'white' }}>
+                                      {' '}
+                                      <i class='fa fa-info-circle' aria-hidden='true'></i> Detalles
+                                    </button>
+                                  </NavLink>
+                                </td>
 
-                              <td>
-                                <button
-                                  className='btn btn-success'
-                                  style={{ padding: '5px' }}
-                                  onClick={() => {
-                                    dispatch(addToCart({ ...serv, provID: uniqueprovider.id, provName: uniqueprovider.nombre_apellido_proveedor })) //Le mando los datos del servicio y del proveedor
-                                    localStorage.setItem(
-                                      'cartList',
-                                      JSON.stringify([...services, { ...serv, provID: uniqueprovider.id, provName: uniqueprovider.nombre_apellido_proveedor }])
-                                    )
-                                  }}>
-                                  {' '}
-                                  <i className='fa fa-cart-plus' aria-hidden='true'></i> Solicitar
-                                </button>
-                              </td>
-                            </>
-                          )}
-                        </tr>
-                      )
+                                <td>
+                                  <button
+                                    className='btn btn-success'
+                                    style={{ padding: '5px' }}
+                                    onClick={() => {
+                                      dispatch(addToCart({ ...serv, provID: uniqueprovider.id, provName: uniqueprovider.nombre_apellido_proveedor })) //Le mando los datos del servicio y del proveedor
+                                      localStorage.setItem(
+                                        'cartList',
+                                        JSON.stringify([
+                                          ...services,
+                                          { ...serv, provID: uniqueprovider.id, provName: uniqueprovider.nombre_apellido_proveedor },
+                                        ])
+                                      )
+                                    }}>
+                                    {' '}
+                                    <i className='fa fa-cart-plus' aria-hidden='true'></i> Solicitar
+                                  </button>
+                                </td>
+                              </>
+                            )}
+                          </tr>
+                        )
                     })}
                   </tbody>
                 </table>
