@@ -10,6 +10,7 @@ import { services } from '../redux/slices/shoppingCart'
 import styles from '../styles/profile.module.css'
 import { NavLink } from 'react-router-dom'
 import { useState } from 'react'
+import { setMessage } from '../redux/slices/message'
 var moment = require('moment')
 moment.locale('es-us')
 
@@ -19,8 +20,9 @@ export default function ProfileDetails() {
 
   const dispatch = useDispatch()
   const { serviceProvider } = useSelector((state) => state.provider)
+  const { user } = useSelector((state) => state.auth)
   const [showQuestions, setShowQuestions] = useState(false)
-  const [order, setOrder] = useState("ordenado")
+  const [order, setOrder] = useState('ordenado')
 
   const handleCloseQuestions = () => setShowQuestions(false)
   const handleshowQuestions = () => setShowQuestions(true)
@@ -28,11 +30,6 @@ export default function ProfileDetails() {
   useEffect(() => {
     dispatch(getServiceProvider(idProv, idServ))
   }, [dispatch, idProv, idServ])
-
-  useEffect(() => {
-    order === true ? setOrder(false) : setOrder(true)
-    dispatch(RefreshService())
-  },[serviceProvider[0]?.preguntas])
 
   return (
     <div className='container' style={{ marginTop: '20px' }}>
@@ -253,6 +250,17 @@ export default function ProfileDetails() {
                           <span
                             className='list-group-item list-group-item-action list-group-item-light'
                             style={{ marginBottom: '10px', border: '1px solid lightgray' }}>
+                            <div class='d-grid gap-2 d-md-flex justify-content-md-end'>
+                              {user.Role === 'PROVEEDOR' && user.id === idProv && (
+                                <button
+                                  class='btn btn-primary'
+                                  type='button'
+                                  style={{ marginBottom: '-50px', height: '35px', textAlignLast: 'center' }}
+                                  onClick={handleshowQuestions}>
+                                  Responder
+                                </button>
+                              )}
+                            </div>
                             <b style={{ color: 'seagreen' }}>
                               {}
                               {preg.USUARIO}:
@@ -274,9 +282,16 @@ export default function ProfileDetails() {
                     <div className='col-sm-12'>{/* <button className="btn btn-dark">EDITAR</button> */}</div>
                   </div>
                   <div class='d-grid gap-2 col-6 mx-auto'>
-                    <button class='btn btn-primary ' type='button' style={{ margin: 'auto', marginTop: '20px', width: '210px' }} onClick={handleshowQuestions}>
-                      Hacer una pregunta
-                    </button>
+                    {user.Role === 'USUARIO' && (
+                      <button
+                        class='btn btn-primary '
+                        type='button'
+                        style={{ margin: 'auto', marginTop: '20px', width: '210px' }}
+                        onClick={handleshowQuestions}>
+                        Hacer una pregunta
+                      </button>
+                    )}
+
                     <Modal show={showQuestions} onHide={handleCloseQuestions}>
                       <Modal.Header closeButton>
                         <Modal.Title>

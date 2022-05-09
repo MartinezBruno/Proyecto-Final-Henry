@@ -15,7 +15,7 @@ const addPregunta = async (req, res) => {
     let preguntaCreada = await Pregunta.create({ PREGUNTA: pregunta })
     preguntaCreada.setUsuario(usuario)
     preguntaCreada.setProveedor_Servicio(proveedorServicio)
-    return res.status(200).send(preguntaCreada.id)
+    return res.status(200).send({idPregunta : preguntaCreada.id})
   } catch (error) {
     // console.log(error)
     return res.status(500).send({ message: 'Error al enviar la pregunta' })

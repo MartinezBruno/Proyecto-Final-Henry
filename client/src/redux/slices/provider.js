@@ -11,7 +11,7 @@ export const providerSlice = createSlice({
     servicios: [],
     provincias: [],
     ciudades: [],
-    order: false
+    message: {}
   },
   reducers: {
     //Reducer para el estado proveedor
@@ -25,8 +25,8 @@ export const providerSlice = createSlice({
     SetServicios: (state, action) => {
       state.servicios = action.payload
     },
-    RefreshService: (state, action) =>{
-      state.order = true
+    SetMessage: (state, action) =>{
+      state.message = action.payload
     },
     FilterByPrices: (state, action) => {
       state.currentProviders =
@@ -51,6 +51,9 @@ export const providerSlice = createSlice({
     },
     SetServiceProvider: (state, action) => {
       state.serviceProvider = action.payload
+    },
+    Refresh:(state, action) => {
+      state.serviceProvider = state.serviceProvider
     }
   },
 })
@@ -66,7 +69,8 @@ export const {
   SetProvincias,
   SetCiudades,
   SetServiceProvider,
-  RefreshService
+  SetMessage,
+  Refresh
 } = providerSlice.actions
 
 export default providerSlice.reducer
@@ -74,9 +78,17 @@ export default providerSlice.reducer
 export function SetQuestion(input){
   return async function(dispatch){
     let info = await api.patch("/pregunta", input)
-    dispatch(RefreshService())
+    console.log(info.data)
+    dispatch(SetMessage(info.data))
   }
 }
+export function setAnswer(input){
+  return async function(dispatch){
+    let info = await api.patch("/pregunta/respuesta", input)
+    dispatch(SetMessage(info.data))
+  }
+}
+
 
 export function getServiceProvider(idProv, idServ){
   return async function(dispatch){
@@ -88,7 +100,7 @@ export function getServiceProvider(idProv, idServ){
 export function getAllProviders() {
   return async function (dispatch) {
     var info = await api.get('/proveedor')
-    dispatch(SetProvidersList(info.data))
+    dispatch(Refresh(info.data))
   }
 }
 

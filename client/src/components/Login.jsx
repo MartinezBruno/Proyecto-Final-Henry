@@ -39,7 +39,6 @@ export default function Login(props) {
     })
   }
 
-
   function handleSubmit(e) {
     dispatch(userLogin(input))
     api.post("/auth/usuario/signin", input).then((r) => { 
@@ -51,13 +50,12 @@ export default function Login(props) {
 
   function handleSubmitProvider(e) {
     dispatch(providerLogin(inputProvider))
-    api.post("/auth/proveedor/signin", input).then((r) => { 
+    api.post("/auth/proveedor/signin", inputProvider).then((r) => { 
       Swal.fire('¡Logueado con exito!', '', 'success')
     }).catch((err) => {
       Swal.fire('¡Datos incorrectos!', '', 'error')
     })
   }
-
   if (props.isModal) {
     //Si se inicia sesión desde un modal
     return (
@@ -138,7 +136,7 @@ export default function Login(props) {
               <div className='row d-flex align-items-center justify-content-center' style={{ margin: '0px -220px 0px -220px' }}>
                 <div className='col-md-6'>
                   <div className={`${styles.card}`}>
-                    <h5 className="mt-3 text-center">Iniciar sesión</h5> 
+                    {/* <h5 className="mt-3 text-center">Iniciar sesión</h5>  */}
                     <div className='text-center mt-3'>
                       <div className={styles.formInput}>
                         {' '}
