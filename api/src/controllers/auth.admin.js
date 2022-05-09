@@ -73,7 +73,7 @@ exports.signin = async (req, res) => {
     const token = jwt.sign({ id: admin.id }, config.secret, {
       expiresIn: config.jwtExpiration,
     })
-    let refreshToken = await RefreshToken.createToken(admin)
+    let refreshToken = await RefreshToken.createTokenAdmin(admin)
     let authorities = []
     let roles = await admin.getRole()
     authorities.push(roles.dataValues.name.toUpperCase())

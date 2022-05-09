@@ -106,9 +106,13 @@ export default function Shopping() {
             </table>
             <div className='container text-center'>
               <div className='container text-center'>
-                {acumServices?.length>0 ? <Button variant='outline-danger' onClick={() => dispatch(clearCart())}>
-                  Limpiar carrito
-                </Button> : <p>AUN NO AGREGAS NADA A TU CARRITO</p>}
+                {acumServices?.length > 0 ? (
+                  <Button variant='outline-danger' onClick={() => dispatch(clearCart())}>
+                    Limpiar carrito
+                  </Button>
+                ) : (
+                  <p>AUN NO AGREGAS NADA A TU CARRITO</p>
+                )}
               </div>
             </div>
 
@@ -123,9 +127,11 @@ export default function Shopping() {
                 Seguir buscando
               </Button>
             </Link>
-            {acumServices.length>0 ? <Button variant='success' onClick={() => handleOnClick({ services: services })}>
-              <i className='fa fa-lock' aria-hidden='true'></i> PAGAR AHORA
-            </Button> : null}
+            {acumServices.length > 0 ? (
+              <Button variant='success' onClick={() => handleOnClick({ services: services })}>
+                <i className='fa fa-lock' aria-hidden='true'></i> PAGAR AHORA
+              </Button>
+            ) : null}
           </div>
         </div>
       </div>

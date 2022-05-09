@@ -26,6 +26,21 @@ module.exports = (sequelize) => {
     })
     return refreshToken.token
   }
+
+  RefreshToken.createTokenAdmin = async function (user) {
+    // console.log('Console.log dentro de la funcion', user)
+    console.log(user.id)
+    let expiredAt = new Date()
+    expiredAt.setSeconds(expiredAt.getSeconds() + config.jwtRefreshExpiration)
+    let _token = uuidv4()
+    let refreshToken = await this.create({
+      token: _token,
+      adminId: user.id,
+      expiryDate: expiredAt.getTime(),
+    })
+    return refreshToken.token
+  }
+
   RefreshToken.createTokenProv = async function (user) {
     // console.log('Console.log dentro de la funcion', user)
     console.log(user.id)

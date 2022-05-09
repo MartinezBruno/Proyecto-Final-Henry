@@ -85,11 +85,11 @@ Descripcion.hasOne(Proveedor_Servicio)
 Role.hasMany(Admin)
 Admin.belongsTo(Role)
 RefreshToken.belongsTo(Admin, {
-  foreignKey: 'userId',
+  foreignKey: 'adminId',
   targetKey: 'id',
 })
 Admin.hasOne(RefreshToken, {
-  foreignKey: 'userId',
+  foreignKey: 'adminId',
   targetKey: 'id',
 })
 

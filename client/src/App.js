@@ -1,7 +1,7 @@
-import "./App.css";
+import './App.css'
 // import logo from './logo.svg';
-import React from "react";
-import { Route, Routes, Outlet } from "react-router-dom";
+import React from 'react'
+import { Route, Routes, Outlet } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.css'
 import NavBar from "./components/Navbar";
 import Home from "./components/Home";
@@ -20,24 +20,22 @@ import ServicesDetail from "./components/ServicesDetail";
 import AddService from "./components/addService";
 
 function App() {
-
-  const NavLayout = () =>(
+  const NavLayout = () => (
     <>
-    <FloatCartButton />
-    <NavBar />
-    <Outlet />
+      <FloatCartButton />
+      <NavBar />
+      <Outlet />
     </>
   )
 
   //Se renderiza Navbar y en Outlet se renderiza el componente que le indiquemos a la ruta
 
   return (
-  
-<>
-          <Routes>
-              <Route exact path="/" element={<LandingPage />}/>
+    <>
+      <Routes>
+        <Route exact path='/' element={<LandingPage />} />
 
-              {/* Rutas anidadas / hijas */}
+        {/* Rutas anidadas / hijas */}
 
               <Route path="/" element={<NavLayout />}>
                   <Route path="home" element={<Home />} />
@@ -59,6 +57,7 @@ function App() {
           </>
       
   );
+
 }
 
-export default App;
+export default App
