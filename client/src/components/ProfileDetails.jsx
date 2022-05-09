@@ -8,23 +8,27 @@ import { services } from '../redux/slices/shoppingCart'
 import styles from '../styles/profile.module.css'
 import { NavLink } from 'react-router-dom'
 import { useState } from 'react'
+import { addToFavorites, deleteFromFavorites } from '../redux/slices/favorites'
 
 export default function ProfileDetails() {
   let { ProviderID } = useParams()
-  console.log(ProviderID)
 
   const dispatch = useDispatch()
+  const { favorites } = useSelector((state) => state.favorites)
   const { uniqueprovider } = useSelector((state) => state.provider)
   const { services } = useSelector((state) => state.shoppingCart)
   const [favoritos, setFavoritos] = useState(false)
   // localStorage('cartList', JSON.stringify(services))
-
   useEffect(() => {
     dispatch(getUniqueProvider(ProviderID))
+    if (favorites.includes(ProviderID)) setFavoritos(true)
   }, [dispatch])
 
-  let handleFav = () => {
-    favoritos === false ? setFavoritos(true) : setFavoritos(false)
+  let handleFav = (e) => {
+    e.preventDefault()
+    if (favorites.includes(ProviderID)) dispatch(deleteFromFavorites(ProviderID))
+    else dispatch(addToFavorites(ProviderID))
+    favoritos ? setFavoritos(false) : setFavoritos(true)
   }
 
   return (
@@ -55,11 +59,11 @@ export default function ProfileDetails() {
                     {/* MAPEO CIUDAD */}
                     <p className='text-muted font-size-sm'>{uniqueprovider.ciudad + ', ' + uniqueprovider.provincia}</p>
                     {favoritos === false ? (
-                      <button className='btn btn-primary' style={{ margin: '7px' }} onClick={() => handleFav()}>
+                      <button className='btn btn-primary' style={{ margin: '7px' }} onClick={handleFav}>
                         Agregar a Favoritos
                       </button>
                     ) : (
-                      <button className='btn btn-secondary' style={{ margin: '7px', backgroundColor:"red" }} onClick={() => handleFav()}>
+                      <button className='btn btn-secondary' style={{ margin: '7px', backgroundColor: 'red' }} onClick={handleFav}>
                         Eliminar de Favoritos
                       </button>
                     )}

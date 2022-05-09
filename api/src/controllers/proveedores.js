@@ -1089,11 +1089,12 @@ const filtroProveedor = async (req, res, next) => {
 }
 
 const getManyProveedores = async (req, res, next) => {
-  const { favorites } = req.body
+  const { ids } = req.params
+  console.log(ids)
   try {
     let proveedores = []
-    for (let i = 0; i < favorites.length; i++) {
-      const proveedor = await Proveedor.findByPk(favorites[i], {
+    for (let i = 0; i < ids.length; i++) {
+      const proveedor = await Proveedor.findByPk(ids[i], {
         include: [
           {
             model: Pais,
@@ -1118,7 +1119,6 @@ const getManyProveedores = async (req, res, next) => {
         email: proveedor.EMAIL,
         celular: proveedor.CELULAR,
         imagen: proveedor.IMAGEN,
-        calificacion: proveedor.CALIFICACION,
         ciudad: proveedor.Ciudad ? proveedor.Ciudad.NOMBRE_CIUDAD : 'Sin definir',
         provincia: proveedor.Provincium ? proveedor.Provincium.NOMBRE_PROVINCIA : 'Sin definir',
         pais: proveedor.Pai.NOMBRE_PAIS,
@@ -1127,7 +1127,7 @@ const getManyProveedores = async (req, res, next) => {
 
     return res.status(200).send(proveedores)
   } catch (error) {
-    return res.status(500).send(error)
+    return res.status(500).send({ message: 'Error al obtener los proveedores' })
   }
 }
 module.exports = {
