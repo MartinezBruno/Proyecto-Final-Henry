@@ -5,7 +5,7 @@ import auth from '../slices/auth'
 import message from '../slices/message'
 import shoppingCart from '../slices/shoppingCart'
 import countriesData from '../slices/countriesData'
-import favorites from '../slices/favorites'
+
 
 export default configureStore({
   reducer: {
@@ -16,6 +16,6 @@ export default configureStore({
     shoppingCart,
     message,
     countriesData,
-    favorites,
+  
   },
 })

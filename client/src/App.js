@@ -17,7 +17,7 @@ import FloatCartButton from './components/FloatCartButton'
 import Shopping from './components/Shopping'
 import SuccessFulPayment from './components/SuccessfulPayment'
 import ServicesDetail from './components/ServicesDetail'
-import Favorites from './components/Favorites'
+
 
 function App() {
   const NavLayout = () => (
@@ -46,7 +46,6 @@ function App() {
           <Route path='about' element={<About />} />
           <Route path='profile' element={<Profile />} />
           <Route path='shopping' element={<Shopping />} />
-          <Route path='favorites' element={<Favorites />} />
           <Route path='home/:ProviderID' element={<ProfileDetails />} />
           <Route path='home/PaymentSucces' element={<SuccessFulPayment />} />
           <Route path='home/:idServ/:idProv' element={<ServicesDetail />} />
