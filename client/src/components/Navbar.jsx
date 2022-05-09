@@ -123,9 +123,6 @@ export default function NavBar() {
                 ¿QUIENES SOMOS?
               </NavLink>
 
-              <NavLink to='/favorites' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
-                FAVORITOS
-              </NavLink>
               {/* <NavLink to='/profile' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
                 MI PERFIL
               </NavLink> */}
