@@ -24,8 +24,6 @@ export default function ProfileDetails() {
     dispatch(getUniqueProvider(ProviderID))
   }, [dispatch])
 
-  
-
   return (
     <div className='container' style={{ marginTop: '20px' }}>
       <div className={styles.mainBody}>
