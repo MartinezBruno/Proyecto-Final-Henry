@@ -14,7 +14,8 @@ export default function ProfileDetails() {
   var moment = require('moment')
 
   const dispatch = useDispatch()
-  
+  const { user } = useSelector((state) => state.auth)
+  const role = user.Role
   const { uniqueprovider } = useSelector((state) => state.provider)
   const { serviceProvider } = useSelector((state) => state.provider)
   const { services } = useSelector((state) => state.shoppingCart)
@@ -23,8 +24,6 @@ export default function ProfileDetails() {
   useEffect(() => {
     dispatch(getUniqueProvider(ProviderID))
   }, [dispatch])
-
-  
 
   return (
     <div className='container' style={{ marginTop: '20px' }}>
@@ -53,7 +52,7 @@ export default function ProfileDetails() {
                     <p className='text-secondary mb-1'>Proveedor de servicio.</p>
                     {/* MAPEO CIUDAD */}
                     <p className='text-muted font-size-sm'>{uniqueprovider.ciudad + ', ' + uniqueprovider.provincia}</p>
-                  
+
                     {/* <button className='btn btn-outline-primary'>Mensaje</button> */}
                   </div>
                 </div>
@@ -207,8 +206,13 @@ export default function ProfileDetails() {
                       <th scope='col'>NOMBRE</th>
                       <th scope='col'>REMOTO</th>
                       <th scope='col'>COSTO</th>
-                      <th scope='col'>DETALLES SERVICIO</th>
-                      <th scope='col'>COMPRAR</th>
+                      {role === 'USUARIO' && (
+                        <>
+                          <th scope='col'>DETALLES SERVICIO</th>
+                          <th scope='col'>COMPRAR</th>
+                        </>
+                      )}
+
                       <th scope='col'> </th>
                     </tr>
                   </thead>
@@ -229,30 +233,34 @@ export default function ProfileDetails() {
                             </td>
                           )}
                           <td>{'$' + serv.precio}</td>
-                          <td>
-                            <NavLink to={`/home/${serv.id}/${uniqueprovider.id}`}>
-                              <button className='btn ' style={{ padding: '5px', backgroundColor: 'steelBlue', color: 'white' }}>
-                                {' '}
-                                <i class='fa fa-info-circle' aria-hidden='true'></i> Detalles
-                              </button>
-                            </NavLink>
-                          </td>
+                          {role === 'USUARIO' && (
+                            <>
+                              <td>
+                                <NavLink to={`/home/${serv.id}/${uniqueprovider.id}`}>
+                                  <button className='btn ' style={{ padding: '5px', backgroundColor: 'steelBlue', color: 'white' }}>
+                                    {' '}
+                                    <i class='fa fa-info-circle' aria-hidden='true'></i> Detalles
+                                  </button>
+                                </NavLink>
+                              </td>
 
-                          <td>
-                            <button
-                              className='btn btn-success'
-                              style={{ padding: '5px' }}
-                              onClick={() => {
-                                dispatch(addToCart({ ...serv, provID: uniqueprovider.id, provName: uniqueprovider.nombre_apellido_proveedor })) //Le mando los datos del servicio y del proveedor
-                                localStorage.setItem(
-                                  'cartList',
-                                  JSON.stringify([...services, { ...serv, provID: uniqueprovider.id, provName: uniqueprovider.nombre_apellido_proveedor }])
-                                )
-                              }}>
-                              {' '}
-                              <i className='fa fa-cart-plus' aria-hidden='true'></i> Solicitar
-                            </button>
-                          </td>
+                              <td>
+                                <button
+                                  className='btn btn-success'
+                                  style={{ padding: '5px' }}
+                                  onClick={() => {
+                                    dispatch(addToCart({ ...serv, provID: uniqueprovider.id, provName: uniqueprovider.nombre_apellido_proveedor })) //Le mando los datos del servicio y del proveedor
+                                    localStorage.setItem(
+                                      'cartList',
+                                      JSON.stringify([...services, { ...serv, provID: uniqueprovider.id, provName: uniqueprovider.nombre_apellido_proveedor }])
+                                    )
+                                  }}>
+                                  {' '}
+                                  <i className='fa fa-cart-plus' aria-hidden='true'></i> Solicitar
+                                </button>
+                              </td>
+                            </>
+                          )}
                         </tr>
                       )
                     })}

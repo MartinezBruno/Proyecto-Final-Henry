@@ -51,6 +51,7 @@ export default function Home() {
                 imagen={provider.imagen}
                 servicio={provider.servicio.nombre}
                 descripcion={provider.servicio.descripcion}
+                calificacion={provider.calificacion}
                 provincia={provider.provincia}
                 ciudad={provider.ciudad}
                 precio={provider.servicio.precio}

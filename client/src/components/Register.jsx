@@ -510,21 +510,21 @@ export default function Register({ isModal }) {
       }
     }
 
-    if (e.target.name === 'imagen') {
-      ;/(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/g.test(e.target.value)
-        ? setErrorsProvider((prevState) => {
-            return { ...prevState, [e.target.name]: '' }
-          })
-        : setErrorsProvider((prevState) => {
-            return { ...prevState, [e.target.name]: 'Ingrese un LINK DE IMAGEN válido' }
-          })
+    // if (e.target.name === 'imagen') {
+    //   ;/(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/g.test(e.target.value)
+    //     ? setErrorsProvider((prevState) => {
+    //         return { ...prevState, [e.target.name]: '' }
+    //       })
+    //     : setErrorsProvider((prevState) => {
+    //         return { ...prevState, [e.target.name]: 'Ingrese un LINK DE IMAGEN válido' }
+    //       })
 
-      if (e.target.value === '') {
-        setErrorsProvider((prevState) => {
-          return { ...prevState, [e.target.name]: 'Es obligatorio ingresar un LINK DE IMAGEN' }
-        })
-      }
-    }
+    //   if (e.target.value === '') {
+    //     setErrorsProvider((prevState) => {
+    //       return { ...prevState, [e.target.name]: 'Es obligatorio ingresar un LINK DE IMAGEN' }
+    //     })
+    //   }
+    // }
 
     if (e.target.name === 'fecha_nacimiento') {
       let year = e.target.value.slice(0, 4)
@@ -919,7 +919,7 @@ export default function Register({ isModal }) {
                     </button>
                   </div>
 
-                  <div className='text-center mt-3'>
+                  {/* <div className='text-center mt-3'>
                     {' '}
                     <span>O registrate usando:</span>{' '}
                   </div>
@@ -934,7 +934,7 @@ export default function Register({ isModal }) {
                     <span className={styles.social}>
                       <i className='fa fa-linkedin'></i>
                     </span>{' '}
-                  </div>
+                  </div> */}
                   <div className='text-center mt-4'>
                     {' '}
                     <span>¿Ya estás registrado?</span>{' '}
@@ -1174,14 +1174,14 @@ export default function Register({ isModal }) {
                     <span className={styles.social}>
                       <i className='fa fa-linkedin'></i>
                     </span>{' '}
-                  </div>
+                  </div>*/}
                   <div className='text-center mt-4'>
                     {' '}
                     <span>¿Ya estás registrado?</span>{' '}
                     <Link to='/login' className='text-decoration-none'>
                       Inicia sesión
                     </Link>{' '}
-                  </div> */}
+                  </div>
                 </Tab>
               </Tabs>
             </div>
@@ -1416,7 +1416,7 @@ export default function Register({ isModal }) {
                       </button>
                     </div>
 
-                    <div className='text-center mt-3'>
+                    {/* <div className='text-center mt-3'>
                       {' '}
                       <span>O registrate usando:</span>{' '}
                     </div>
@@ -1431,7 +1431,7 @@ export default function Register({ isModal }) {
                       <span className={styles.social}>
                         <i className='fa fa-linkedin'></i>
                       </span>{' '}
-                    </div>
+                    </div> */}
                     <div className='text-center mt-4'>
                       {' '}
                       <span>¿Ya estás registrado?</span>{' '}
@@ -1656,7 +1656,7 @@ export default function Register({ isModal }) {
                       </button>
                     </div>
 
-                    <div className='text-center mt-3'>
+                    {/* <div className='text-center mt-3'>
                       {' '}
                       <span>O registrate usando:</span>{' '}
                     </div>
@@ -1671,7 +1671,7 @@ export default function Register({ isModal }) {
                       <span className={styles.social}>
                         <i className='fa fa-linkedin'></i>
                       </span>{' '}
-                    </div>
+                    </div> */}
                     <div className='text-center mt-4'>
                       {' '}
                       <span>¿Ya estás registrado?</span>{' '}

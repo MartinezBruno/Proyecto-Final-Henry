@@ -10,10 +10,16 @@ import { chargeServices } from '../redux/slices/services'
 import api from '../services/api'
 
 export default function AddService(props) {
-//   let { provID } = props
-let provID = '4719f413-874f-4403-b4f1-1be78f2ef675'
-let dispatch = useDispatch()
-let {dbServices} = useSelector((state) => state.services)
+  //   let { provID } = props
+  const { user } = useSelector((state) => state.auth)
+  let provID = user.id
+  let dispatch = useDispatch()
+  let { dbServices } = useSelector((state) => state.services)
+  let [serviceOptions, setServiceOptions] = useState({
+    name: '',
+    remote: [],
+  })
+
   const [show, setShow] = useState(false)
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
@@ -25,36 +31,41 @@ let {dbServices} = useSelector((state) => state.services)
   })
 
   useEffect(() => {
-   dispatch(chargeServices())
+    dispatch(chargeServices())
   }, [dispatch])
 
   function postService(service, proveedorID) {
+    service.REMOTE = service.REMOTE === 'false' ? false : true
+    service.PRECIO = parseInt(service.PRECIO)
 
-    service.REMOTE= service.REMOTE==='false' ? false : true;
-    service.PRECIO = parseInt(service.PRECIO);
+    let services = { servicios: [service] }
 
-    let services = {servicios: [service]}
-
-    console.log(services)
-
-    api.post('/proveedor/' + proveedorID, services).then((r) => Swal.fire('Servicio creado!', 'success'))
-    .catch(err=>Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Ha ocurrido un error, inténtelo nuevamente',
-      }))
+    api
+      .post('/proveedor/' + proveedorID, services)
+      .then((r) => Swal.fire('Éxito', '¡Haz agregado un servicio!', 'success'))
+      .catch((err) =>
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Ha ocurrido un error, inténtelo nuevamente',
+        })
+      )
+    window.location.reload()
   }
 
-  function handleForm(e){
+  function handleForm(e) {
+    if (e.target.name === 'NOMBRE_SERVICIO') {
+      let servicesFilteredByName = dbServices.filter((el) => el.nombre === e.target.value)
+      let remoteOrNot = servicesFilteredByName.map((el) => el.remote)
 
-        setServiceToPost((prevState) => {
-            return { ...prevState, [e.target.name]: e.target.value}
-          })
-
+      setServiceOptions((prevState) => {
+        return { ...prevState, remote: remoteOrNot }
+      })
     }
-
-
-
+    setServiceToPost((prevState) => {
+      return { ...prevState, [e.target.name]: e.target.value }
+    })
+  }
 
   return (
     <>
@@ -70,34 +81,42 @@ let {dbServices} = useSelector((state) => state.services)
           <Form>
             <Form.Group className='mb-3' controlId='formBasicEmail'>
               <Form.Label>Nombre del servicio:</Form.Label>
-              <Form.Select aria-label='Default select example' name='NOMBRE_SERVICIO' onChange={(e)=> handleForm(e)}>
-              <option hidden className='text-muted'>
-                Elige tu servicio
-              </option>
-              {dbServices?.map(el => {
-                  return <option value={el}>{el}</option>
-              })}
-            </Form.Select>
+              <Form.Select aria-label='Default select example' name='NOMBRE_SERVICIO' onChange={(e) => handleForm(e)}>
+                <option hidden className='text-muted'>
+                  Elige tu servicio
+                </option>
+                {dbServices?.map((el) => {
+                  if (el.nombre !== 'Sin servicios disponibles') {
+                    return <option value={el.nombre}>{el.nombre}</option>
+                  }
+                })}
+              </Form.Select>
             </Form.Group>
             <Form.Label>Tipo del servicio:</Form.Label>
-            <Form.Select aria-label='Default select example' name='REMOTE' onChange={(e)=> handleForm(e)}>
+            <Form.Select aria-label='Default select example' name='REMOTE' onChange={(e) => handleForm(e)}>
               <option hidden className='text-muted'>
                 ¿Tu servicio es remoto o presencial?
               </option>
-              <option value={true}>Remoto</option>
-              <option value={false}>Presencial</option>
+              {serviceOptions.remote?.map((el) => {
+                if (!el) {
+                  return <option value={false}>Presencial</option>
+                }
+                if (el) {
+                  return <option value={true}>Remoto</option>
+                }
+              })}
             </Form.Select>
 
             <Form.Group className='mb-3' controlId='formBasicPassword'>
               <Form.Label>Precio</Form.Label>
               <InputGroup className='mb-3'>
                 <InputGroup.Text>$</InputGroup.Text>
-                <Form.Control type='number' name='PRECIO' onChange={(e)=> handleForm(e)}/>
+                <Form.Control type='number' name='PRECIO' onChange={(e) => handleForm(e)} />
               </InputGroup>
             </Form.Group>
             <Form.Group className='mb-3' controlId='exampleForm.ControlTextarea1'>
               <Form.Label>Ingresa una descripción breve del servicio:</Form.Label>
-              <Form.Control as='textarea' rows={3} maxLength='100' name='DESCRIPCION' onChange={(e)=> handleForm(e)}/>
+              <Form.Control as='textarea' rows={3} maxLength='100' name='DESCRIPCION' onChange={(e) => handleForm(e)} />
             </Form.Group>
           </Form>
         </Modal.Body>

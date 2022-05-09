@@ -1,4 +1,4 @@
-const { Usuario, Ciudad, Provincia, Pais, Proveedor, Comentario, Proveedor_Servicio, Compra } = require('../db')
+const { Usuario, Ciudad, Provincia, Pais, Proveedor, Comentario, Proveedor_Servicio, Compra, Servicio, Precio, Descripcion } = require('../db')
 
 const getUsers = async (req, res) => {
   try {
@@ -232,12 +232,10 @@ const buyReview = async (req, res) => {
 
 const compraSuccess = async (req, res) => {
   let { cart, id } = req.body
-  console.log(cart)
-  console.log(id)
   try {
-    let idProveedor = cart.map((compra) => compra.provID)
+    let idProveedor = cart?.map((compra) => compra.provID)
     let idUsuario = id
-    let idServicio = cart.map((compra) => compra.id)
+    let idServicio = cart?.map((compra) => compra.id)
 
     for (let i = 0; i < idProveedor.length; i++) {
       let provServ = await Proveedor_Servicio.findOne({
@@ -258,6 +256,36 @@ const compraSuccess = async (req, res) => {
   }
 }
 
+const misCompras = async (req, res) => {
+  const { idUsuario } = req.query
+  try {
+    let arrayCompras = []
+    let misCompras = await Compra.findAll({
+      where: { UsuarioId: idUsuario },
+    })
+    for (let i = 0; i < misCompras.length; i++) {
+      let ProvServ = await Proveedor_Servicio.findOne({ where: { id: misCompras[i].ProveedorServicioId } })
+      console.log(ProvServ.ServicioId, ProvServ.PrecioId, ProvServ.ProveedorId)
+      let proveedor = await Proveedor.findOne({ where: { id: ProvServ.ProveedorId } })
+      let servicio = await Servicio.findOne({ where: { id: ProvServ.ServicioId } })
+      let precio = await Precio.findOne({ where: { id: ProvServ.PrecioId } })
+      let descripcion = await Descripcion.findOne({ where: { id: ProvServ.DescripcionId } })
+      arrayCompras.unshift({
+        proveedor: proveedor.NOMBRE_APELLIDO_PROVEEDOR,
+        idProveedor: proveedor.id,
+        idServicio: servicio.id,
+        servicio: servicio.NOMBRE_SERVICIO,
+        precio: precio.PRECIO,
+        descripcion: descripcion.DESCRIPCION,
+        fecha: misCompras[i].createdAt,
+      })
+    }
+    return res.status(200).send(arrayCompras)
+  } catch (error) {
+    return res.status(404).send({ message: 'Error a mostar en compras' })
+  }
+}
+
 module.exports = {
   getUsers,
   getUserById,
@@ -270,4 +298,5 @@ module.exports = {
   putUser,
   buyReview,
   compraSuccess,
+  misCompras,
 }

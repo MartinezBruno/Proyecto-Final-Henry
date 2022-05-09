@@ -8,7 +8,7 @@ import { useState } from 'react'
 import { providerLogin, userLogin } from '../redux/slices/auth'
 import Swal from 'sweetalert2'
 import { useEffect } from 'react'
-import api from "./../services/api"
+import api from './../services/api'
 
 export default function Login(props) {
   const dispatch = useDispatch()
@@ -39,25 +39,29 @@ export default function Login(props) {
     })
   }
 
-
   function handleSubmit(e) {
     dispatch(userLogin(input))
-    api.post("/auth/usuario/signin", input).then((r) => { 
-      Swal.fire('¡Logueado con exito!', '', 'success')
-    }).catch((err) => {
-      Swal.fire('¡Datos incorrectos!', '', 'error')
-    })
+    api
+      .post('/auth/usuario/signin', input)
+      .then((r) => {
+        Swal.fire('¡Logueado con exito!', '', 'success')
+      })
+      .catch((err) => {
+        Swal.fire('¡Datos incorrectos!', '', 'error')
+      })
   }
 
   function handleSubmitProvider(e) {
     dispatch(providerLogin(inputProvider))
-    api.post("/auth/proveedor/signin", inputProvider).then((r) => { 
-      Swal.fire('¡Logueado con exito!', '', 'success')
-    }).catch((err) => {
-      Swal.fire('¡Datos incorrectos!', '', 'error')
-    })
+    api
+      .post('/auth/proveedor/signin', inputProvider)
+      .then((r) => {
+        Swal.fire('¡Logueado con exito!', '', 'success')
+      })
+      .catch((err) => {
+        Swal.fire('¡Datos incorrectos!', '', 'error')
+      })
   }
-
   if (props.isModal) {
     //Si se inicia sesión desde un modal
     return (
@@ -105,7 +109,7 @@ export default function Login(props) {
                       )}
                     </div>
 
-                    <div className='text-center mt-3'>
+                    {/* <div className='text-center mt-3'>
                       {' '}
                       <span>O inicia sesión usando:</span>{' '}
                     </div>
@@ -120,7 +124,7 @@ export default function Login(props) {
                       <span className={styles.social}>
                         <i className='fa fa-linkedin'></i>
                       </span>{' '}
-                    </div>
+                    </div> */}
                     <div className='text-center mt-4'>
                       {' '}
                       <span>¿No estás registrado?</span>{' '}
@@ -143,18 +147,35 @@ export default function Login(props) {
                       <div className={styles.formInput}>
                         {' '}
                         <i className='fa fa-envelope'></i>{' '}
-                        <input type='text' name='email' value={inputProvider.email} className={styles.formControl} placeholder='Correo electrónico' onChange={(e) => handleChangeProvider(e)}/>{' '}
+                        <input
+                          type='text'
+                          name='email'
+                          value={inputProvider.email}
+                          className={styles.formControl}
+                          placeholder='Correo electrónico'
+                          onChange={(e) => handleChangeProvider(e)}
+                        />{' '}
                       </div>
                       <div className={styles.formInput}>
                         {' '}
-                        <i className='fa fa-lock'></i> <input type='password' name='password' value={inputProvider.password}  className={styles.formControl} placeholder='Contraseña' onChange={(e) => handleChangeProvider(e)}/>{' '}
+                        <i className='fa fa-lock'></i>{' '}
+                        <input
+                          type='password'
+                          name='password'
+                          value={inputProvider.password}
+                          className={styles.formControl}
+                          placeholder='Contraseña'
+                          onChange={(e) => handleChangeProvider(e)}
+                        />{' '}
                       </div>
                       <div className={styles.formInput}></div>
 
-                      <button className={`btn btn-success mt-4 ${styles.signup}`} onClick={(e) => handleSubmitProvider(e)}>Iniciar sesión</button>
+                      <button className={`btn btn-success mt-4 ${styles.signup}`} onClick={(e) => handleSubmitProvider(e)}>
+                        Iniciar sesión
+                      </button>
                     </div>
 
-                    <div className='text-center mt-3'>
+                    {/* <div className='text-center mt-3'>
                       {' '}
                       <span>O inicia sesión usando:</span>{' '}
                     </div>
@@ -169,7 +190,7 @@ export default function Login(props) {
                       <span className={styles.social}>
                         <i className='fa fa-linkedin'></i>
                       </span>{' '}
-                    </div>
+                    </div> */}
                     <div className='text-center mt-4'>
                       {' '}
                       <span>¿No estás registrado?</span>{' '}
@@ -235,7 +256,7 @@ export default function Login(props) {
                           )}
                         </div>
 
-                        <div className='text-center mt-3'>
+                        {/* <div className='text-center mt-3'>
                           {' '}
                           <span>O inicia sesión usando:</span>{' '}
                         </div>
@@ -250,7 +271,7 @@ export default function Login(props) {
                           <span className={styles.social}>
                             <i className='fa fa-linkedin'></i>
                           </span>{' '}
-                        </div>
+                        </div> */}
                         <div className='text-center mt-4'>
                           {' '}
                           <span>¿No estás registrado?</span>{' '}
@@ -301,7 +322,7 @@ export default function Login(props) {
                           </button>
                         </div>
 
-                        <div className='text-center mt-3'>
+                        {/* <div className='text-center mt-3'>
                           {' '}
                           <span>O inicia sesión usando:</span>{' '}
                         </div>
@@ -316,7 +337,7 @@ export default function Login(props) {
                           <span className={styles.social}>
                             <i className='fa fa-linkedin'></i>
                           </span>{' '}
-                        </div>
+                        </div> */}
                         <div className='text-center mt-4'>
                           {' '}
                           <span>¿No estás registrado?</span>{' '}

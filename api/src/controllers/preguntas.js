@@ -3,6 +3,7 @@ const Sequelize = require('sequelize')
 
 const addPregunta = async (req, res) => {
   const { idUsuario, idProveedor, idServicio, pregunta } = req.body
+
   let regex = /[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}/
 
   try {
@@ -15,7 +16,7 @@ const addPregunta = async (req, res) => {
     let preguntaCreada = await Pregunta.create({ PREGUNTA: pregunta })
     preguntaCreada.setUsuario(usuario)
     preguntaCreada.setProveedor_Servicio(proveedorServicio)
-    return res.status(200).send('Pregunta enviada')
+    return res.status(200).send(preguntaCreada)
   } catch (error) {
     // console.log(error)
     return res.status(500).send({ message: 'Error al enviar la pregunta' })
