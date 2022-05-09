@@ -18,7 +18,8 @@ import Shopping from "./components/Shopping";
 import SuccessFulPayment from "./components/SuccessfulPayment";
 import FailedPayment from "./components/FailedPayment";
 import ServicesDetail from "./components/ServicesDetail";
-import AddService from "./components/addService";
+import AddService from "./components/AddService";
+import Purchases from './components/Purchases';
 
 function App() {
   const NavLayout = () => (
@@ -51,6 +52,7 @@ function App() {
                   <Route path="home/PaymentSuccess" element={<SuccessFulPayment />} />
                   <Route path="home/PaymentFailed" element={<FailedPayment />} />
                   <Route path="home/:idServ/:idProv" element={<ServicesDetail />} />
+                  <Route path="purchases" element={<Purchases />} />
                   <Route path="test/" element={<AddService />} />
               </Route>
           </Routes>

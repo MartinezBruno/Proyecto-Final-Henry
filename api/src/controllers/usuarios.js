@@ -233,9 +233,9 @@ const buyReview = async (req, res) => {
 const compraSuccess = async (req, res) => {
   let { cart, id } = req.body
   try {
-    let idProveedor = cart.map((compra) => compra.provID)
+    let idProveedor = cart?.map((compra) => compra.provID)
     let idUsuario = id
-    let idServicio = cart.map((compra) => compra.id)
+    let idServicio = cart?.map((compra) => compra.id)
 
     for (let i = 0; i < idProveedor.length; i++) {
       let provServ = await Proveedor_Servicio.findOne({
