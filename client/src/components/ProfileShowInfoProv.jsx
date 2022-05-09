@@ -59,9 +59,9 @@ export default function ProfileShowInfo(props) {
           <hr /> */}
           <div className='row'>
             <div className='col-sm-12'>
-              <button className='btn btn-dark ' onClick={() => props.changeForm(true)}>
+              {/* <button className='btn btn-dark ' onClick={() => props.changeForm(true)}>
                 EDITAR
-              </button>
+              </button> */}
             </div>
           </div>
         </div>
