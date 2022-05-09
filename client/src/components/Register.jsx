@@ -5,7 +5,7 @@ import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { providerRegister, userRegister } from '../redux/slices/auth'
+import { providerRegister, rf, rs, userRegister } from '../redux/slices/auth'
 import { chargeCities, chargeProvinces } from '../redux/slices/countriesData'
 import { chargeAllUsers } from '../redux/slices/user'
 import { getAllProviders } from '../redux/slices/provider'
@@ -19,7 +19,7 @@ export default function Register({ isModal }) {
   let providersEmail = allProviders?.map((el) => el.email)
   let usersEmail = allUsers?.map((el) => el.email)
   let [termsAcceptedProvider, setTermsProvider] = useState('disabled')
-  const { registerSucces } = useSelector((state) => state.auth)
+  const { registerSuccess } = useSelector((state) => state.auth)
   const { mensaje } = useSelector((state) => state.message)
   const { provinces, cities, countries } = useSelector((state) => state.countriesData)
 
@@ -53,6 +53,8 @@ export default function Register({ isModal }) {
       dispatch(chargeProvinces(countriesInfo.name))
     }
   }, [countriesInfo.name])
+
+
 
   useEffect(() => {
     if (countriesInfo.province !== 'none') {
@@ -201,28 +203,30 @@ export default function Register({ isModal }) {
     })
   }
 
+  useEffect(() => {
+    if (registerSuccess) {
+      Swal.fire('¡Registrado con éxito!', 'Ahora puedes iniciar sesión.', 'success')
+    }
+  }, [registerSuccess])
+  
   // FUNCION QUE HACE DISPATCH A LA RUTA PARA CREAR EL USUARIO Y LIMPIA LOS CAMPOS
   function handleSubmitUser(e) {
     dispatch(userRegister(input))
-    if (registerSucces === true) {
-      setInput({
-        nombre: '',
-        apellido: '',
-        password: '',
-        email: '',
-        imagen: '',
-        fecha_nacimiento: '',
-        pais: '',
-        provincia: '',
-        ciudad: '',
-        celular: '',
-      })
-      Swal.fire('¡Registrado con éxito!', 'Ahora puedes iniciar sesión.', 'success')
-    } else {
-      Swal.fire('¡Ha habido un error al Registrarse!', 'Por favor intente nuevamente', 'error')
+    setInput({
+      nombre: '',
+      apellido: '',
+      password: '',
+      email: '',
+      imagen: '',
+      fecha_nacimiento: '',
+      pais: '',
+      provincia: '',
+      ciudad: '',
+      celular: '',
+    })
+    if(!registerSuccess){
+      Swal.fire('Error al Registrarse', 'Porfavor Intentelo nuevamente.', 'error')
     }
-    // Swal.fire(`${mensaje}`, 'success')
-    //alert(`${mensaje}`)
   }
 
   function handleChangeProvider(e) {
@@ -250,7 +254,9 @@ export default function Register({ isModal }) {
       ciudad: '',
       celular: '',
     })
-    Swal.fire('¡Registrado con éxito', 'Ahora puedes iniciar sesión.', 'success')
+    if(!registerSuccess){
+      Swal.fire('Error al Registrarse', 'Porfavor Intentelo nuevamente.', 'error')
+    }
   }
 
   //FORMULARIO CONTROLADO FUNCIONES DE USUARIO
