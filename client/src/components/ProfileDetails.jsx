@@ -8,13 +8,13 @@ import { services } from '../redux/slices/shoppingCart'
 import styles from '../styles/profile.module.css'
 import { NavLink } from 'react-router-dom'
 import { useState } from 'react'
-import { addToFavorites, deleteFromFavorites } from '../redux/slices/favorites'
+
 export default function ProfileDetails() {
   let { ProviderID } = useParams()
   var moment = require('moment')
 
   const dispatch = useDispatch()
-  const { favorites } = useSelector((state) => state.favorites)
+  
   const { uniqueprovider } = useSelector((state) => state.provider)
   const { serviceProvider } = useSelector((state) => state.provider)
   const { services } = useSelector((state) => state.shoppingCart)
@@ -22,14 +22,9 @@ export default function ProfileDetails() {
   // localStorage('cartList', JSON.stringify(services))
   useEffect(() => {
     dispatch(getUniqueProvider(ProviderID))
-    favorites.map(f =>(f.id === ProviderID ? setFavoritos(true) : setFavoritos(false)))
   }, [dispatch])
 
-  let handleFav = (e) => {
-    e.preventDefault()
-    dispatch(addToFavorites(ProviderID))
-    favoritos ? setFavoritos(false) : setFavoritos(true)
-  }
+  
 
   return (
     <div className='container' style={{ marginTop: '20px' }}>
@@ -58,15 +53,7 @@ export default function ProfileDetails() {
                     <p className='text-secondary mb-1'>Proveedor de servicio.</p>
                     {/* MAPEO CIUDAD */}
                     <p className='text-muted font-size-sm'>{uniqueprovider.ciudad + ', ' + uniqueprovider.provincia}</p>
-                    {favoritos === false ? (
-                      <button className='btn btn-primary' style={{ margin: '7px', fontWeight: 'bold' }} onClick={handleFav}>
-                        Agregar a Favoritos
-                      </button>
-                    ) : (
-                      <button className='btn btn-secondary' style={{ margin: '7px', backgroundColor: 'red', fontWeight: 'bold' }} onClick={handleFav}>
-                        Eliminar de Favoritos
-                      </button>
-                    )}
+                  
                     {/* <button className='btn btn-outline-primary'>Mensaje</button> */}
                   </div>
                 </div>

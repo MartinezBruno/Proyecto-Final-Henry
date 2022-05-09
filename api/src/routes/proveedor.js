@@ -9,10 +9,7 @@ const {
   filtroPorProfesion,
   filtroPorProvincia,
   filtroProveedor,
-  getManyProveedores,
 } = require('../controllers/proveedores.js')
-
-router.get('/manyProvs', getManyProveedores)
 
 router.get('/', getProv)
 router.get('/filtro', filtroProveedor)

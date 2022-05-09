@@ -54,8 +54,6 @@ export default function Register({ isModal }) {
     }
   }, [countriesInfo.name])
 
-
-
   useEffect(() => {
     if (countriesInfo.province !== 'none') {
       dispatch(chargeCities(countriesInfo.province))
@@ -208,7 +206,7 @@ export default function Register({ isModal }) {
       Swal.fire('¡Registrado con éxito!', 'Ahora puedes iniciar sesión.', 'success')
     }
   }, [registerSuccess])
-  
+
   // FUNCION QUE HACE DISPATCH A LA RUTA PARA CREAR EL USUARIO Y LIMPIA LOS CAMPOS
   function handleSubmitUser(e) {
     dispatch(userRegister(input))
@@ -224,7 +222,7 @@ export default function Register({ isModal }) {
       ciudad: '',
       celular: '',
     })
-    if(!registerSuccess){
+    if (!registerSuccess) {
       Swal.fire('Error al Registrarse', 'Porfavor Intentelo nuevamente.', 'error')
     }
   }
@@ -254,7 +252,7 @@ export default function Register({ isModal }) {
       ciudad: '',
       celular: '',
     })
-    if(!registerSuccess){
+    if (!registerSuccess) {
       Swal.fire('Error al Registrarse', 'Porfavor Intentelo nuevamente.', 'error')
     }
   }
@@ -368,22 +366,6 @@ export default function Register({ isModal }) {
       if (e.target.value === '') {
         setErrors((prevState) => {
           return { ...prevState, [e.target.name]: 'Es obligatorio ingresar una CONTRASEÑA' }
-        })
-      }
-    }
-
-    if (e.target.name === 'imagen') {
-      ;/(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/g.test(e.target.value)
-        ? setErrors((prevState) => {
-            return { ...prevState, [e.target.name]: '' }
-          })
-        : setErrors((prevState) => {
-            return { ...prevState, [e.target.name]: 'Ingrese un LINK DE IMAGEN válido' }
-          })
-
-      if (e.target.value === '') {
-        setErrors((prevState) => {
-          return { ...prevState, [e.target.name]: 'Es obligatorio ingresar un LINK DE IMAGEN' }
         })
       }
     }
@@ -1177,7 +1159,7 @@ export default function Register({ isModal }) {
                     </button>
                   </div>
 
-                  <div className='text-center mt-3'>
+                  {/* <div className='text-center mt-3'>
                     {' '}
                     <span>O registrate usando:</span>{' '}
                   </div>
@@ -1199,7 +1181,7 @@ export default function Register({ isModal }) {
                     <Link to='/login' className='text-decoration-none'>
                       Inicia sesión
                     </Link>{' '}
-                  </div>
+                  </div> */}
                 </Tab>
               </Tabs>
             </div>
