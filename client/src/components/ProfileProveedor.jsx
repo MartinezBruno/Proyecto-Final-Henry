@@ -7,6 +7,7 @@ import ProfileEditInfoProv from './ProfileEditInfoProv'
 import ProfileShowInfoProv from './ProfileShowInfoProv'
 import { getUniqueProvider } from '../redux/slices/provider'
 import AddService from './AddService'
+import DeleteService from './DeleteService'
 
 function ProfileProveedor() {
   const [isEditing, setEditing] = useState(false)
@@ -83,6 +84,7 @@ function ProfileProveedor() {
               </table>
               <div className={`d-flex justify-content-center`}>
                 <AddService />
+                <DeleteService />
               </div>
             </div>
           </div>
