@@ -26,6 +26,8 @@ const router = Router()
 router.use(express.json())
 
 // router.get('/:id', getProvByID)
+router.put('/calificacion', buyReview)
+
 router.get('/', getUsers)
 
 router.get('/:id', getUserById)
@@ -38,11 +40,11 @@ router.get('/test/all', allAccess)
 
 router.get('/test/usuario', [authJwt.verifyToken], userBoard)
 
+
 router.put('/:id', putUser)
 
 router.get('/test/proveedor', [authJwt.verifyToken, authJwt.isProveedor], userBoard)
 
-router.put('/calificacion', buyReview)
 
 router.post('/compraSuccess', compraSuccess)
 
