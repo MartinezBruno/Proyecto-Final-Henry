@@ -1,10 +1,10 @@
-import axios from "axios";
+import axios from 'axios'
 
 const instance = axios.create({
-  baseURL: "http://localhost:3001/api",
+  baseURL: 'http://weattend.online/api',
   headers: {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   },
-});
+})
 
-export default instance;
+export default instance
