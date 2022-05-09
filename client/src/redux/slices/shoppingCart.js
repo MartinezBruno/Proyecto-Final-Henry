@@ -43,12 +43,10 @@ export const addToCart = (serviceData) => {
 }
 
 export function deleteService(services, serviceID, provID) {
-
   let servicesCopy = [...services]
-  
 
   for (var i = 0; i < servicesCopy.length; i++) {
-    if ((servicesCopy[i].id === serviceID) && (servicesCopy[i].provID === provID)) {
+    if (servicesCopy[i].id === serviceID && servicesCopy[i].provID === provID) {
       servicesCopy.splice(i, 1)
       break
     }
@@ -60,35 +58,28 @@ export function deleteService(services, serviceID, provID) {
 }
 
 export function deleteAllOfOneService(services, serviceID, provID) {
-
   let servicesCopy = [...services]
-  let flag=true
+  let flag = true
 
-  while(flag){
-  let servicesKey = servicesCopy.map(el=> `${el.id}_${el.provID}`)
+  while (flag) {
+    let servicesKey = servicesCopy.map((el) => `${el.id}_${el.provID}`)
 
-  if(servicesKey.includes(`${serviceID}_${provID}`)){
-    for (var i = 0; i < servicesCopy.length; i++) {
-      if ((servicesCopy[i].id === serviceID) && (servicesCopy[i].provID === provID)) {
-        servicesCopy.splice(i, 1)
-        break
+    if (servicesKey.includes(`${serviceID}_${provID}`)) {
+      for (var i = 0; i < servicesCopy.length; i++) {
+        if (servicesCopy[i].id === serviceID && servicesCopy[i].provID === provID) {
+          servicesCopy.splice(i, 1)
+          break
+        }
       }
+    } else {
+      flag = false
     }
-  } else{
-    flag=false;
   }
-
-  }
-
-
-
 
   return async function (dispatch) {
     dispatch(deleteItem(servicesCopy))
   }
 }
-
-
 
 export const updateStateFromStorage = (state) => {
   return (dispatch) => {
@@ -133,10 +124,15 @@ export const setAcumServices = (services) => {
     for (let prop in individualServices) {
       servicesArr.push(individualServices[prop])
     }
-     return servicesArr
+    return servicesArr
   })()
 
   return (dispatch) => {
     dispatch(setAcumuladorServices(individualServicesToMap))
   }
+}
+
+export const paymentSuccess = async (cart, id) => {
+  let compra = await api.post('/usuario/compraSuccess', { cart, id })
+  return compra.data
 }

@@ -23,11 +23,10 @@ conn
     initialRoles()
     // ciudadesDb().then(() => {
     //   autofillProveedores()
+    //   console.log('tamo ready')
     // })
     ciudadesDb()
-    console.log('tamo ready')
   })
   .catch((err) => console.log(err))
 
 module.exports = { server }
-  
