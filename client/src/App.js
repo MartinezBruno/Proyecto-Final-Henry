@@ -51,7 +51,6 @@ function App() {
                   <Route path="home/:idServ/:idProv" element={<ServicesDetail />} />
                   <Route path="test/" element={<AddService />} />
               </Route>
-            
           </Routes>
           <Footer />
           </>

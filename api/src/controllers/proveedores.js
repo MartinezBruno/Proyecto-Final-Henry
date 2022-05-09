@@ -769,7 +769,7 @@ const filtroProveedor = async (req, res, next) => {
       let proveedores = await allProvs()
       proveedores = proveedores.filter(
         (prov) =>
-          prov.servicio.nombre.toLowerCase().includes(search.toLowerCase()) || prov.nombre_apellido_proveedor.toLowerCase().includes(search.toLowerCase())
+          prov.nombre_apellido_proveedor.toLowerCase().includes(search.toLowerCase())
       )
       // TODOS
       if (pais === 'Todos' && provincia === 'Todos' && ciudad === 'Todos' && servicio === 'Todos' && remote === 'Todos') {
