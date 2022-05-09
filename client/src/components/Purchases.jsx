@@ -12,24 +12,49 @@ export default function Purchases() {
   let dispatch = useDispatch()
   let { isLoggedIn } = useSelector((state) => state.auth) //PARA VERIFICAR SI EL USUARIO ESTA INICIADO SESION
   let { purchases } = useSelector((state) => state.purchases)
-  let usuarioId
+  let { user } = useSelector((state) => state.auth)
+  let usuarioId = user.id
+
+  useEffect(() => {
+    dispatch(chargePurchases(user.id))
+  }, [dispatch])
 
   ///////////////////////COntrol del MODAL
   const [show, setShow] = useState(false)
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
 
-  function calificarProveedor(idUsuario, idProveedor, idServicio) {
-    api.get(`/usuario/compraSuccess/misCompras?idUsuario=${idUsuario}`, {})
+  let [calificar, setCalificar] = useState({
+    calificacion: '',
+    comentario: '',
+  })
 
-    Swal.fire('FALTA', 'Necesito que manden el id del provedor y del servicio al hacer el GET a misCompras para que esto funcione', 'error')
+  function calificarProveedor(idUsuario, idProveedor, idServicio, body) {
+    let fullBody = { ...body, UsuarioId: idUsuario, ServicioId: idServicio, idProveedor: idProveedor }
+    fullBody.calificacion = parseInt(fullBody.calificacion)
+    fullBody.ServicioId = parseInt(fullBody.ServicioId)
+    console.log(fullBody)
+    api
+      .put('/usuario/calificacion', {...fullBody})
+      .then((res) => {
+        Swal.fire('¡Calificacion exitosa!', 'Gracias por tomarte el tiempo de calificar tu compra', 'success')
+      })
+      .catch((res) => {
+        if ((res.message === 'Ya calificaste esta compra')) {
+          Swal.fire('Ha ocurrido un error', 'Ya has calificado esta compra anteriormente!', 'error')
+        }
+        else{
+            Swal.fire('Ha ocurrido un error', 'No puedes calificar esta compra', 'error')
+        }
+        
+      })
   }
 
-  useEffect(() => {
-    let user = JSON.parse(sessionStorage.getItem('user'))
-    usuarioId = user.id
-    dispatch(chargePurchases(user.id))
-  }, [dispatch])
+  function handleForm(e) {
+    setCalificar((prevState) => {
+      return { ...prevState, [e.target.name]: e.target.value }
+    })
+  }
 
   ///RENDERIZADO SI EL USUARIO ESTA LOGGEADO SOLO
   if (isLoggedIn) {
@@ -90,7 +115,7 @@ export default function Purchases() {
                               <Form>
                                 <Form.Group className='mb-3' controlId='formBasicEmail'>
                                   <Form.Label>¿Cuántas estrellas darías a tu servicio?</Form.Label>
-                                         <Form.Select aria-label='Default select example'>
+                                  <Form.Select aria-label='Default select example' name='calificacion' onChange={(e) => handleForm(e)}>
                                     <option>Selecciona la calificacion</option>
                                     <option value='1'>⭐</option>
                                     <option value='2'>⭐⭐</option>
@@ -102,7 +127,13 @@ export default function Purchases() {
 
                                 <Form.Group className='mb-3' controlId='formBasicPassword'>
                                   <Form.Label>Comentario del servicio:</Form.Label>
-                                  <Form.Control as='textarea' maxLength='200' placeholder='Ingresa un comentario' />
+                                  <Form.Control
+                                    as='textarea'
+                                    maxLength='200'
+                                    placeholder='Ingresa un comentario'
+                                    name='comentario'
+                                    onChange={(e) => handleForm(e)}
+                                  />
                                 </Form.Group>
                               </Form>
                             </Modal.Body>
@@ -110,7 +141,7 @@ export default function Purchases() {
                               <Button variant='secondary' onClick={handleClose}>
                                 Cerrar
                               </Button>
-                              <Button variant='primary' onClick={handleClose}>
+                              <Button variant='primary' onClick={() => calificarProveedor(usuarioId, el.idProveedor, el.idServicio, calificar)}>
                                 Calificar
                               </Button>
                             </Modal.Footer>
