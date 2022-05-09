@@ -22,8 +22,9 @@ export default function NewFilters({ setCurrentPage }) {
   useEffect(() => {
     dispatch(setServicios())
   }, [])
-
-  const ServicesList = new Set(servicios)
+  
+  const ServiciosArray = servicios.map(s => s.nombre)
+  const ServicesList = new Set(ServiciosArray)
   const ServicesLista = Array.from(ServicesList)
 
   let handleChange = (e) => {
@@ -151,9 +152,7 @@ export default function NewFilters({ setCurrentPage }) {
                                 <option value={'Todos'}>Todos</option>
                                 {ServicesLista &&
                                   ServicesLista?.map((s) => (
-                                    <option value={s} key={s}>
-                                      {s}
-                                    </option>
+                                    <option value={s} key={s}>{s}</option>
                                   ))}
                               </select>
 
@@ -180,12 +179,13 @@ export default function NewFilters({ setCurrentPage }) {
                               <div className='d-flex align-items-center justify-content-center form-outline text-center' style={{ flexDirection: 'column' }}>
                                 <select
                                   name='provincia'
+                                  
                                   className='form-control form-control-lg'
                                   onChange={(e) => handleChange(e)}
                                   style={{ textAlign: 'center' }}>
                                   <option value={'Todos'}>Todos</option>
                                   {provincias?.map((p) => (
-                                    <option value={p.NOMBRE_PROVINCIA}>{p.NOMBRE_PROVINCIA}</option>
+                                    <option key={p.NOMBRE_PROVINCIA} value={p.NOMBRE_PROVINCIA}>{p.NOMBRE_PROVINCIA}</option>
                                   ))}
                                 </select>
                                 <label className='form-label' style={{ margin: '0px' }}>
