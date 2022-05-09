@@ -11,6 +11,7 @@ export const providerSlice = createSlice({
     servicios: [],
     provincias: [],
     ciudades: [],
+    order: false
   },
   reducers: {
     //Reducer para el estado proveedor
@@ -23,6 +24,9 @@ export const providerSlice = createSlice({
     },
     SetServicios: (state, action) => {
       state.servicios = action.payload
+    },
+    RefreshService: (state, action) =>{
+      state.order = true
     },
     FilterByPrices: (state, action) => {
       state.currentProviders =
@@ -62,9 +66,17 @@ export const {
   SetProvincias,
   SetCiudades,
   SetServiceProvider,
+  RefreshService
 } = providerSlice.actions
 
 export default providerSlice.reducer
+
+export function SetQuestion(input){
+  return async function(dispatch){
+    let info = await api.patch("/pregunta", input)
+    dispatch(RefreshService())
+  }
+}
 
 export function getServiceProvider(idProv, idServ){
   return async function(dispatch){
@@ -124,21 +136,3 @@ export function setCiudades(payload) {
     dispatch(SetCiudades(info.data))
   }
 }
-// export async function setProvincias(payload) {
-//   if (payload === 'Argentina') {
-//     return async function (dispatch) {
-//       let info = await api.get(`/provincias/ar`)
-//       dispatch(setProvincias(info.data))
-//     }
-//   } else if (payload === 'Uruguay') {
-//     return async function (dispatch) {
-//       let info = await api.get(`/provincias/uy`)
-//       dispatch(setProvincias(info.data))
-//     }
-//   } else if (payload === 'Mexico'){
-//     return async function (dispatch) {
-//       let info = await api.get(`/provincias/mx`)
-//       dispatch(setProvincias(info.data))
-//     }
-//   }
-// }

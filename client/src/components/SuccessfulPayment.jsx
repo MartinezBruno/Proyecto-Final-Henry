@@ -26,15 +26,17 @@ export default function SuccessfulPayment() {
     <>
       <div>
         <div style={{ textAlign: 'center', marginTop: '200px' }}>
-          <h2>
-            El pago se ha realizo de forma correcta
-            <img
+        <img
               src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSffqbjrQvFYKQMEL7UxUWIdKB_EKjvyUNmvzliNJt4GrvDUV9z4rXmDX0qgRxLmeeSjL0&usqp=CAU'
-              style={{ borderRadius: '200px', width: '3rem', margin: '20px' }}
+              style={{ borderRadius: '200px', width: '7rem', margin: '20px' }}
             />
+          <h2>
+            ¡Listo! El pago se ha realizado de forma correcta.
+            <br/> <br/>Solo queda disfrutar de su servicio. ¡Muchas gracias por su compra!
+            
           </h2>
           <NavLink to={'/home'}>
-            <button type='button' class='btn btn-success'>
+            <button type='button' class='btn btn-success' style={{marginTop:"30px"}}>
               Volver al Inicio
             </button>
           </NavLink>
