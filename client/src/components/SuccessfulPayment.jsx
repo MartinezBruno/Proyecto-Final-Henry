@@ -33,13 +33,13 @@ export default function SuccessfulPayment() {
             style={{ borderRadius: '200px', width: '7rem', margin: '20px' }}
           />
           <h2>
-            ¡Listo! El pago se ha realizado de forma correcta.
+            ¡Listo! El pago se ha realizado correctamente.
             <br /> <br />
-            Solo queda disfrutar de su servicio. ¡Muchas gracias por su compra!
+            ¡Muchas gracias por su compra!
           </h2>
-          <NavLink to={'/home'}>
+          <NavLink to={'/purchases'}>
             <button type='button' class='btn btn-success' style={{ marginTop: '30px' }}>
-              Volver al Inicio
+              Ver mis compras
             </button>
           </NavLink>
         </div>
