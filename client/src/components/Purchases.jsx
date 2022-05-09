@@ -2,59 +2,90 @@ import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { chargePurchases } from '../redux/slices/purchases'
 import Button from 'react-bootstrap/Button'
-import Moment from 'react-moment'
 import api from '../services/api'
 import Swal from 'sweetalert2'
 import Modal from 'react-bootstrap/Modal'
 import Form from 'react-bootstrap/Form'
+import Moment from 'react-moment'
+import { getServiceProvider } from '../redux/slices/provider'
 
 export default function Purchases() {
   let dispatch = useDispatch()
   let { isLoggedIn } = useSelector((state) => state.auth) //PARA VERIFICAR SI EL USUARIO ESTA INICIADO SESION
   let { purchases } = useSelector((state) => state.purchases)
-  let { user } = useSelector((state) => state.auth)
-  let usuarioId = user.id
+  var { user } = useSelector((state) => state.auth)
+  var { serviceProvider } = useSelector((state) => state.provider)
+  var usuarioId = user.id
+
+  var idProv = serviceProvider[0]?.id
+  // console.log(idProv)
+  var idServ = serviceProvider[0]?.servicio.id
+  // console.log(idServ)
 
   useEffect(() => {
     dispatch(chargePurchases(user.id))
-  }, [dispatch])
+    setInput({
+      ...input,
+      idServicio: idServ,
+      idProveedor: idProv,
+    })
+  }, [dispatch, serviceProvider])
 
   ///////////////////////COntrol del MODAL
   const [show, setShow] = useState(false)
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
 
-  let [calificar, setCalificar] = useState({
+  const [input, setInput] = useState({
     calificacion: '',
     comentario: '',
+    idUsuario: usuarioId,
+    idServicio: idServ,
+    idProveedor: idProv,
   })
 
-  function calificarProveedor(idUsuario, idProveedor, idServicio, body) {
-    let fullBody = { ...body, UsuarioId: idUsuario, ServicioId: idServicio, idProveedor: idProveedor }
-    fullBody.calificacion = parseInt(fullBody.calificacion)
-    fullBody.ServicioId = parseInt(fullBody.ServicioId)
-    console.log(fullBody)
+  function handleChange(e) {
+    setInput({
+      ...input,
+      [e.target.name]: e.target.value,
+    })
+  }
+
+  function handleSubmit() {
+    // dispatch(chargePurchases(usuarioId))
+    console.log(input)
     api
-      .put('/usuario/calificacion', {...fullBody})
+      .put('/usuario/calificacion', input)
       .then((res) => {
         Swal.fire('¡Calificacion exitosa!', 'Gracias por tomarte el tiempo de calificar tu compra', 'success')
       })
       .catch((res) => {
-        if ((res.message === 'Ya calificaste esta compra')) {
+        if (res.message === 'Ya calificaste esta compra') {
           Swal.fire('Ha ocurrido un error', 'Ya has calificado esta compra anteriormente!', 'error')
+        } else {
+          Swal.fire('Ha ocurrido un error', 'No puedes calificar esta compra', 'error')
         }
-        else{
-            Swal.fire('Ha ocurrido un error', 'No puedes calificar esta compra', 'error')
-        }
-        
       })
   }
 
-  function handleForm(e) {
-    setCalificar((prevState) => {
-      return { ...prevState, [e.target.name]: e.target.value }
-    })
-  }
+  // function calificarProveedor(idUsuario, idProveedor, idServicio, body) {
+  //   let fullBody = { ...body, UsuarioId: idUsuario, ServicioId: idServicio, idProveedor: idProveedor }
+  //   fullBody.calificacion = parseInt(fullBody.calificacion)
+  //   fullBody.ServicioId = parseInt(fullBody.ServicioId)
+  //   console.log(fullBody)
+  //   api
+  //     .put('/usuario/calificacion', { ...fullBody })
+  //     .then((res) => {
+  //       Swal.fire('¡Calificacion exitosa!', 'Gracias por tomarte el tiempo de calificar tu compra', 'success')
+  //     })
+  //     .catch((res) => {
+  //       if (res.message === 'Ya calificaste esta compra') {
+  //         Swal.fire('Ha ocurrido un error', 'Ya has calificado esta compra anteriormente!', 'error')
+  //       } else {
+  //         Swal.fire('Ha ocurrido un error', 'No puedes calificar esta compra', 'error')
+  //       }
+  //     })
+  // }
 
   ///RENDERIZADO SI EL USUARIO ESTA LOGGEADO SOLO
   if (isLoggedIn) {
@@ -75,9 +106,9 @@ export default function Purchases() {
                   </tr>
                 </thead>
                 <tbody>
-                  {purchases?.map((el,index) => {
+                  {purchases?.map((el, index) => {
                     return (
-                      <tr key={index}>
+                      <tr key={el.idServicio}>
                         <td>
                           <div>
                             <span>
@@ -103,6 +134,7 @@ export default function Purchases() {
                             key ={index}
                             variant='secondary'
                             onClick={() => {
+                              dispatch(getServiceProvider(el.idProveedor, el.idServicio))
                               handleShow()
                             }}>
                             Califica tu servicio
@@ -116,7 +148,7 @@ export default function Purchases() {
                               <Form>
                                 <Form.Group className='mb-3' controlId='formBasicEmail'>
                                   <Form.Label>¿Cuántas estrellas darías a tu servicio?</Form.Label>
-                                  <Form.Select aria-label='Default select example' name='calificacion' onChange={(e) => handleForm(e)}>
+                                  <Form.Select aria-label='Default select example' name='calificacion' onChange={(e) => handleChange(e)}>
                                     <option>Selecciona la calificacion</option>
                                     <option value='1'>⭐</option>
                                     <option value='2'>⭐⭐</option>
@@ -133,7 +165,8 @@ export default function Purchases() {
                                     maxLength='200'
                                     placeholder='Ingresa un comentario'
                                     name='comentario'
-                                    onChange={(e) => handleForm(e)}
+                                    value={input.comentario}
+                                    onChange={(e) => handleChange(e)}
                                   />
                                 </Form.Group>
                               </Form>
@@ -142,7 +175,7 @@ export default function Purchases() {
                               <Button variant='secondary' onClick={handleClose}>
                                 Cerrar
                               </Button>
-                              <Button variant='primary' onClick={() => calificarProveedor(usuarioId, el.idProveedor, el.idServicio, calificar)}>
+                              <Button variant='primary' onClick={() => handleSubmit()}>
                                 Calificar
                               </Button>
                             </Modal.Footer>

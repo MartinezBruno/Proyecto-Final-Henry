@@ -179,24 +179,25 @@ const moderatorBoard = (req, res) => {
 }
 
 const buyReview = async (req, res) => {
-  let { calificacion, comentario, ServicioId, UsuarioId, idProveedor } = req.body
+  let { calificacion, comentario, idServicio, idUsuario, idProveedor } = req.body
 
   let provServ = await Proveedor_Servicio.findOne({
-    where: { ProveedorId: idProveedor, ServicioId: ServicioId },
+    where: { ProveedorId: idProveedor, ServicioId: idServicio },
   })
   // console.log(provServ.id)
 
   let proveedor = await Proveedor.findOne({
     where: { id: idProveedor },
   })
+  console.log(proveedor)
   let calificaciones = proveedor.CALIFICACION
 
   let verificacionCompra = await Compra.findAll({
-    where: { UsuarioId: UsuarioId, ProveedorServicioId: provServ.id },
+    where: { UsuarioId: idUsuario, ProveedorServicioId: provServ.id },
   })
 
   let verifacionComent = await Comentario.findAll({
-    where: { UsuarioId: UsuarioId, ProveedorServicioId: provServ.id },
+    where: { UsuarioId: idUsuario, ProveedorServicioId: provServ.id },
   })
   // console.log(verifacionComent.length)
   // console.log(verificacionCompra.length)
@@ -216,7 +217,7 @@ const buyReview = async (req, res) => {
         COMENTARIO: comentario,
       })
       let usuario = await Usuario.findOne({
-        where: { id: UsuarioId },
+        where: { id: idUsuario },
       })
 
       comentarios.setProveedor_Servicio(provServ)
