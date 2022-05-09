@@ -11,7 +11,7 @@ export const providerSlice = createSlice({
     servicios: [],
     provincias: [],
     ciudades: [],
-    message: {}
+    message: {},
   },
   reducers: {
     //Reducer para el estado proveedor
@@ -25,23 +25,36 @@ export const providerSlice = createSlice({
     SetServicios: (state, action) => {
       state.servicios = action.payload
     },
-    SetMessage: (state, action) =>{
+    SetMessage: (state, action) => {
       state.message = action.payload
     },
     FilterByPrices: (state, action) => {
       state.currentProviders =
         action.payload === 'MenorMayor'
           ? state.currentProviders.sort(function (a, b) {
-              return a.servicio.precio - b.servicio.precio
+              if (a.servicio.precio > b.servicio.precio) {
+                return 1
+              }
+              if (a.servicio.precio < b.servicio.precio) {
+                return -1
+              }
+              return 0
             })
           : action.payload === 'MayorMenor'
           ? state.currentProviders.sort(function (a, b) {
-              return b.servicio.precio - a.servicio.precio
+              if (a.servicio.precio < b.servicio.precio) {
+                return 1
+              }
+              if (a.servicio.precio > b.servicio.precio) {
+                return -1
+              }
+              return 0
             })
           : state.allProviders
     },
     FiltroSupremo: (state, action) => {
       state.currentProviders = action.payload
+      state.allProviders = action.payload
     },
     SetProvincias: (state, action) => {
       state.provincias = action.payload
@@ -52,9 +65,9 @@ export const providerSlice = createSlice({
     SetServiceProvider: (state, action) => {
       state.serviceProvider = action.payload
     },
-    Refresh:(state, action) => {
+    Refresh: (state, action) => {
       state.serviceProvider = state.serviceProvider
-    }
+    },
   },
 })
 
@@ -70,28 +83,27 @@ export const {
   SetCiudades,
   SetServiceProvider,
   SetMessage,
-  Refresh
+  Refresh,
 } = providerSlice.actions
 
 export default providerSlice.reducer
 
-export function SetQuestion(input){
-  return async function(dispatch){
-    let info = await api.patch("/pregunta", input)
+export function SetQuestion(input) {
+  return async function (dispatch) {
+    let info = await api.patch('/pregunta', input)
     console.log(info.data)
     dispatch(SetMessage(info.data))
   }
 }
-export function setAnswer(input){
-  return async function(dispatch){
-    let info = await api.patch("/pregunta/respuesta", input)
+export function setAnswer(input) {
+  return async function (dispatch) {
+    let info = await api.patch('/pregunta/respuesta', input)
     dispatch(SetMessage(info.data))
   }
 }
 
-
-export function getServiceProvider(idProv, idServ){
-  return async function(dispatch){
+export function getServiceProvider(idProv, idServ) {
+  return async function (dispatch) {
     var info = await api.get(`/proveedor?idProv=${idProv}&idServ=${idServ}`)
     dispatch(SetServiceProvider(info.data))
   }
@@ -126,11 +138,14 @@ export function filterByPrices(payload) {
 
 export function filtroSupremo(input) {
   return async function (dispatch) {
-    let info = input.search.length === 0 ? await api.get(
-      `/proveedor/filtro?pais=${input.pais}&provincia=${input.provincia}&ciudad=${input.ciudad}&servicio=${input.servicio}&remote=${input.remoto}`
-    ) : await api.get(
-      `/proveedor/filtro?pais=${input.pais}&provincia=${input.provincia}&ciudad=${input.ciudad}&servicio=${input.servicio}&remote=${input.remoto}&search=${input.search}`
-    )
+    let info =
+      input.search.length === 0
+        ? await api.get(
+            `/proveedor/filtro?pais=${input.pais}&provincia=${input.provincia}&ciudad=${input.ciudad}&servicio=${input.servicio}&remote=${input.remoto}`
+          )
+        : await api.get(
+            `/proveedor/filtro?pais=${input.pais}&provincia=${input.provincia}&ciudad=${input.ciudad}&servicio=${input.servicio}&remote=${input.remoto}&search=${input.search}`
+          )
     dispatch(FiltroSupremo(info.data))
   }
 }
@@ -144,7 +159,7 @@ export function setProvincias(payload) {
 
 export function setCiudades(payload) {
   return async function (dispatch) {
-    let info = payload !== "Todos" && await api.get(`/ciudad/${payload}`)
+    let info = payload !== 'Todos' && (await api.get(`/ciudad/${payload}`))
     dispatch(SetCiudades(info.data))
   }
 }

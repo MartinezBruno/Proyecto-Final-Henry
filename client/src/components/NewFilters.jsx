@@ -122,7 +122,7 @@ export default function NewFilters({ setCurrentPage }) {
                                 <option disabled hidden>
                                   Selecciona
                                 </option>
-                                <option>Todos</option>
+                                <option value={'Todos'}>Todos</option>
                                 <option value={'MayorMenor'}>Mayor a menor</option>
                                 <option value={'MenorMayor'}>Menor a mayor</option>
                               </select>
