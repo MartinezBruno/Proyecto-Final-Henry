@@ -47,9 +47,10 @@ export const deleteFromFavorites = (provID) => async (dispatch) => {
   dispatch(deleteItem(provID))
 }
 
-export function addToFavorites(id) {
+export function addToFavorites(idProv) {
   return async function (dispatch) {
-    var info = await api.get(`/proveedor/${id}`)
+    await api.put(`/usuario/${JSON.parse(sessionStorage.getItem('user')).id}/${idProv}`)
+    var info = await api.get(`/proveedor/${idProv}`)
     dispatch(setFavorites(info.data))
   }
 }

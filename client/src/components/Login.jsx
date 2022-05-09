@@ -8,6 +8,7 @@ import { useState } from 'react'
 import { providerLogin, userLogin } from '../redux/slices/auth'
 import Swal from 'sweetalert2'
 import { useEffect } from 'react'
+import api from "./../services/api"
 
 export default function Login(props) {
   const dispatch = useDispatch()
@@ -38,25 +39,24 @@ export default function Login(props) {
     })
   }
 
-  useEffect(() => {
-    if (isLoggedIn) {
-      Swal.fire('¡Registrado con éxito!', 'Ahora puedes iniciar sesión.', 'success')
-    }
-  },[isLoggedIn])
 
   function handleSubmit(e) {
     dispatch(userLogin(input))
-    if(!isLoggedIn){
-      Swal.fire('Datos incorrectos!', '', 'error')
-    }
+    api.post("/auth/usuario/signin", input).then((r) => { 
+      Swal.fire('¡Logueado con exito!', '', 'success')
+    }).catch((err) => {
+      Swal.fire('¡Datos incorrectos!', '', 'error')
+    })
   }
 
   function handleSubmitProvider(e) {
     dispatch(providerLogin(inputProvider))
-    if(!isLoggedIn){
-      Swal.fire('Datos incorrectos!', '', 'error')
-    }
-}
+    api.post("/auth/proveedor/signin", inputProvider).then((r) => { 
+      Swal.fire('¡Logueado con exito!', '', 'success')
+    }).catch((err) => {
+      Swal.fire('¡Datos incorrectos!', '', 'error')
+    })
+  }
 
   if (props.isModal) {
     //Si se inicia sesión desde un modal
