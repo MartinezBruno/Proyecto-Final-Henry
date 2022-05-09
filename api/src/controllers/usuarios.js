@@ -272,13 +272,14 @@ const misCompras = async (req, res) => {
       let descripcion = await Descripcion.findOne({ where: { id: ProvServ.DescripcionId } })
       arrayCompras.unshift({
         proveedor: proveedor.NOMBRE_APELLIDO_PROVEEDOR,
+        idProveedor: proveedor.id,
         servicio: servicio.NOMBRE_SERVICIO,
         precio: precio.PRECIO,
         descripcion: descripcion.DESCRIPCION,
         fecha: misCompras[i].createdAt,
       })
     }
-    res.status(200).send(arrayCompras)
+    return res.status(200).send(arrayCompras)
   } catch (error) {
     return res.status(404).send({ message: 'Error a mostar en compras' })
   }
