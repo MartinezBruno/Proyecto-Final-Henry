@@ -2,7 +2,8 @@ const { Proveedor, Proveedor_Servicio, Pregunta, Usuario } = require('../db')
 const Sequelize = require('sequelize')
 
 const addPregunta = async (req, res) => {
-  const { idUsuario, idProveedor, idServicio, pregunta } = req.body
+  const { idUsuario, idProveedor, idServicio, pregunta, idPregunta } = req.body
+
   let regex = /[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}/
 
   try {
@@ -12,10 +13,10 @@ const addPregunta = async (req, res) => {
     if (!usuario) return res.status(404).send({ message: 'No existe id Usuario' })
     let proveedorServicio = await Proveedor_Servicio.findOne({ where: { ProveedorId: idProveedor, ServicioId: idServicio } })
     if (!proveedorServicio) return res.status(404).send({ message: 'No existe id Proveedor_Servicio' })
-    let preguntaCreada = await Pregunta.create({ PREGUNTA: pregunta })
+    let preguntaCreada = await Pregunta.create({ PREGUNTA: pregunta, id: idPregunta })
     preguntaCreada.setUsuario(usuario)
     preguntaCreada.setProveedor_Servicio(proveedorServicio)
-    return res.status(200).send(preguntaCreada.id)
+    return res.status(200).send(preguntaCreada)
   } catch (error) {
     // console.log(error)
     return res.status(500).send({ message: 'Error al enviar la pregunta' })
