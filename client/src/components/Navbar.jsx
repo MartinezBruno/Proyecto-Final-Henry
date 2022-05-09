@@ -10,19 +10,15 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { getUser } from '../redux/slices/user'
 import { logout } from '../redux/slices/auth'
+import { getUniqueProvider } from '../redux/slices/provider'
 
 export default function NavBar() {
   const [showRegister, setShowRegister] = useState(false)
   const [showLogin, setShowLogin] = useState(false)
-  const { user } = useSelector((state) => state.auth)
+
   const { isLoggedIn } = useSelector((state) => state.auth)
 
   const dispatch = useDispatch()
-  const { UniqueUser } = useSelector((state) => state.user)
-
-  useEffect(() => {
-    isLoggedIn && dispatch(getUser(user.id))
-  }, [dispatch])
 
   const handleCloseRegister = () => setShowRegister(false)
   const handleShowRegister = () => setShowRegister(true)
@@ -131,16 +127,6 @@ export default function NavBar() {
             <div className='d-flex align-items-center justify-content-center text-center' style={{ flexDirection: 'row' }}>
               <NavLink to='/profile' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')} style={{ width: '150px' }}>
                 {/* <img src={UniqueUser.imagen} alt="nt" class="img-circle" width={"20px"}></img> */}
-                <img
-                  src={UniqueUser.imagen}
-                  width='28px'
-                  height='28px'
-                  style={{ borderRadius: '5000px', marginRight: '10px' }}
-                  onError={(e) =>
-                    (e.target.src =
-                      'https://www.softzone.es/app/uploads/2018/04/guest.png?x=480&quality=20')
-                  }
-                />
                 MI PERFIL
               </NavLink>
               <NavLink to={'/'}>
