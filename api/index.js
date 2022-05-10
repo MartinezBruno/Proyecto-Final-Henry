@@ -17,10 +17,10 @@ conn
     })
   })
   .then(() => paisesDb())
-  .then(() => regionDb())
+  .then(() => regionDb()) 
   .then(() => {
-    serviciosDb()
-    initialRoles()
+    //serviciosDb()
+    // initialRoles()
     // ciudadesDb().then(() => {
     //   autofillProveedores()
     //   console.log('tamo ready')
