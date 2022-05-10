@@ -7,6 +7,7 @@ const {
   buyReview,
   addFavorito,
   deleteFavorito,
+  getFavorites,
   allAccess,
   userBoard,
   putUser,
@@ -29,14 +30,15 @@ router.use(express.json())
 
 router.put('/calificacion', buyReview)
 
-
 router.get('/', getUsers)
 
 router.get('/:id', getUserById)
 
-router.put('/:userId/:provId', addFavorito)
+router.get('/favoritos/:userId', getFavorites)
 
-router.delete('/:userId/:provId', deleteFavorito)
+router.put('/favoritos/:userId/:provId', addFavorito)
+
+router.delete('/favoritos/:userId/:provId', deleteFavorito)
 
 router.get('/test/all', allAccess)
 

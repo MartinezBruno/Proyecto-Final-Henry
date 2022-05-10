@@ -105,19 +105,40 @@ const getUserById = async (req, res) => {
   return res.status(200).send(usuarioAMostrar)
 }
 
-// const getFavorite = async (req, res) => {
-//   const { userId } = req.params
-//   try {
-//     const user = await Usuario.findByPk(userId)
-//     const favs = user.FAVORITOS
-//     return res.status(200).send(favs)
-//   } catch (error) {
-//     console.error(error)
-//     return res.status(500).send({ message: 'Error al obtener los favoritos' })
-//   }
-// }
+const getFavorites = async (req, res) => {
+  const { userId } = req.params
+  try {
+    let favoritos = await Usuario_Favorito.findAll({
+      where: {
+        UsuarioId: userId,
+      },
+    })
+    let favs = []
+    for (let fav of favoritos) {
+      let favorito = await Favorito.findOne({
+        where: {
+          id: fav.FavoritoId,
+        },
+      })
+      favs.push({
+        id: favorito.id,
+        nombre_apellido_proveedor: favorito.NOMBRE_APELLIDO_PROVEEDOR,
+        imagen: favorito.IMAGEN,
+        email: favorito.EMAIL,
+        celular: favorito.CELULAR,
+        pais: favorito.PAIS,
+        provincia: favorito.PROVINCIA,
+        ciudad: favorito.CIUDAD,
+      })
+    }
+    return res.status(200).send(favs)
+  } catch (error) {
+    console.error(error)
+    return res.status(500).send({ message: 'Error al obtener los favoritos' })
+  }
+}
 
-const addFavorito = async (req, res, next) => {
+const addFavorito = async (req, res) => {
   const { userId, provId } = req.params
   try {
     let favorito = await Favorito.findOne({
@@ -177,7 +198,7 @@ const addFavorito = async (req, res, next) => {
       },
     })
     await user.addFavorito(fav)
-    return res.status(204).send({ message: 'Favorito agregado' })
+    return res.status(204).send('Favorito agregado')
   } catch (error) {
     console.error(error)
     return res.status(500).send({ message: 'Error al agregar el favorito' })
@@ -375,6 +396,7 @@ module.exports = {
   getUserById,
   addFavorito,
   deleteFavorito,
+  getFavorites,
   allAccess,
   userBoard,
   adminBoard,
