@@ -15,6 +15,11 @@ import { getUniqueProvider } from '../redux/slices/provider'
 export default function NavBar() {
   const [showRegister, setShowRegister] = useState(false)
   const [showLogin, setShowLogin] = useState(false)
+  let role
+  const { user } = useSelector((state) => state.auth)
+  if (user) {
+    role = user.Role
+  }
 
   const { isLoggedIn } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
@@ -118,9 +123,11 @@ export default function NavBar() {
                 SOBRE NOSOTROS
               </NavLink>
 
-              <NavLink to='/purchases' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
-                TUS COMPRAS
-              </NavLink>
+              {role === 'USUARIO' && (
+                <NavLink to='/purchases' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
+                  TUS COMPRAS
+                </NavLink>
+              )}
 
               {/* <NavLink to='/profile' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
                 MI PERFIL

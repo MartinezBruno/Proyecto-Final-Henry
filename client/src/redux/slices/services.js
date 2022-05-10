@@ -5,13 +5,13 @@ import api from '../../services/api'
 export const servicesSlice = createSlice({
   name: 'services', //Nombre del slice
   initialState: {
-    dbServices:[]
+    dbServices: [],
   },
   reducers: {
     //Aqui van las actions para el estado "test"
     setServicesDb: (state, action) => {
       state.dbServices = action.payload
-    }
+    },
   },
 })
 

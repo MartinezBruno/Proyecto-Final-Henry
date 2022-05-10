@@ -1,13 +1,13 @@
 const servicios = [
   { NOMBRE_SERVICIO: 'Sin servicios disponibles', REMOTE: true },
-  { NOMBRE_SERVICIO: 'Profesor de Fisica', REMOTE: true },
-  { NOMBRE_SERVICIO: 'Profesor de Fisica', REMOTE: false },
-  { NOMBRE_SERVICIO: 'Profesor de Ingles', REMOTE: true },
-  { NOMBRE_SERVICIO: 'Profesor de Ingles', REMOTE: false },
-  { NOMBRE_SERVICIO: 'Profesor de Matematicas', REMOTE: true },
-  { NOMBRE_SERVICIO: 'Profesor de Matematicas', REMOTE: false },
-  { NOMBRE_SERVICIO: 'Profesor de Quimica', REMOTE: true },
-  { NOMBRE_SERVICIO: 'Profesor de Quimica', REMOTE: false },
+  { NOMBRE_SERVICIO: 'Clase de Fisica', REMOTE: true },
+  { NOMBRE_SERVICIO: 'Clase de Fisica', REMOTE: false },
+  { NOMBRE_SERVICIO: 'Clase de Ingles', REMOTE: true },
+  { NOMBRE_SERVICIO: 'Clase de Ingles', REMOTE: false },
+  { NOMBRE_SERVICIO: 'Clase de Matematicas', REMOTE: true },
+  { NOMBRE_SERVICIO: 'Clase de Matematicas', REMOTE: false },
+  { NOMBRE_SERVICIO: 'Clase de Quimica', REMOTE: true },
+  { NOMBRE_SERVICIO: 'Clase de Quimica', REMOTE: false },
   { NOMBRE_SERVICIO: 'Jardineria', REMOTE: false },
   { NOMBRE_SERVICIO: 'Mantenimiento de piletas', REMOTE: false },
   { NOMBRE_SERVICIO: 'Servicio de mudanza', REMOTE: false },
@@ -38,7 +38,7 @@ let arrayProveedores = [
     pais: 'Argentina',
     servicios: [
       {
-        NOMBRE_SERVICIO: 'Profesor de Matematicas',
+        NOMBRE_SERVICIO: 'Clase de Matematicas',
         REMOTE: false,
         PRECIO: 500,
         DESCRIPCION: 'Matematicas nivel secundario',
@@ -56,13 +56,13 @@ let arrayProveedores = [
     pais: 'Argentina',
     servicios: [
       {
-        NOMBRE_SERVICIO: 'Profesor de Fisica',
+        NOMBRE_SERVICIO: 'Clase de Fisica',
         REMOTE: true,
         PRECIO: 700,
         DESCRIPCION: 'Fisica nivel secundario y universitario',
       },
       {
-        NOMBRE_SERVICIO: 'Profesor de Quimica',
+        NOMBRE_SERVICIO: 'Clase de Quimica',
         REMOTE: true,
         PRECIO: 700,
         DESCRIPCION: 'quimica general',
