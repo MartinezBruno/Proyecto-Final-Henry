@@ -273,8 +273,10 @@ const misCompras = async (req, res) => {
       let descripcion = await Descripcion.findOne({ where: { id: ProvServ.DescripcionId } })
       arrayCompras.unshift({
         proveedor: proveedor.NOMBRE_APELLIDO_PROVEEDOR,
+
         idProveedor: proveedor.id,
         idServicio: servicio.id,
+
         servicio: servicio.NOMBRE_SERVICIO,
         precio: precio.PRECIO,
         descripcion: descripcion.DESCRIPCION,
