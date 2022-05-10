@@ -21,7 +21,7 @@ require('./db.js')
 server.name = 'API'
 
 Sentry.init({
-  dsn: 'https://db8f31aaf181401b96debd451f654469@o1221142.ingest.sentry.io/6364313',
+  dsn: 'https://4608b53442a144a992b84d76eee6a03b@o1240796.ingest.sentry.io/6394065',
   integrations: [
     // enable HTTP calls tracing
     new Sentry.Integrations.Http({ tracing: true }),
