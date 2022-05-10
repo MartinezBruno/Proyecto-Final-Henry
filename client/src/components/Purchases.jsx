@@ -18,9 +18,7 @@ export default function Purchases() {
   var usuarioId = user.id
 
   var idProv = serviceProvider[0]?.id
-  // console.log(idProv)
   var idServ = serviceProvider[0]?.servicio.id
-  // console.log(idServ)
 
   useEffect(() => {
     dispatch(chargePurchases(user.id))
@@ -52,12 +50,14 @@ export default function Purchases() {
   }
 
   function handleSubmit() {
-    // dispatch(chargePurchases(usuarioId))
-    console.log(input)
+    // console.log(input)
     api
       .put('/usuario/calificacion', input)
       .then((res) => {
         Swal.fire('¡Calificacion exitosa!', 'Gracias por tomarte el tiempo de calificar tu compra', 'success')
+      }).then((res) => {
+        document.getElementById("BotonCal").name = "Servicio Calificado"
+        document.getElementById("BotonCal").disabled = true
       })
       .catch((res) => {
         if (res.message === 'Ya calificaste esta compra') {
@@ -67,25 +67,6 @@ export default function Purchases() {
         }
       })
   }
-
-  // function calificarProveedor(idUsuario, idProveedor, idServicio, body) {
-  //   let fullBody = { ...body, UsuarioId: idUsuario, ServicioId: idServicio, idProveedor: idProveedor }
-  //   fullBody.calificacion = parseInt(fullBody.calificacion)
-  //   fullBody.ServicioId = parseInt(fullBody.ServicioId)
-  //   console.log(fullBody)
-  //   api
-  //     .put('/usuario/calificacion', { ...fullBody })
-  //     .then((res) => {
-  //       Swal.fire('¡Calificacion exitosa!', 'Gracias por tomarte el tiempo de calificar tu compra', 'success')
-  //     })
-  //     .catch((res) => {
-  //       if (res.message === 'Ya calificaste esta compra') {
-  //         Swal.fire('Ha ocurrido un error', 'Ya has calificado esta compra anteriormente!', 'error')
-  //       } else {
-  //         Swal.fire('Ha ocurrido un error', 'No puedes calificar esta compra', 'error')
-  //       }
-  //     })
-  // }
 
   ///RENDERIZADO SI EL USUARIO ESTA LOGGEADO SOLO
   if (isLoggedIn) {
@@ -132,6 +113,7 @@ export default function Purchases() {
                           {/* <Button variant="secondary" onClick={()=>calificarProveedor(usuarioId, 'ProviderID', 'Servicio')}>Calificar y comentar</Button> */}
                           <Button
                             key ={index}
+                            id = "BotonCal"
                             variant='secondary'
                             onClick={() => {
                               dispatch(getServiceProvider(el.idProveedor, el.idServicio))

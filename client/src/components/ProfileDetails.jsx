@@ -206,9 +206,9 @@ export default function ProfileDetails() {
                       <th scope='col'>NOMBRE</th>
                       <th scope='col'>REMOTO</th>
                       <th scope='col'>COSTO</th>
+                      <th scope='col'>DETALLES SERVICIO</th>
                       {role === 'USUARIO' && (
                         <>
-                          <th scope='col'>DETALLES SERVICIO</th>
                           <th scope='col'>COMPRAR</th>
                         </>
                       )}
@@ -234,8 +234,6 @@ export default function ProfileDetails() {
                               </td>
                             )}
                             <td>{'$' + serv.precio}</td>
-                            {role === 'USUARIO' && (
-                              <>
                                 <td>
                                   <NavLink to={`/home/${serv.id}/${uniqueprovider.id}`}>
                                     <button className='btn ' style={{ padding: '5px', backgroundColor: 'steelBlue', color: 'white' }}>
@@ -244,7 +242,8 @@ export default function ProfileDetails() {
                                     </button>
                                   </NavLink>
                                 </td>
-
+                            {role === 'USUARIO' && (
+                              <>
                                 <td>
                                   <button
                                     className='btn btn-success'

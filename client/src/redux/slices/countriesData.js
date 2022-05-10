@@ -49,6 +49,6 @@ export function chargeCities(province){
 
 export const payServices = (services) => async () => {
   let infoData = (await api.post('/checkout/payment', services)).data
-  console.log(infoData)
+  // console.log(infoData)
   return infoData
 }
