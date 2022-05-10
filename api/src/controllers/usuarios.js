@@ -179,24 +179,25 @@ const moderatorBoard = (req, res) => {
 }
 
 const buyReview = async (req, res) => {
-  let { calificacion, comentario, ServicioId, UsuarioId, idProveedor } = req.body
+  let { calificacion, comentario, idServicio, idUsuario, idProveedor } = req.body
 
   let provServ = await Proveedor_Servicio.findOne({
-    where: { ProveedorId: idProveedor, ServicioId: ServicioId },
+    where: { ProveedorId: idProveedor, ServicioId: idServicio },
   })
   // console.log(provServ.id)
 
   let proveedor = await Proveedor.findOne({
     where: { id: idProveedor },
   })
+  console.log(proveedor)
   let calificaciones = proveedor.CALIFICACION
 
   let verificacionCompra = await Compra.findAll({
-    where: { UsuarioId: UsuarioId, ProveedorServicioId: provServ.id },
+    where: { UsuarioId: idUsuario, ProveedorServicioId: provServ.id },
   })
 
   let verifacionComent = await Comentario.findAll({
-    where: { UsuarioId: UsuarioId, ProveedorServicioId: provServ.id },
+    where: { UsuarioId: idUsuario, ProveedorServicioId: provServ.id },
   })
   // console.log(verifacionComent.length)
   // console.log(verificacionCompra.length)
@@ -216,14 +217,14 @@ const buyReview = async (req, res) => {
         COMENTARIO: comentario,
       })
       let usuario = await Usuario.findOne({
-        where: { id: UsuarioId },
+        where: { id: idUsuario },
       })
 
       comentarios.setProveedor_Servicio(provServ)
       comentarios.setUsuario(usuario)
       return res.status(200).send({ message: 'Reseña agregada con exito' })
     } else {
-      return res.status(400).send({ message: 'Ya calificaste esta compra' })
+      return res.status(402).send({ message: 'Ya calificaste esta compra' })
     }
   } else {
     return res.status(400).send({ message: 'No puedes calificar este servicio ' })
@@ -232,12 +233,10 @@ const buyReview = async (req, res) => {
 
 const compraSuccess = async (req, res) => {
   let { cart, id } = req.body
-  console.log(cart)
-  console.log(id)
   try {
-    let idProveedor = cart.map((compra) => compra.provID)
+    let idProveedor = cart?.map((compra) => compra.provID)
     let idUsuario = id
-    let idServicio = cart.map((compra) => compra.id)
+    let idServicio = cart?.map((compra) => compra.id)
 
     for (let i = 0; i < idProveedor.length; i++) {
       let provServ = await Proveedor_Servicio.findOne({
@@ -274,13 +273,17 @@ const misCompras = async (req, res) => {
       let descripcion = await Descripcion.findOne({ where: { id: ProvServ.DescripcionId } })
       arrayCompras.unshift({
         proveedor: proveedor.NOMBRE_APELLIDO_PROVEEDOR,
+
+        idProveedor: proveedor.id,
+        idServicio: servicio.id,
+
         servicio: servicio.NOMBRE_SERVICIO,
         precio: precio.PRECIO,
         descripcion: descripcion.DESCRIPCION,
         fecha: misCompras[i].createdAt,
       })
     }
-    res.status(200).send(arrayCompras)
+    return res.status(200).send(arrayCompras)
   } catch (error) {
     return res.status(404).send({ message: 'Error a mostar en compras' })
   }

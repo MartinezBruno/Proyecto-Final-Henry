@@ -17,6 +17,7 @@ export default function Card({
   provincia,
   ciudad,
   precio,
+  calificacion
 }) {
 
   const dispatch = useDispatch()
@@ -63,22 +64,105 @@ export default function Card({
                 <p>CALIFICACION</p>
 
                 <ul className='list-inline small'>
-                  <li className='list-inline-item m-0'>
-                    <i className='fa fa-star text-success'></i>
-                  </li>
-                  <li className='list-inline-item m-0'>
-                    <i className='fa fa-star text-success'></i>
-                  </li>
-                  <li className='list-inline-item m-0'>
-                    <i className='fa fa-star text-success'></i>
-                  </li>
-                  <li className='list-inline-item m-0'>
-                    <i className='fa fa-star text-success'></i>
-                  </li>
-                  <li className='list-inline-item m-0'>
-                    <i className='fa fa-star-o text-success'></i>
-                  </li>
-                </ul>
+                          <div>
+                            {calificacion === 1 ? (
+                              <>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star-o text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star-o text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star-o text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star-o text-success'></i>
+                                </li>
+                              </>
+                            ) : calificacion === 2 ? (
+                              <>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star-o text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star-o text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star-o text-success'></i>
+                                </li>
+                              </>
+                            ) : calificacion === 3 ? (
+                              <>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star-o text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star-o text-success'></i>
+                                </li>
+                              </>
+                            ) : calificacion === 4 ? (
+                              <>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star-o text-success'></i>
+                                </li>
+                              </>
+                            ) : calificacion === 5 ? (
+                              <>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star text-success'></i>
+                                </li>
+                                <li className='list-inline-item m-0'>
+                                  <i className='fa fa-star text-success'></i>
+                                </li>
+                              </>
+                            ) : (
+                              <p style={{fontWeight:"bold", color:"black", fontSize:"13px"}}>Sin Calificaciones</p>
+                            )}
+                          </div>
+                          {/* CIERRA MAPEO CALIFICACION */}
+                        </ul>
+
+
               </div>
             </div>
           </div>
