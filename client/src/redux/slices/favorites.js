@@ -40,7 +40,6 @@ export const getFavoritesFromDb = () => async (dispatch) => {
   }
 }
 
-
 export const deleteFromFavorites = (provID) => async (dispatch) => {
   let user = JSON.parse(sessionStorage.getItem('user'))
   await api.delete(`/usuario/${user.id}/${provID}`)

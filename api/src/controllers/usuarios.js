@@ -1,4 +1,18 @@
-const { Usuario, Ciudad, Provincia, Pais, Proveedor, Comentario, Proveedor_Servicio, Compra, Servicio, Precio, Descripcion } = require('../db')
+const {
+  Usuario,
+  Ciudad,
+  Provincia,
+  Pais,
+  Proveedor,
+  Comentario,
+  Proveedor_Servicio,
+  Compra,
+  Servicio,
+  Precio,
+  Descripcion,
+  Favorito,
+  Usuario_Favorito,
+} = require('../db')
 
 const getUsers = async (req, res) => {
   try {
@@ -16,6 +30,10 @@ const getUsers = async (req, res) => {
           model: Ciudad,
           attributes: ['NOMBRE_CIUDAD'],
         },
+        {
+          model: Favorito,
+          attributes: ['id', 'NOMBRE_APELLIDO_PROVEEDOR', 'IMAGEN', 'EMAIL', 'CELULAR', 'PAIS', 'PROVINCIA', 'CIUDAD'],
+        },
       ],
     })
     let usersToSend = users.map((user) => {
@@ -28,7 +46,7 @@ const getUsers = async (req, res) => {
         fecha_nacimiento: user.FECHA_NACIMIENTO,
         calificacion: user.CALIFICACION,
         compras: user.COMPRAS,
-        favoritos: user.FAVORITOS,
+        favoritos: user.Favorito,
         creation_date: user.createdAt,
         pais: user.Pai ? user.Pai.NOMBRE_PAIS : 'Sin definir',
         provincia: user.Provincium ? user.Provincium.NOMBRE_PROVINCIA : 'Sin definir',
@@ -61,6 +79,10 @@ const getUserById = async (req, res) => {
         model: Ciudad,
         attributes: ['NOMBRE_CIUDAD'],
       },
+      {
+        model: Favorito,
+        attributes: ['id', 'NOMBRE_APELLIDO_PROVEEDOR', 'IMAGEN', 'EMAIL', 'CELULAR', 'PAIS', 'PROVINCIA', 'CIUDAD'],
+      },
     ],
   })
 
@@ -73,7 +95,7 @@ const getUserById = async (req, res) => {
     fecha_nacimiento: user.FECHA_NACIMIENTO,
     calificacion: user.CALIFICACION,
     compras: user.COMPRAS,
-    favoritos: user.FAVORITOS,
+    favoritos: user.Favorito,
     creation_date: user.createdAt,
     pais: user.Pai ? user.Pai.NOMBRE_PAIS : 'Sin definir',
     provincia: user.Provincium ? user.Provincium.NOMBRE_PROVINCIA : 'Sin definir',
@@ -83,55 +105,114 @@ const getUserById = async (req, res) => {
   return res.status(200).send(usuarioAMostrar)
 }
 
+// const getFavorite = async (req, res) => {
+//   const { userId } = req.params
+//   try {
+//     const user = await Usuario.findByPk(userId)
+//     const favs = user.FAVORITOS
+//     return res.status(200).send(favs)
+//   } catch (error) {
+//     console.error(error)
+//     return res.status(500).send({ message: 'Error al obtener los favoritos' })
+//   }
+// }
+
 const addFavorito = async (req, res, next) => {
   const { userId, provId } = req.params
   try {
-    let user = await Usuario.findOne({
-      where: { id: userId },
+    let favorito = await Favorito.findOne({
+      where: {
+        PROVEEDOR_ID: provId,
+      },
     })
+    if (favorito !== null) {
+      let favoritoUser = await Usuario_Favorito.findOne({
+        where: {
+          UsuarioId: userId,
+          FavoritoId: favorito.id,
+        },
+      })
+      if (favoritoUser !== null) return res.status(302).send({ message: 'Ya esta en favoritos' })
+    }
+    let user = await Usuario.findByPk(userId)
     if (user === null) return res.status(404).send({ message: 'Usuario no encontrado' })
 
-    let favorites = user.FAVORITOS
-    if (favorites.includes(provId)) {
-      return res.status(200).send({ message: 'El usuario ya tiene a ese proveedor en sus favoritos' })
+    let provider = await Proveedor.findByPk(provId, {
+      include: [
+        {
+          model: Pais,
+          attributes: ['NOMBRE_PAIS'],
+        },
+        {
+          model: Provincia,
+          attributes: ['NOMBRE_PROVINCIA'],
+        },
+        {
+          model: Ciudad,
+          attributes: ['NOMBRE_CIUDAD'],
+        },
+      ],
+    })
+    if (provider === null) return res.status(404).send({ message: 'Proveedor no encontrado' })
+    provider = {
+      id: provider.id,
+      nombre_apellido_proveedor: provider.NOMBRE_APELLIDO_PROVEEDOR,
+      email: provider.EMAIL,
+      celular: provider.CELULAR ? provider.CELULAR : 123456789,
+      imagen: provider.IMAGEN,
+      pais: provider.Pai ? provider.Pai.NOMBRE_PAIS : 'Sin definir',
+      provincia: provider.Provincium ? provider.Provincium.NOMBRE_PROVINCIA : 'Sin definir',
+      ciudad: provider.Ciudad ? provider.Ciudad.NOMBRE_CIUDAD : 'Sin definir',
     }
-    favorites.push(provId)
-    // console.log(favorites)
-
-    await Usuario.update(
-      {
-        FAVORITOS: favorites,
+    let [fav, _created] = await Favorito.findOrCreate({
+      where: {
+        PROVEEDOR_ID: provider.id,
+        NOMBRE_APELLIDO_PROVEEDOR: provider.nombre_apellido_proveedor,
+        IMAGEN: provider.imagen,
+        EMAIL: provider.email,
+        CELULAR: provider.celular,
+        PAIS: provider.pais,
+        CIUDAD: provider.ciudad,
+        PROVINCIA: provider.provincia,
       },
-      { where: { id: userId } }
-    )
+    })
+    await user.addFavorito(fav)
     return res.status(204).send({ message: 'Favorito agregado' })
   } catch (error) {
     console.error(error)
-    next(error)
+    return res.status(500).send({ message: 'Error al agregar el favorito' })
   }
 }
 
 const deleteFavorito = async (req, res, next) => {
   const { userId, provId } = req.params
   try {
-    let user = await Usuario.findOne({
+    let favorito = await Favorito.findOne({
       where: {
-        id: userId,
+        PROVEEDOR_ID: provId,
       },
     })
-    if (user === null) return res.status(404).send({ message: 'Usuario no encontrado' })
-    let favs = user.FAVORITOS.filter((fav) => fav !== provId)
-    await Usuario.update(
-      {
-        FAVORITOS: favs,
-      },
-      { where: { id: userId } }
-    )
-    return res.status(204).send({ message: 'Favorito eliminado' })
+    if (favorito !== null) {
+      let favoritoUser = await Usuario_Favorito.findOne({
+        where: {
+          UsuarioId: userId,
+          FavoritoId: favorito.id,
+        },
+      })
+      if (favoritoUser !== null) {
+        await favoritoUser.destroy({
+          where: {
+            UsuarioId: userId,
+            FavoritoId: favorito.id,
+          },
+        })
+        return res.status(204).send({ message: 'Favorito eliminado' })
+      }
+    }
+    return res.status(404).send({ message: 'Favorito no encontrado' })
   } catch (error) {
     console.error(error)
-    next(error)
-    return res.status(500).send({ message: 'Error al eliminar favorito' })
+    return res.status(500).send({ message: 'Error al eliminar el favorito' })
   }
 }
 
