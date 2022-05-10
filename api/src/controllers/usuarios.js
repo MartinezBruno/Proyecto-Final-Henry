@@ -266,7 +266,6 @@ const misCompras = async (req, res) => {
     })
     for (let i = 0; i < misCompras.length; i++) {
       let ProvServ = await Proveedor_Servicio.findOne({ where: { id: misCompras[i].ProveedorServicioId } })
-      console.log(ProvServ.ServicioId, ProvServ.PrecioId, ProvServ.ProveedorId)
       let proveedor = await Proveedor.findOne({ where: { id: ProvServ.ProveedorId } })
       let servicio = await Servicio.findOne({ where: { id: ProvServ.ServicioId } })
       let precio = await Precio.findOne({ where: { id: ProvServ.PrecioId } })
