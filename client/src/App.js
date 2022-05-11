@@ -56,13 +56,6 @@ function App() {
 
   return (
     <>
-      <button
-        onClick={() => {
-          axios.get('http://api.com/api')
-        }}>
-        Break the world
-      </button>
-      ;
       <Routes>
         <Route exact path='/' element={<LandingPage />} />
 
