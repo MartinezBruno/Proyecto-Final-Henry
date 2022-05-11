@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import styles from '../styles/profile.module.css'
-import { chargePurchases } from '../redux/slices/purchases'
+import styles from '../../styles/profile.module.css'
+import { chargePurchases } from '../../redux/slices/purchases'
 
 function ComprasUsuario() {
   let moment = require('moment')

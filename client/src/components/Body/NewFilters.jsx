@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import styles from '../styles/filters.module.css'
+import styles from '../../styles/filters.module.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
-import { filterByPrices, filtroSupremo, setCiudades, setProvincias, setServicios } from '../redux/slices/provider'
+import { filterByPrices, filtroSupremo, setCiudades, setProvincias, setServicios } from '../../redux/slices/provider'
 import { Alert, Button } from 'bootstrap'
 
 export default function NewFilters({ setCurrentPage }) {

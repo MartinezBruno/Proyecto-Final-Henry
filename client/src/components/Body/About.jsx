@@ -1,6 +1,6 @@
 import React from 'react'
-import styles from '../styles/about.module.css'
-import logo from './img-logo/Logo2_Definitivo.png'
+import styles from '../../styles/about.module.css'
+import logo from '../img-logo/Logo2_Definitivo.png'
 
 export default function About() {
   return (

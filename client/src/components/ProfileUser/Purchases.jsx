@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { chargePurchases } from '../redux/slices/purchases'
+import { chargePurchases } from '../../redux/slices/purchases'
 import Button from 'react-bootstrap/Button'
-import api from '../services/api'
+import api from '../../services/api'
 import Swal from 'sweetalert2'
 import Modal from 'react-bootstrap/Modal'
 import Form from 'react-bootstrap/Form'
 import Moment from 'react-moment'
-import { getServiceProvider } from '../redux/slices/provider'
+import { getServiceProvider } from '../../redux/slices/provider'
 
 export default function Purchases() {
   let dispatch = useDispatch()

@@ -2,28 +2,58 @@ import React from 'react'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { getUniqueProvider } from '../redux/slices/provider'
-import { addToCart, updateStateFromStorage } from '../redux/slices/shoppingCart'
-import { services } from '../redux/slices/shoppingCart'
-import styles from '../styles/profile.module.css'
+import { getUniqueProvider } from '../../redux/slices/provider'
+import { addToCart } from '../../redux/slices/shoppingCart'
+import styles from '../../styles/profile.module.css'
 import { NavLink } from 'react-router-dom'
 import { useState } from 'react'
+import AddFavorites from '../Favorites/AddFavorites'
+import DeleteFavorites from '../Favorites/DeleteFavorites'
+import { addToFavorites, deleteFromFavorites, favoritesSlice, getFavoritesFromDb, updateAdded } from '../../redux/slices/favorites'
 
 export default function ProfileDetails() {
   let { ProviderID } = useParams()
   var moment = require('moment')
 
   const dispatch = useDispatch()
+  const { favorites } = useSelector((state) => state.favorites)
+
   const { user } = useSelector((state) => state.auth)
   const role = user.Role
+  const userId = user.id
   const { uniqueprovider } = useSelector((state) => state.provider)
   const { serviceProvider } = useSelector((state) => state.provider)
   const { services } = useSelector((state) => state.shoppingCart)
-  const [favoritos, setFavoritos] = useState(false)
+
+  const [added, setAdded] = useState(true)
+
   // localStorage('cartList', JSON.stringify(services))
+  const handleOnDelete = () => {
+    console.log(ProviderID)
+    dispatch(deleteFromFavorites(userId, ProviderID))
+    setAdded(true)
+    // window.location.reload()
+  }
+
+  const handleOnAdd = () => {
+    console.log(ProviderID)
+    dispatch(addToFavorites(userId, ProviderID))
+    setAdded(false)
+    // window.location.reload()
+  }
+  function checkFavoritos(favorites) {
+    console.log(favorites)
+    favorites.forEach((fav) => {
+      if (fav.idProveedor === ProviderID) return setAdded(false)
+    })
+  }
+
   useEffect(() => {
+    dispatch(getFavoritesFromDb(userId, ProviderID))
     dispatch(getUniqueProvider(ProviderID))
-  }, [dispatch])
+    checkFavoritos(favorites)
+    // dispatch(updateAdded(favorites, ProviderID))
+  }, [])
 
   return (
     <div className='container' style={{ marginTop: '20px' }}>
@@ -52,7 +82,15 @@ export default function ProfileDetails() {
                     <p className='text-secondary mb-1'>Proveedor de servicio.</p>
                     {/* MAPEO CIUDAD */}
                     <p className='text-muted font-size-sm'>{uniqueprovider.ciudad + ', ' + uniqueprovider.provincia}</p>
-
+                    {added ? (
+                      <button className='btn btn-primary' onClick={handleOnAdd}>
+                        Añadir a favoritos
+                      </button>
+                    ) : (
+                      <button className='btn btn-danger' onClick={handleOnDelete}>
+                        Eliminar de Favoritos
+                      </button>
+                    )}
                     {/* <button className='btn btn-outline-primary'>Mensaje</button> */}
                   </div>
                 </div>

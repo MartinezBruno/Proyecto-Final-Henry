@@ -5,9 +5,9 @@ import Filters from "./Filters";
 import NewFilters from "./NewFilters";
 import CardNotFound from "./CardNotFound";
 import Pagination from "./Pagination";
-import styles from "../styles/home.module.css";
+import styles from "../../styles/home.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllProviders } from "../redux/slices/provider";
+import { getAllProviders } from "../../redux/slices/provider";
 
 export default function Home() {
   const dispatch = useDispatch();

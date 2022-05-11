@@ -1,14 +1,14 @@
 import React from 'react'
-import styles from '../styles/login.module.css'
+import styles from '../../styles/login.module.css'
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useState } from 'react'
-import { providerLogin, userLogin } from '../redux/slices/auth'
+import { providerLogin, userLogin } from '../../redux/slices/auth'
 import Swal from 'sweetalert2'
 import { useEffect } from 'react'
-import api from './../services/api'
+import api from '../../services/api'
 
 export default function Login(props) {
   const dispatch = useDispatch()
