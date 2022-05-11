@@ -1,6 +1,6 @@
 import './App.css'
 // import logo from './logo.svg';
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Route, Routes, Outlet } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.css'
 import NavBar from './components/Body/Navbar'
@@ -21,8 +21,29 @@ import ServicesDetail from './components/ProfileProvider/ServicesDetail'
 import Purchases from './components/ProfileUser/Purchases'
 import Favorites from './components/Favorites/Favorites'
 import Chat from './components/Chat/Chat'
+import { init } from '@sentry/react'
+import useRoutingInstrumentation from 'react-router-v6-instrumentation'
+import { BrowserTracing } from '@sentry/tracing'
+import axios from 'axios'
 
 function App() {
+  // Initialize Sentry with the browser tracing integration.
+  const routingInstrumentation = useRoutingInstrumentation()
+  useEffect(() => {
+    const browserTracing = new BrowserTracing({
+      routingInstrumentation,
+    })
+    init({
+      dsn: 'https://e5326fd29c02448082e52f802f6b7e84@o1240796.ingest.sentry.io/6397010',
+      integrations: [browserTracing],
+
+      // Set tracesSampleRate to 1.0 to capture 100%
+      // of transactions for performance monitoring.
+      // We recommend adjusting this value in production
+      tracesSampleRate: 1.0,
+    })
+  }, [routingInstrumentation])
+
   const NavLayout = () => (
     <>
       <FloatCartButton />
