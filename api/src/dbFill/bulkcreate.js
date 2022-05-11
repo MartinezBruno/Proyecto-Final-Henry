@@ -34,6 +34,7 @@ let arrayProveedores = [
     apellido: 'Martinez',
     password: '1234',
     email: 'pedro@gmail.com',
+    celular: "2215634174",
     fecha_nacimiento: '24-04-1988',
     pais: 'Argentina',
     servicios: [
@@ -50,6 +51,7 @@ let arrayProveedores = [
   {
     nombre: 'Bruno',
     apellido: 'Gonzales',
+    celular: "2215634174",
     password: '1235',
     email: 'bruno@gmail.com',
     fecha_nacimiento: '24-04-1990',
@@ -74,6 +76,7 @@ let arrayProveedores = [
   {
     nombre: 'Martin',
     apellido: 'Tincho',
+    celular: "2215634174",
     password: '1236',
     email: 'martin@gmail.com',
     fecha_nacimiento: '24-04-1980',
@@ -98,6 +101,7 @@ let arrayProveedores = [
   {
     nombre: 'Juan',
     apellido: 'Gonzales',
+    celular: "2215634174",
     password: '1235',
     email: 'juan@gmail.com',
     imagen: 'https://i.pravatar.cc/300?u=juangonzales',
@@ -123,6 +127,7 @@ let arrayProveedores = [
   {
     nombre: 'Melisa',
     apellido: 'Perez',
+    celular: "2215634174",
     password: '12354',
     email: 'melisa@gmail.com',
     imagen: 'https://i.pravatar.cc/300?u=melisaperez',
@@ -148,6 +153,7 @@ let arrayProveedores = [
   {
     nombre: 'Fede',
     apellido: 'Roque',
+    celular: "2215634174",
     password: '46546846',
     email: 'fede@gmail.com',
     imagen: 'https://i.pravatar.cc/300?u=federoque',
@@ -173,6 +179,7 @@ let arrayProveedores = [
   {
     nombre: 'Bruno',
     apellido: 'Beltramone',
+    celular: "2215634174",
     password: '465468asdf46',
     email: 'brunobeltra@gmail.com',
     imagen: 'https://i.pravatar.cc/300?u=brunobeltra',
@@ -198,6 +205,7 @@ let arrayProveedores = [
   {
     nombre: 'Santiago',
     apellido: 'Bojanich',
+    celular: "2215634174",
     password: '4654sdf46',
     email: 'santiboja@gmail.com',
     imagen: 'https://i.pravatar.cc/300?u=santiboja',
@@ -229,6 +237,7 @@ let arrayProveedores = [
   {
     nombre: 'Maximiliano',
     apellido: 'Candia',
+    celular: "2215634174",
     password: '465asdfasdf',
     email: 'max@gmail.com',
     imagen: 'https://i.pravatar.cc/300?u=maxi',
@@ -260,6 +269,7 @@ let arrayProveedores = [
   {
     nombre: 'Oscar',
     apellido: 'Rodriguez',
+    celular: "2215634174",
     password: '5a4sdfasdf',
     email: 'oscar@gmail.com',
     imagen: 'https://i.pravatar.cc/300?u=oscarrod',
@@ -291,6 +301,7 @@ let arrayProveedores = [
   {
     nombre: 'George',
     apellido: 'Harrison',
+    celular: "2215634174",
     password: '5a4sdfasasdfdf',
     email: 'george@gmail.com',
     imagen: 'https://i.pravatar.cc/300?u=georgecarrison',
@@ -322,6 +333,7 @@ let arrayProveedores = [
   {
     nombre: 'Paul',
     apellido: 'Mc Cartney',
+    celular: "2215634174",
     password: '5a4sasdfasasdfdf',
     email: 'paul@gmail.com',
     imagen: 'https://i.pravatar.cc/300?u=paulmccartney',
@@ -353,6 +365,7 @@ let arrayProveedores = [
   {
     nombre: 'Ringo',
     apellido: 'Star',
+    celular: "2215634174",
     password: '5a4sasdfasasdfddsf',
     email: 'ringo@gmail.com',
     imagen: 'https://i.pravatar.cc/300?u=ringostar',
@@ -384,6 +397,7 @@ let arrayProveedores = [
   {
     nombre: 'Tim',
     apellido: 'Burton',
+    celular: "2215634174",
     password: '5a4sasdasdffasasdfddsf',
     email: 'tim@gmail.com',
     imagen: 'https://i.pravatar.cc/300?u=timburton',
@@ -415,6 +429,7 @@ let arrayProveedores = [
   {
     nombre: 'Jesus',
     apellido: 'de Nazaret',
+    celular: "2215634174",
     password: '5a4sasdaasdfddsf',
     email: 'jesus@gmail.com',
     imagen: 'https://i.pravatar.cc/300?u=jesus',
