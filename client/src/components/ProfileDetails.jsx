@@ -240,7 +240,7 @@ export default function ProfileDetails() {
                                   <NavLink to={`/home/${serv.id}/${uniqueprovider.id}`}>
                                     <button className='btn ' style={{ padding: '5px', backgroundColor: 'steelBlue', color: 'white' }}>
                                       {' '}
-                                      <i class='fa fa-info-circle' aria-hidden='true'></i> Detalles
+                                      <i className='fa fa-info-circle' aria-hidden='true'></i> Detalles
                                     </button>
                                   </NavLink>
                                 </td>

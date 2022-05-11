@@ -20,6 +20,7 @@ import FailedPayment from './components/FailedPayment'
 import ServicesDetail from './components/ServicesDetail'
 // import addService from './components/AddService'
 import Purchases from './components/Purchases'
+import Chat from './components/Chat/Chat'
 
 function App() {
   const NavLayout = () => (
@@ -53,6 +54,7 @@ function App() {
           <Route path='home/PaymentFailed' element={<FailedPayment />} />
           <Route path='home/:idServ/:idProv' element={<ServicesDetail />} />
           <Route path='purchases' element={<Purchases />} />
+          <Route path='home/chat' element={<Chat />} />
         </Route>
       </Routes>
       <Footer />

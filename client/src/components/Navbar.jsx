@@ -137,7 +137,7 @@ export default function NavBar() {
             <div className='d-flex align-items-center justify-content-center text-center' style={{ flexDirection: 'row' }}>
               <NavLink to='/profile' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')} style={{ width: '150px' }}>
                 {/* <img src={UniqueUser.imagen} alt="nt" class="img-circle" width={"20px"}></img> */}
-                MI PERFIL
+                <i className="fa fa-user-circle" aria-hidden="true"></i> MI PERFIL
               </NavLink>
               <NavLink to={'/'}>
                 <Button
@@ -151,7 +151,7 @@ export default function NavBar() {
                     width: '7rem',
                     fontSize: '12px',
                   }}>
-                  <i class='fa fa-sign-out' aria-hidden='true'></i> Cerrar sesión
+                  <i className='fa fa-sign-out' aria-hidden='true'></i> Cerrar sesión
                 </Button>
               </NavLink>
               {/* 

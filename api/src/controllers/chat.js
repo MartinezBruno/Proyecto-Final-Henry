@@ -38,7 +38,7 @@ const current = now.getHours() + ':' + now.getMinutes();
 }
 
 const getChat = async (req, res) => {
-  const { idUsuario, idProveedor } = req.body
+  const { idUsuario, idProveedor } = req.query
   try {
     let chat = await Chat.findOne({
       where: { ProveedorId: idProveedor, UsuarioId: idUsuario },

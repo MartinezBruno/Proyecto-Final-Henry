@@ -23,7 +23,7 @@ export default function Questions(props) {
   })
 
   const [Answer, setAnswer] = useState({
-    idPregunta: message,
+    idPregunta: Number(message),
     idProveedor: user.id,
     respuesta: '',
   })
@@ -50,10 +50,10 @@ export default function Questions(props) {
       window.location.reload()
     }, 1000)
   }
-  function handleAnswerSubmit(e) {
-    console.log(Answer)
-    dispatch(setAnswer(Answer))
-    Swal.fire('Su Pregunta fue agregada correctamente', '', 'success')
+  async function handleAnswerSubmit(e) {
+    // console.log(Answer)
+    await api.patch('/pregunta/respuesta', Answer)
+    Swal.fire('Su Respuesta fue agregada correctamente', '', 'success')
     setTimeout(() => {
       window.location.reload()
     }, 1000)

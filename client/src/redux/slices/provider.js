@@ -99,13 +99,12 @@ export function SetQuestion(input) {
   return async function (dispatch) {
     let info = await api.patch('/pregunta', input)
     console.log(info.data)
-    // dispatch(SetMessage(info.data))
   }
 }
+
 export function setAnswer(input) {
   return async function (dispatch) {
     let info = await api.patch('/pregunta/respuesta', input)
-    dispatch(SetMessage(info.data))
   }
 }
 

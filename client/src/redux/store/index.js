@@ -7,6 +7,7 @@ import shoppingCart from '../slices/shoppingCart';
 import countriesData from '../slices/countriesData';
 import services from '../slices/services'
 import purchases from '../slices/purchases'
+import chat from '../slices/chat'
 
 export default configureStore({
     reducer: { 
@@ -18,6 +19,7 @@ export default configureStore({
         message,
         countriesData,
         services,
-        purchases
+        purchases,
+        chat
     }
 });
