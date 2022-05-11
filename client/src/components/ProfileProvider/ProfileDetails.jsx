@@ -7,14 +7,14 @@ import { addToCart } from '../../redux/slices/shoppingCart'
 import styles from '../../styles/profile.module.css'
 import { NavLink } from 'react-router-dom'
 import { useState } from 'react'
-import AddFavorites from '../Favorites/AddFavorites'
-import DeleteFavorites from '../Favorites/DeleteFavorites'
-import { addToFavorites, deleteFromFavorites, favoritesSlice, getFavoritesFromDb, updateAdded } from '../../redux/slices/favorites'
+import { addToFavorites, deleteFromFavorites, getFavoritesFromDb } from '../../redux/slices/favorites'
+import { FacebookShareButton, FacebookIcon, TwitterShareButton, TwitterIcon, WhatsappShareButton, WhatsappIcon, EmailShareButton, EmailIcon } from 'react-share'
 
 export default function ProfileDetails() {
   let { ProviderID } = useParams()
   var moment = require('moment')
-
+  const shareUrl = window.location.href
+  const title = 'Attend'
   const dispatch = useDispatch()
   const { favorites } = useSelector((state) => state.favorites)
 
@@ -42,7 +42,6 @@ export default function ProfileDetails() {
     // window.location.reload()
   }
   function checkFavoritos(favorites) {
-    console.log(favorites)
     favorites.forEach((fav) => {
       if (fav.idProveedor === ProviderID) return setAdded(false)
     })
@@ -91,7 +90,22 @@ export default function ProfileDetails() {
                         Eliminar de Favoritos
                       </button>
                     )}
+                    <br />
                     {/* <button className='btn btn-outline-primary'>Mensaje</button> */}
+                    <div className='mt-4'>
+                      <FacebookShareButton url={shareUrl} quote={title} className='mx-2'>
+                        <FacebookIcon size={40} round iconFillColor='white' />
+                      </FacebookShareButton>
+                      <TwitterShareButton url={shareUrl} quote={title} className='mx-2'>
+                        <TwitterIcon size={40} round iconFillColor='white' />
+                      </TwitterShareButton>
+                      <WhatsappShareButton url={shareUrl} quote={title} className='mx-2'>
+                        <WhatsappIcon size={40} round iconFillColor='white' />
+                      </WhatsappShareButton>
+                      <EmailShareButton url={shareUrl} quote={title} className='mx-2'>
+                        <EmailIcon size={40} round iconFillColor='white' />
+                      </EmailShareButton>
+                    </div>
                   </div>
                 </div>
               </div>

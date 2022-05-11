@@ -10,11 +10,10 @@ function Favorites() {
   const { favorites } = useSelector((state) => state.favorites)
 
   const { user } = useSelector((state) => state.auth)
-  let role
-  if (user) role = user.Role
+  let role = user.Role
+  let userId = user.Id
 
   useEffect(() => {
-    let userId = user.id
     dispatch(getFavoritesFromDb(userId))
   }, [dispatch])
   return (
