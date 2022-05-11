@@ -133,6 +133,9 @@ export default function NavBar() {
                   </NavLink>
                 </>
               )}
+                <NavLink to='/home/chat' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
+                  MIS CHATS
+                </NavLink>
 
               {/* <NavLink to='/profile' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
                 MI PERFIL
@@ -142,7 +145,7 @@ export default function NavBar() {
             <div className='d-flex align-items-center justify-content-center text-center' style={{ flexDirection: 'row' }}>
               <NavLink to='/profile' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')} style={{ width: '150px' }}>
                 {/* <img src={UniqueUser.imagen} alt="nt" class="img-circle" width={"20px"}></img> */}
-                MI PERFIL
+                <i className="fa fa-user-circle" aria-hidden="true"></i> MI PERFIL
               </NavLink>
               <NavLink to={'/'}>
                 <Button

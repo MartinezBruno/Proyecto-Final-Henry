@@ -8,6 +8,7 @@ import countriesData from '../slices/countriesData'
 import services from '../slices/services'
 import purchases from '../slices/purchases'
 import favorites from '../slices/favorites'
+import chat from '../slices/chat'
 
 export default configureStore({
   reducer: {
@@ -21,5 +22,6 @@ export default configureStore({
     services,
     purchases,
     favorites,
+    chat
   },
 })

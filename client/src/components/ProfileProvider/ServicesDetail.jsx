@@ -25,7 +25,11 @@ export default function ProfileDetails() {
   const [order, setOrder] = useState('ordenado')
 
   const handleCloseQuestions = () => setShowQuestions(false)
-  const handleshowQuestions = () => setShowQuestions(true)
+  const handleshowQuestions = (e) => {
+    // console.log(e.target.value)
+    dispatch(setMessage(e.target.value))
+    setShowQuestions(true)
+  }
 
   useEffect(() => {
     dispatch(getServiceProvider(idProv, idServ))
@@ -257,6 +261,7 @@ export default function ProfileDetails() {
                                     <button
                                       class='btn btn-primary'
                                       type='button'
+                                      value={preg.id}
                                       style={{ marginBottom: '-50px', height: '35px', textAlignLast: 'center' }}
                                       onClick={handleshowQuestions}>
                                       Responder

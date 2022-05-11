@@ -8,6 +8,9 @@ import Modal from 'react-bootstrap/Modal'
 import Form from 'react-bootstrap/Form'
 import Moment from 'react-moment'
 import { getServiceProvider } from '../../redux/slices/provider'
+import { NavLink } from 'react-router-dom'
+import { getServiceProvider, getUniqueProvider } from '../../redux/slices/provider'
+import { setIdNewProvider } from '../../redux/slices/chat'
 
 export default function Purchases() {
   let dispatch = useDispatch()
@@ -15,6 +18,7 @@ export default function Purchases() {
   let { purchases } = useSelector((state) => state.purchases)
   var { user } = useSelector((state) => state.auth)
   var { serviceProvider } = useSelector((state) => state.provider)
+
   var usuarioId = user.id
 
   var idProv = serviceProvider[0]?.id
@@ -68,24 +72,11 @@ export default function Purchases() {
       })
   }
 
-  // function calificarProveedor(idUsuario, idProveedor, idServicio, body) {
-  //   let fullBody = { ...body, UsuarioId: idUsuario, ServicioId: idServicio, idProveedor: idProveedor }
-  //   fullBody.calificacion = parseInt(fullBody.calificacion)
-  //   fullBody.ServicioId = parseInt(fullBody.ServicioId)
-  //   console.log(fullBody)
-  //   api
-  //     .put('/usuario/calificacion', { ...fullBody })
-  //     .then((res) => {
-  //       Swal.fire('¡Calificacion exitosa!', 'Gracias por tomarte el tiempo de calificar tu compra', 'success')
-  //     })
-  //     .catch((res) => {
-  //       if (res.message === 'Ya calificaste esta compra') {
-  //         Swal.fire('Ha ocurrido un error', 'Ya has calificado esta compra anteriormente!', 'error')
-  //       } else {
-  //         Swal.fire('Ha ocurrido un error', 'No puedes calificar esta compra', 'error')
-  //       }
-  //     })
-  // }
+  function newChat(e) {
+    console.log(e)
+    dispatch(getUniqueProvider(e))
+    dispatch(setIdNewProvider(e))
+  }
 
   ///RENDERIZADO SI EL USUARIO ESTA LOGGEADO SOLO
   if (isLoggedIn) {
@@ -131,7 +122,7 @@ export default function Purchases() {
                         <td>
                           {/* <Button variant="secondary" onClick={()=>calificarProveedor(usuarioId, 'ProviderID', 'Servicio')}>Calificar y comentar</Button> */}
                           <Button
-                            key ={index}
+                            key={index}
                             variant='secondary'
                             onClick={() => {
                               dispatch(getServiceProvider(el.idProveedor, el.idServicio))
@@ -139,7 +130,18 @@ export default function Purchases() {
                             }}>
                             Califica tu servicio
                           </Button>
- 
+                          <NavLink to={"/home/chat"}>
+                            <Button
+                              key={index}
+                              variant='primary'
+                              style={{ marginLeft: '10px' }}
+                              onClick={() => {
+                                newChat(el.idProveedor)
+                              }}>
+                              Ir al Chat
+                            </Button>
+                          </NavLink>
+
                           <Modal show={show} onHide={handleClose}>
                             <Modal.Header closeButton>
                               <Modal.Title>Califica tu servicio</Modal.Title>

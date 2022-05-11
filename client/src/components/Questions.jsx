@@ -10,7 +10,7 @@ import { SetQuestion, setAnswer } from '../redux/slices/provider'
 
 export default function Questions(props) {
   const dispatch = useDispatch()
-  const { message } = useSelector((state) => state.message)
+  const { message } = useSelector((state) => state.provider)
   const { isLoggedIn } = useSelector((state) => state.auth)
   const { user } = useSelector((state) => state.auth)
   const { serviceProvider } = useSelector((state) => state.provider)
@@ -23,7 +23,7 @@ export default function Questions(props) {
   })
 
   const [Answer, setAnswer] = useState({
-    idPregunta: message?.idPregunta,
+    idPregunta: Number(message),
     idProveedor: user.id,
     respuesta: '',
   })
@@ -50,9 +50,10 @@ export default function Questions(props) {
       window.location.reload()
     }, 1000)
   }
-  function handleAnswerSubmit(e) {
-    dispatch(setAnswer(Answer))
-    Swal.fire('Su Pregunta fue agregada correctamente', '', 'success')
+  async function handleAnswerSubmit(e) {
+    // console.log(Answer)
+    await api.patch('/pregunta/respuesta', Answer)
+    Swal.fire('Su Respuesta fue agregada correctamente', '', 'success')
     setTimeout(() => {
       window.location.reload()
     }, 1000)
