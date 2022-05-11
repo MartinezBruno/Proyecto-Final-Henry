@@ -3,6 +3,7 @@ import styles from '../../styles/cards.module.css'
 import { useSelector, useDispatch } from 'react-redux'
 import { getFavoritesFromDb } from '../../redux/slices/favorites'
 import { NavLink } from 'react-router-dom'
+import DeleteFavorites from './DeleteFavorites'
 
 function Favorites() {
   const dispatch = useDispatch()
@@ -52,6 +53,7 @@ function Favorites() {
                             IR AL PERFIL DEL PROVEEDOR
                           </button>
                         </NavLink>
+                        <DeleteFavorites provId={favorite.idProveedor} userId={userId} />
                       </div>
                     </div>
                   </div>
