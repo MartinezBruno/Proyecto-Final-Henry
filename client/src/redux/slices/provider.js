@@ -11,7 +11,7 @@ export const providerSlice = createSlice({
     servicios: [],
     provincias: [],
     ciudades: [],
-    message: {},
+    message: 0,
   },
   reducers: {
     //Reducer para el estado proveedor
@@ -88,11 +88,18 @@ export const {
 
 export default providerSlice.reducer
 
+export function setMessage(payload){
+  return function (dispatch){
+    console.log(payload)
+    dispatch(SetMessage(payload))
+  }
+}
+
 export function SetQuestion(input) {
   return async function (dispatch) {
     let info = await api.patch('/pregunta', input)
     console.log(info.data)
-    dispatch(SetMessage(info.data))
+    // dispatch(SetMessage(info.data))
   }
 }
 export function setAnswer(input) {

@@ -2,7 +2,7 @@ import React from 'react'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { getServiceProvider, RefreshService } from '../redux/slices/provider'
+import { getServiceProvider, RefreshService, setMessage } from '../redux/slices/provider'
 import { Button, Modal } from 'react-bootstrap'
 import Questions from './Questions'
 import { addToCart, updateStateFromStorage } from '../redux/slices/shoppingCart'
@@ -10,7 +10,6 @@ import { services } from '../redux/slices/shoppingCart'
 import styles from '../styles/profile.module.css'
 import { NavLink } from 'react-router-dom'
 import { useState } from 'react'
-import { setMessage } from '../redux/slices/message'
 var moment = require('moment')
 moment.locale('es-us')
 
@@ -25,7 +24,11 @@ export default function ProfileDetails() {
   const [order, setOrder] = useState('ordenado')
 
   const handleCloseQuestions = () => setShowQuestions(false)
-  const handleshowQuestions = () => setShowQuestions(true)
+  const handleshowQuestions = (e) => {
+    // console.log(e.target.value)
+    dispatch(setMessage(e.target.value))
+    setShowQuestions(true)
+  }
 
   useEffect(() => {
     dispatch(getServiceProvider(idProv, idServ))
@@ -257,6 +260,7 @@ export default function ProfileDetails() {
                                     <button
                                       class='btn btn-primary'
                                       type='button'
+                                      value={preg.id}
                                       style={{ marginBottom: '-50px', height: '35px', textAlignLast: 'center' }}
                                       onClick={handleshowQuestions}>
                                       Responder
