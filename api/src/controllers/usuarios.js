@@ -122,6 +122,7 @@ const getFavorites = async (req, res) => {
       })
       favs.push({
         id: favorito.id,
+        idProveedor: favorito.PROVEEDOR_ID,
         nombre_apellido_proveedor: favorito.NOMBRE_APELLIDO_PROVEEDOR,
         imagen: favorito.IMAGEN,
         email: favorito.EMAIL,
@@ -198,14 +199,14 @@ const addFavorito = async (req, res) => {
       },
     })
     await user.addFavorito(fav)
-    return res.status(204).send('Favorito agregado')
+    return res.status(200).send({ message: 'Favorito agregado' })
   } catch (error) {
     console.error(error)
     return res.status(500).send({ message: 'Error al agregar el favorito' })
   }
 }
 
-const deleteFavorito = async (req, res, next) => {
+const deleteFavorito = async (req, res) => {
   const { userId, provId } = req.params
   try {
     let favorito = await Favorito.findOne({
@@ -227,7 +228,7 @@ const deleteFavorito = async (req, res, next) => {
             FavoritoId: favorito.id,
           },
         })
-        return res.status(204).send({ message: 'Favorito eliminado' })
+        return res.status(200).send({ message: 'Favorito eliminado' })
       }
     }
     return res.status(404).send({ message: 'Favorito no encontrado' })
