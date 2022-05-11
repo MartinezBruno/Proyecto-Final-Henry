@@ -1,14 +1,40 @@
 import React from 'react'
 import styles from '../../styles/cards.module.css'
 import { NavLink } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { getServiceProvider } from '../../redux/slices/provider'
+import Swal from 'sweetalert2'
 
 export default function Card({ nombre, imagen, idProv, idServ, servicio, descripcion, provincia, ciudad, precio, calificacion }) {
   const dispatch = useDispatch()
 
+  const { isLoggedIn } = useSelector((state) => state.auth)
+
   function handleSubmit(idProv, idServ) {
     dispatch(getServiceProvider(idProv, idServ))
+  }
+
+  const handleDetails = () => {
+    if (!isLoggedIn) {
+      Swal.fire({
+        title: '<strong>Debes estar <u>Logueado</u> para poder ver mas información</strong>',
+        icon: 'warning',
+        html:
+          '<a href="http://localhost:3000/login">Inicia sesión</a> para continuar con su compra. ' +
+          '<br/>' +
+          'Si no tienes una cuenta, <a href="http://localhost:3000/register">Regístrate</a> de forma rápida y sencilla.',
+        showCloseButton: true,
+        // showCancelButton: true,
+        focusConfirm: false,
+        confirmButtonText: '<i class="fa fa-thumbs-up"></i> Cerrar',
+        confirmButtonAriaLabel: 'Thumbs up, great!',
+        cancelButtonText: '<i class="fa fa-thumbs-down"></i>',
+        cancelButtonAriaLabel: 'Thumbs down',
+      })
+    } else {
+      handleSubmit(idProv, idServ)
+      window.location.href = `/home/${idServ}/${idProv}`
+    }
   }
 
   return (
@@ -149,11 +175,9 @@ export default function Card({ nombre, imagen, idProv, idServ, servicio, descrip
             </div>
           </div>
           <div className={`${styles.profileOverview} `}>
-            <NavLink to={`/home/${idServ}/${idProv}`}>
-              <button type='submit' className='btn btn-success' style={{ width: '90%' }} onClick={() => handleSubmit(idProv, idServ)}>
-                MAS INFORMACION
-              </button>
-            </NavLink>
+            <button type='submit' className='btn btn-success' style={{ width: '90%' }} onClick={() => handleDetails(idProv, idServ)}>
+              MAS INFORMACION
+            </button>
           </div>
         </div>
       </div>
