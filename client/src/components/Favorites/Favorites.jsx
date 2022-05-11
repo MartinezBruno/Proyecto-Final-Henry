@@ -11,7 +11,7 @@ function Favorites() {
 
   const { user } = useSelector((state) => state.auth)
   let role = user.Role
-  let userId = user.Id
+  let userId = user.id
 
   useEffect(() => {
     dispatch(getFavoritesFromDb(userId))
@@ -25,7 +25,7 @@ function Favorites() {
             <div className='d-flex flex-wrap justify-content-center'>
               {favorites.map((favorite) => {
                 return (
-                  <>
+                  <div key={favorite.idProveedor}>
                     <div className={`${styles.profileCard4} text-center`}>
                       <img
                         src={favorite.imagen}
@@ -54,7 +54,7 @@ function Favorites() {
                         </NavLink>
                       </div>
                     </div>
-                  </>
+                  </div>
                 )
               })}
             </div>
