@@ -1,10 +1,10 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
-import styles from '../styles/FloatCartButton.module.css'
+import styles from '../../styles/FloatCartButton.module.css'
 import Badge from 'react-bootstrap/Badge'
 import Button from 'react-bootstrap/Button'
-import { deleteService, payServices, deleteAllOfOneService, addToCart, clearCart } from '../redux/slices/shoppingCart'
+import { deleteService, payServices, deleteAllOfOneService, addToCart, clearCart } from '../../redux/slices/shoppingCart'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 
 export default function Shopping() {

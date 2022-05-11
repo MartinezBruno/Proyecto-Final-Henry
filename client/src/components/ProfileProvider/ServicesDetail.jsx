@@ -2,14 +2,15 @@ import React from 'react'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { getServiceProvider, RefreshService, setMessage } from '../redux/slices/provider'
+import { getServiceProvider, RefreshService } from '../../redux/slices/provider'
 import { Button, Modal } from 'react-bootstrap'
-import Questions from './Questions'
-import { addToCart, updateStateFromStorage } from '../redux/slices/shoppingCart'
-import { services } from '../redux/slices/shoppingCart'
-import styles from '../styles/profile.module.css'
+import Questions from '../Questions'
+import { addToCart, updateStateFromStorage } from '../../redux/slices/shoppingCart'
+import { services } from '../../redux/slices/shoppingCart'
+import styles from '../../styles/profile.module.css'
 import { NavLink } from 'react-router-dom'
 import { useState } from 'react'
+import { setMessage } from '../../redux/slices/message'
 var moment = require('moment')
 moment.locale('es-us')
 
@@ -19,6 +20,7 @@ export default function ProfileDetails() {
 
   const dispatch = useDispatch()
   const { serviceProvider } = useSelector((state) => state.provider)
+  const { services } = useSelector((state) => state.shoppingCart)
   const { user, isLoggedIn } = useSelector((state) => state.auth)
   const [showQuestions, setShowQuestions] = useState(false)
   const [order, setOrder] = useState('ordenado')
@@ -69,6 +71,22 @@ export default function ProfileDetails() {
                               Ver Perfil
                             </button>
                           </NavLink>
+                          <button
+                            className='btn btn-success'
+                            style={{ padding: '5px' }}
+                            onClick={() => {
+                              dispatch(addToCart({ ...serviceProvider[0]?.servicio, provID: idProv, provName: serviceProvider[0]?.nombre_apellido_proveedor })) //Le mando los datos del servicio y del proveedor
+                              localStorage.setItem(
+                                'cartList',
+                                JSON.stringify([
+                                  ...services,
+                                  { ...serviceProvider[0]?.servicio, provID: idProv, provName: serviceProvider[0]?.nombre_apellido_proveedor },
+                                ])
+                              )
+                            }}>
+                            {' '}
+                            <i className='fa fa-cart-plus' aria-hidden='true'></i> Solicitar
+                          </button>
                         </div>
                       </div>
                     </div>

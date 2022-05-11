@@ -1,8 +1,8 @@
 import React from 'react'
-import styles from '../styles/profile.module.css'
+import styles from '../../styles/profile.module.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
-import { getUser } from '../redux/slices/user'
+import { getUser } from '../../redux/slices/user'
 
 export default function ProfileShowInfo(props) {
   function handleSave() {

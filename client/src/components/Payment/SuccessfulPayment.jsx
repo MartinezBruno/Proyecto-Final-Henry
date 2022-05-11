@@ -2,8 +2,8 @@ import React from 'react'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
-import { clearServices } from '../redux/slices/shoppingCart'
-import api from '../services/api'
+import { clearServices } from '../../redux/slices/shoppingCart'
+import api from '../../services/api'
 
 export default function SuccessfulPayment() {
   // const { services } = useSelector(state => state.shoppingCart)

@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import { useEffect } from 'react'
-import { getUser } from '../redux/slices/user'
-import styles from '../styles/profile.module.css'
+import { getUser } from '../../redux/slices/user'
+import styles from '../../styles/profile.module.css'
 import { useDispatch, useSelector } from 'react-redux'
-import ProfileEditInfoProv from './ProfileEditInfoProv'
-import ProfileShowInfoProv from './ProfileShowInfoProv'
-import { getUniqueProvider } from '../redux/slices/provider'
-import AddService from './AddService'
-import DeleteService from './DeleteService'
+import ProfileEditInfoProv from './ProfileEditInfo'
+import ProfileShowInfoProv from './ProfileShowInfo'
+import { getUniqueProvider } from '../../redux/slices/provider'
+import AddService from '../Services/AddService'
+import DeleteService from '../Services/DeleteService'
 
 function ProfileProveedor() {
   const [isEditing, setEditing] = useState(false)

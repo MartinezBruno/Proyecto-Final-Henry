@@ -2,8 +2,8 @@ import React from 'react'
 import { useEffect } from 'react'
 import { getUser } from '../redux/slices/user'
 import { useDispatch, useSelector } from 'react-redux'
-import ProfileProveedor from './ProfileProveedor'
-import ProfileUser from './ProfileUser'
+import ProfileProveedor from './ProfileProvider/Profile'
+import ProfileUser from './ProfileUser/Profile'
 
 export default function Profile() {
   const dispatch = useDispatch()

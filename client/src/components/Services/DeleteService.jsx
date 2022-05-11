@@ -3,10 +3,10 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Button } from 'react-bootstrap'
 import Modal from 'react-bootstrap/Modal'
 import Form from 'react-bootstrap/Form'
-import { getUniqueProvider } from '../redux/slices/provider'
+import { getUniqueProvider } from '../../redux/slices/provider'
 
 import Swal from 'sweetalert2'
-import api from '../services/api'
+import api from '../../services/api'
 
 function DeleteService() {
   const { user } = useSelector((state) => state.auth)
