@@ -46,6 +46,7 @@ const {
   Comentario,
   Compra,
   Chat,
+  Favorito,
 } = sequelize.models
 
 // Aca vendrian las relaciones
@@ -133,6 +134,9 @@ Chat.belongsTo(Usuario)
 Usuario.hasOne(Chat)
 Chat.belongsTo(Proveedor)
 Proveedor.hasOne(Chat)
+
+Favorito.belongsToMany(Usuario, { through: 'Usuario_Favorito' })
+Usuario.belongsToMany(Favorito, { through: 'Usuario_Favorito' })
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');

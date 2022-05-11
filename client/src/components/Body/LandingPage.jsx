@@ -1,4 +1,4 @@
-import styles from '../styles/landingpage.module.css'
+import styles from '../../styles/landingpage.module.css'
 import NavBar from './Navbar'
 import Footer from './Footer'
 import 'animate.css'

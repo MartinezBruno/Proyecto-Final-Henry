@@ -5,9 +5,9 @@ import Modal from 'react-bootstrap/Modal'
 import Form from 'react-bootstrap/Form'
 import InputGroup from 'react-bootstrap/InputGroup'
 import Swal from 'sweetalert2'
-import { chargeServices } from '../redux/slices/services'
+import { chargeServices } from '../../redux/slices/services'
 
-import api from '../services/api'
+import api from '../../services/api'
 
 export default function AddService(props) {
   //   let { provID } = props

@@ -1,16 +1,16 @@
 import React from 'react'
-import styles from '../styles/navbar.module.css'
-import logo from './img-logo/Logo2_Definitivo.png'
+import styles from '../../styles/navbar.module.css'
+import logo from '../img-logo/Logo2_Definitivo.png'
 import { NavLink } from 'react-router-dom'
 import { useState } from 'react'
 import { Button, Modal } from 'react-bootstrap'
-import Register from './Register'
-import Login from './Login'
+import Register from '../Login_Register/Register'
+import Login from '../Login_Register/Login'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
-import { getUser } from '../redux/slices/user'
-import { logout } from '../redux/slices/auth'
-import { getUniqueProvider } from '../redux/slices/provider'
+import { getUser } from '../../redux/slices/user'
+import { logout } from '../../redux/slices/auth'
+import { getUniqueProvider } from '../../redux/slices/provider'
 
 export default function NavBar() {
   const [showRegister, setShowRegister] = useState(false)
@@ -124,9 +124,14 @@ export default function NavBar() {
               </NavLink>
 
               {role === 'USUARIO' && (
-                <NavLink to='/purchases' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
-                  TUS COMPRAS
-                </NavLink>
+                <>
+                  <NavLink to='/purchases' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
+                    TUS COMPRAS
+                  </NavLink>
+                  <NavLink to='/profile/favorites' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
+                    TUS FAVORITOS
+                  </NavLink>
+                </>
               )}
                 <NavLink to='/home/chat' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
                   MIS CHATS

@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { useEffect } from 'react'
-import { getUser } from '../redux/slices/user'
-import styles from '../styles/profile.module.css'
+import { getUser } from '../../redux/slices/user'
+import styles from '../../styles/profile.module.css'
 import { useDispatch, useSelector } from 'react-redux'
-import ProfileEditInfoUser from './ProfileEditInfoUser'
-import ProfileShowInfoUser from './ProfileShowInfoUser'
-import ComprasUsuario from './ComprasUsuario'
+import ProfileEditInfoUser from './ProfileEditInfo'
+import ProfileShowInfoUser from './ProfileShowInfo'
+import ComprasUsuario from '../Payment/ComprasUsuario'
 
 function ProfileUser() {
   const [isEditing, setEditing] = useState(false)
