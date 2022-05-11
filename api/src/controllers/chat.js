@@ -49,7 +49,7 @@ const getChat = async (req, res) => {
 }
 
 const getHistoryChat = async (req, res) => {
-  const { idUsuario, idProveedor } = req.body
+  const { idUsuario, idProveedor } = req.query
   try {
     
     if(idUsuario){

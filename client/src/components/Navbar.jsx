@@ -128,6 +128,9 @@ export default function NavBar() {
                   TUS COMPRAS
                 </NavLink>
               )}
+                <NavLink to='/home/chat' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
+                  MIS CHATS
+                </NavLink>
 
               {/* <NavLink to='/profile' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
                 MI PERFIL
