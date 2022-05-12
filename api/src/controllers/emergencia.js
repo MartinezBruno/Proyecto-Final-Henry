@@ -1,0 +1,56 @@
+const {
+  Usuario,
+  Ciudad,
+  Provincia,
+  Pais,
+  Proveedor,
+  Comentario,
+  Proveedor_Servicio,
+  Compra,
+  Servicio,
+  Precio,
+  Descripcion,
+  Favorito,
+  Usuario_Favorito,
+  Emergencia,
+} = require('../db')
+
+const emergencia = async (req, res) => {
+  const { precioMaximo, tiempoMaximo, ServicioId, UsuarioId } = req.body
+
+  let emergencia = await Emergencia.create({
+    PRECIO_MAXIMO: precioMaximo,
+    ESPERA_MAXIMA: tiempoMaximo,
+  })
+  let usuario = await Usuario.findByPk(UsuarioId)
+  let servicio = await Servicio.findByPk(ServicioId)
+
+  emergencia.setUsuario(usuario.id)
+  emergencia.setServicio(servicio.id)
+
+  return res.status(200).send('beibe sana mi dolor')
+}
+
+const takeEmergencia = async (req, res) => {
+  const { UsuarioId, ProveedorId, ServicioId } = req.body
+
+  let emergencia = await Emergencia.findOne({
+    where: { UsuarioId: UsuarioId },
+  })
+
+  let provedorServ = await Proveedor_Servicio.findOne({
+    where: {ProveedorId: ProveedorId, ServicioId: ServicioId}
+  })
+  
+  
+   emergencia.update({ ProveedorId: ProveedorId, ProveedorServicioId: provedorServ.id }, { where: { UsuarioId: UsuarioId } })
+   res.status(200).send('se nos va, se nos va')
+
+  
+
+}
+
+module.exports = {
+  emergencia,
+  takeEmergencia,
+}
