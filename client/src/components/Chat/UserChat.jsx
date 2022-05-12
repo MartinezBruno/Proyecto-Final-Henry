@@ -25,7 +25,7 @@ export default function UserChat() {
 
   useEffect(() => {
     dispatch(getUserChatHistory(idUsuario))
-  }, [dispatch])
+  }, [])
 
   useEffect(() => {
     setTimeout(() => {
@@ -54,9 +54,7 @@ export default function UserChat() {
 
   async function handleSubmitUsuario() {
     await api.post('/chat', userMessage)
-    dispatch(newUserMessage(userMessage))
     dispatch(refreshChat(userMessage))
-    dispatch(newUserMessage(userMessage))
     setUserMessage({
       ...userMessage,
       mensajeUsuario: '',
@@ -114,20 +112,6 @@ export default function UserChat() {
                     <div className='chat-about'>
                       <h5 className='m-b-0'>{uniqueprovider.nombre_apellido_proveedor}</h5>
                     </div>
-                  </div>
-                  <div className='col-lg-6 hidden-sm text-right'>
-                    <a href='javascript:void(0);' className='btn btn-outline-secondary'>
-                      <i className='fa fa-camera'></i>
-                    </a>
-                    <a href='javascript:void(0);' className='btn btn-outline-primary'>
-                      <i className='fa fa-image'></i>
-                    </a>
-                    <a href='javascript:void(0);' className='btn btn-outline-info'>
-                      <i className='fa fa-cogs'></i>
-                    </a>
-                    <a href='javascript:void(0);' className='btn btn-outline-warning'>
-                      <i className='fa fa-question'></i>
-                    </a>
                   </div>
                 </div>
               </div>

@@ -43,6 +43,7 @@ export default function ProviderChat() {
 
   function handleChat(idUsuario, idProveedor) {
     dispatch(setClickChat(idUsuario, idProveedor))
+    dispatch(getUser(idUsuario))
     setProviderMessage({
       ...providerMessage,
       idUsuario: idUsuario,
@@ -51,9 +52,7 @@ export default function ProviderChat() {
 
   async function handleSubmitProveedor() {
     await api.post('/chat', providerMessage)
-    dispatch(newProviderMessage(providerMessage))
     dispatch(refreshChat(providerMessage))
-    dispatch(newProviderMessage(providerMessage))
     setProviderMessage({
       ...providerMessage,
       mensajeProveedor: '',
