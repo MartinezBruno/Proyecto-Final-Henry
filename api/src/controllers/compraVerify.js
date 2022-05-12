@@ -9,36 +9,27 @@ const compraVerify = async (req, res) => {
     let idServicio = cart?.map((compra) => compra.id)
 
     let usuario = await Usuario.findOne({ where: { id: idUsuario } })
-    
+
     for (let i = 0; i < idProveedor.length; i++) {
       let provServ = await Proveedor_Servicio.findAll({
         where: { ProveedorId: idProveedor[i] },
       })
-
       let compras = []
       for (let i = 0; i < provServ.length; i++) {
-        let compra = await CompraVerify.findOne({ where: { ProveedorServicioId: provServ[i].id } })
+        let compra = await CompraVerify.findAll({ where: { ProveedorServicioId: provServ[i].id } })
         if (compra) compras.push(compra)
       }
-      if (compras) {
-        console.log(compras.length)
-        for (let i = 0; i < compras.length; i++) {
-          let compra = compras[i]
+      compras = compras.flat()
 
-          let evento = await Evento.findByPk(compra.EventoId)
+      if (compras) {
+        for (let i = 0; i < compras.length; i++) {
+          let evento = await Evento.findOne({ where: { id: compras[i].EventoId } })
           if (evento) {
             let startEvent = moment(evento.START)
             let endEvent = moment(evento.END)
             let startUser = moment(start)
             let endUser = moment(end)
-            console.log(startEvent, startUser)
-            console.log(endEvent, endUser)
-            // evento.START>start && evento.END>end || evento.START<=start&&evento.END>=end || evento.start<start&&evento.END<end
-            if (
-              (startEvent.isAfter(startUser) && endEvent.isAfter(endUser)) ||
-              (startEvent.isSameOrBefore(startUser) && endEvent.isSameOrAfter(endUser)) ||
-              (startEvent.isBefore(startUser) && endEvent.isBefore(endUser))
-            ) {
+            if (!(startEvent.isBefore(startUser) && endEvent.isBefore(startUser)) || (startEvent.isAfter(startUser) && endEvent.isAfter(endUser))) {
               return res.status(304).send({ message: 'Ya existe un evento en ese horario' })
             }
           }
