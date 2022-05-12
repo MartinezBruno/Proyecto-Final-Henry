@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getProviderChatHistory, refreshChat, setClickChat } from '../../redux/slices/chat'
+import { getProviderChatHistory, newProviderMessage, refreshChat, setClickChat } from '../../redux/slices/chat'
 import { getUser } from '../../redux/slices/user'
 import api from '../../services/api'
 import './chat.css'
@@ -9,25 +9,31 @@ export default function ProviderChat() {
   const { user } = useSelector((state) => state.auth)
   const { UniqueUser } = useSelector((state) => state.user)
   const { actualChat } = useSelector((state) => state.chat)
+  const { msj } = useSelector((state) => state.chat)
   const { chatHistory } = useSelector((state) => state.chat)
   const { uniqueprovider } = useSelector((state) => state.provider)
 
   const dispatch = useDispatch()
   const idProveedor = user.id
-  
+
   useEffect(() => {
-      dispatch(getProviderChatHistory(idProveedor))
+    dispatch(getProviderChatHistory(idProveedor))
   }, [dispatch])
-  
+
   const [providerMessage, setProviderMessage] = useState({
-      idUsuario: "",
-      idProveedor: idProveedor,
-      mensajeProveedor: '',
-    })
-    
+    idUsuario: '',
+    idProveedor: idProveedor,
+    mensajeProveedor: '',
+  })
+
+  useEffect(() => {
+    setTimeout(() => {
+      dispatch(newProviderMessage(providerMessage))
+      dispatch(refreshChat(providerMessage))
+    }, 10000);
+  }, [actualChat.msj])
 
   function handleChangeProvider(e) {
-    // console.log(idProveedor)
     e.preventDefault()
     setProviderMessage({
       ...providerMessage,
@@ -36,9 +42,7 @@ export default function ProviderChat() {
   }
 
   function handleChat(idUsuario, idProveedor) {
-    console.log(idProveedor)
     dispatch(setClickChat(idUsuario, idProveedor))
-    dispatch(getUser(idUsuario))
     setProviderMessage({
       ...providerMessage,
       idUsuario: idUsuario,
@@ -46,11 +50,13 @@ export default function ProviderChat() {
   }
 
   async function handleSubmitProveedor() {
-    await api.post("http://localhost:3001/api/chat", providerMessage)
+    await api.post('/chat', providerMessage)
+    dispatch(newProviderMessage(providerMessage))
     dispatch(refreshChat(providerMessage))
+    dispatch(newProviderMessage(providerMessage))
     setProviderMessage({
-        ...providerMessage,
-        mensajeProveedor: '',
+      ...providerMessage,
+      mensajeProveedor: '',
     })
   }
 
@@ -60,11 +66,9 @@ export default function ProviderChat() {
         <div className='col-lg-12'>
           <div className='card chat-app'>
             <div id='plist' className='people-list'>
-                <h4 style={{display:"flex", justifyContent:"center"}}>Chats Abiertos</h4>
-                <hr/>
-              <div className='input-group'>
-                {/* <input type='text' className='form-control' placeholder='Buscar...' /> */}
-              </div>
+              <h4 style={{ display: 'flex', justifyContent: 'center' }}>Chats Abiertos</h4>
+              <hr />
+              <div className='input-group'>{/* <input type='text' className='form-control' placeholder='Buscar...' /> */}</div>
               <ul className='list-unstyled chat-list mt-2 mb-0'>
                 {chatHistory?.map((p) => (
                   <a href='#ScrollDown'>
@@ -96,7 +100,7 @@ export default function ProviderChat() {
                   <div className='col-lg-6'>
                     <img
                       src={UniqueUser.imagen}
-                      style={{width:"45px", height:"45px"}}
+                      style={{ width: '45px', height: '45px' }}
                       alt='nt'
                       onError={(e) =>
                         (e.target.src =
@@ -137,15 +141,18 @@ export default function ProviderChat() {
                         </li>
                       )
                     )
-                  ) : ( 
+                  ) : (
                     <>
                       <div className='row chat-empty '>
                         <img src='https://upload.wikimedia.org/wikipedia/commons/1/1a/Dialogos_2.png' style={{ width: '400px' }} />
                       </div>
-                      <h4 style={{display:"flex", justifyContent:"center", margin:"50px", textAlign:"center"}}>Si usted accedio a este chat desde la seccion mis compras, debe enviar el mensaje antes de realizar cualquier otra accion, de lo contrario, Su proveedor no se guardara en su lista de Chats Abiertos y NO le podra enviar un Mensaje en un futuro, salvo que repita el procedimiento.</h4>
+                      <h4 style={{ display: 'flex', justifyContent: 'center', margin: '50px', textAlign: 'center' }}>
+                        Si usted accedio a este chat desde la seccion mis compras, debe enviar el mensaje antes de realizar cualquier otra accion, de lo
+                        contrario, Su proveedor no se guardara en su lista de Chats Abiertos y NO le podra enviar un Mensaje en un futuro, salvo que repita el
+                        procedimiento.
+                      </h4>
                     </>
                   )}
-                  
                 </ul>
                 <div id='ScrollDown'></div>
               </div>

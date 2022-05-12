@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { filterByName, getUserChatHistory, refreshChat, setClickChat } from '../../redux/slices/chat'
+import { getUserChatHistory, newUserMessage, refreshChat, setClickChat } from '../../redux/slices/chat'
 import { getUniqueProvider } from '../../redux/slices/provider'
 import api from '../../services/api'
 import './chat.css'
 
 export default function UserChat() {
   const { user } = useSelector((state) => state.auth)
+  const { msj } = useSelector((state) => state.chat)
   const { actualChat } = useSelector((state) => state.chat)
   const { chatHistory } = useSelector((state) => state.chat)
   const { idNewProvider } = useSelector((state) => state.chat)
@@ -15,7 +16,6 @@ export default function UserChat() {
   const dispatch = useDispatch()
   const idUsuario = user.id
   const idProvider = idNewProvider
-  //   console.log(idProvider)
 
   const [userMessage, setUserMessage] = useState({
     idUsuario: idUsuario,
@@ -25,7 +25,14 @@ export default function UserChat() {
 
   useEffect(() => {
     dispatch(getUserChatHistory(idUsuario))
-  }, [])
+  }, [dispatch])
+
+  useEffect(() => {
+    setTimeout(() => {
+      dispatch(newUserMessage(userMessage))
+      dispatch(refreshChat(userMessage))
+    }, 10000);
+  }, [actualChat.msj])
 
   function handleChangeUser(e) {
     e.preventDefault()
@@ -35,6 +42,7 @@ export default function UserChat() {
     })
   }
 
+  //Cambiar de un chat a otro
   function handleChat(idUsuario, idProveedor) {
     dispatch(setClickChat(idUsuario, idProveedor))
     dispatch(getUniqueProvider(idProveedor))
@@ -45,8 +53,10 @@ export default function UserChat() {
   }
 
   async function handleSubmitUsuario() {
-    await api.post('http://localhost:3001/api/chat', userMessage)
+    await api.post('/chat', userMessage)
+    dispatch(newUserMessage(userMessage))
     dispatch(refreshChat(userMessage))
+    dispatch(newUserMessage(userMessage))
     setUserMessage({
       ...userMessage,
       mensajeUsuario: '',
