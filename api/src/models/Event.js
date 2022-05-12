@@ -3,11 +3,11 @@ const { DataTypes } = require('sequelize')
 module.exports = (sequelize) => {
   sequelize.define('Evento', {
     START: {
-      type: DataTypes.DATE,
+      type: DataTypes.STRING,
       allowNull: false,
     },
     END: {
-      type: DataTypes.DATE,
+      type: DataTypes.STRING,
       allowNull: false,
     },
     TITLE: {
