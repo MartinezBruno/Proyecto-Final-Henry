@@ -67,28 +67,32 @@ const allProvs = async () => {
   }
 
   ProveedoresAMostrar = ProveedoresAMostrar.map((prov) => {
-    return {
-      id: prov.proveedor.id,
-      nombre_apellido_proveedor: prov.proveedor.NOMBRE_APELLIDO_PROVEEDOR,
-      email: prov.proveedor.EMAIL,
-      imagen: prov.proveedor.IMAGEN,
-      fecha_nacimiento: prov.proveedor.FECHA_NACIMIENTO,
-      calificacion: promedio(prov.proveedor.CALIFICACION),
-      serviciosCompletados: prov.proveedor.CALIFICACION.length,
-      status: prov.proveedor.STATUS,
-      creation_date: prov.proveedor.createdAt,
-      ciudad: prov.proveedor.Ciudad ? prov.proveedor.Ciudad.NOMBRE_CIUDAD : 'Sin definir',
-      provincia: prov.proveedor.Provincium ? prov.proveedor.Provincium.NOMBRE_PROVINCIA : 'Sin definir',
-      pais: prov.proveedor.Pai.NOMBRE_PAIS,
-      servicio: {
-        id: prov.servicio.id,
-        nombre: prov.servicio.NOMBRE_SERVICIO,
-        remote: prov.servicio.REMOTE,
-        precio: prov.precio,
-        descripcion: prov.descripcion,
-      },
+    if (prov.servicio.id !== 1) {
+      return {
+        id: prov.proveedor.id,
+        nombre_apellido_proveedor: prov.proveedor.NOMBRE_APELLIDO_PROVEEDOR,
+        email: prov.proveedor.EMAIL,
+        imagen: prov.proveedor.IMAGEN,
+        fecha_nacimiento: prov.proveedor.FECHA_NACIMIENTO,
+        calificacion: promedio(prov.proveedor.CALIFICACION),
+        serviciosCompletados: prov.proveedor.CALIFICACION.length,
+        status: prov.proveedor.STATUS,
+        creation_date: prov.proveedor.createdAt,
+        ciudad: prov.proveedor.Ciudad ? prov.proveedor.Ciudad.NOMBRE_CIUDAD : 'Sin definir',
+        provincia: prov.proveedor.Provincium ? prov.proveedor.Provincium.NOMBRE_PROVINCIA : 'Sin definir',
+        pais: prov.proveedor.Pai.NOMBRE_PAIS,
+        servicio: {
+          id: prov.servicio.id,
+          nombre: prov.servicio.NOMBRE_SERVICIO,
+          remote: prov.servicio.REMOTE,
+          precio: prov.precio,
+          descripcion: prov.descripcion,
+        },
+      }
     }
-  })
+    return null
+  }).filter((prov) => prov !== null)
+
   return ProveedoresAMostrar
 }
 
@@ -131,7 +135,7 @@ const getProv = async (req, res, next) => {
         let Comentarios = await Comentario.findAll({
           where: { ProveedorServicioId: proveedorServicio[0].dataValues.id },
         })
-        console.log(Comentarios)
+        // console.log(Comentarios)
 
         let UsuarioComentario = []
         for (let i = 0; i < Comentarios.length; i++) {
@@ -207,6 +211,7 @@ const getProvByID = async (req, res, next) => {
       email: proveedor.EMAIL,
       imagen: proveedor.IMAGEN,
       fecha_nacimiento: proveedor.FECHA_NACIMIENTO,
+      celular: proveedor.CELULAR,
       calificacion: proveedor.CALIFICACION,
       creation_date: proveedor.createdAt,
       ciudad: proveedor.Ciudad ? proveedor.Ciudad.NOMBRE_CIUDAD : 'Sin definir',
@@ -282,10 +287,8 @@ const deleteServicio_Prov = async (req, res) => {
         },
       })
 
-      let [p, _created] = await Precio.findOrCreate({
-        where: {
-          PRECIO: servicio.PRECIO,
-        },
+      let p = await Precio.findOrCreate({
+        PRECIO: servicio.PRECIO,
       })
       let d = await Descripcion.create({
         DESCRIPCION: servicio.DESCRIPCION,
@@ -381,11 +384,11 @@ const filtroPorProfesion = async (req, res) => {
         NOMBRE_SERVICIO: service,
       },
     })
-    console.log(servicios)
+    // console.log(servicios)
     let servicioFilt = servicios.id
     //     console.log(servicios.id)
     let proveedorServ = await getProveedores()
-    console.log(proveedorServ)
+    // console.log(proveedorServ)
     let provFiltered = proveedorServ.filter((prov) => prov.servicio.id === servicioFilt)
     return res.status(200).send(provFiltered)
   } catch (error) {
@@ -407,7 +410,7 @@ const filtroPorProvincia = async (req, res) => {
     let filtProvincia = provincias.NOMBRE_PROVINCIA
     let proveedores = await getProveedores()
     let proveedorProvincia = proveedores.filter((provincia) => provincia.provincia === filtProvincia)
-    console.log(proveedorProvincia)
+    // console.log(proveedorProvincia)
     return res.status(200).send(proveedorProvincia)
   } catch (error) {
     return res.status(500).send(error)
@@ -769,10 +772,7 @@ const filtroProveedor = async (req, res, next) => {
   if (search) {
     try {
       let proveedores = await allProvs()
-      proveedores = proveedores.filter(
-        (prov) =>
-          prov.servicio.nombre.toLowerCase().includes(search.toLowerCase()) || prov.nombre_apellido_proveedor.toLowerCase().includes(search.toLowerCase())
-      )
+      proveedores = proveedores.filter((prov) => prov.nombre_apellido_proveedor.toLowerCase().includes(search.toLowerCase()))
       // TODOS
       if (pais === 'Todos' && provincia === 'Todos' && ciudad === 'Todos' && servicio === 'Todos' && remote === 'Todos') {
         try {

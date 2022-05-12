@@ -1,10 +1,10 @@
 import React from 'react'
-import styles from '../styles/profile.module.css'
+import styles from '../../styles/profile.module.css'
 import Swal from 'sweetalert2'
 import 'animate.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
-import { getUser, ModifyUser } from '../redux/slices/user'
+import { getUser, ModifyUser } from '../../redux/slices/user'
 import { useState } from 'react'
 
 export default function ProfileEditInfo(props) {

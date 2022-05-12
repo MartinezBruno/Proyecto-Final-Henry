@@ -79,7 +79,7 @@
 
 .floatingContainer {
   position: fixed;
-  width: 10rem;
+  width: 13rem;
   max-height: 50px;
   bottom: 0;
   right: 0;
@@ -101,7 +101,7 @@
   justify-content: center;
   flex-direction: row;
   position: absolute;
-  width: 9rem;
+  width: 11rem;
   height: 3rem;
   background: #2cb3f0;
   bottom: 0;

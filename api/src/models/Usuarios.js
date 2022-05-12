@@ -23,6 +23,8 @@ module.exports = (sequelize) => {
 
     IMAGEN: {
       type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: 'https://www.softzone.es/app/uploads-softzone.es/2018/04/guest.png?x=480&quality=20',
     },
 
     FECHA_NACIMIENTO: {
@@ -36,13 +38,7 @@ module.exports = (sequelize) => {
     },
 
     CELULAR: {
-      type: DataTypes.INTEGER,
-    },
-
-    FAVORITOS: {
-      type: DataTypes.ARRAY(DataTypes.UUID),
-      allowNull: false,
-      defaultValue: [],
+      type: DataTypes.BIGINT,
     },
   })
 }

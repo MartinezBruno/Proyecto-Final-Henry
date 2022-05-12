@@ -1,4 +1,18 @@
-const { Usuario, Ciudad, Provincia, Pais, Proveedor, Comentario, Proveedor_Servicio, Compra } = require('../db')
+const {
+  Usuario,
+  Ciudad,
+  Provincia,
+  Pais,
+  Proveedor,
+  Comentario,
+  Proveedor_Servicio,
+  Compra,
+  Servicio,
+  Precio,
+  Descripcion,
+  Favorito,
+  Usuario_Favorito,
+} = require('../db')
 
 const getUsers = async (req, res) => {
   try {
@@ -16,6 +30,10 @@ const getUsers = async (req, res) => {
           model: Ciudad,
           attributes: ['NOMBRE_CIUDAD'],
         },
+        {
+          model: Favorito,
+          attributes: ['id', 'NOMBRE_APELLIDO_PROVEEDOR', 'IMAGEN', 'EMAIL', 'CELULAR', 'PAIS', 'PROVINCIA', 'CIUDAD'],
+        },
       ],
     })
     let usersToSend = users.map((user) => {
@@ -28,7 +46,7 @@ const getUsers = async (req, res) => {
         fecha_nacimiento: user.FECHA_NACIMIENTO,
         calificacion: user.CALIFICACION,
         compras: user.COMPRAS,
-        favoritos: user.FAVORITOS,
+        favoritos: user.Favorito,
         creation_date: user.createdAt,
         pais: user.Pai ? user.Pai.NOMBRE_PAIS : 'Sin definir',
         provincia: user.Provincium ? user.Provincium.NOMBRE_PROVINCIA : 'Sin definir',
@@ -61,6 +79,10 @@ const getUserById = async (req, res) => {
         model: Ciudad,
         attributes: ['NOMBRE_CIUDAD'],
       },
+      {
+        model: Favorito,
+        attributes: ['id', 'NOMBRE_APELLIDO_PROVEEDOR', 'IMAGEN', 'EMAIL', 'CELULAR', 'PAIS', 'PROVINCIA', 'CIUDAD'],
+      },
     ],
   })
 
@@ -73,7 +95,7 @@ const getUserById = async (req, res) => {
     fecha_nacimiento: user.FECHA_NACIMIENTO,
     calificacion: user.CALIFICACION,
     compras: user.COMPRAS,
-    favoritos: user.FAVORITOS,
+    favoritos: user.Favorito,
     creation_date: user.createdAt,
     pais: user.Pai ? user.Pai.NOMBRE_PAIS : 'Sin definir',
     provincia: user.Provincium ? user.Provincium.NOMBRE_PROVINCIA : 'Sin definir',
@@ -83,55 +105,136 @@ const getUserById = async (req, res) => {
   return res.status(200).send(usuarioAMostrar)
 }
 
-const addFavorito = async (req, res, next) => {
-  const { userId, provId } = req.params
+const getFavorites = async (req, res) => {
+  const { userId } = req.params
   try {
-    let user = await Usuario.findOne({
-      where: { id: userId },
-    })
-    if (user === null) return res.status(404).send({ message: 'Usuario no encontrado' })
-
-    let favorites = user.FAVORITOS
-    if (favorites.includes(provId)) {
-      return res.status(200).send({ message: 'El usuario ya tiene a ese proveedor en sus favoritos' })
-    }
-    favorites.push(provId)
-    console.log(favorites)
-
-    await Usuario.update(
-      {
-        FAVORITOS: favorites,
+    let favoritos = await Usuario_Favorito.findAll({
+      where: {
+        UsuarioId: userId,
       },
-      { where: { id: userId } }
-    )
-    return res.status(204).send({ message: 'Favorito agregado' })
+    })
+    let favs = []
+    for (let fav of favoritos) {
+      let favorito = await Favorito.findOne({
+        where: {
+          id: fav.FavoritoId,
+        },
+      })
+      favs.push({
+        id: favorito.id,
+        idProveedor: favorito.PROVEEDOR_ID,
+        nombre_apellido_proveedor: favorito.NOMBRE_APELLIDO_PROVEEDOR,
+        imagen: favorito.IMAGEN,
+        email: favorito.EMAIL,
+        celular: favorito.CELULAR,
+        pais: favorito.PAIS,
+        provincia: favorito.PROVINCIA,
+        ciudad: favorito.CIUDAD,
+      })
+    }
+    return res.status(200).send(favs)
   } catch (error) {
     console.error(error)
-    next(error)
+    return res.status(500).send({ message: 'Error al obtener los favoritos' })
   }
 }
 
-const deleteFavorito = async (req, res, next) => {
+const addFavorito = async (req, res) => {
   const { userId, provId } = req.params
   try {
-    let user = await Usuario.findOne({
+    let favorito = await Favorito.findOne({
       where: {
-        id: userId,
+        PROVEEDOR_ID: provId,
       },
     })
+    if (favorito !== null) {
+      let favoritoUser = await Usuario_Favorito.findOne({
+        where: {
+          UsuarioId: userId,
+          FavoritoId: favorito.id,
+        },
+      })
+      if (favoritoUser !== null) return res.status(302).send({ message: 'Ya esta en favoritos' })
+    }
+    let user = await Usuario.findByPk(userId)
     if (user === null) return res.status(404).send({ message: 'Usuario no encontrado' })
-    let favs = user.FAVORITOS.filter((fav) => fav !== provId)
-    await Usuario.update(
-      {
-        FAVORITOS: favs,
+
+    let provider = await Proveedor.findByPk(provId, {
+      include: [
+        {
+          model: Pais,
+          attributes: ['NOMBRE_PAIS'],
+        },
+        {
+          model: Provincia,
+          attributes: ['NOMBRE_PROVINCIA'],
+        },
+        {
+          model: Ciudad,
+          attributes: ['NOMBRE_CIUDAD'],
+        },
+      ],
+    })
+    if (provider === null) return res.status(404).send({ message: 'Proveedor no encontrado' })
+    provider = {
+      id: provider.id,
+      nombre_apellido_proveedor: provider.NOMBRE_APELLIDO_PROVEEDOR,
+      email: provider.EMAIL,
+      celular: provider.CELULAR ? provider.CELULAR : 123456789,
+      imagen: provider.IMAGEN,
+      pais: provider.Pai ? provider.Pai.NOMBRE_PAIS : 'Sin definir',
+      provincia: provider.Provincium ? provider.Provincium.NOMBRE_PROVINCIA : 'Sin definir',
+      ciudad: provider.Ciudad ? provider.Ciudad.NOMBRE_CIUDAD : 'Sin definir',
+    }
+    let [fav, _created] = await Favorito.findOrCreate({
+      where: {
+        PROVEEDOR_ID: provider.id,
+        NOMBRE_APELLIDO_PROVEEDOR: provider.nombre_apellido_proveedor,
+        IMAGEN: provider.imagen,
+        EMAIL: provider.email,
+        CELULAR: provider.celular,
+        PAIS: provider.pais,
+        CIUDAD: provider.ciudad,
+        PROVINCIA: provider.provincia,
       },
-      { where: { id: userId } }
-    )
-    return res.status(204).send({ message: 'Favorito eliminado' })
+    })
+    await user.addFavorito(fav)
+    return res.status(200).send({ message: 'Favorito agregado' })
   } catch (error) {
     console.error(error)
-    next(error)
-    return res.status(500).send({ message: 'Error al eliminar favorito' })
+    return res.status(500).send({ message: 'Error al agregar el favorito' })
+  }
+}
+
+const deleteFavorito = async (req, res) => {
+  const { userId, provId } = req.params
+  try {
+    let favorito = await Favorito.findOne({
+      where: {
+        PROVEEDOR_ID: provId,
+      },
+    })
+    if (favorito !== null) {
+      let favoritoUser = await Usuario_Favorito.findOne({
+        where: {
+          UsuarioId: userId,
+          FavoritoId: favorito.id,
+        },
+      })
+      if (favoritoUser !== null) {
+        await favoritoUser.destroy({
+          where: {
+            UsuarioId: userId,
+            FavoritoId: favorito.id,
+          },
+        })
+        return res.status(200).send({ message: 'Favorito eliminado' })
+      }
+    }
+    return res.status(404).send({ message: 'Favorito no encontrado' })
+  } catch (error) {
+    console.error(error)
+    return res.status(500).send({ message: 'Error al eliminar el favorito' })
   }
 }
 
@@ -179,30 +282,31 @@ const moderatorBoard = (req, res) => {
 }
 
 const buyReview = async (req, res) => {
-  let { calificacion, comentario, ServicioId, UsuarioId, idProveedor } = req.body
+  let { calificacion, comentario, idServicio, idUsuario, idProveedor } = req.body
 
   let provServ = await Proveedor_Servicio.findOne({
-    where: { ProveedorId: idProveedor, ServicioId: ServicioId },
+    where: { ProveedorId: idProveedor, ServicioId: idServicio },
   })
   // console.log(provServ.id)
 
   let proveedor = await Proveedor.findOne({
     where: { id: idProveedor },
   })
+  console.log(proveedor)
   let calificaciones = proveedor.CALIFICACION
 
   let verificacionCompra = await Compra.findAll({
-    where: { UsuarioId: UsuarioId, ProveedorServicioId: provServ.id },
+    where: { UsuarioId: idUsuario, ProveedorServicioId: provServ.id },
   })
 
   let verifacionComent = await Comentario.findAll({
-    where: { UsuarioId: UsuarioId, ProveedorServicioId: provServ.id },
+    where: { UsuarioId: idUsuario, ProveedorServicioId: provServ.id },
   })
-  console.log(verifacionComent.length)
-  console.log(verificacionCompra.length)
+  // console.log(verifacionComent.length)
+  // console.log(verificacionCompra.length)
   if (verificacionCompra.length > 0) {
     if (verifacionComent.length === 0 || verifacionComent.length < verificacionCompra.length) {
-      console.log('hola')
+      // console.log('hola')
       proveedor === null
         ? { message: 'Proveedor no encontrado' }
         : await Proveedor.update(
@@ -216,14 +320,14 @@ const buyReview = async (req, res) => {
         COMENTARIO: comentario,
       })
       let usuario = await Usuario.findOne({
-        where: { id: UsuarioId },
+        where: { id: idUsuario },
       })
 
       comentarios.setProveedor_Servicio(provServ)
       comentarios.setUsuario(usuario)
       return res.status(200).send({ message: 'Reseña agregada con exito' })
     } else {
-      return res.status(400).send({ message: 'Ya calificaste esta compra' })
+      return res.status(402).send({ message: 'Ya calificaste esta compra' })
     }
   } else {
     return res.status(400).send({ message: 'No puedes calificar este servicio ' })
@@ -231,25 +335,61 @@ const buyReview = async (req, res) => {
 }
 
 const compraSuccess = async (req, res) => {
-  let { datos } = req.body
+  let { cart, id } = req.body
+  try {
+    let idProveedor = cart?.map((compra) => compra.provID)
+    let idUsuario = id
+    let idServicio = cart?.map((compra) => compra.id)
 
-  let idProveedor = datos.map((compra) => compra.proveedorId)
-  let idUsuario = datos.map((compra) => compra.UsuarioId)
-  let idServicio = datos.map((compra) => compra.idServicio)
+    for (let i = 0; i < idProveedor.length; i++) {
+      let provServ = await Proveedor_Servicio.findOne({
+        where: { ProveedorId: idProveedor[i], ServicioId: idServicio[i] },
+      })
 
-  for (let i = 0; i < idUsuario.length; i++) {
-    let provServ = await Proveedor_Servicio.findOne({
-      where: { ProveedorId: idProveedor[i], ServicioId: idServicio[i] },
-    })
+      let usuario = await Usuario.findOne({ where: { id: idUsuario } })
 
-    let usuario = await Usuario.findOne({ where: { id: idUsuario[i] } })
+      let compra = await Compra.create()
 
-    let compra = await Compra.create()
-
-    compra.setUsuario(usuario)
-    compra.setProveedor_Servicio(provServ)
+      compra.setUsuario(usuario)
+      compra.setProveedor_Servicio(provServ)
+    }
+    return res.status(200).send({ message: 'Compra guardada en la DB' })
+  } catch (error) {
+    console.error(error)
+    return res.status(500).send({ message: 'Error al guardar compra' })
   }
-  res.status(200).send('Compra guardada en la DB')
+}
+
+const misCompras = async (req, res) => {
+  const { idUsuario } = req.query
+  try {
+    let arrayCompras = []
+    let misCompras = await Compra.findAll({
+      where: { UsuarioId: idUsuario },
+    })
+    for (let i = 0; i < misCompras.length; i++) {
+      let ProvServ = await Proveedor_Servicio.findOne({ where: { id: misCompras[i].ProveedorServicioId } })
+      console.log(ProvServ.ServicioId, ProvServ.PrecioId, ProvServ.ProveedorId)
+      let proveedor = await Proveedor.findOne({ where: { id: ProvServ.ProveedorId } })
+      let servicio = await Servicio.findOne({ where: { id: ProvServ.ServicioId } })
+      let precio = await Precio.findOne({ where: { id: ProvServ.PrecioId } })
+      let descripcion = await Descripcion.findOne({ where: { id: ProvServ.DescripcionId } })
+      arrayCompras.unshift({
+        proveedor: proveedor.NOMBRE_APELLIDO_PROVEEDOR,
+
+        idProveedor: proveedor.id,
+        idServicio: servicio.id,
+
+        servicio: servicio.NOMBRE_SERVICIO,
+        precio: precio.PRECIO,
+        descripcion: descripcion.DESCRIPCION,
+        fecha: misCompras[i].createdAt,
+      })
+    }
+    return res.status(200).send(arrayCompras)
+  } catch (error) {
+    return res.status(404).send({ message: 'Error a mostar en compras' })
+  }
 }
 
 module.exports = {
@@ -257,6 +397,7 @@ module.exports = {
   getUserById,
   addFavorito,
   deleteFavorito,
+  getFavorites,
   allAccess,
   userBoard,
   adminBoard,
@@ -264,4 +405,5 @@ module.exports = {
   putUser,
   buyReview,
   compraSuccess,
+  misCompras,
 }

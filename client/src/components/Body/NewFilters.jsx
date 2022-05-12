@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import styles from '../styles/filters.module.css'
+import styles from '../../styles/filters.module.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
-import { filterByPrices, filtroSupremo, setCiudades, setProvincias, setServicios } from '../redux/slices/provider'
+import { filterByPrices, filtroSupremo, setCiudades, setProvincias, setServicios } from '../../redux/slices/provider'
 import { Alert, Button } from 'bootstrap'
 
 export default function NewFilters({ setCurrentPage }) {
@@ -23,12 +23,12 @@ export default function NewFilters({ setCurrentPage }) {
     dispatch(setServicios())
   }, [])
 
-  const ServicesList = new Set(servicios)
+  const ServiciosArray = servicios.map((s) => s.nombre)
+  const ServicesList = new Set(ServiciosArray)
   const ServicesLista = Array.from(ServicesList)
 
   let handleChange = (e) => {
     e.preventDefault()
-
     setInput({
       ...input,
       [e.target.name]: e.target.value,
@@ -38,9 +38,17 @@ export default function NewFilters({ setCurrentPage }) {
 
   useEffect(() => {
     dispatch(filtroSupremo(input))
-    dispatch(setCiudades(input.provincia))
-    dispatch(setProvincias(input.pais))
+    // dispatch(setCiudades(input.provincia))
+    // dispatch(setProvincias(input.pais))
   }, [input])
+
+  useEffect(() => {
+    dispatch(setProvincias(input.pais))
+    setInput({
+      ...input,
+      provincia: 'Todos',
+    })
+  }, [input.pais])
 
   useEffect(() => {
     dispatch(setCiudades(input.provincia))
@@ -53,6 +61,7 @@ export default function NewFilters({ setCurrentPage }) {
   let handleFilterByPrice = (e) => {
     e.preventDefault()
     dispatch(filterByPrices(e.target.value))
+    setCurrentPage(1)
   }
 
   return (
@@ -75,8 +84,8 @@ export default function NewFilters({ setCurrentPage }) {
                     <div className={`"card" ${styles.searchbg}`}>
                       <div className='card-body'>
                         <div className='row justify-content-center'>
-                          <div className='col-md-12 mb-3 mb-md-3' style={{ display: 'flex', justifyContent:"center" }}>
-                            <div id='basic' className='form-outline text-center' >
+                          <div className='col-md-12 mb-3 mb-md-3' style={{ display: 'flex', justifyContent: 'center' }}>
+                            <div id='basic' className='form-outline text-center'>
                               <div style={{ display: 'flex' }}>
                                 <input
                                   type='text'
@@ -86,24 +95,23 @@ export default function NewFilters({ setCurrentPage }) {
                                   onChange={(e) => handleChange(e)}
                                   // id='form1'
                                   className='form-control form-control-lg'
-                                  style={{width: "500px"}}
+                                  style={{ width: '500px' }}
                                   autoComplete='off'
                                 />
-                                <input
+                                {/* <input
                                   className='btn btn-secondary btn-block btn-lg'
                                   style={{ marginLeft: '5px' }}
                                   type='submit'
                                   value='🔍'
                                   //   onClick={(e) => handleOnSubmit(e)}
-                                />
+                                /> */}
                               </div>
 
                               <label className='form-label' htmlFor='form1'>
-                                ¿Qué servicio / profesion buscas?
+                                Busca Proveedores por nombre
                               </label>
                             </div>
                           </div>
-
                           <div className='col-md-2 mb-3 mb-md-0'>
                             <div id='location' className='form-outline text-center'>
                               <select
@@ -114,7 +122,7 @@ export default function NewFilters({ setCurrentPage }) {
                                 <option disabled hidden>
                                   Selecciona
                                 </option>
-                                <option>Todos</option>
+                                <option value={'Todos'}>Todos</option>
                                 <option value={'MayorMenor'}>Mayor a menor</option>
                                 <option value={'MenorMayor'}>Menor a mayor</option>
                               </select>
@@ -137,7 +145,7 @@ export default function NewFilters({ setCurrentPage }) {
                               </select>
 
                               <label className='form-label' htmlFor='checkbox' style={{ margin: '0px' }}>
-                                ¿Remoto?
+                                ¿Servicio Remoto?
                               </label>
                             </div>
                           </div>
@@ -158,7 +166,7 @@ export default function NewFilters({ setCurrentPage }) {
                               </select>
 
                               <label className='form-label' style={{ margin: '0px' }}>
-                                Servicios
+                                Servicios disponibles
                               </label>
                             </div>
                           </div>
@@ -185,7 +193,9 @@ export default function NewFilters({ setCurrentPage }) {
                                   style={{ textAlign: 'center' }}>
                                   <option value={'Todos'}>Todos</option>
                                   {provincias?.map((p) => (
-                                    <option value={p.NOMBRE_PROVINCIA}>{p.NOMBRE_PROVINCIA}</option>
+                                    <option key={p.NOMBRE_PROVINCIA} value={p.NOMBRE_PROVINCIA}>
+                                      {p.NOMBRE_PROVINCIA}
+                                    </option>
                                   ))}
                                 </select>
                                 <label className='form-label' style={{ margin: '0px' }}>
@@ -207,11 +217,14 @@ export default function NewFilters({ setCurrentPage }) {
                                   style={{ textAlign: 'center' }}>
                                   <option value={'Todos'}>Todos</option>
                                   {ciudades?.map((p) => (
-                                    <option value={p.NOMBRE_CIUDAD}>{p.NOMBRE_CIUDAD}</option>
+                                    <option key={p.NOMBRE_CIUDAD} value={p.NOMBRE_CIUDAD}>
+                                      {' '}
+                                      {p.NOMBRE_CIUDAD}{' '}
+                                    </option>
                                   ))}
                                 </select>
                                 <label className='form-label' style={{ margin: '0px' }}>
-                                  ciudad
+                                  Ciudad
                                 </label>
                               </div>
                             </div>

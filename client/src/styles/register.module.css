@@ -1,6 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap");
 
 
+.errors{
+    font-size: .8rem;
+    color: red;
+    margin: .1rem 0px
+}
 .card {
     border: none;
     padding: 10px;
@@ -28,7 +33,20 @@
     position: absolute;
     font-size: 18px;
     top: 17px;
-    left: 30px;
+    left:27px;
+}
+
+.formInputPage {
+    position: relative;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.formInputPage i {
+    position: absolute;
+    font-size: 18px;
+    top: 17px;
+    left: 45px;
 }
 
 .formControl {

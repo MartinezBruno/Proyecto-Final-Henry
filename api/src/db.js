@@ -30,6 +30,7 @@ sequelize.models = Object.fromEntries(capsEntries)
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
 const {
+  Admin,
   Usuario,
   Proveedor,
   Ciudad,
@@ -45,10 +46,15 @@ const {
   Comentario,
   Compra,
   Chat,
+  Favorito,
 } = sequelize.models
 
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);
+Admin.belongsToMany(Proveedor, { through: 'Admin_Proveedor' })
+Admin.belongsTo(Ciudad)
+Admin.belongsTo(Pais)
+Admin.belongsTo(Provincia)
 Usuario.belongsToMany(Proveedor, { through: 'Usuario_Provedoor' })
 Usuario.belongsTo(Ciudad)
 Usuario.belongsTo(Pais)
@@ -57,15 +63,19 @@ Provincia.hasMany(Ciudad)
 Provincia.belongsTo(Pais)
 Provincia.hasMany(Proveedor)
 Provincia.hasMany(Usuario)
+Provincia.hasMany(Admin)
 Ciudad.belongsTo(Provincia)
 Ciudad.hasMany(Usuario)
+Ciudad.hasMany(Admin)
 Ciudad.hasMany(Proveedor)
 Pais.hasMany(Provincia)
 Pais.hasMany(Proveedor)
 Pais.hasMany(Usuario)
+Pais.hasMany(Admin)
 Servicio.belongsToMany(Proveedor, { through: Proveedor_Servicio })
 Proveedor.belongsToMany(Servicio, { through: Proveedor_Servicio })
 Proveedor.belongsToMany(Usuario, { through: 'Usuario_Provedoor' })
+Proveedor.belongsToMany(Admin, { through: 'Admin_Provedoor' })
 Proveedor.belongsTo(Pais)
 Proveedor.belongsTo(Provincia)
 Proveedor.belongsTo(Ciudad)
@@ -73,6 +83,17 @@ Proveedor_Servicio.belongsTo(Precio)
 Precio.hasOne(Proveedor_Servicio)
 Proveedor_Servicio.belongsTo(Descripcion)
 Descripcion.hasOne(Proveedor_Servicio)
+Role.hasMany(Admin)
+Admin.belongsTo(Role)
+RefreshToken.belongsTo(Admin, {
+  foreignKey: 'adminId',
+  targetKey: 'id',
+})
+Admin.hasOne(RefreshToken, {
+  foreignKey: 'adminId',
+  targetKey: 'id',
+})
+
 Role.hasMany(Usuario)
 Usuario.belongsTo(Role)
 RefreshToken.belongsTo(Usuario, {
@@ -113,6 +134,9 @@ Chat.belongsTo(Usuario)
 Usuario.hasOne(Chat)
 Chat.belongsTo(Proveedor)
 Proveedor.hasOne(Chat)
+
+Favorito.belongsToMany(Usuario, { through: 'Usuario_Favorito' })
+Usuario.belongsToMany(Favorito, { through: 'Usuario_Favorito' })
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');

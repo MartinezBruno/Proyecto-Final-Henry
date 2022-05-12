@@ -1,33 +1,38 @@
 import React from 'react'
-import styles from '../styles/navbar.module.css'
-import logo from './img-logo/Logo2_Definitivo.png'
+import styles from '../../styles/navbar.module.css'
+import logo from '../img-logo/Logo2_Definitivo.png'
 import { NavLink } from 'react-router-dom'
 import { useState } from 'react'
 import { Button, Modal } from 'react-bootstrap'
-import Register from './Register'
-import Login from './Login'
+import Register from '../Login_Register/Register'
+import Login from '../Login_Register/Login'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
-import { getUser } from '../redux/slices/user'
-
+import { getUser } from '../../redux/slices/user'
+import { logout } from '../../redux/slices/auth'
+import { getUniqueProvider } from '../../redux/slices/provider'
 
 export default function NavBar() {
   const [showRegister, setShowRegister] = useState(false)
   const [showLogin, setShowLogin] = useState(false)
+  let role
   const { user } = useSelector((state) => state.auth)
+  if (user) {
+    role = user.Role
+  }
+
   const { isLoggedIn } = useSelector((state) => state.auth)
-  
   const dispatch = useDispatch()
-  const { UniqueUser } = useSelector((state) => state.user)
-  useEffect(() => {
-    isLoggedIn && dispatch(getUser(user.id))
-  }, [dispatch])
 
   const handleCloseRegister = () => setShowRegister(false)
   const handleShowRegister = () => setShowRegister(true)
 
   const handleCloseLogin = () => setShowLogin(false)
   const handleShowLogin = () => setShowLogin(true)
+
+  function handleLogout(e) {
+    dispatch(logout())
+  }
 
   return (
     <>
@@ -85,7 +90,7 @@ export default function NavBar() {
                   </Modal.Title>
                 </Modal.Header>
                 <Modal.Body className='show-grid'>
-                  <Register />
+                  <Register isModal={true} />
                 </Modal.Body>
               </Modal>
 
@@ -115,34 +120,49 @@ export default function NavBar() {
                 INICIO
               </NavLink>
               <NavLink to='/about' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
-                ¿QUIENES SOMOS?
+                SOBRE NOSOTROS
               </NavLink>
+
+              {role === 'USUARIO' && (
+                <>
+                  <NavLink to='/purchases' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
+                    TUS COMPRAS
+                  </NavLink>
+                  <NavLink to='/profile/favorites' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
+                    TUS FAVORITOS
+                  </NavLink>
+                </>
+              )}
+                <NavLink to='/home/chat' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
+                  MIS CHATS
+                </NavLink>
 
               {/* <NavLink to='/profile' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
                 MI PERFIL
               </NavLink> */}
             </div>
 
-            <div className='d-flex align-items-center justify-content-center text-center' style={{ flexDirection: 'column' }}>
-            <NavLink to='/profile' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')} style={{width:"150px"}}>
+            <div className='d-flex align-items-center justify-content-center text-center' style={{ flexDirection: 'row' }}>
+              <NavLink to='/profile' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')} style={{ width: '150px' }}>
                 {/* <img src={UniqueUser.imagen} alt="nt" class="img-circle" width={"20px"}></img> */}
-                <img src={UniqueUser.imagen} alt="Cinque Terre" width="28px" height="28px" style={{borderRadius:"5000px", marginRight:"10px"}} onError={(e) => e.target.src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png"}/>
-                MI PERFIL
+                <i className="fa fa-user-circle" aria-hidden="true"></i> MI PERFIL
               </NavLink>
-              
-              {/* <Button
-                variant='primary'
-                onClick={handleShowRegister}
-                className='btn btn-primary'
-                style={{
-                  color: 'white',
-                  borderRadius: '20px',
-                  // width: "180px",
-                  width: '12rem',
-                  fontWeight: 'bold',
-                }}>
-                REGISTRATE
-              </Button>
+              <NavLink to={'/'}>
+                <Button
+                  variant='secondary'
+                  onClick={() => handleLogout()}
+                  className='btn btn-primary'
+                  style={{
+                    color: 'black',
+                    backgroundColor: 'lightgray',
+                    borderRadius: '20px',
+                    width: '7rem',
+                    fontSize: '12px',
+                  }}>
+                  <i className='fa fa-sign-out' aria-hidden='true'></i> Cerrar sesión
+                </Button>
+              </NavLink>
+              {/* 
               <a href='#' className='link-success'>
                 <p
                   style={{

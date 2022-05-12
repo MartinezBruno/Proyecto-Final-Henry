@@ -5,6 +5,7 @@ export const userSlice = createSlice({
     name: "user",
     initialState: {
         UniqueUser:{},
+        allUsers : []
     },
     reducers: {
         SetUser: (state, action) => {
@@ -12,11 +13,14 @@ export const userSlice = createSlice({
         },
         ModifyUser: (state, action) => {
             state.user = state.user
+        }, 
+        setAllUsers: (state, action) => {
+            state.allUsers = action.payload;
         }
     }
 })
 
-export const { SetUser, ModifyUser } = userSlice.actions;
+export const { SetUser, ModifyUser, setAllUsers } = userSlice.actions;
 
 export default userSlice.reducer
 
@@ -34,3 +38,12 @@ export function modofyUser(id, payload){
         dispatch(ModifyUser())
     }
 }
+
+
+  
+  export function chargeAllUsers() {
+    return async function (dispatch) {
+      let info = await api.get(`/usuario`)
+      dispatch(setAllUsers(info.data))
+    }
+  }
