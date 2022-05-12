@@ -194,9 +194,9 @@ export default function Login(props) {
                     <div className='text-center mt-4'>
                       {' '}
                       <span>¿No estás registrado?</span>{' '}
-                      <a href='#' className='text-decoration-none'>
+                      <Link to='./register' className='text-decoration-none'>
                         ¡Registrate ahora!
-                      </a>{' '}
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -275,7 +275,7 @@ export default function Login(props) {
                         <div className='text-center mt-4'>
                           {' '}
                           <span>¿No estás registrado?</span>{' '}
-                          <Link to='./register' className='text-decoration-none'>
+                          <Link to='/register' className='text-decoration-none'>
                             ¡Registrate ahora!
                           </Link>{' '}
                         </div>
@@ -341,9 +341,9 @@ export default function Login(props) {
                         <div className='text-center mt-4'>
                           {' '}
                           <span>¿No estás registrado?</span>{' '}
-                          <a href='#' className='text-decoration-none'>
+                          <Link to='/register' className='text-decoration-none'>
                             ¡Registrate ahora!
-                          </a>{' '}
+                          </Link>{' '}
                         </div>
                       </div>
                     </div>

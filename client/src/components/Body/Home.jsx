@@ -35,7 +35,9 @@ export default function Home() {
 
   useEffect(() => {
     dispatch(getAllProviders())
-    dispatch(getFavoritesFromDb(userId))
+    if (user.Role === 'USUARIO') {
+      dispatch(getFavoritesFromDb(userId))
+    }
   }, [dispatch])
 
   return (
@@ -51,23 +53,19 @@ export default function Home() {
             ) : (
               cardsShowed?.map((provider) => {
                 return (
-                  <>
-                    {provider.servicio.nombre !== 'Sin servicios disponibles' && (
-                      <Card
-                        nombre={provider.nombre_apellido_proveedor}
-                        imagen={provider.imagen}
-                        servicio={provider.servicio.nombre}
-                        descripcion={provider.servicio.descripcion}
-                        calificacion={provider.calificacion}
-                        provincia={provider.provincia}
-                        ciudad={provider.ciudad}
-                        precio={provider.servicio.precio}
-                        idProv={provider.id}
-                        idServ={provider.servicio.id}
-                        key={provider.email + provider.servicio.nombre + provider.servicio.precio}
-                      />
-                    )}
-                  </>
+                  <Card
+                    nombre={provider.nombre_apellido_proveedor}
+                    imagen={provider.imagen}
+                    servicio={provider.servicio.nombre}
+                    descripcion={provider.servicio.descripcion}
+                    calificacion={provider.calificacion}
+                    provincia={provider.provincia}
+                    ciudad={provider.ciudad}
+                    precio={provider.servicio.precio}
+                    idProv={provider.id}
+                    idServ={provider.servicio.id}
+                    key={provider.email + provider.servicio.nombre + provider.servicio.precio}
+                  />
                 )
               })
             )}
