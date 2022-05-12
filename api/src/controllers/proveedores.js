@@ -67,28 +67,32 @@ const allProvs = async () => {
   }
 
   ProveedoresAMostrar = ProveedoresAMostrar.map((prov) => {
-    return {
-      id: prov.proveedor.id,
-      nombre_apellido_proveedor: prov.proveedor.NOMBRE_APELLIDO_PROVEEDOR,
-      email: prov.proveedor.EMAIL,
-      imagen: prov.proveedor.IMAGEN,
-      fecha_nacimiento: prov.proveedor.FECHA_NACIMIENTO,
-      calificacion: promedio(prov.proveedor.CALIFICACION),
-      serviciosCompletados: prov.proveedor.CALIFICACION.length,
-      status: prov.proveedor.STATUS,
-      creation_date: prov.proveedor.createdAt,
-      ciudad: prov.proveedor.Ciudad ? prov.proveedor.Ciudad.NOMBRE_CIUDAD : 'Sin definir',
-      provincia: prov.proveedor.Provincium ? prov.proveedor.Provincium.NOMBRE_PROVINCIA : 'Sin definir',
-      pais: prov.proveedor.Pai.NOMBRE_PAIS,
-      servicio: {
-        id: prov.servicio.id,
-        nombre: prov.servicio.NOMBRE_SERVICIO,
-        remote: prov.servicio.REMOTE,
-        precio: prov.precio,
-        descripcion: prov.descripcion,
-      },
+    if (prov.servicio.id !== 1) {
+      return {
+        id: prov.proveedor.id,
+        nombre_apellido_proveedor: prov.proveedor.NOMBRE_APELLIDO_PROVEEDOR,
+        email: prov.proveedor.EMAIL,
+        imagen: prov.proveedor.IMAGEN,
+        fecha_nacimiento: prov.proveedor.FECHA_NACIMIENTO,
+        calificacion: promedio(prov.proveedor.CALIFICACION),
+        serviciosCompletados: prov.proveedor.CALIFICACION.length,
+        status: prov.proveedor.STATUS,
+        creation_date: prov.proveedor.createdAt,
+        ciudad: prov.proveedor.Ciudad ? prov.proveedor.Ciudad.NOMBRE_CIUDAD : 'Sin definir',
+        provincia: prov.proveedor.Provincium ? prov.proveedor.Provincium.NOMBRE_PROVINCIA : 'Sin definir',
+        pais: prov.proveedor.Pai.NOMBRE_PAIS,
+        servicio: {
+          id: prov.servicio.id,
+          nombre: prov.servicio.NOMBRE_SERVICIO,
+          remote: prov.servicio.REMOTE,
+          precio: prov.precio,
+          descripcion: prov.descripcion,
+        },
+      }
     }
-  })
+    return null
+  }).filter((prov) => prov !== null)
+
   return ProveedoresAMostrar
 }
 
