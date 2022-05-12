@@ -28,21 +28,21 @@ import axios from 'axios'
 
 function App() {
   // Initialize Sentry with the browser tracing integration.
-  const routingInstrumentation = useRoutingInstrumentation()
-  useEffect(() => {
-    const browserTracing = new BrowserTracing({
-      routingInstrumentation,
-    })
-    init({
-      dsn: 'https://e5326fd29c02448082e52f802f6b7e84@o1240796.ingest.sentry.io/6397010',
-      integrations: [browserTracing],
+  // const routingInstrumentation = useRoutingInstrumentation()
+  // useEffect(() => {
+    // const browserTracing = new BrowserTracing({
+      // routingInstrumentation,
+    // })
+    // init({
+      // dsn: 'https://e5326fd29c02448082e52f802f6b7e84@o1240796.ingest.sentry.io/6397010',
+      // integrations: [browserTracing],
 
-      // Set tracesSampleRate to 1.0 to capture 100%
-      // of transactions for performance monitoring.
-      // We recommend adjusting this value in production
-      tracesSampleRate: 1.0,
-    })
-  }, [routingInstrumentation])
+      // // Set tracesSampleRate to 1.0 to capture 100%
+      // // of transactions for performance monitoring.
+      // // We recommend adjusting this value in production
+      // tracesSampleRate: 1.0,
+    // })
+  // }, [routingInstrumentation])
 
   const NavLayout = () => (
     <>

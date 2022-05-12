@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { useEffect } from 'react'
-import { getUser } from '../../redux/slices/user'
 import styles from '../../styles/profile.module.css'
 import { useDispatch, useSelector } from 'react-redux'
 import ProfileEditInfoProv from './ProfileEditInfo'
