@@ -10,6 +10,9 @@
   font-size: 13px;
   filter: none !important;
 }
+h1{
+  text-shadow: 2px 2px 4px #000000;
+}
 
 .searchbarContainer img {
   max-width: 170px;
@@ -39,7 +42,6 @@
 .landingWidget{
   border-radius: 15px;
   margin: 20px;
-  margin-top: -20px;
   padding: 15px;
   display:flex;
   text-align: center;
@@ -57,7 +59,8 @@
 
 .widgetContainer{
   display:flex;
-  margin: 0px!important;
+  margin: 0px;
+  margin-top:-50px;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
