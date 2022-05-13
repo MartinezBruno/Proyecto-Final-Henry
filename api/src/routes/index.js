@@ -11,6 +11,7 @@ const bulkcreate = require('./bulkcreate')
 const checkout = require('./checkout')
 const pregunta = require('./pregunta')
 const chat = require('./chat')
+const emergencia = require ('./Emergencia')
 
 router.get('/', (req, res) => {
   res.send('API Attend Group Company')
@@ -26,5 +27,6 @@ router.use('/usuario', usuario)
 router.use('/checkout', checkout)
 router.use('/pregunta', pregunta)
 router.use('/chat', chat)
+router.use('/emergencia', emergencia)
 
 module.exports = router

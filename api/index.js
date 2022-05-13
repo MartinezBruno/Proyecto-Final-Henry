@@ -21,11 +21,11 @@ conn
   .then(() => {
       serviciosDb()
       initialRoles()
-    //   ciudadesDb().then(() => {
-    //     autofillProveedores() 
-    //     console.log('tamo ready')
-    //  })
-    ciudadesDb()
+      ciudadesDb().then(() => {
+        autofillProveedores() 
+        console.log('tamo ready')
+     })
+    // ciudadesDb()
   })
   .catch((err) => console.log(err))
 
