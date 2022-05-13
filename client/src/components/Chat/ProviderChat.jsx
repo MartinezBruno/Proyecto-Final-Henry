@@ -70,7 +70,8 @@ export default function ProviderChat() {
               <hr style={{ height: '2px', marginTop: '20px' }} />
               <div className='input-group'>{/* <input type='text' className='form-control' placeholder='Buscar...' /> */}</div>
               <ul className='list-unstyled chat-list mt-2 mb-0'>
-                {chatHistory?.map((p) => (
+                { chatHistory.length > 0 ?
+                chatHistory?.map((p) => (
                   <a href='#ScrollDown'>
                     <li className='clearfix' value={p.id} onClick={() => handleChat(p.id, idProveedor)}>
                       <img
@@ -93,7 +94,12 @@ export default function ProviderChat() {
                       </div>
                     </li>
                   </a>
-                ))}
+                )): (
+                  <p style={{ display: 'flex', justifyContent: 'center', textAlign: 'center', fontSize: '18px' }}>
+                    {' '}
+                    ¡No tienes chats abiertos! Cuando un Usuario compre tu servicio se pondrá en contacto contigo mediante este medio{' '}
+                  </p>
+                )}
               </ul>
             </div>
 

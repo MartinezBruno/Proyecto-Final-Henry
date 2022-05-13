@@ -147,25 +147,25 @@ export default function NavBar() {
                 }>
                 <NavDropdown.Item>
                   <NavLink to='/profile' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
-                    Ver mi perfil
+                  <i class="fa fa-address-card" aria-hidden="true"></i> Ver mi perfil
                   </NavLink>
                 </NavDropdown.Item>
                 <NavDropdown.Item>
                   <NavLink to='/home/chat' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
-                    Mis chats
+                  <i class="fa fa-commenting" aria-hidden="true"></i> Mis chats
                   </NavLink>
                 </NavDropdown.Item>
                 {role === 'USUARIO' && (
                   <>
                     <NavDropdown.Item>
                       <NavLink to='/purchases' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
-                        Mis compras
+                      <i class="fa fa-shopping-cart" aria-hidden="true"></i> Mis compras
                       </NavLink>
                     </NavDropdown.Item>
                     <NavDropdown.Item>
                       {' '}
                       <NavLink to='/profile/favorites' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
-                        Mis favoritos
+                      <i class="fa fa-star" aria-hidden="true"></i> Mis favoritos
                       </NavLink>
                     </NavDropdown.Item>
                   </>
