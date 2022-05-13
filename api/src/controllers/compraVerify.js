@@ -62,17 +62,11 @@ const compraVerify = async (req, res) => {
           if (evento) {
             let startEvent = moment(evento.START)
             let endEvent = moment(evento.END)
-            let startUser = moment(start)
-            let endUser = moment(end)
+            let startUser = moment(start).format('YYYY-MM-DD HH:mm:ss')
+            let endUser = moment(end).format('YYYY-MM-DD HH:mm:ss')
             if (!(startEvent.isBefore(startUser) && endEvent.isSameOrBefore(startUser)) || (startEvent.isAfter(startUser) && endEvent.isSameOrAfter(endUser))) {
               return res.status(405).send({
-                message:
-                  'Ya existe un evento programado para ' +
-                  proveedor.NOMBRE_APELLIDO_PROVEEDOR +
-                  ' entre los horarios ' +
-                  new Date(startUser) +
-                  ' y ' +
-                  new Date(endUser),
+                message: 'Ya existe un evento programado para ' + proveedor.NOMBRE_APELLIDO_PROVEEDOR + ' entre el ' + startUser + ' y ' + endUser,
               })
             }
           }
