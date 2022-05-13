@@ -11,7 +11,7 @@ const bulkcreate = require('./bulkcreate')
 const checkout = require('./checkout')
 const pregunta = require('./pregunta')
 const chat = require('./chat')
-const { sendMail } = require('../mail')
+const { confirmEmail } = require('../mail/views')
 
 router.get('/', (req, res) => {
   res.send('API Attend Group Company')
@@ -27,5 +27,12 @@ router.use('/usuario', usuario)
 router.use('/checkout', checkout)
 router.use('/pregunta', pregunta)
 router.use('/chat', chat)
+router.use('/mail', (req, res) => {
+  const payload = {
+    nombre: 'Maxi',
+  }
+  console.log(confirmEmail(payload))
+  res.sendStatus(200)
+})
 
 module.exports = router

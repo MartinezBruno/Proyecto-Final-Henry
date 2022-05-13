@@ -19,6 +19,7 @@ exports.signup = async (req, res) => {
     let ciudadDisp = await Ciudad.findOne({
       where: { NOMBRE_CIUDAD: ciudad },
     })
+
     // Generar el código
     const code = uuidv4()
 
@@ -46,7 +47,12 @@ exports.signup = async (req, res) => {
     const token = getToken({ email, code })
 
     // Obtener un template
-    const template = getTemplate(nombre, token)
+    const payload = {
+      nombre: nombre,
+      token: token,
+      template: 'confirmEmail',
+    }
+    const templateObtained = await getTemplate(payload)
 
     // Configurar el email
     const options = {
@@ -55,13 +61,12 @@ exports.signup = async (req, res) => {
         from: "'Attend' <no-reply@weattend.online>",
         to: `${email}`,
         subject: '¡Bienvenido a Attend!',
-        text: 'Para acceder a todas nuestras funcionalidades por favor verificá tu e-mail.',
-        html: template,
+        html: templateObtained,
       },
     }
-
+    console.log(options)
     //Enviar el mail
-    sendMail(options)
+    // sendMail(options)
 
     return res.status(201).send({ message: '¡Usuario registrado exitosamente!' })
   } catch (error) {
@@ -116,6 +121,23 @@ exports.confirm = async (req, res) => {
         },
       }
     )
+
+    // Obtener un template
+    const template = getTemplate(user.NOMBRE, (template = 'registroUsuario'))
+
+    // Configurar el email
+    const options = {
+      user: 'no-reply@weattend.online',
+      mailOptions: {
+        from: "'Attend' <no-reply@weattend.online>",
+        to: `${email}`,
+        subject: '¡Bienvenido a Attend!',
+        html: template,
+      },
+    }
+
+    //Enviar el mail
+    sendMail(options)
 
     // Redireccionar a la confirmación
     return res.send('/confirm.html')

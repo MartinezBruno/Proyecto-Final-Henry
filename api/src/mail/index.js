@@ -13,6 +13,7 @@ const nodemailer = require('nodemailer')
 }*/
 
 function sendMail(options) {
+  console.log(options)
   //Creamos el objeto de transporte
   const transporter = nodemailer.createTransport({
     host: 'mail.weattend.online',
@@ -20,11 +21,19 @@ function sendMail(options) {
     secure: false,
     auth: {
       user: options.user,
-      pass: 'Lomocompleto1',
+      pass: 'grupo08Henry',
     },
   })
 
+  // const mailOptions2 = {
+  //   from: 'Attend <no-reply@weattend.online>', // Sender address
+  //   to: 'soratac496@dakcans.com', // List of recipients
+  //   subject: 'Node Mailer', // Subject line
+  //   text: 'Hello People!, Welcome to Bacancy!', // Plain text body
+  // }
+
   transporter.sendMail(options.mailOptions, function (error, info) {
+    console.log(options.mailOptions)
     if (error) {
       console.log(error)
     } else {
