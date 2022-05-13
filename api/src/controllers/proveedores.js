@@ -18,7 +18,7 @@ const Op = Sequelize.Op
 
 const allProvs = async () => {
   let proveedorServ = await Proveedor_Servicio.findAll({
-    attributes: ['ServicioId', 'ProveedorId', 'PrecioId', 'DescripcionId'],
+    attributes: ['ServicioId', 'ProveedorId', 'PrecioId', 'DescripcionId', 'DuracionServicioId'],
     include: [
       {
         model: Precio,
@@ -27,6 +27,10 @@ const allProvs = async () => {
       {
         model: Descripcion,
         attributes: ['DESCRIPCION'],
+      },
+      {
+        model: DuracionServicio,
+        attributes: ['DURACION'],
       },
     ],
   })
@@ -38,6 +42,7 @@ const allProvs = async () => {
       PrecioId: el.PrecioId,
       Precio: el.Precio.PRECIO,
       Descripcion: el.Descripcion.DESCRIPCION,
+      DuracionServicio: el.DuracionServicio.DURACION,
     }
   })
 
@@ -67,6 +72,7 @@ const allProvs = async () => {
       servicio: servicio,
       precio: proveedorServ[i].Precio,
       descripcion: proveedorServ[i].Descripcion,
+      duracion: proveedorServ[i].DuracionServicio,
     })
   }
 
@@ -101,6 +107,7 @@ const allProvs = async () => {
           remote: prov.servicio.REMOTE,
           precio: prov.precio,
           descripcion: prov.descripcion,
+          duracionServicio: prov.duracion,
         },
       }
     }
@@ -188,6 +195,10 @@ const getProvByID = async (req, res, next) => {
           model: Descripcion,
           attributes: ['DESCRIPCION'],
         },
+        {
+          model: DuracionServicio,
+          attributes: ['DURACION'],
+        },
       ],
     })
 
@@ -217,6 +228,7 @@ const getProvByID = async (req, res, next) => {
         servicio: servicio,
         precio: proveedorServ[i].Precio,
         descripcion: proveedorServ[i].Descripcion,
+        duracionServicio: proveedorServ[i].DuracionServicio,
       })
     }
     proveedorAMostrar = {
@@ -238,6 +250,7 @@ const getProvByID = async (req, res, next) => {
           remote: servicio.servicio.REMOTE,
           precio: servicio.precio.PRECIO,
           descripcion: servicio.descripcion.DESCRIPCION,
+          duracionServicio: servicio.duracionServicio.DURACION,
         }
       }),
     }
@@ -257,6 +270,7 @@ const deleteServicio_Prov = async (req, res) => {
 
     let precio = precioDisp.PrecioId
     let descripcionDisp = precioDisp.DescripcionId
+    let duracionDisp = precioDisp.DuracionServicioId
 
     await Descripcion.destroy({
       where: [{ id: descripcionDisp }],
@@ -264,6 +278,10 @@ const deleteServicio_Prov = async (req, res) => {
 
     await Precio.destroy({
       where: [{ id: precio }],
+    })
+
+    await DuracionServicio.destroy({
+      where: [{ id: duracionDisp }],
     })
 
     await Proveedor_Servicio.destroy({
@@ -284,6 +302,7 @@ const deleteServicio_Prov = async (req, res) => {
         REMOTE: true,
         PRECIO: NaN,
         DESCRIPCION: '',
+        DURACION: '',
       }
 
       let serviciosDisp = await Servicio.findOne({
@@ -307,9 +326,13 @@ const deleteServicio_Prov = async (req, res) => {
       let d = await Descripcion.create({
         DESCRIPCION: servicio.DESCRIPCION,
       })
+      let dur = await DuracionServicio.create({
+        DURACION: servicio.DURACION,
+      })
 
       await proveedor_servicio.setPrecio(p)
       await proveedor_servicio.setDescripcion(d)
+      await proveedor_servicio.setDuracionServicio(dur)
     }
 
     return res.status(204).send({ msg: 'Servicio eliminado' })
@@ -388,7 +411,6 @@ const addServicio_Prov = async (req, res, next) => {
       let dur = await DuracionServicio.create({
         DURACION: arrayDuration[i],
       })
-      console.log(dur)
       let proovedor = await Proveedor.findOne({ where: { id: id } })
       let servicio = await Servicio.findOne({
         where: {

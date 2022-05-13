@@ -1,4 +1,4 @@
-const { CompraVerify, Usuario, Proveedor, Evento, Proveedor_Servicio } = require('../db')
+const { CompraVerify, Usuario, Proveedor, Evento, Proveedor_Servicio, DuracionServicio } = require('../db')
 var moment = require('moment')
 
 const compraVerify = async (req, res) => {
@@ -8,9 +8,29 @@ const compraVerify = async (req, res) => {
     let idUsuario = id
     let idServicio = cart?.map((compra) => compra.id)
     let arrayStart = cart?.map((compra) => compra.start)
-    let arrayEnd = cart?.map((compra) => compra.end)
+    // let arrayEnd = cart?.map((compra) => compra.end)
     let arrayTitle = cart?.map((compra) => compra.nombre)
-    let arrayDuration = cart?.map((compra) => compra.duration)
+    // let arrayDuration = cart?.map((compra) => compra.duration)
+    let arrayDuration = []
+
+    for (let i = 0; i < cart.length; i++) {
+      let provServ = await Proveedor_Servicio.findOne({ where: { ProveedorId: idProveedor[i], ServicioId: idServicio[i] } })
+      let duracion = await DuracionServicio.findOne({ where: { id: provServ.DuracionServicioId } })
+      arrayDuration.push(Number(duracion.DURACION))
+    }
+
+    let arrayEnd = []
+    for (let i = 0; i < arrayDuration.length; i++) {
+      if (typeof (arrayDuration[i] === 'number')) {
+        let end = moment(arrayStart[i]).add(arrayDuration[i], 'h')
+        arrayEnd.push(end.toString())
+      } else {
+        arrayEnd.push(arrayDuration[i])
+      }
+    }
+
+    console.log('soy array start', arrayStart)
+    console.log('soy array end', arrayEnd)
 
     let usuario = await Usuario.findOne({ where: { id: idUsuario } })
 
@@ -63,7 +83,7 @@ const compraVerify = async (req, res) => {
       let title = arrayTitle[i]
       let duration = arrayDuration[i]
       let start = arrayStart[i]
-      let end = arrayEnd[i]
+      let end = arrayEnd[i].toString()
 
       let compra = await CompraVerify.create()
       const event = await Evento.create({

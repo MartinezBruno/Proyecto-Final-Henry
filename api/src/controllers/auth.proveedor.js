@@ -16,7 +16,7 @@ exports.signup = async (req, res) => {
             REMOTE: true,
             PRECIO: NaN,
             DESCRIPCION: '',
-            DURACION_SERVICIO: '',
+            DURACION: '',
           },
         ])
       : servicios
@@ -112,8 +112,7 @@ exports.signup = async (req, res) => {
       let dur = await DuracionServicio.create({
         DURACION: arrayDuracion[i],
       })
-      console.log(dur)
-      let proovedor = await Proveedor.findOne({ where: { id: id } })
+      let proovedor = await Proveedor.findOne({ where: { EMAIL: email } })
       let servicio = await Servicio.findOne({
         where: {
           NOMBRE_SERVICIO: arrayServicios[i].NOMBRE_SERVICIO,
