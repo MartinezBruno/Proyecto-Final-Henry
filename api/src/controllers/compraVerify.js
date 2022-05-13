@@ -18,12 +18,13 @@ const compraVerify = async (req, res) => {
       let duracion = await DuracionServicio.findOne({ where: { id: provServ.DuracionServicioId } })
       arrayDuration.push(Number(duracion.DURACION))
     }
+    console.log(arrayDuration)
 
     let arrayEnd = []
     for (let i = 0; i < arrayDuration.length; i++) {
       if (typeof (arrayDuration[i] === 'number')) {
         let end = moment(arrayStart[i]).add(arrayDuration[i], 'h')
-        arrayEnd.push(end.toString())
+        arrayEnd.push(end.format('YYYY-MM-DD HH:mm:ss'))
       } else {
         arrayEnd.push(arrayDuration[i])
       }
