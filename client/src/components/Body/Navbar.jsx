@@ -1,7 +1,8 @@
 import React from 'react'
 import styles from '../../styles/navbar.module.css'
 import logo from '../img-logo/Logo2_Definitivo.png'
-import { NavLink } from 'react-router-dom'
+import logoLight from '../img-logo/logo-light.png'
+import { NavLink, Link, useLocation } from 'react-router-dom'
 import { useState } from 'react'
 import { Button, Modal } from 'react-bootstrap'
 import Register from '../Login_Register/Register'
@@ -11,8 +12,12 @@ import { useEffect } from 'react'
 import { getUser } from '../../redux/slices/user'
 import { logout } from '../../redux/slices/auth'
 import { getUniqueProvider } from '../../redux/slices/provider'
+import Dropdown from 'react-bootstrap/Dropdown'
+import NavDropdown from 'react-bootstrap/NavDropdown'
 
 export default function NavBar() {
+  const location = useLocation()
+  console.log(location)
   const [showRegister, setShowRegister] = useState(false)
   const [showLogin, setShowLogin] = useState(false)
   let role
@@ -36,24 +41,23 @@ export default function NavBar() {
 
   return (
     <>
+      {/* ////////////////////////////////////////////////////////////////////////////////////////////////////////////////EMPIEZA NAVBAR DE ALGUIEN  NO LOGUEADO */}
       {!isLoggedIn && (
-        <div className={`d-flex container justify-content-center`} style={{ backgroundColor: 'transparent' }}>
+        <div className={`d-flex container justify-content-center ${styles.navMain} ${styles.wrapOnSmall}`}>
+                    <div className={`${styles.logoWrap} ${styles.showOnSmall} `}>
+          <Link to='/' className={`${styles.showOnSmall}`}><img className={`${styles.logoImg} ${styles.showOnSmall}`} src={location.pathname ==='/' ? logoLight : logo} alt='logo' /></Link>
+          </div>
           <div className={`${styles.searchbarContainer} `}>
             <NavLink to='/'>
-              <img src={logo} alt='logo' />
+              <img className={`${styles.logoImg} ${styles.hideOnSmall}`} src={logo} alt='logo' />
             </NavLink>
-
-            <div className='d-flex container justify-content-center'>
+            <div className='d-flex align-items-center justify-content-center text-center'>
               <NavLink to='/home' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
                 INICIO
               </NavLink>
               <NavLink to='/about' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
                 ¿QUIENES SOMOS?
               </NavLink>
-
-              {/* <NavLink to='/profile' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
-                MI PERFIL
-              </NavLink> */}
             </div>
 
             <div className='d-flex align-items-center justify-content-center text-center' style={{ flexDirection: 'column' }}>
@@ -65,7 +69,7 @@ export default function NavBar() {
                   color: 'white',
                   borderRadius: '20px',
                   // width: "180px",
-                  width: '12rem',
+                  width: '9rem',
                   fontWeight: 'bold',
                 }}>
                 REGISTRATE
@@ -108,50 +112,75 @@ export default function NavBar() {
           </div>
         </div>
       )}
+
+      {/* //////////////////////////////////////////////////////////////////////////////////////////////TERMINA NAV BAR DE ALGUIEN NO LOGUEADO */}
+
+      {/* //////////////////////////////////////////////////////////////////////////////////////////////EMPIEZA NAV BAR DE USUARIO / PROVEEDOR*/}
+
       {isLoggedIn && (
-        <div className={`d-flex container justify-content-center`} style={{ backgroundColor: 'transparent' }}>
+        <div className={`d-flex container justify-content-center align-items-center ${styles.wrapOnSmall}`} style={{ backgroundColor: 'transparent' }}>
+          <div className={`${styles.logoWrap} ${styles.showOnSmall} `}>
+          <Link to='/' className={`${styles.showOnSmall}`}><img className={`${styles.logoImg} ${styles.showOnSmall}`} src={location.pathname ==='/' ? logoLight : logo} alt='logo' /></Link>
+          </div>
           <div className={`${styles.searchbarContainer} `}>
             <NavLink to='/'>
-              <img src={logo} alt='logo' />
+              <img className={`${styles.logoImg} ${styles.hideOnSmall}`} src={logo} alt='logo' />
             </NavLink>
 
-            <div className='d-flex container justify-content-center'>
+            <div className='d-flex container justify-content-center align-items-center text-center'>
               <NavLink to='/home' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
                 INICIO
               </NavLink>
               <NavLink to='/about' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
-                SOBRE NOSOTROS
+                NOSOTROS
               </NavLink>
 
-              {role === 'USUARIO' && (
-                <>
-                  <NavLink to='/purchases' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
-                    TUS COMPRAS
-                  </NavLink>
-                  <NavLink to='/profile/favorites' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
-                    TUS FAVORITOS
-                  </NavLink>
-                </>
-              )}
-                <NavLink to='/home/chat' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
-                  MIS CHATS
-                </NavLink>
-
-              {/* <NavLink to='/profile' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
-                MI PERFIL
-              </NavLink> */}
             </div>
 
             <div className='d-flex align-items-center justify-content-center text-center' style={{ flexDirection: 'row' }}>
-              <NavLink to='/profile' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')} style={{ width: '150px' }}>
-                {/* <img src={UniqueUser.imagen} alt="nt" class="img-circle" width={"20px"}></img> */}
-                <i className="fa fa-user-circle" aria-hidden="true"></i> MI PERFIL
-              </NavLink>
+              <NavDropdown
+                id='nav-dropdown-dark'
+                title={
+                  <span>
+                    <i className='fa fa-user-circle' aria-hidden='true'></i> MI PERFIL
+                  </span>
+                }>
+                <NavDropdown.Item>
+                  <NavLink to='/profile' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
+                    Ver mi perfil
+                  </NavLink>
+                </NavDropdown.Item>
+                <NavDropdown.Item>
+                  <NavLink to='/home/chat' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
+                    Mis chats
+                  </NavLink>
+                </NavDropdown.Item>
+                {role === 'USUARIO' && (
+                  <>
+                    <NavDropdown.Item>
+                      <NavLink to='/purchases' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
+                        Mis compras
+                      </NavLink>
+                    </NavDropdown.Item>
+                    <NavDropdown.Item>
+                      {' '}
+                      <NavLink to='/profile/favorites' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
+                        Mis favoritos
+                      </NavLink>
+                    </NavDropdown.Item>
+                  </>
+                )}
+                <Dropdown.Divider className={`${styles.showOnSmall}`}/>
+                <Dropdown.Item href='/' onClick={() => handleLogout()} className={`${styles.showOnSmall}`}>
+                  <i className='fa fa-sign-out' aria-hidden='true'></i> Cerrar sesión
+                </Dropdown.Item>
+              </NavDropdown>
+
               <NavLink to={'/'}>
                 <Button
                   variant='secondary'
                   onClick={() => handleLogout()}
-                  className='btn btn-primary'
+                  className={`btn btn-primary ${styles.hideOnSmall}`}
                   style={{
                     color: 'black',
                     backgroundColor: 'lightgray',
