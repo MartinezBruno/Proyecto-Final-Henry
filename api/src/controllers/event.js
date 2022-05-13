@@ -1,4 +1,4 @@
-const { Compra, Evento, Proveedor_Servicio } = require('../db')
+const { CompraVerify, Evento, Proveedor_Servicio } = require('../db')
 const { Op } = require('sequelize')
 
 const getEvents = async (req, res) => {
@@ -21,27 +21,11 @@ const getEvents = async (req, res) => {
   }
 }
 
-const createEvent = async (req, res) => {
-  const { compra_id, title, start, end, duration } = req.body
-  try {
-    const compra = await Compra.findByPk(compra_id)
-    if (!compra) {
-      return res.status(404).send({ message: 'Compra no encontrada' })
-    }
-    const event = await Evento.create({
-      START: start,
-      END: end,
-      TITLE: title,
-      DURATION: duration,
-    })
-    await compra.setEvento(event)
-    return res.status(201).send(event)
-  } catch (error) {
-    console.error(error)
-    return res.status(500).send({ message: 'Error al crear el evento' })
-  }
-}
-
+/**
+ * It gets all the events of a provider
+ * @param proveedor_id - The id of the provider by body.
+ * @returns An array of compras
+ */
 const getProveedorEvents = async (req, res) => {
   const { proveedor_id } = req.params
   try {
@@ -51,17 +35,21 @@ const getProveedorEvents = async (req, res) => {
       },
     })
 
-    const compras = []
+    const eventos = []
+
     for (let i = 0; i < prov.length; i++) {
       const element = prov[i]
-      let compra = await Compra.findOne({
+      let evento = await CompraVerify.findAll({
         where: {
           ProveedorServicioId: element.id,
         },
       })
-      if (compra) compras.push(compra)
+      if (evento.length > 0) eventos.concat(evento)
     }
-    return res.status(200).send(compras)
+
+    if (eventos.length === 0) return res.status(404).send({ message: 'Este proveedor no tiene eventos agendados' })
+
+    return res.status(200).send(eventos)
   } catch (error) {
     console.error(error)
     return res.status(500).send({ message: 'Error al obtener los eventos del proveedor' })
@@ -70,6 +58,5 @@ const getProveedorEvents = async (req, res) => {
 
 module.exports = {
   getEvents,
-  createEvent,
   getProveedorEvents,
 }
