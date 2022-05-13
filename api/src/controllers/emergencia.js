@@ -1,3 +1,5 @@
+const e = require('express')
+
 const {
   Usuario,
   Ciudad,
@@ -18,39 +20,72 @@ const {
 const emergencia = async (req, res) => {
   const { precioMaximo, tiempoMaximo, ServicioId, UsuarioId } = req.body
 
-  let emergencia = await Emergencia.create({
-    PRECIO_MAXIMO: precioMaximo,
-    ESPERA_MAXIMA: tiempoMaximo,
+  let emergenciaVerify = await Emergencia.findAll({
+    where: { UsuarioId: UsuarioId },
   })
-  let usuario = await Usuario.findByPk(UsuarioId)
-  let servicio = await Servicio.findByPk(ServicioId)
 
-  emergencia.setUsuario(usuario.id)
-  emergencia.setServicio(servicio.id)
+  if (emergenciaVerify.length > 0) {
+    return res.status(400).send('Ya tienes una emergencia en curso')
+  } else {
+    let emergencia = await Emergencia.create({
+      PRECIO_MAXIMO: precioMaximo,
+      ESPERA_MAXIMA: tiempoMaximo,
+    })
+    let usuario = await Usuario.findByPk(UsuarioId)
+    let servicio = await Servicio.findByPk(ServicioId)
 
-  return res.status(200).send('beibe sana mi dolor')
+    emergencia.setUsuario(usuario.id)
+    emergencia.setServicio(servicio.id)
+
+    return res.status(200).send('beibe sana mi dolor')
+  }
 }
 
 const takeEmergencia = async (req, res) => {
   const { UsuarioId, ProveedorId, ServicioId } = req.body
-
-  let emergencia = await Emergencia.findOne({
-    where: { UsuarioId: UsuarioId },
+  
+  let emergenciaVerify = await Emergencia.findAll({
+    where: { ProveedorId: ProveedorId},
   })
 
-  let provedorServ = await Proveedor_Servicio.findOne({
-    where: {ProveedorId: ProveedorId, ServicioId: ServicioId}
+  if (emergenciaVerify.length > 0) {
+    return res.status(400).send('Ya tienes una emergencia en curso')
+  } else {
+    let emergencia = await Emergencia.findOne({
+      where: { UsuarioId: UsuarioId },
+    })
+
+    let provedorServ = await Proveedor_Servicio.findOne({
+      where: { ProveedorId: ProveedorId, ServicioId: ServicioId },
+    })
+
+    emergencia.update({ ProveedorId: ProveedorId, ProveedorServicioId: provedorServ.id }, { where: { UsuarioId: UsuarioId } })
+    res.status(200).send('se nos va, se nos va')
+  }
+}
+
+const getEmergencias = async (req, res) => {
+  const { ProveedorId, ServicioId, UsuarioId } = req.body
+
+  let proveedorServ = await Proveedor_Servicio.findAll({
+    where: { ProveedorId: ProveedorId },
   })
-  
-  
-   emergencia.update({ ProveedorId: ProveedorId, ProveedorServicioId: provedorServ.id }, { where: { UsuarioId: UsuarioId } })
-   res.status(200).send('se nos va, se nos va')
+  let emergencias = await Emergencia.findAll()
 
-  
-
+  let emergenciasMatch = []
+  for (let i = 0; i < proveedorServ.length; i++) {
+    for (let j = 0; j < emergencias.length; j++) {
+      if (proveedorServ[i].ServicioId === emergencias[j].ServicioId) {
+        let emergencias2 = emergencias.filter((emergencia) => emergencia.ServicioId === proveedorServ[i].ServicioId)
+        emergenciasMatch.push(emergencias2)
+      }
+    }
+  }
+  res.status(200).send(emergenciasMatch)
 }
 
 module.exports = {
   emergencia,
   takeEmergencia,
+  getEmergencias,
 }
