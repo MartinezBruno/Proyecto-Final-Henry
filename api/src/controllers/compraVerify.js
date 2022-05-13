@@ -8,17 +8,29 @@ const compraVerify = async (req, res) => {
     let idUsuario = id
     let idServicio = cart?.map((compra) => compra.id)
     let arrayStart = cart?.map((compra) => compra.start)
-    // let arrayEnd = cart?.map((compra) => compra.end)
     let arrayTitle = cart?.map((compra) => compra.nombre)
-    // let arrayDuration = cart?.map((compra) => compra.duration)
-    let arrayDuration = []
 
+    let arrayDuration = []
+    /* Getting the duration of each service in the cart. 
+    if the duration is "Sin definir" it will be set 24hrs 
+    and the event will take all the day*/
     for (let i = 0; i < cart.length; i++) {
       let provServ = await Proveedor_Servicio.findOne({ where: { ProveedorId: idProveedor[i], ServicioId: idServicio[i] } })
       let duracion = await DuracionServicio.findOne({ where: { id: provServ.DuracionServicioId } })
-      arrayDuration.push(Number(duracion.DURACION))
+      if (duracion.DURACION === 'Sin definir') arrayDuration.push(24)
+      else arrayDuration.push(Number(duracion.DURACION))
     }
-    console.log(arrayDuration)
+    /* Funciona exactamente igual que el for de arriba
+     pero lo hice para sacarme las ganas de entender como funciona .map() con Async/Await */
+
+    // let arrayDuration = await Promise.all(
+    //   cart?.map(async (_compra, i) => {
+    //     let provServ = await Proveedor_Servicio.findOne({ where: { ProveedorId: idProveedor[i], ServicioId: idServicio[i] } })
+    //     let duracion = await DuracionServicio.findOne({ where: { id: provServ.DuracionServicioId } })
+    //     if (duracion.DURACION === 'Sin definir') return 24
+    //     else return Number(duracion.DURACION)
+    //   })
+    // )
 
     let arrayEnd = []
     for (let i = 0; i < arrayDuration.length; i++) {
