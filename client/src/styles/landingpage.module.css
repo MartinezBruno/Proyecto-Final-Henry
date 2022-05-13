@@ -10,7 +10,7 @@
   font-size: 13px;
   filter: none !important;
 }
-h1{
+h1, i{
   text-shadow: 2px 2px 4px #000000;
 }
 

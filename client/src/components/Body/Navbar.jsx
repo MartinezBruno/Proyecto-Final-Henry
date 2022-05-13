@@ -1,6 +1,7 @@
 import React from 'react'
 import styles from '../../styles/navbar.module.css'
 import logo from '../img-logo/Logo2_Definitivo.png'
+import logoLight from '../img-logo/logo-light.png'
 import { NavLink } from 'react-router-dom'
 import { useState } from 'react'
 import { Button, Modal } from 'react-bootstrap'
@@ -36,13 +37,13 @@ export default function NavBar() {
 
   return (
     <>
+      {/* ////////////////////////////////////////////////////////////////////////////////////////////////////////////////EMPIEZA NAVBAR DE ALGUIEN  NO LOGUEADO */}
       {!isLoggedIn && (
-        <div className={`d-flex container justify-content-center`} style={{ backgroundColor: 'transparent' }}>
-          <div className={`${styles.searchbarContainer} `}>
-            <NavLink to='/'>
-              <img src={logo} alt='logo' />
+        <div className={`d-flex container justify-content-center ${styles.navMain}`}>
+          <NavLink to='/'>
+              <img className={styles.logoImg}src={logoLight} alt='logo' />
             </NavLink>
-
+          <div className={`${styles.searchbarContainer} `}>
             <div className='d-flex container justify-content-center'>
               <NavLink to='/home' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
                 INICIO
@@ -50,10 +51,6 @@ export default function NavBar() {
               <NavLink to='/about' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
                 ¿QUIENES SOMOS?
               </NavLink>
-
-              {/* <NavLink to='/profile' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
-                MI PERFIL
-              </NavLink> */}
             </div>
 
             <div className='d-flex align-items-center justify-content-center text-center' style={{ flexDirection: 'column' }}>
@@ -108,6 +105,11 @@ export default function NavBar() {
           </div>
         </div>
       )}
+
+      {/* //////////////////////////////////////////////////////////////////////////////////////////////TERMINA NAV BAR DE ALGUIEN NO LOGUEADO */}
+
+      {/* //////////////////////////////////////////////////////////////////////////////////////////////EMPIEZA NAV BAR DE USUARIO / PROVEEDOR*/}
+
       {isLoggedIn && (
         <div className={`d-flex container justify-content-center`} style={{ backgroundColor: 'transparent' }}>
           <div className={`${styles.searchbarContainer} `}>
@@ -133,9 +135,9 @@ export default function NavBar() {
                   </NavLink>
                 </>
               )}
-                <NavLink to='/home/chat' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
-                  MIS CHATS
-                </NavLink>
+              <NavLink to='/home/chat' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
+                MIS CHATS
+              </NavLink>
 
               {/* <NavLink to='/profile' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
                 MI PERFIL
@@ -145,7 +147,7 @@ export default function NavBar() {
             <div className='d-flex align-items-center justify-content-center text-center' style={{ flexDirection: 'row' }}>
               <NavLink to='/profile' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')} style={{ width: '150px' }}>
                 {/* <img src={UniqueUser.imagen} alt="nt" class="img-circle" width={"20px"}></img> */}
-                <i className="fa fa-user-circle" aria-hidden="true"></i> MI PERFIL
+                <i className='fa fa-user-circle' aria-hidden='true'></i> MI PERFIL
               </NavLink>
               <NavLink to={'/'}>
                 <Button
