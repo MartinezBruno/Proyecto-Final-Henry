@@ -20,25 +20,32 @@ const {
 const emergencia = async (req, res) => {
   const { precioMaximo, tiempoMaximo, ServicioId, UsuarioId } = req.body
 
-  let emergenciaVerify = await Emergencia.findAll({
-    where: { UsuarioId: UsuarioId },
-  })
+  // let emergenciaVerify = await Emergencia.findAll({
+  //   where: { UsuarioId: UsuarioId },
+  // })
 
-  if (emergenciaVerify.length > 0) {
-    return res.status(400).send('Ya tienes una emergencia en curso')
-  } else {
-    let emergencia = await Emergencia.create({
-      PRECIO_MAXIMO: precioMaximo,
-      ESPERA_MAXIMA: tiempoMaximo,
+  // if (emergenciaVerify.length > 0) {
+  //   return res.status(400).send('Ya tienes una emergencia en curso')
+  // } else {
+    // let emergencia = await Emergencia.create({
+    //   PRECIO_MAXIMO: precioMaximo,
+    //   ESPERA_MAXIMA: tiempoMaximo,
+    // })
+    // let usuario = await Usuario.findByPk(UsuarioId)
+    // let servicio = await Servicio.findByPk(ServicioId)
+
+    // emergencia.setUsuario(usuario.id)
+    // emergencia.setServicio(servicio.id)
+
+    let emails = await Proveedor.findAll()
+    emails = emails.map(prov => {
+      return {Email: prov.EMAIL, Nombre: prov.NOMBRE_APELLIDO_PROVEEDOR}
     })
-    let usuario = await Usuario.findByPk(UsuarioId)
-    let servicio = await Servicio.findByPk(ServicioId)
-
-    emergencia.setUsuario(usuario.id)
-    emergencia.setServicio(servicio.id)
-
-    return res.status(200).send('Emergencia agregada con exito')
-  }
+    console.log(emails)
+    
+    
+    // return res.status(200).send('Emergencia agregada con exito')
+  
 }
 
 const takeEmergencia = async (req, res) => {
