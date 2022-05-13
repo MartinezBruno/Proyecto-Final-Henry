@@ -25,6 +25,7 @@ import { init } from '@sentry/react'
 import useRoutingInstrumentation from 'react-router-v6-instrumentation'
 import { BrowserTracing } from '@sentry/tracing'
 import axios from 'axios'
+import Emergency from './components/Emergency/Emergencies'
 
 function App() {
   // Initialize Sentry with the browser tracing integration.
@@ -77,6 +78,7 @@ function App() {
           <Route path='home/:idServ/:idProv' element={<ServicesDetail />} />
           <Route path='purchases' element={<Purchases />} />
           <Route path='home/chat' element={<Chat />} />
+          <Route path='emergencies' element={<Emergency />} />
         </Route>
       </Routes>
       <Footer />

@@ -9,6 +9,7 @@ import services from '../slices/services'
 import purchases from '../slices/purchases'
 import favorites from '../slices/favorites'
 import chat from '../slices/chat'
+import emergency from '../slices/emergency'
 
 export default configureStore({
   reducer: {
