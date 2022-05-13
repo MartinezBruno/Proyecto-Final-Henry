@@ -49,6 +49,7 @@ const {
   Favorito,
   Evento,
   CompraVerify,
+  DuracionServicio,
 } = sequelize.models
 
 // Aca vendrian las relaciones
@@ -80,6 +81,8 @@ Proveedor.belongsToMany(Admin, { through: 'Admin_Provedoor' })
 Proveedor.belongsTo(Pais)
 Proveedor.belongsTo(Provincia)
 Proveedor.belongsTo(Ciudad)
+Proveedor_Servicio.belongsTo(DuracionServicio)
+DuracionServicio.hasOne(Proveedor_Servicio)
 Proveedor_Servicio.belongsTo(Precio)
 Precio.hasOne(Proveedor_Servicio)
 Proveedor_Servicio.belongsTo(Descripcion)

@@ -1,4 +1,18 @@
-const { Proveedor, Servicio, Ciudad, Provincia, Pais, Precio, Proveedor_Servicio, Descripcion, Role, Pregunta, Usuario, Comentario } = require('../db')
+const {
+  Proveedor,
+  Servicio,
+  Ciudad,
+  Provincia,
+  Pais,
+  Precio,
+  Proveedor_Servicio,
+  Descripcion,
+  Role,
+  Pregunta,
+  Usuario,
+  Comentario,
+  DuracionServicio,
+} = require('../db')
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 
@@ -320,6 +334,7 @@ const addServicio_Prov = async (req, res, next) => {
 
     let arrayPrecios = servicios.map((servicio) => servicio.PRECIO)
     let arrayDescripcion = servicios.map((servicio) => servicio.DESCRIPCION)
+    let arrayDuration = servicios.map((servicio) => servicio.DURACION)
 
     let serviciosDisp = await Servicio.findAll({
       where: {
@@ -367,6 +382,27 @@ const addServicio_Prov = async (req, res, next) => {
         },
       })
       proveedor_servicio.setDescripcion(d)
+    }
+
+    for (let i = 0; i < arrayDuration.length; i++) {
+      let dur = await DuracionServicio.create({
+        DURACION: arrayDuration[i],
+      })
+      console.log(dur)
+      let proovedor = await Proveedor.findOne({ where: { id: id } })
+      let servicio = await Servicio.findOne({
+        where: {
+          NOMBRE_SERVICIO: arrayServicios[i].NOMBRE_SERVICIO,
+          REMOTE: arrayServicios[i].REMOTE,
+        },
+      })
+      let proveedor_servicio = await Proveedor_Servicio.findOne({
+        where: {
+          ProveedorId: proovedor.id,
+          ServicioId: servicio.id,
+        },
+      })
+      proveedor_servicio.setDuracionServicio(dur)
     }
     return res.status(204).send({ message: 'Servicios agregados' })
   } catch (error) {
