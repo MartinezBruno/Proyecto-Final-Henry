@@ -75,7 +75,7 @@ export default function ProviderChat() {
                     <li className='clearfix' value={p.id} onClick={() => handleChat(p.id, idProveedor)}>
                       <img
                         src={p.IMAGEN}
-                        style={{width:"45px", height:"45px"}}
+                        style={{ width: '45px', height: '45px' }}
                         alt='nt'
                         onError={(e) =>
                           (e.target.src =
@@ -83,7 +83,9 @@ export default function ProviderChat() {
                         }
                       />
                       <div className='about'>
-                        <div className='name' style={{fontWeight:"bold", fontSize:"16px"}}>{p.NOMBRE_APELLIDO_USUARIO}</div>
+                        <div className='name' style={{ fontWeight: 'bold', fontSize: '16px' }}>
+                          {p.NOMBRE_APELLIDO_USUARIO}
+                        </div>
                         <div className='status'>
                           {' '}
                           <p>Usuario</p>
@@ -103,7 +105,7 @@ export default function ProviderChat() {
                       <>
                         <img
                           src={UniqueUser.imagen}
-                          style={{width:"45px", height:"45px"}}
+                          style={{ width: '40px', height: '40px' }}
                           alt='nt'
                           onError={(e) =>
                             (e.target.src =
@@ -126,6 +128,15 @@ export default function ProviderChat() {
                 </div>
               </div>
               <div className='chat-history'>
+                {actualChat.CHAT?.length > 0 ? (
+                  <div className='ScrollDownButton' style={{ backgroundColor: 'rgba(128, 128, 128, 0.464)' }}>
+                    <a href='#ScrollDown' className=''>
+                      <i class='fa fa-arrow-down' aria-hidden='true'></i>
+                    </a>
+                  </div>
+                ) : (
+                  ''
+                )}
                 <ul className='m-b-0'>
                   {actualChat.CHAT?.length > 0 ? (
                     actualChat.CHAT?.map((message, index) =>

@@ -66,9 +66,11 @@ export default function UserChat() {
 
   return (
     <div className='container'>
-      {/* <div className='ScrollDownButton'>
-        <i class="fa fa-arrow-down" aria-hidden="true"></i>
-      </div> */}
+      <div className='ScrollDownButton'>
+        {/* <a href='#ScrollDown'>
+          <i class='fa fa-arrow-down' aria-hidden='true'></i>
+        </a> */}
+      </div>
       <div className='row clearfix'>
         <div className='col-lg-12'>
           <div className='card chat-app'>
@@ -83,7 +85,7 @@ export default function UserChat() {
                       <img
                         src={p.IMAGEN}
                         alt='nt'
-                        style={{width:"45px", height:"45px"}}
+                        style={{ width: '45px', height: '45px' }}
                         onError={(e) =>
                           (e.target.src =
                             'https://images-ext-2.discordapp.net/external/sDPHKeBTrgE7mhtTqdkBNgRWuod6SCz-ugAtCHW5FTE/%3Fx%3D480%26quality%3D20/https/www.softzone.es/app/uploads/2018/04/guest.png')
@@ -113,7 +115,7 @@ export default function UserChat() {
                         <img
                           src={uniqueprovider.imagen}
                           alt='nt'
-                          style={{width:"45px", height:"45px"}}
+                          style={{ width: '40px', height: '40px' }}
                           onError={(e) =>
                             (e.target.src =
                               'https://images-ext-2.discordapp.net/external/sDPHKeBTrgE7mhtTqdkBNgRWuod6SCz-ugAtCHW5FTE/%3Fx%3D480%26quality%3D20/https/www.softzone.es/app/uploads/2018/04/guest.png')
@@ -135,7 +137,16 @@ export default function UserChat() {
                 </div>
               </div>
               <div className='chat-history'>
-                <ul className='m-b-0'>
+                {actualChat.CHAT?.length > 0 ? (
+                  <div className='ScrollDownButton' style={{ backgroundColor: 'rgba(128, 128, 128, 0.464)' }}>
+                    <a href='#ScrollDown'>
+                      <i class='fa fa-arrow-down' aria-hidden='true'></i>
+                    </a>
+                  </div>
+                ) : (
+                  ''
+                )}
+                <ul className='m-b-0' id='h'>
                   {actualChat.CHAT?.length > 0 ? (
                     actualChat.CHAT?.map((message, index) =>
                       message.includes(user.nombreApellido) ? (
