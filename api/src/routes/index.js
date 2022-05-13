@@ -11,6 +11,7 @@ const bulkcreate = require('./bulkcreate')
 const checkout = require('./checkout')
 const pregunta = require('./pregunta')
 const chat = require('./chat')
+const { sendMail } = require('../mail')
 
 router.get('/', (req, res) => {
   res.send('API Attend Group Company')

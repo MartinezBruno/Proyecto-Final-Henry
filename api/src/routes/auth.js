@@ -17,6 +17,7 @@ router.use(express.json())
 router.post('/refreshtoken', controller.refreshToken)
 
 router.post('/usuario/signup', [verifySignUp.checkDuplicateEmailOnUsuarios, verifySignUp.checkRolesExisted], controllerUsuario.signup)
+router.get('/usuario/confirm/:token', [], controllerUsuario.confirm)
 router.post('/usuario/signin', controllerUsuario.signin)
 
 router.post('/proveedor/signup', [verifySignUp.checkDuplicateEmailOnProveedores, verifySignUp.checkRolesExisted], controllerProveedor.signup)

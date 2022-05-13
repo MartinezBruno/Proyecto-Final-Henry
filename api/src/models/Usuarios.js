@@ -40,5 +40,16 @@ module.exports = (sequelize) => {
     CELULAR: {
       type: DataTypes.BIGINT,
     },
+
+    CODE: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+
+    STATUSCODE: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: 'SIN VERIFICAR',
+    },
   })
 }
