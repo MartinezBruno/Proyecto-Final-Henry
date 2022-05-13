@@ -92,9 +92,30 @@ const getEmergenciaUsuario = async (req,res) =>{
 
 }
 
+const finalizarEmergencia = async (req,res) => {
+  const {UsuarioId, ProveedorId} = req.body
+
+if (UsuarioId) {
+  await Emergencia.destroy({
+    where: [{ UsuarioId: UsuarioId }],
+  })
+  return res.status(200).send('Emergencia Finalizada')
+}
+
+if(ProveedorId){
+  await Emergencia.destroy({
+    where: [{ ProveedorId: ProveedorId }],
+  })
+ return res.status(200).send('Emergencia Finalizada')
+}
+
+}
+
+
 module.exports = {
   emergencia,
   takeEmergencia,
   getEmergencias,
-  getEmergenciaUsuario
+  getEmergenciaUsuario,
+  finalizarEmergencia
 }
