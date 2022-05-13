@@ -20,13 +20,27 @@ export const chatSlice = createSlice({
         },
         SetNewMessage:(state, action) => {
             state.actualChat.msj = action.payload
-        }        
+        },
+        CleanNewProvider:(state, action) => {
+            state.idNewProvider = action.payload
+        }
     }
 })
 
-export const { SetActualChat, GetChatHistory, SetIdNewProvider, SetNewMessage } = chatSlice.actions
+export const { SetActualChat, GetChatHistory, SetIdNewProvider, SetNewMessage, CleanNewProvider } = chatSlice.actions
 
 export default chatSlice.reducer
+
+export function cleanActualChat(){
+    return function(dispatch){
+        dispatch(SetActualChat([]))
+    }
+}
+export function cleanNewProvider(){
+    return function(dispatch){
+        dispatch(CleanNewProvider(""))
+    }
+}
 
 export function newProviderMessage(message){
     return function(dispatch){
