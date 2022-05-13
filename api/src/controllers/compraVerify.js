@@ -2,11 +2,15 @@ const { CompraVerify, Usuario, Proveedor, Evento, Proveedor_Servicio } = require
 var moment = require('moment')
 
 const compraVerify = async (req, res) => {
-  const { cart, id, start, end, title, duration } = req.body
+  const { cart, id } = req.body
   try {
     let idProveedor = cart?.map((compra) => compra.provID)
     let idUsuario = id
     let idServicio = cart?.map((compra) => compra.id)
+    let arrayStart = cart?.map((compra) => compra.start)
+    let arrayEnd = cart?.map((compra) => compra.end)
+    let arrayTitle = cart?.map((compra) => compra.nombre)
+    let arrayDuration = cart?.map((compra) => compra.duration)
 
     let usuario = await Usuario.findOne({ where: { id: idUsuario } })
 
@@ -15,6 +19,9 @@ const compraVerify = async (req, res) => {
 
     for (let i = 0; i < idProveedor.length; i++) {
       let proveedorId = idProveedor[i]
+      let start = arrayStart[i]
+      let end = arrayEnd[i]
+
       let provServ = await Proveedor_Servicio.findAll({
         where: { ProveedorId: idProveedor[i] },
       })
@@ -49,29 +56,37 @@ const compraVerify = async (req, res) => {
             }
           }
         }
-
-        let compra = await CompraVerify.create()
-        const event = await Evento.create({
-          START: start,
-          END: end,
-          TITLE: title,
-          DURATION: duration,
-        })
-        let proveedorServicio = await Proveedor_Servicio.findOne({
-          where: {
-            ProveedorId: idProveedor[i],
-            ServicioId: idServicio[i],
-          },
-        })
-        await compra.setEvento(event)
-        await compra.setUsuario(usuario)
-        await compra.setProveedor_Servicio(proveedorServicio)
       }
     }
+
+    for (let i = 0; i < idProveedor.length; i++) {
+      let title = arrayTitle[i]
+      let duration = arrayDuration[i]
+      let start = arrayStart[i]
+      let end = arrayEnd[i]
+
+      let compra = await CompraVerify.create()
+      const event = await Evento.create({
+        START: start,
+        END: end,
+        TITLE: title,
+        DURATION: duration,
+      })
+      let proveedorServicio = await Proveedor_Servicio.findOne({
+        where: {
+          ProveedorId: idProveedor[i],
+          ServicioId: idServicio[i],
+        },
+      })
+      await compra.setEvento(event)
+      await compra.setUsuario(usuario)
+      await compra.setProveedor_Servicio(proveedorServicio)
+    }
+
     return res.status(200).send({ message: 'Eventos creados' })
   } catch (error) {
     console.error(error)
-    return res.status(400).send({ message: 'Error al crear los evento' })
+    return res.status(400).send({ message: 'Error al crear los eventos' })
   }
 }
 
