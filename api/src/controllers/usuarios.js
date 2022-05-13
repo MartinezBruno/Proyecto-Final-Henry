@@ -292,7 +292,7 @@ const buyReview = async (req, res) => {
   let proveedor = await Proveedor.findOne({
     where: { id: idProveedor },
   })
-  console.log(proveedor)
+  // console.log(proveedor)
   let calificaciones = proveedor.CALIFICACION
 
   let verificacionCompra = await Compra.findAll({

@@ -9,12 +9,22 @@ import { chargeServices } from '../../redux/slices/services'
 
 import api from '../../services/api'
 
+const validation = (input) => {
+  let errors = {}
+  if (input.NOMBRE_SERVICIO === '') errors.name = 'El nombre del servicio es requerido'
+  if (input.DESCRIPCION === '') errors.description = 'La descripción del servicio es requerido'
+  if (input.PRECIO === '') errors.price = 'El precio del servicio es requerido'
+  if (input.REMOTE === null) errors.remote = 'Es requerido que indique si el servicio es remoto o local'
+  return errors
+}
+
 export default function AddService(props) {
   //   let { provID } = props
   const { user } = useSelector((state) => state.auth)
   let provID = user.id
   let dispatch = useDispatch()
   let { dbServices } = useSelector((state) => state.services)
+  let servicesString = [...new Set(dbServices.map((service) => service.nombre))]
   let [serviceOptions, setServiceOptions] = useState({
     name: '',
     remote: [],
@@ -23,6 +33,7 @@ export default function AddService(props) {
   const [show, setShow] = useState(false)
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
+  const [errors, setErrors] = useState({})
   const [serviceToPost, setServiceToPost] = useState({
     NOMBRE_SERVICIO: '',
     REMOTE: null,
@@ -35,6 +46,18 @@ export default function AddService(props) {
   }, [dispatch])
 
   function postService(service, proveedorID) {
+    let errors = validation(service)
+    console.log(errors)
+    if (Object.keys(errors).length !== 0) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Parece que no has completado todos los camos de forma correcta, por favor, vuelve a intentarlo',
+      })
+      return setTimeout(() => {
+        window.location.reload()
+      }, 3000)
+    }
     service.REMOTE = service.REMOTE === 'false' ? false : true
     service.PRECIO = parseInt(service.PRECIO)
 
@@ -65,6 +88,7 @@ export default function AddService(props) {
     setServiceToPost((prevState) => {
       return { ...prevState, [e.target.name]: e.target.value }
     })
+    setErrors(validation({ ...serviceToPost }))
   }
 
   return (
@@ -85,12 +109,13 @@ export default function AddService(props) {
                 <option hidden className='text-muted'>
                   Elige tu servicio
                 </option>
-                {dbServices?.map((el) => {
-                  if (el.nombre !== 'Sin servicios disponibles') {
-                    return <option value={el.nombre}>{el.nombre}</option>
+                {servicesString?.map((el) => {
+                  if (el !== 'Sin servicios disponibles') {
+                    return <option value={el}>{el}</option>
                   }
                 })}
               </Form.Select>
+              {errors.name && <Form.Text className='text-danger'>{errors.name}</Form.Text>}
             </Form.Group>
             <Form.Label>Tipo del servicio:</Form.Label>
             <Form.Select aria-label='Default select example' name='REMOTE' onChange={(e) => handleForm(e)}>
@@ -106,17 +131,19 @@ export default function AddService(props) {
                 }
               })}
             </Form.Select>
-
+            {errors.remote && <Form.Text className='text-danger'>{errors.remote}</Form.Text>}
             <Form.Group className='mb-3' controlId='formBasicPassword'>
               <Form.Label>Precio</Form.Label>
               <InputGroup className='mb-3'>
                 <InputGroup.Text>$</InputGroup.Text>
                 <Form.Control type='number' name='PRECIO' onChange={(e) => handleForm(e)} />
               </InputGroup>
+              {errors.price && <Form.Text className='text-danger'>{errors.price}</Form.Text>}
             </Form.Group>
             <Form.Group className='mb-3' controlId='exampleForm.ControlTextarea1'>
               <Form.Label>Ingresa una descripción breve del servicio:</Form.Label>
               <Form.Control as='textarea' rows={3} maxLength='100' name='DESCRIPCION' onChange={(e) => handleForm(e)} />
+              {errors.description && <Form.Text className='text-danger'>{errors.description}</Form.Text>}
             </Form.Group>
           </Form>
         </Modal.Body>
@@ -124,9 +151,11 @@ export default function AddService(props) {
           <Button variant='secondary' onClick={handleClose}>
             Cerrar
           </Button>
-          <Button variant='success' onClick={() => postService(serviceToPost, provID)}>
-            Guardar servicio
-          </Button>
+          {!errors.name && !errors.price && !errors.remote && !errors.description && (
+            <Button variant='success' onClick={() => postService(serviceToPost, provID)}>
+              Guardar servicio
+            </Button>
+          )}
         </Modal.Footer>
       </Modal>
     </>

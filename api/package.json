@@ -19,13 +19,16 @@
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
+    "ejs": "^3.1.8",
     "express": "^4.17.3",
     "express-jwt": "^7.5.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.3.1",
+    "nodemailer": "^6.7.5",
     "pg": "^8.7.3",
     "sequelize": "^6.19.0",
-    "supertest-as-promised": "^4.0.2"
+    "supertest-as-promised": "^4.0.2",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@sentry/node": "^6.19.7",

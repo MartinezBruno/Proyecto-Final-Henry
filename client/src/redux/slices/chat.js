@@ -6,7 +6,7 @@ export const chatSlice = createSlice({
     initialState:{
         actualChat: {},
         chatHistory: [],
-        idNewProvider: ""
+        idNewProvider: "",
     },
     reducers: {
         SetActualChat: (state, action) => {
@@ -18,12 +18,42 @@ export const chatSlice = createSlice({
         SetIdNewProvider:(state, action) => {
             state.idNewProvider = action.payload
         },
+        SetNewMessage:(state, action) => {
+            state.actualChat.msj = action.payload
+        },
+        CleanNewProvider:(state, action) => {
+            state.idNewProvider = action.payload
+        }
     }
 })
 
-export const { SetActualChat, GetChatHistory, SetIdNewProvider } = chatSlice.actions
+export const { SetActualChat, GetChatHistory, SetIdNewProvider, SetNewMessage, CleanNewProvider } = chatSlice.actions
 
 export default chatSlice.reducer
+
+export function cleanActualChat(){
+    return function(dispatch){
+        dispatch(SetActualChat([]))
+    }
+}
+export function cleanNewProvider(){
+    return function(dispatch){
+        dispatch(CleanNewProvider(""))
+    }
+}
+
+export function newProviderMessage(message){
+    return function(dispatch){
+        dispatch(SetNewMessage(message.mensajeProveedor))
+    }
+}
+
+export function newUserMessage(message){
+    // console.log(message)
+    return function(dispatch){
+        dispatch(SetNewMessage(message.mensajeUsuario))
+    }
+}
 
 export function setIdNewProvider(id){
     // console.log(id)
@@ -37,15 +67,12 @@ export function getUserChatHistory(idUsuario){
     console.log(idUsuario)
     return async function(dispatch){
         let info = await api.get(`/chat/allChats?idUsuario=${idUsuario}`)
-        // console.log(info.data)
         dispatch(GetChatHistory(info.data))
     }
 }
 export function getProviderChatHistory(idProveedor){
-    // console.log(idProveedor)
     return async function(dispatch){
         let info = await api.get(`/chat/allChats?idProveedor=${idProveedor}`)
-        // console.log(info.data)
         dispatch(GetChatHistory(info.data))
     }
 }

@@ -16,6 +16,7 @@ export default function Home() {
   const { isLoggedIn, user } = useSelector((state) => state.auth)
   if (user) {
     var userId = user.id
+    var role = user.Role
   }
 
   //PAGINATION VARS
@@ -35,7 +36,7 @@ export default function Home() {
 
   useEffect(() => {
     dispatch(getAllProviders())
-    dispatch(getFavoritesFromDb(userId))
+    role && dispatch(getFavoritesFromDb(userId))
   }, [dispatch])
 
   return (
@@ -51,23 +52,19 @@ export default function Home() {
             ) : (
               cardsShowed?.map((provider) => {
                 return (
-                  <>
-                    {provider.servicio.nombre !== 'Sin servicios disponibles' && (
-                      <Card
-                        nombre={provider.nombre_apellido_proveedor}
-                        imagen={provider.imagen}
-                        servicio={provider.servicio.nombre}
-                        descripcion={provider.servicio.descripcion}
-                        calificacion={provider.calificacion}
-                        provincia={provider.provincia}
-                        ciudad={provider.ciudad}
-                        precio={provider.servicio.precio}
-                        idProv={provider.id}
-                        idServ={provider.servicio.id}
-                        key={provider.email + provider.servicio.nombre + provider.servicio.precio}
-                      />
-                    )}
-                  </>
+                  <Card
+                    nombre={provider.nombre_apellido_proveedor}
+                    imagen={provider.imagen}
+                    servicio={provider.servicio.nombre}
+                    descripcion={provider.servicio.descripcion}
+                    calificacion={provider.calificacion}
+                    provincia={provider.provincia}
+                    ciudad={provider.ciudad}
+                    precio={provider.servicio.precio}
+                    idProv={provider.id}
+                    idServ={provider.servicio.id}
+                    key={provider.email + provider.servicio.nombre + provider.servicio.precio}
+                  />
                 )
               })
             )}

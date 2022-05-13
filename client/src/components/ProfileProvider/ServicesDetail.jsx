@@ -71,22 +71,27 @@ export default function ProfileDetails() {
                               Ver Perfil
                             </button>
                           </NavLink>
-                          <button
-                            className='btn btn-success'
-                            style={{ padding: '5px' }}
-                            onClick={() => {
-                              dispatch(addToCart({ ...serviceProvider[0]?.servicio, provID: idProv, provName: serviceProvider[0]?.nombre_apellido_proveedor })) //Le mando los datos del servicio y del proveedor
-                              localStorage.setItem(
-                                'cartList',
-                                JSON.stringify([
-                                  ...services,
-                                  { ...serviceProvider[0]?.servicio, provID: idProv, provName: serviceProvider[0]?.nombre_apellido_proveedor },
-                                ])
-                              )
-                            }}>
-                            {' '}
-                            <i className='fa fa-cart-plus' aria-hidden='true'></i> Solicitar
-                          </button>
+                          <>
+                            {user.Role === 'USUARIO' && (
+                              <button
+                                className='btn btn-success'
+                                style={{ padding: '5px' }}
+                                onClick={() => {
+                                  dispatch(
+                                    addToCart({ ...serviceProvider[0]?.servicio, provID: idProv, provName: serviceProvider[0]?.nombre_apellido_proveedor })
+                                  ) //Le mando los datos del servicio y del proveedor
+                                  localStorage.setItem(
+                                    'cartList',
+                                    JSON.stringify([
+                                      ...services,
+                                      { ...serviceProvider[0]?.servicio, provID: idProv, provName: serviceProvider[0]?.nombre_apellido_proveedor },
+                                    ])
+                                  )
+                                }}>
+                                <i className='fa fa-cart-plus' aria-hidden='true'></i> Solicitar
+                              </button>
+                            )}
+                          </>
                         </div>
                       </div>
                     </div>

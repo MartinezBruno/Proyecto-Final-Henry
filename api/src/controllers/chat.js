@@ -26,7 +26,7 @@ const chat = async (req, res) => {
 
       let arrayChat = chat[0].CHAT
       arrayChat.push(proveedor.NOMBRE_APELLIDO_PROVEEDOR + ': ' + mensajeProveedor + ' ' + current)
-      console.log(arrayChat)
+      // console.log(arrayChat)
       await Chat.update({ CHAT: arrayChat }, { where: { id: chat[0].id } })
 
       return res.status(200).send('Mensaje de Proveedor enviado correctamente')
@@ -77,7 +77,7 @@ const getHistoryChat = async (req, res) => {
     let filt = []
     for (let i = 0; i < provChats.length; i++) {
       let usuario = await Usuario.findOne({ where: { id: provChats[i].UsuarioId } })
-      console.log(usuario)
+      // console.log(usuario)
       filt.push(usuario)
       // console.log(filt)
     

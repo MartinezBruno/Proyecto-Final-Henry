@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import styles from '../../styles/login.module.css'
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
@@ -9,6 +9,7 @@ import { providerLogin, userLogin } from '../../redux/slices/auth'
 import Swal from 'sweetalert2'
 import { useEffect } from 'react'
 import api from '../../services/api'
+import ReCAPTCHA from 'react-google-recaptcha'
 
 export default function Login(props) {
   const dispatch = useDispatch()
@@ -22,6 +23,13 @@ export default function Login(props) {
     email: '',
     password: '',
   })
+
+  const captcha = useRef(null)
+
+  function onRecaptcha(e) {
+    e.preventDefault(e)
+    captcha.current.getValue()
+  }
 
   function handleChange(e) {
     e.preventDefault()
@@ -98,6 +106,9 @@ export default function Login(props) {
                         />{' '}
                       </div>
                       <div className={styles.formInput}></div>
+                      <div className='recaptcha'>
+                        <ReCAPTCHA ref={captcha} sitekey='6Le5jukfAAAAAD7b-AKYrJS1A8bT_VqYBbXPwLcX' onChange={onRecaptcha} />
+                      </div>
 
                       <button className={`btn btn-success mt-4 ${styles.signup}`} onClick={(e) => handleSubmit(e)}>
                         Iniciar sesión
@@ -169,6 +180,9 @@ export default function Login(props) {
                         />{' '}
                       </div>
                       <div className={styles.formInput}></div>
+                      <div className='recaptcha'>
+                        <ReCAPTCHA ref={captcha} sitekey='6Le5jukfAAAAAD7b-AKYrJS1A8bT_VqYBbXPwLcX' onChange={onRecaptcha} />
+                      </div>
 
                       <button className={`btn btn-success mt-4 ${styles.signup}`} onClick={(e) => handleSubmitProvider(e)}>
                         Iniciar sesión
@@ -194,9 +208,9 @@ export default function Login(props) {
                     <div className='text-center mt-4'>
                       {' '}
                       <span>¿No estás registrado?</span>{' '}
-                      <a href='#' className='text-decoration-none'>
+                      <Link to='./register' className='text-decoration-none'>
                         ¡Registrate ahora!
-                      </a>{' '}
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -245,6 +259,9 @@ export default function Login(props) {
                             />{' '}
                           </div>
                           <div className={styles.formInput}></div>
+                          <div className='recaptcha'>
+                            <ReCAPTCHA ref={captcha} sitekey='6Le5jukfAAAAAD7b-AKYrJS1A8bT_VqYBbXPwLcX' onChange={onRecaptcha} />
+                          </div>
 
                           <button className={`btn btn-success mt-4 ${styles.signup}`} onClick={(e) => handleSubmit(e)}>
                             Iniciar sesión
@@ -275,7 +292,7 @@ export default function Login(props) {
                         <div className='text-center mt-4'>
                           {' '}
                           <span>¿No estás registrado?</span>{' '}
-                          <Link to='./register' className='text-decoration-none'>
+                          <Link to='/register' className='text-decoration-none'>
                             ¡Registrate ahora!
                           </Link>{' '}
                         </div>
@@ -316,6 +333,9 @@ export default function Login(props) {
                             />{' '}
                           </div>
                           <div className={styles.formInput}></div>
+                          <div className='recaptcha'>
+                            <ReCAPTCHA ref={captcha} sitekey='6Le5jukfAAAAAD7b-AKYrJS1A8bT_VqYBbXPwLcX' onChange={onRecaptcha} />
+                          </div>
 
                           <button className={`btn btn-success mt-4 ${styles.signup}`} onClick={(e) => handleSubmitProvider(e)}>
                             Iniciar sesión
@@ -341,9 +361,9 @@ export default function Login(props) {
                         <div className='text-center mt-4'>
                           {' '}
                           <span>¿No estás registrado?</span>{' '}
-                          <a href='#' className='text-decoration-none'>
+                          <Link to='/register' className='text-decoration-none'>
                             ¡Registrate ahora!
-                          </a>{' '}
+                          </Link>{' '}
                         </div>
                       </div>
                     </div>

@@ -3,6 +3,7 @@ import styles from '../../styles/cards.module.css'
 import { useSelector, useDispatch } from 'react-redux'
 import { getFavoritesFromDb } from '../../redux/slices/favorites'
 import { NavLink } from 'react-router-dom'
+import DeleteFavorites from './DeleteFavorites'
 
 function Favorites() {
   const dispatch = useDispatch()
@@ -20,7 +21,7 @@ function Favorites() {
     <>
       {role === 'USUARIO' && (
         <>
-          <h1>Favoritos</h1>
+          <h1 style={{display:"flex", justifyContent:"center"}}>Favoritos</h1>
           {favorites.length > 0 ? (
             <div className='d-flex flex-wrap justify-content-center'>
               {favorites.map((favorite) => {
@@ -52,6 +53,7 @@ function Favorites() {
                             IR AL PERFIL DEL PROVEEDOR
                           </button>
                         </NavLink>
+                        <DeleteFavorites provId={favorite.idProveedor} userId={userId} />
                       </div>
                     </div>
                   </div>
@@ -59,7 +61,7 @@ function Favorites() {
               })}
             </div>
           ) : (
-            <>No hay favoritos</>
+            <div style={{display:"flex", justifyContent:"center"}}>No hay favoritos</div>
           )}
         </>
       )}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import styles from '../../styles/register.module.css'
 import { Modal, Button, Container, Row, Col } from 'react-bootstrap'
 import Tabs from 'react-bootstrap/Tabs'
@@ -11,6 +11,7 @@ import { chargeAllUsers } from '../../redux/slices/user'
 import { getAllProviders } from '../../redux/slices/provider'
 import Swal from 'sweetalert2'
 import 'animate.css'
+import ReCAPTCHA from 'react-google-recaptcha'
 
 export default function Register({ isModal }) {
   const { allProviders } = useSelector((state) => state.provider)
@@ -24,6 +25,13 @@ export default function Register({ isModal }) {
   const { provinces, cities, countries } = useSelector((state) => state.countriesData)
 
   const dispatch = useDispatch()
+
+  const captcha = useRef(null)
+
+  function onRecaptcha(e) {
+    e.preventDefault(e)
+    captcha.current.getValue()
+  }
 
   // Estado auxiliar para selects del pais/provincia/ciudad
   const [countriesInfo, setCountriesInfo] = useState({
@@ -914,6 +922,9 @@ export default function Register({ isModal }) {
                       </label>{' '}
                     </div>
                     {/* <button className={`btn btn-success mt-4 ${styles.signup} ${termsAccepted}`} onClick={(e) => handleSubmitUser(e)}> */}
+                    <div className='recaptcha'>
+                      <ReCAPTCHA ref={captcha} sitekey='6Le5jukfAAAAAD7b-AKYrJS1A8bT_VqYBbXPwLcX' onChange={onRecaptcha} />
+                    </div>
                     <button className={`btn btn-success mt-4 ${styles.signup} ${termsAccepted}`} onClick={(e) => finalCheck(e)}>
                       Confirmar registro
                     </button>
@@ -1154,6 +1165,9 @@ export default function Register({ isModal }) {
                       </label>{' '}
                     </div>
                     {/* <button className={`btn btn-success mt-4 ${styles.signup} ${termsAcceptedProvider}`} onClick={(e) => handleSubmitUser(e)}> */}
+                    <div className='recaptcha'>
+                      <ReCAPTCHA ref={captcha} sitekey='6Le5jukfAAAAAD7b-AKYrJS1A8bT_VqYBbXPwLcX' onChange={onRecaptcha} />
+                    </div>
                     <button className={`btn btn-success mt-4 ${styles.signup} ${termsAcceptedProvider}`} onClick={(e) => finalCheckProvider(e)}>
                       Confirmar registro
                     </button>
@@ -1411,6 +1425,9 @@ export default function Register({ isModal }) {
                         </label>{' '}
                       </div>
                       {/* <button className={`btn btn-success mt-4 ${styles.signup} ${termsAccepted}`} onClick={(e) => handleSubmitUser(e)}> */}
+                      <div className='recaptcha'>
+                        <ReCAPTCHA ref={captcha} sitekey='6Le5jukfAAAAAD7b-AKYrJS1A8bT_VqYBbXPwLcX' onChange={onRecaptcha} />
+                      </div>
                       <button className={`btn btn-success mt-4 ${styles.signup} ${termsAccepted}`} onClick={(e) => finalCheck(e)}>
                         Confirmar registro
                       </button>
@@ -1651,6 +1668,9 @@ export default function Register({ isModal }) {
                         </label>{' '}
                       </div>
                       {/* <button className={`btn btn-success mt-4 ${styles.signup} ${termsAcceptedProvider}`} onClick={(e) => handleSubmitUser(e)}> */}
+                      <div className='recaptcha'>
+                        <ReCAPTCHA ref={captcha} sitekey='6Le5jukfAAAAAD7b-AKYrJS1A8bT_VqYBbXPwLcX' onChange={onRecaptcha} />
+                      </div>
                       <button className={`btn btn-success mt-4 ${styles.signup} ${termsAcceptedProvider}`} onClick={(e) => finalCheckProvider(e)}>
                         Confirmar registro
                       </button>
