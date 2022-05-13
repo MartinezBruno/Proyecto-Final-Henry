@@ -37,7 +37,7 @@ const emergencia = async (req, res) => {
     emergencia.setUsuario(usuario.id)
     emergencia.setServicio(servicio.id)
 
-    return res.status(200).send('beibe sana mi dolor')
+    return res.status(200).send('Emergencia agregada con exito')
   }
 }
 
@@ -60,7 +60,7 @@ const takeEmergencia = async (req, res) => {
     })
 
     emergencia.update({ ProveedorId: ProveedorId, ProveedorServicioId: provedorServ.id }, { where: { UsuarioId: UsuarioId } })
-    res.status(200).send('se nos va, se nos va')
+    res.status(200).send('Emergencia Aceptada')
   }
 }
 
@@ -84,8 +84,17 @@ const getEmergencias = async (req, res) => {
   res.status(200).send(emergenciasMatch)
 }
 
+const getEmergenciaUsuario = async (req,res) =>{
+  const {UsuarioId} = req.body
+  let emergencia = await Emergencia.findAll({where: {UsuarioId: UsuarioId}})
+  
+  return res.status(200).send(emergencia)
+
+}
+
 module.exports = {
   emergencia,
   takeEmergencia,
   getEmergencias,
+  getEmergenciaUsuario
 }
