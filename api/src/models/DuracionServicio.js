@@ -4,6 +4,7 @@ module.exports = (sequelize) => {
   sequelize.define('DuracionServicio', {
     DURACION: {
       type: DataTypes.STRING,
+      defaultValue: 'Sin definir',
     },
   })
 }
