@@ -79,7 +79,7 @@ export default function UserChat() {
               <hr style={{ height: '2px', marginTop: '20px' }} />
               <div className='input-group'>{/* <input type='text' className='form-control' placeholder='Buscar...' /> */}</div>
               <ul className='list-unstyled chat-list mt-2 mb-0'>
-                {chatHistory?.map((p) => (
+                {chatHistory.length > 0 ?  chatHistory?.map((p) => (
                   <a href='#ScrollDown'>
                     <li className='clearfix' value={p.id} onClick={() => handleChat(idUsuario, p.id)}>
                       <img
@@ -102,7 +102,7 @@ export default function UserChat() {
                       </div>
                     </li>
                   </a>
-                ))}
+                )) : <p style={{display:"flex" , justifyContent:"center", textAlign:"center", fontSize:"18px"}}> ¡No tienes chats abiertos! Compra algún Servicio para poder interactuar con tu proveedor </p>}
               </ul>
             </div>
 
