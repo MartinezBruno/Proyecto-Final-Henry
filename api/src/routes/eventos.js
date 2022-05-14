@@ -1,13 +1,14 @@
 const express = require('express')
 const router = express.Router()
 
-const { getEvents,  getProveedorEvents } = require('../controllers/event')
-const { compraVerify } = require('../controllers/compraVerify')
+const { getEvents, getProveedorEvents, createEvent, deleteEvent } = require('../controllers/event')
 
-router.post('/', compraVerify)
+router.post('/', createEvent)
 
-router.get('/', getEvents)
+router.delete('/:id', deleteEvent)
 
-router.get('/:proveedor_id', getProveedorEvents)
+router.get('/:compra_id', getEvents)
+
+router.get('/proveedor/:proveedor_id', getProveedorEvents)
 
 module.exports = router
