@@ -144,35 +144,29 @@ export default function NavBar() {
                     <i className='fa fa-user-circle' aria-hidden='true'></i> MI PERFIL
                   </span>
                 }>
-                <NavDropdown.Item>
-                  <NavLink to='/profile' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
+                <NavDropdown.Item href='/profile'>
                     Ver mi perfil
-                  </NavLink>
                 </NavDropdown.Item>
-                <NavDropdown.Item>
-                  <NavLink to='/home/chat' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
+                <NavDropdown.Item href='/home/chat'>
+                  
                     Mis chats
-                  </NavLink>
+                  
                 </NavDropdown.Item>
                 {role === 'USUARIO' && (
                   <>
-                    <NavDropdown.Item>
-                      <NavLink to='/purchases' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
+                    <NavDropdown.Item href='/purchases'>
+                     
                         Mis compras
-                      </NavLink>
+                   
                     </NavDropdown.Item>
-                    <NavDropdown.Item>
-                      {' '}
-                      <NavLink to='/profile/favorites' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
+                    <NavDropdown.Item href='/profile/favorites'>
                         Mis favoritos
-                      </NavLink>
                     </NavDropdown.Item>
                   </>
                 )}
-                                    <NavDropdown.Item>
-                      <NavLink to='/emergencies' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
+                     <NavDropdown.Item href='/emergencies'>
                         Mis emergencias
-                      </NavLink>
+                   
                     </NavDropdown.Item>
                 <Dropdown.Divider/>
                 <Dropdown.Item href='/' onClick={() => handleLogout()} >

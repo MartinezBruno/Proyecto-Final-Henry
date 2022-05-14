@@ -1,32 +1,48 @@
-import React from 'react'
-import AddEmergency from './AddEmergency'
+import React, { useEffect } from 'react'
+import { chargeServices } from '../../redux/slices/services'
+import {chargeUserEmergency, chargeProvEmergency} from '../../redux/slices/emergency'
+import { useSelector, useDispatch } from 'react-redux'
+import 'moment/locale/es'
+import styles from '../../styles/emergencies.module.css'
+import UserEmergency from './UserEmergency'
+import ProvEmergency from './ProvEmergency,'
 
 export default function Emergency() {
-  return (<>
-  
-  <div className='container mt-3'>
-          <div className='row align-items-center justify-content-center text-center'>
-            <div className='col-6'>
-              <h3>Listado de tus emergencias.</h3>
-              <hr />
-              <AddEmergency />
-              <table className='table'>
-                <thead className='table-dark'>
-                  <tr style={{ border: 'none' }}>
-                    <th scope='col'>SERVICIO</th>
-                    <th scope='col'>COSTO</th>
-                    <th scope='col'>FECHA</th>
-                    <th scope='col'> </th>
-                  </tr>
-                </thead>
-                <tbody>
-                
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-  
-  
-  </>)
+  let role
+  let dispatch = useDispatch()
+  const { user } = useSelector((state) => state.auth)
+  const { dbServices } = useSelector((state) => state.services)
+  const { userEmergency } = useSelector((state) => state.emergency)
+  const { providerEmergency } = useSelector((state) => state.emergency)
+  if (user) {
+    role = user.Role
+  }
+
+  //////////////////////////////////////////////////////useEffect para cargar los servicios y la emergencia
+  useEffect(() => {
+    if(role==='USUARIO'){
+        dispatch(chargeServices())
+        if(user.id){
+            dispatch(chargeUserEmergency({UsuarioId: user.id}))
+            }
+    }
+    else if(role==='PROVEEDOR'){
+        dispatch(chargeServices())
+        if(user.id){
+            dispatch(chargeProvEmergency({ProveedorId: user.id}))
+            }
+    }
+    
+  }, [dispatch])
+//////////////////////////////////////////////////////////
+
+
+
+
+  return (
+    <>
+      {role === 'USUARIO' && <UserEmergency userEmergency={userEmergency} dbServices={dbServices} />}
+      {role === 'PROVEEDOR' && <ProvEmergency providerEmergency={providerEmergency} dbServices={dbServices} />}
+    </>
+  )
 }

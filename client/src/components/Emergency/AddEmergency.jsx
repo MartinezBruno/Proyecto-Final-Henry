@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { chargeServices } from '../../redux/slices/services'
+import { chargeServices } from '../../redux/slices/services';
+import {chargeUserEmergency} from '../../redux/slices/emergency'
 import { useSelector, useDispatch } from 'react-redux'
 import { Button } from 'react-bootstrap'
 import Modal from 'react-bootstrap/Modal'
@@ -16,7 +17,13 @@ export default function AddEmergency() {
 
   const { user } = useSelector((state) => state.auth)
   let userID = user.id
+
+  useEffect(() => {
+     dispatch(chargeUserEmergency({UsuarioId: userID}))
+  }, [userID])
+
   let { dbServices } = useSelector((state) => state.services)
+  let { userEmergency } = useSelector((state) => state.emergency)
   let servicesString = [...new Set(dbServices.map((service) => service.nombre))]
   const [show, setShow] = useState(false)
   const handleClose = () => setShow(false)
@@ -70,9 +77,9 @@ export default function AddEmergency() {
       api.post('/emergencia', emergencyToPost)
       .then(res => {
           Swal.fire('Éxito', '¡Se ha agregado tu emergencia correctamente!', 'success')
+          dispatch(chargeUserEmergency({UsuarioId: userID}))
       })
       .catch(err=>{
-          console.log(err)
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
@@ -82,7 +89,9 @@ export default function AddEmergency() {
   }
   return (
     <>
-      <Button variant='primary' onClick={handleShow}>
+    {userEmergency?.length===0 && <>
+    
+        <Button variant='warning' onClick={handleShow} style={{margin: '0px 0px 15px 0px'}}>
         <i className='fa fa-plus' aria-hidden='true'></i> NUEVA EMERGENCIA
       </Button>
 
@@ -175,7 +184,8 @@ export default function AddEmergency() {
             Crear emergencia
           </Button>
         </Modal.Footer>
-      </Modal>
+      </Modal></>}
+      
     </>
   )
 }

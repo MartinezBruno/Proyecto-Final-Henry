@@ -23,6 +23,7 @@ export default configureStore({
     services,
     purchases,
     favorites,
-    chat
+    chat,
+    emergency
   },
 })
