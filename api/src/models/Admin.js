@@ -44,5 +44,16 @@ module.exports = (sequelize) => {
       allowNull: false,
       defaultValue: [],
     },
+
+    CODE: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+
+    STATUSCODE: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: 'SIN VERIFICAR',
+    },
   })
 }
