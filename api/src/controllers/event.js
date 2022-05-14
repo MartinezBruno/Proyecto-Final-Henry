@@ -179,14 +179,18 @@ const deleteEvent = async (req, res) => {
     if (!compra) {
       return res.status(404).send({ message: 'Compra no encontrada' })
     }
-    const events = await Evento.findOne({
+
+    const compraEvent = await CompraVerify.findOne({
       where: {
-        id: compra[0].EventoId,
+        UsuarioId: compra.UsuarioId,
+        ProveedorServicioId: compra.ProveedorServicioId,
       },
     })
-    if (!events) return res.status(404).send({ message: 'Evento no encontrado' })
+    if (!compraEvent) return res.status(404).send({ message: 'Evento no encontrado' })
+    const event = await Evento.findByPk(compraEvent.EventoId)
     await event.destroy()
-    return res.status(200).send({ message: 'Evento eliminado' })
+    await compraEvent.destroy()
+    return res.status(204).send({ message: 'Evento eliminado' })
   } catch (error) {
     console.error(error)
     return res.status(400).send({ message: 'Error al eliminar el evento' })
