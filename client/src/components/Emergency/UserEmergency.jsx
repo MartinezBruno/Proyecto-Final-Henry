@@ -56,7 +56,7 @@ export default function UserEmergency(props) {
           {userEmergency?.length > 0 && (
             <>
               <div className={styles.emergencyMainContainer}>
-                <h2>{dbServices?.length > 0 && dbServices.filter(obj => obj.id === userEmergency[0].ServicioId)[0]?.nombre}</h2>
+                <h2 style={{marginBottom: '0px'}}>{dbServices?.length > 0 && dbServices.filter(obj => obj.id === userEmergency[0].ServicioId)[0]?.nombre}</h2>
                 <p>
                   <i>
                     Creada{' '}
@@ -66,23 +66,33 @@ export default function UserEmergency(props) {
                   </i>
                 </p>
                 <div className='attribute'>
-                  <p>
+                  <p style={{marginBottom: '0px'}}>
                     <b>Espera máxima:</b>
                   </p>{' '}
                   <p>{userEmergency[0].ESPERA_MAXIMA}</p>
                 </div>
-                <p>
+                <p style={{marginBottom: '0px'}}>
                   <b>Precio máximo:</b>
                 </p>{' '}
                 <p>$ {userEmergency[0].PRECIO_MAXIMO}</p>
+                {userEmergency.ProveedorId && <p className='text-success' style={{margin: '5px 15px 0px 15px', fontSize:'12px'}}>Un proveedor ha tomado tu emergencia, podrás contactarlo al finalizar tu pago.</p>}
                 <Button
                   variant='danger'
                   style={{ margin: '10px 0px 0px 5px' }}
                   onClick={() => {
-                    handleDelete(user.id)
-                  }}>
+                      handleDelete(user.id)
+                    }}>
                   ELIMINAR
                 </Button>
+
+                {userEmergency.ProveedorId && <Button
+                  variant='success'
+                  style={{ margin: '10px 0px 0px 5px' }}
+                  onClick={() => {
+                      handleDelete(user.id)
+                    }}>
+                  PAGAR EMERGENCIA
+                </Button>}
               </div>
             </>
           )}
