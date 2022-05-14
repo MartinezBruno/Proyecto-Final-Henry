@@ -7,7 +7,7 @@ const { registroUsuario } = require('./registroUsuario')
 const { registroProveedor } = require('./registroProveedor')
 const { ventaSuccess } = require('./ventaSuccess')
 const { ventaError } = require('./ventaError')
-
+const {emergenciaEmail} = require ('./Emergencia')
 module.exports = {
   compraSuccess,
   compraError,
@@ -18,4 +18,5 @@ module.exports = {
   registroProveedor,
   ventaSuccess,
   ventaError,
+  emergenciaEmail
 }
