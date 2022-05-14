@@ -19,7 +19,7 @@ export default function AddEmergency() {
   let userID = user.id
 
   useEffect(() => {
-     dispatch(chargeUserEmergency({UsuarioId: userID}))
+     dispatch(chargeUserEmergency(userID))
   }, [userID])
 
   let { dbServices } = useSelector((state) => state.services)
@@ -77,7 +77,7 @@ export default function AddEmergency() {
       api.post('/emergencia', emergencyToPost)
       .then(res => {
           Swal.fire('Éxito', '¡Se ha agregado tu emergencia correctamente!', 'success')
-          dispatch(chargeUserEmergency({UsuarioId: userID}))
+          dispatch(chargeUserEmergency(userID))
       })
       .catch(err=>{
         Swal.fire({

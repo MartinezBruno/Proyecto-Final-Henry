@@ -23,13 +23,13 @@ export default function Emergency() {
     if(role==='USUARIO'){
         dispatch(chargeServices())
         if(user.id){
-            dispatch(chargeUserEmergency({UsuarioId: user.id}))
+            dispatch(chargeUserEmergency(user.id))
             }
     }
     else if(role==='PROVEEDOR'){
         dispatch(chargeServices())
         if(user.id){
-            dispatch(chargeProvEmergency({ProveedorId: user.id}))
+            dispatch(chargeProvEmergency(user.id))
             }
     }
     
@@ -41,6 +41,7 @@ export default function Emergency() {
 
   return (
     <>
+    {console.log(userEmergency)}
       {role === 'USUARIO' && <UserEmergency userEmergency={userEmergency} dbServices={dbServices} />}
       {role === 'PROVEEDOR' && <ProvEmergency providerEmergency={providerEmergency} dbServices={dbServices} />}
     </>

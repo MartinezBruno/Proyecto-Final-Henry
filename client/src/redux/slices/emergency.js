@@ -27,16 +27,16 @@ export const { setUserEmergency, clearUserEmergency, setProvEmergency, clearProv
 
 export default emergencySlice.reducer //Esta propiedad tiene todos los reducers que le metamos
 
-export function chargeUserEmergency(userObj) {
+export function chargeUserEmergency(userId) {
   return async function (dispatch) {
-    let emergency = (await api.post(`/emergencia/usuario`, userObj)).data
+    let emergency = (await api.get(`/emergencia/usuario/${userId}`)).data
     dispatch(setUserEmergency(emergency))
   }
 }
 
-export function chargeProvEmergency(provObj) {
+export function chargeProvEmergency(provId) {
   return async function (dispatch) {
-    let emergency = (await api.patch(`/emergencia`, provObj)).data
+    let emergency = (await api.get(`/emergencia/${provId}`)).data
       dispatch(setProvEmergency(emergency[0]))
   }
 }
