@@ -6,6 +6,8 @@ import Moment from 'react-moment'
 import Swal from 'sweetalert2'
 import api from '../../services/api'
 import { chargeUserEmergency } from '../../redux/slices/emergency'
+import { payServices } from '../../redux/slices/shoppingCart'
+
 import { Button } from 'react-bootstrap'
 
 export default function UserEmergency(props) {
