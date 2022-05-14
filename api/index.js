@@ -17,15 +17,15 @@ conn
     })
   })
   .then(() => paisesDb())
-  .then(() => regionDb()) 
+  .then(() => regionDb())
   .then(() => {
-      serviciosDb()
-      initialRoles()
-    //   ciudadesDb().then(() => {
-    //     autofillProveedores() 
-    //     console.log('tamo ready')
-    //  })
-    ciudadesDb()
+    serviciosDb()
+    initialRoles()
+    // ciudadesDb().then(() => {
+    //   autofillProveedores()
+    //   console.log('tamo ready')
+    // })
+    ciudadesDb().then(() => console.log('vamo pibe'))
   })
   .catch((err) => console.log(err))
 

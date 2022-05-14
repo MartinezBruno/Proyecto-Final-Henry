@@ -1,6 +1,6 @@
 const Op = require('sequelize').Op
 const config = require('../config/auth.config')
-const { Proveedor, Proveedor_Servicio, Precio, Descripcion, Servicio, Ciudad, Provincia, Pais, Role, RefreshToken } = require('../db')
+const { Proveedor, Proveedor_Servicio, Precio, Descripcion, DuracionServicio, Servicio, Ciudad, Provincia, Pais, Role, RefreshToken } = require('../db')
 var jwt = require('jsonwebtoken')
 var bcrypt = require('bcryptjs')
 
@@ -16,6 +16,7 @@ exports.signup = async (req, res) => {
             REMOTE: true,
             PRECIO: NaN,
             DESCRIPCION: '',
+            DURACION: '',
           },
         ])
       : servicios
@@ -29,6 +30,7 @@ exports.signup = async (req, res) => {
 
     let arrayPrecios = servicios.map((servicio) => servicio.PRECIO)
     let arrayDescripcion = servicios.map((servicio) => servicio.DESCRIPCION)
+    let arrayDuracion = servicios.map((servicio) => servicio.DURACION)
 
     let serviciosDisp = await Servicio.findAll({
       where: {
@@ -105,6 +107,25 @@ exports.signup = async (req, res) => {
         },
       })
       await proveedor_servicio.setDescripcion(d)
+    }
+    for (let i = 0; i < arrayDuracion.length; i++) {
+      let dur = await DuracionServicio.create({
+        DURACION: arrayDuracion[i],
+      })
+      let proovedor = await Proveedor.findOne({ where: { EMAIL: email } })
+      let servicio = await Servicio.findOne({
+        where: {
+          NOMBRE_SERVICIO: arrayServicios[i].NOMBRE_SERVICIO,
+          REMOTE: arrayServicios[i].REMOTE,
+        },
+      })
+      let proveedor_servicio = await Proveedor_Servicio.findOne({
+        where: {
+          ProveedorId: proovedor.id,
+          ServicioId: servicio.id,
+        },
+      })
+      proveedor_servicio.setDuracionServicio(dur)
     }
     return res.send({ message: '¡Proveedor registrado exitosamente!' })
   } catch (error) {

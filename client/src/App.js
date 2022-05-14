@@ -30,6 +30,7 @@ function App() {
   // Initialize Sentry with the browser tracing integration.
   // const routingInstrumentation = useRoutingInstrumentation()
   // useEffect(() => {
+
   //   const browserTracing = new BrowserTracing({
   //     routingInstrumentation,
   //   })
