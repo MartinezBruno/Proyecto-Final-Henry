@@ -6,8 +6,8 @@ const {emergencia, takeEmergencia, getEmergencias, getEmergenciaUsuario, finaliz
 
 router.post('/', emergencia)
 router.put('/', takeEmergencia)
-router.get('/usuario', getEmergenciaUsuario)
-router.get('/', getEmergencias)
+router.post('/usuario', getEmergenciaUsuario)
+router.patch('/', getEmergencias)
 router.delete('/', finalizarEmergencia)
 
 module.exports = router 
