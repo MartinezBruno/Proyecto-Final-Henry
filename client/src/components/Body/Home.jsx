@@ -16,6 +16,7 @@ export default function Home() {
   const { isLoggedIn, user } = useSelector((state) => state.auth)
   if (user) {
     var userId = user.id
+    var role = user.Role
   }
 
   //PAGINATION VARS
@@ -35,9 +36,7 @@ export default function Home() {
 
   useEffect(() => {
     dispatch(getAllProviders())
-    if (user.Role === 'USUARIO') {
-      dispatch(getFavoritesFromDb(userId))
-    }
+    role && dispatch(getFavoritesFromDb(userId))
   }, [dispatch])
 
   return (

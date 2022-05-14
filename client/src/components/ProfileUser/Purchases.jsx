@@ -26,7 +26,7 @@ export default function Purchases() {
   // console.log(idServ)
 
   useEffect(() => {
-    dispatch(chargePurchases(user.id))
+    dispatch(chargePurchases(usuarioId))
     setInput({
       ...input,
       idServicio: idServ,
