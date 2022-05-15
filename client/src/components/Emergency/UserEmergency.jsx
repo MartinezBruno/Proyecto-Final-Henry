@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import AddEmergency from './AddEmergency'
 import styles from '../../styles/emergencies.module.css'
@@ -7,15 +7,15 @@ import Swal from 'sweetalert2'
 import api from '../../services/api'
 import { chargeUserEmergency } from '../../redux/slices/emergency'
 import { payServices, addToCart } from '../../redux/slices/shoppingCart'
-
 import { Button } from 'react-bootstrap'
 
 export default function UserEmergency(props) {
-  let { userEmergency, dbServices } = props
+  let { userEmergency, dbServices, allProviders } = props
   const { user } = useSelector((state) => state.auth)
   const { services } = useSelector((state) => state.auth)
-
   let dispatch = useDispatch()
+
+
   function handleDelete(idUser) {
     Swal.fire({
       title: '¿Estás segur@?',
@@ -31,8 +31,36 @@ export default function UserEmergency(props) {
         api
           .delete('/emergencia', { data: { UsuarioId: idUser } })
           .then((res) => {
-            console.log('entro al then')
             Swal.fire('¡Emergencia eliminada!', 'Se ha eliminado con éxito.', 'success')
+            dispatch(chargeUserEmergency(user.id))
+          })
+          .catch((err) => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: `No se ha podido eliminar tu emergencia, intenta nuevamente`,
+            })
+          })
+      }
+    })
+  }
+
+  function handleDone(idUser) {
+    Swal.fire({
+      title: '¿Estás segur@?',
+      text: 'Solo realiza esta acción si el servicio ha terminado.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirmar',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        api
+          .delete('/emergencia', { data: { UsuarioId: idUser } })
+          .then((res) => {
+            Swal.fire('¡Emergencia terminada!', 'Esperamos que haya sido de tu agrado.', 'success')
             dispatch(chargeUserEmergency(user.id))
           })
           .catch((err) => {
@@ -58,7 +86,6 @@ export default function UserEmergency(props) {
           <h3>Tu emergencia activa</h3>
           <hr />
           <AddEmergency />
-          {console.log(userEmergency)}
           {userEmergency?.length > 0 && (
             <>
               <div className={styles.emergencyMainContainer}>
@@ -83,6 +110,17 @@ export default function UserEmergency(props) {
                   <b>Precio máximo:</b>
                 </p>{' '}
                 <p>$ {userEmergency[0].PRECIO_MAXIMO}</p>
+
+                {userEmergency[0].ProveedorId !== null && 
+                <>
+                {console.log(allProviders.filter(el=> (el.id === userEmergency[0].ProveedorId)))}
+                <p style={{ marginBottom: '0px' }}>
+                  <b>Precio del servicio actual:</b>
+                </p>{' '}
+                
+                <p>$ {allProviders.filter(el=> (el.id === userEmergency[0].ProveedorId) && (el.servicio.id === userEmergency[0].ServicioId) )[0]?.servicio.precio}</p>
+                
+                </>}
                 {userEmergency[0].ProveedorId !== null && (
                   <p className='text-success' style={{ margin: '5px 15px 0px 15px', fontSize: '12px' }}>
                     Un proveedor ha tomado tu emergencia, podrás contactarlo al finalizar tu pago.
@@ -98,7 +136,7 @@ export default function UserEmergency(props) {
                     ELIMINAR
                   </Button>
                 )}
-                {userEmergency[0].ProveedorId !== null && (
+                {userEmergency[0].ProveedorId !== null && userEmergency[0].COMPRA_SUCCES == 'No' && (
                   <Button
                     variant='success'
                     style={{ margin: '10px 0px 0px 5px' }}
@@ -106,13 +144,39 @@ export default function UserEmergency(props) {
                       handlePay({
                         id: 2,
                         nombre: dbServices?.length > 0 && dbServices.filter((obj) => obj.id === userEmergency[0].ServicioId)[0]?.nombre,
-                        precio: 1000,
-                        descripcion: 41,
-                        provID: userEmergency[0].ProveedorId
+                        precio: allProviders.filter(el=> (el.id === userEmergency[0].ProveedorId) && (el.servicio.id === userEmergency[0].ServicioId) )[0]?.servicio.precio,
+                        descripcion: allProviders.filter(el=> (el.id === userEmergency[0].ProveedorId) && (el.servicio.id === userEmergency[0].ServicioId) )[0]?.servicio.descripcion,
+                        provID: userEmergency[0].ProveedorId,
                       })
                     }}>
                     PAGAR EMERGENCIA
                   </Button>
+                )}
+                {userEmergency[0].ProveedorId !== null && userEmergency[0].COMPRA_SUCCES == 'Si' && (
+                  <>
+                  <Button
+                    variant='success'
+                    style={{ margin: '10px 0px 0px 5px' }}
+                    onClick={()=>{
+                      window.location.href="./purchases"
+                    }}
+                   >
+
+                    IR A MIS COMPRAS
+                  </Button>
+
+                  <Button
+                    variant='danger'
+                    style={{ margin: '10px 0px 0px 5px' }}
+                    onClick={()=>{
+                      handleDone(user.id)
+                    }}
+                   >
+
+                    Finalizar emergencia
+                  </Button>
+
+                  </>
                 )}
               </div>
             </>

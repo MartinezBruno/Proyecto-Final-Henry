@@ -6,6 +6,7 @@ import 'moment/locale/es'
 import styles from '../../styles/emergencies.module.css'
 import UserEmergency from './UserEmergency'
 import ProvEmergency from './ProvEmergency,'
+import { getAllProvidersEmergency } from '../../redux/slices/provider'
 
 export default function Emergency() {
   let role
@@ -14,12 +15,17 @@ export default function Emergency() {
   const { dbServices } = useSelector((state) => state.services)
   const { userEmergency } = useSelector((state) => state.emergency)
   const { providerEmergency } = useSelector((state) => state.emergency)
+  const { allProviders } = useSelector((state) => state.provider)
+
+
+  
   if (user) {
     role = user.Role
   }
 
   //////////////////////////////////////////////////////useEffect para cargar los servicios y la emergencia
   useEffect(() => {
+    dispatch(getAllProvidersEmergency())
     if(role==='USUARIO'){
         dispatch(chargeServices())
         if(user.id){
@@ -36,14 +42,14 @@ export default function Emergency() {
   }, [dispatch])
 //////////////////////////////////////////////////////////
 
-
-
-
+if(dbServices.length>0 && allProviders.length>0){
   return (
     <>
-    {console.log(userEmergency)}
-      {role === 'USUARIO' && <UserEmergency userEmergency={userEmergency} dbServices={dbServices} />}
+      {role === 'USUARIO' && <UserEmergency userEmergency={userEmergency} dbServices={dbServices} allProviders={allProviders}/>}
       {role === 'PROVEEDOR' && <ProvEmergency providerEmergency={providerEmergency} dbServices={dbServices} />}
     </>
   )
+}
+
+  
 }

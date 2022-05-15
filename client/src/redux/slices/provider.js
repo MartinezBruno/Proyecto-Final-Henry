@@ -121,6 +121,12 @@ export function getAllProviders() {
     dispatch(Refresh(info.data))
   }
 }
+export function getAllProvidersEmergency() {
+  return async function (dispatch) {
+    var info = await api.get('/proveedor')
+    dispatch(SetProvidersList(info.data))
+  }
+}
 
 export function getUniqueProvider(id) {
   return async function (dispatch) {
