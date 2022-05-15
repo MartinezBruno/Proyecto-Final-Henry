@@ -25,9 +25,9 @@ conn
       // initialRoles()
       // ciudadesDb().then(() => {
 
-      //   autofillProveedores() 
-      //   console.log('tamo ready')
-     // })
+      //    autofillProveedores() 
+      //    console.log('tamo ready')
+      // })
     //  ciudadesDb()
 
   })

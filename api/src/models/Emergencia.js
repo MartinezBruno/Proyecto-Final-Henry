@@ -8,7 +8,11 @@ module.exports = (sequelize) => {
       },
       PRECIO_MAXIMO: {
         type: DataTypes.INTEGER
-      } 
+      },
+      COMPRA_SUCCES: {
+        type: DataTypes.TEXT,
+        defaultValue: 'No'
+      }
     })
 
 }

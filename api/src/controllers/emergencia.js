@@ -112,6 +112,7 @@ const takeEmergencia = async (req, res) => {
   }
 }
 
+
 const getEmergenciasProv = async (req, res) => {
   const { ProveedorId} = req.params
 
@@ -119,13 +120,16 @@ const getEmergenciasProv = async (req, res) => {
     where: { ProveedorId: ProveedorId },
   })
   let emergencias = await Emergencia.findAll()
-
+  
+  
   let emergenciasMatch = []
   for (let i = 0; i < proveedorServ.length; i++) {
     for (let j = 0; j < emergencias.length; j++) {
       if (proveedorServ[i].ServicioId === emergencias[j].ServicioId) {
-        let emergencias2 = emergencias.filter((emergencia) => emergencia.ServicioId === proveedorServ[i].ServicioId)
-        emergenciasMatch.push(emergencias2)
+        if(emergencias[j].ProveedorId === ProveedorId || emergencias[j].ProveedorId === null) {
+          let emergencias2 = emergencias.filter((emergencia) => emergencia.ServicioId === proveedorServ[i].ServicioId)
+          emergenciasMatch.push(emergencias2)
+        }
       }
     }
   }
