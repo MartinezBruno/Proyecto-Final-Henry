@@ -6,13 +6,14 @@ import Moment from 'react-moment'
 import Swal from 'sweetalert2'
 import api from '../../services/api'
 import { chargeUserEmergency } from '../../redux/slices/emergency'
-import { payServices } from '../../redux/slices/shoppingCart'
+import { payServices, addToCart } from '../../redux/slices/shoppingCart'
 
 import { Button } from 'react-bootstrap'
 
 export default function UserEmergency(props) {
   let { userEmergency, dbServices } = props
   const { user } = useSelector((state) => state.auth)
+  const { services } = useSelector((state) => state.auth)
 
   let dispatch = useDispatch()
   function handleDelete(idUser) {
@@ -44,8 +45,10 @@ export default function UserEmergency(props) {
       }
     })
   }
-  function handlePay() {
-    alert('Pagar')
+  const handlePay = async (objService) => {
+    dispatch(addToCart(objService))
+    let url = await dispatch(payServices({ services: [objService] }))
+    window.location.href = `${url.init_point}`
   }
 
   return (
@@ -100,7 +103,13 @@ export default function UserEmergency(props) {
                     variant='success'
                     style={{ margin: '10px 0px 0px 5px' }}
                     onClick={() => {
-                      handlePay()
+                      handlePay({
+                        id: 2,
+                        nombre: dbServices?.length > 0 && dbServices.filter((obj) => obj.id === userEmergency[0].ServicioId)[0]?.nombre,
+                        precio: 1000,
+                        descripcion: 41,
+                        provID: userEmergency[0].ProveedorId
+                      })
                     }}>
                     PAGAR EMERGENCIA
                   </Button>
