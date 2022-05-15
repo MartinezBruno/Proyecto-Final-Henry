@@ -46,7 +46,7 @@ export default function ProfileEditInfo(props) {
     fecha_nacimiento: '',
     celular: '',
   })
-  
+
   function handleErrorsUser(e) {
     if (e.target.name === 'nombre_apellido_usuario') {
       ;/^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$/g.test(e.target.value)
@@ -148,12 +148,12 @@ export default function ProfileEditInfo(props) {
   let handleSubmit = (e) => {
     e.preventDefault()
     if (input.nombre_apellido_usuario.length === 0 || input.email.length === 0 || input.fecha_nacimiento.length === 0 || input.celular.length === 0) {
-      return alert('Error al modificar sus Datos, Por favor llene todos los campos')
+      return Swal.fire('Error al cambiar los datos', 'Por favor Intentelo nuevamente y asegurece de llenar todos los campos', 'error')
     } else {
       //pasarle bien el ID y estamos
       dispatch(modifyUser(user.id, input))
       handleSave()
-      return alert('Perfil Actualizado Correctamente')
+      return Swal.fire('¡Enhorabuena!', 'Su informacion a sido actualizada con éxito', 'success')
     }
   }
 
