@@ -1148,6 +1148,29 @@ const filtroProveedor = async (req, res, next) => {
   }
 }
 
+const putProvider = async (req, res, next) => {
+  const { id } = req.params
+  const { nombre_apellido_proveedor, email, celular, fecha_nacimiento } = req.body
+  try {
+    const proveedor = await Proveedor.findByPk(id)
+    proveedor === null
+      ? res.status(404).send('No se encontró el proveedor')
+      : await Proveedor.update(
+          {
+            NOMBRE_APELLIDO_PROVEEDOR: nombre_apellido_proveedor,
+            EMAIL: email,
+            CELULAR: celular,
+            FECHA_NACIMIENTO: fecha_nacimiento,
+          },
+          { where: { id: id } }
+        )
+    return res.status(204).send({ message: 'Proveedor actualizado' })
+  } catch (error) {
+    console.error(error)
+    return res.status(500).send(error)
+  }
+}
+
 module.exports = {
   getProv,
   getProvByID,
@@ -1156,4 +1179,5 @@ module.exports = {
   filtroPorProfesion,
   filtroPorProvincia,
   filtroProveedor,
+  putProvider,
 }

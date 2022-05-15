@@ -29,7 +29,7 @@ function ProfileUser() {
                   <div className='d-flex flex-column align-items-center text-center'>
                     <img
                       src={UniqueUser.imagen}
-                      alt='Admin'
+                      alt={UniqueUser.nombre_apellido_usuario}
                       className='rounded-circle'
                       width='150'
                       onError={(e) => (e.target.src = 'https://www.softzone.es/app/uploads-softzone.es/2018/04/guest.png?x=480&quality=20')}
