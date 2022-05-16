@@ -1,6 +1,7 @@
 require('./mongo')
 const cors = require('cors')
 const express = require('express')
+const path = require('path')
 const server = express()
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
@@ -50,6 +51,7 @@ server.use(bodyParser.json({ limit: '50mb' }))
 server.use(cookieParser())
 server.use(morgan('dev'))
 server.use(fileUpload())
+server.use(express.static('assets'))
 
 // All controllers should live here
 server.use('/api', routes)
