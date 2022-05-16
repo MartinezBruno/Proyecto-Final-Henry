@@ -2,6 +2,10 @@ const config = require('../config/auth.config')
 const { Usuario, Ciudad, Provincia, Pais, Role, RefreshToken } = require('../db')
 var jwt = require('jsonwebtoken')
 var bcrypt = require('bcryptjs')
+const { sendMail } = require('../mail')
+const { v4: uuidv4 } = require('uuid')
+const { getToken, getTokenData } = require('../config/tokenMail')
+const { getTemplate } = require('./email')
 
 exports.signup = async (req, res) => {
   const { nombre, apellido, password, email, imagen, fecha_nacimiento, pais, provincia, ciudad, celular, role } = req.body
@@ -15,6 +19,10 @@ exports.signup = async (req, res) => {
     let ciudadDisp = await Ciudad.findOne({
       where: { NOMBRE_CIUDAD: ciudad },
     })
+
+    // Generar el código
+    const code = uuidv4()
+
     let newUser = await Usuario.create({
       NOMBRE_APELLIDO_USUARIO: `${nombre} ${apellido}`,
       PASSWORD: bcrypt.hashSync(password, 8),
@@ -22,6 +30,7 @@ exports.signup = async (req, res) => {
       IMAGEN: imagen,
       FECHA_NACIMIENTO: fecha_nacimiento,
       CELULAR: celular,
+      CODE: code,
     })
     await newUser.setPai(paisDisp)
     await newUser.setProvincium(provinciaDisp)
@@ -31,9 +40,113 @@ exports.signup = async (req, res) => {
       where: { id: 1 },
     })
     newUser.setRole(role)
+
+    // MAILING //
+
+    // Generar token
+    const token = getToken({ email, code })
+
+    // Obtener un template
+    const payload = {
+      nombre: nombre,
+      token: token,
+      template: 'confirmEmail',
+    }
+    const templateObtained = await getTemplate(payload)
+
+    // Configurar el email
+    const options = {
+      user: 'no-reply@weattend.online',
+      mailOptions: {
+        from: "'Attend' <no-reply@weattend.online>",
+        to: `${email}`,
+        subject: '¡Bienvenido a Attend!',
+        html: templateObtained,
+      },
+    }
+    console.log(options)
+    //Enviar el mail
+    // sendMail(options)
+
     return res.status(201).send({ message: '¡Usuario registrado exitosamente!' })
   } catch (error) {
     return res.status(500).send({ message: error.message })
+  }
+}
+
+exports.confirm = async (req, res) => {
+  try {
+    // Obtener el token
+    const { token } = req.params
+
+    // Verificar la data
+    const data = await getTokenData(token)
+
+    if (data === null) {
+      return res.json({
+        success: false,
+        msg: 'Error al obtener data',
+      })
+    }
+
+    const { email, code } = data.data
+
+    // Verificar existencia del usuario
+    const user = await Usuario.findOne({
+      where: {
+        EMAIL: email,
+      },
+    })
+
+    if (!user) {
+      return res.json({
+        success: false,
+        msg: 'Usuario no existe',
+      })
+    }
+
+    // Verificar el código
+    if (code !== user.CODE) {
+      return res.send('/error.html')
+    }
+
+    // Actualizar usuario
+    await Usuario.update(
+      {
+        STATUSCODE: 'VERIFICADO',
+      },
+      {
+        where: {
+          EMAIL: email,
+        },
+      }
+    )
+
+    // Obtener un template
+    const template = getTemplate(user.NOMBRE, (template = 'registroUsuario'))
+
+    // Configurar el email
+    const options = {
+      user: 'no-reply@weattend.online',
+      mailOptions: {
+        from: "'Attend' <no-reply@weattend.online>",
+        to: `${email}`,
+        subject: '¡Bienvenido a Attend!',
+        html: template,
+      },
+    }
+
+    //Enviar el mail
+    sendMail(options)
+
+    // Redireccionar a la confirmación
+    return res.send('/confirm.html')
+  } catch (error) {
+    console.log(error)
+    return res.json({
+      success: false,
+      msg: 'Error al confirmar usuario',
+    })
   }
 }
 
