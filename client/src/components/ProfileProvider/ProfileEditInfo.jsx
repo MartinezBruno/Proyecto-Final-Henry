@@ -158,55 +158,56 @@ export default function ProfileEditInfo(props) {
     <>
       {/* <form onSubmit={(e) => handleSubmit(e)}> */}
       <div className={`${styles.card} mb-3 ${styles.mb3}`}>
-        <div className='card-body'>
-          <div className='row mb-3'>
-            <div className='col-sm-3'>
-              <h6 className='mb-0'>Nombre completo</h6>
+        <form autocomplete='off'>
+          <div className='card-body'>
+            <div className='row mb-3'>
+              <div className='col-sm-3'>
+                <h6 className='mb-0'>Nombre completo</h6>
+              </div>
+              <div className='col-sm-9 text-secondary'>
+                <input
+                  type='text'
+                  name='nombre_apellido_proveedor'
+                  className='form-control'
+                  value={input.nombre_apellido_proveedor}
+                  onChange={(e) => handleChange(e)}
+                />
+              </div>
+              {errors.nombre_apellido_proveedor && (
+                <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errors.nombre_apellido_proveedor}</p>
+              )}
             </div>
-            <div className='col-sm-9 text-secondary'>
-              <input
-                type='text'
-                name='nombre_apellido_proveedor'
-                className='form-control'
-                value={input.nombre_apellido_proveedor}
-                onChange={(e) => handleChange(e)}
-              />
+            <div className='row mb-3'>
+              <div className='col-sm-3'>
+                <h6 className='mb-0'>Email</h6>
+              </div>
+              <div className='col-sm-9 text-secondary'>
+                <input type='text' name='email' className='form-control' value={input.email} onChange={(e) => handleChange(e)} />
+              </div>
             </div>
-            {errors.nombre_apellido_proveedor && (
-              <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errors.nombre_apellido_proveedor}</p>
-            )}
-          </div>
-          <div className='row mb-3'>
-            <div className='col-sm-3'>
-              <h6 className='mb-0'>Email</h6>
-            </div>
-            <div className='col-sm-9 text-secondary'>
-              <input type='text' name='email' className='form-control' value={input.email} onChange={(e) => handleChange(e)} />
-            </div>
-          </div>
-          {errors.email && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errors.email}</p>}
+            {errors.email && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errors.email}</p>}
 
-          <div className='row mb-3'>
-            <div className='col-sm-3'>
-              <h6 className='mb-0'>Fecha de Nacimiento</h6>
+            <div className='row mb-3'>
+              <div className='col-sm-3'>
+                <h6 className='mb-0'>Fecha de Nacimiento</h6>
+              </div>
+              <div className='col-sm-9 text-secondary'>
+                <input type='date' name='fecha_nacimiento' className='form-control' value={input.fecha_nacimiento} onChange={(e) => handleChange(e)} />
+              </div>
             </div>
-            <div className='col-sm-9 text-secondary'>
-              <input type='date' name='fecha_nacimiento' className='form-control' value={input.fecha_nacimiento} onChange={(e) => handleChange(e)} />
-            </div>
-          </div>
-          {errors.fecha_nacimiento && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errors.fecha_nacimiento}</p>}
+            {errors.fecha_nacimiento && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errors.fecha_nacimiento}</p>}
 
-          <div className='row mb-3'>
-            <div className='col-sm-3'>
-              <h6 className='mb-0'>Celular</h6>
+            <div className='row mb-3'>
+              <div className='col-sm-3'>
+                <h6 className='mb-0'>Celular</h6>
+              </div>
+              <div className='col-sm-9 text-secondary'>
+                <input type='text' name='celular' className='form-control' value={input.celular} onChange={(e) => handleChange(e)} />
+              </div>
             </div>
-            <div className='col-sm-9 text-secondary'>
-              <input type='text' name='celular' className='form-control' value={input.celular} onChange={(e) => handleChange(e)} />
-            </div>
-          </div>
-          {errors.celular && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errors.celular}</p>}
+            {errors.celular && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errors.celular}</p>}
 
-          {/* <div className='row mb-3'>
+            {/* <div className='row mb-3'>
             <div className='col-sm-3'>
               <h6 className='mb-0'>Ubicacion</h6>
             </div>
@@ -219,15 +220,16 @@ export default function ProfileEditInfo(props) {
               />
             </div>
           </div> */}
-          <div className='row'>
-            <div className='col-sm-3'></div>
-            <div className='col-sm-9 text-secondary'>
-              <button type='submit' className='btn btn-primary px-4' onClick={handleSubmit}>
-                Guardar Cambios
-              </button>
+            <div className='row'>
+              <div className='col-sm-3'></div>
+              <div className='col-sm-9 text-secondary'>
+                <button type='submit' className='btn btn-primary px-4' onClick={handleSubmit}>
+                  Guardar Cambios
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        </form>
       </div>
       {/* </form> */}
     </>
