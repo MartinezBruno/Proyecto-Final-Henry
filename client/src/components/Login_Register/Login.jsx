@@ -225,8 +225,7 @@ export default function Login(props) {
       <>
         <div className='d-flex container align-items-center justify-content-center' style={{ marginTop: '1rem' }}>
           <div
-            className='col-4'
-            style={{ borderRadius: '10px', border: '1px solid DarkGray', background: 'white', boxShadow: '0 0 5px 1px rgba(0, 0, 0, 0.4)' }}>
+            className={styles.loginContainer}>
             <Tabs defaultActiveKey='Usuario' id='uncontrolled-tab-example' className='mb-3 text-center justify-content-center'>
               <Tab eventKey='Usuario' title='Como usuario'>
                 <div className='container '>

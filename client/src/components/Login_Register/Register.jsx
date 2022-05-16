@@ -730,8 +730,7 @@ export default function Register({ isModal }) {
                         <i className='fa fa-user' style={{ left: '15px' }}></i>{' '}
                         <input
                           type='text'
-                          className={styles.formControl}
-                          style={{ width: '12rem' }}
+                          className={`${styles.formControl} ${styles.halfInput}`}
                           name='nombre'
                           placeholder='Nombre'
                           value={input.nombre}
@@ -743,8 +742,7 @@ export default function Register({ isModal }) {
                         <i className='fa fa-address-card' style={{ left: '13px' }}></i>
                         <input
                           type='text'
-                          className={styles.formControl}
-                          style={{ width: '12rem' }}
+                          className={`${styles.formControl} ${styles.halfInput}`}
                           name='apellido'
                           placeholder='Apellido'
                           value={input.apellido}
@@ -955,7 +953,7 @@ export default function Register({ isModal }) {
                   </div>
                 </Tab>
 
-                <Tab eventKey='Proveedor' title='Registrar proovedor'>
+                <Tab eventKey='Proveedor' title='Registrar proveedor'>
                   <div className='text-center mt-3'>
                     <div className={styles.halfInputContainer}>
                       <div className={styles.formInput}>
@@ -963,8 +961,7 @@ export default function Register({ isModal }) {
                         <i className='fa fa-user' style={{ left: '15px' }}></i>{' '}
                         <input
                           type='text'
-                          className={styles.formControl}
-                          style={{ width: '12rem' }}
+                          className={`${styles.formControl} ${styles.halfInput}`}
                           name='nombre'
                           placeholder='Nombre'
                           value={inputProvider.nombre}
@@ -976,8 +973,7 @@ export default function Register({ isModal }) {
                         <i className='fa fa-address-card' style={{ left: '13px' }}></i>
                         <input
                           type='text'
-                          className={styles.formControl}
-                          style={{ width: '12rem' }}
+                          className={`${styles.formControl} ${styles.halfInput}`}
                           name='apellido'
                           placeholder='Apellido'
                           value={inputProvider.apellido}
@@ -991,7 +987,7 @@ export default function Register({ isModal }) {
                     {errorsProvider.nombre && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.nombre}</p>}
                     {errorsProvider.apellido && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.apellido}</p>}
 
-                    <div className={styles.formInput}>
+                    <div className={styles.formInputPage}>
                       {' '}
                       <i className='fa fa-envelope'></i>{' '}
                       <input
@@ -1005,7 +1001,7 @@ export default function Register({ isModal }) {
                     </div>
                     {errorsProvider.email && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.email}</p>}
 
-                    <div className={styles.formInput}>
+                    <div className={styles.formInputPage}>
                       {' '}
                       <i className='fa fa-lock'></i>{' '}
                       <input
@@ -1019,7 +1015,7 @@ export default function Register({ isModal }) {
                     </div>
                     {errorsProvider.password && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.password}</p>}
 
-                    <div className={styles.formInput}>
+                    <div className={styles.formInputPage}>
                       {' '}
                       <i className='fa fa-camera' aria-hidden='true'></i>{' '}
                       <input
@@ -1033,7 +1029,7 @@ export default function Register({ isModal }) {
                     </div>
                     {errorsProvider.imagen && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.imagen}</p>}
 
-                    <div className={styles.formInput}>
+                    <div className={styles.formInputPage}>
                       {' '}
                       <i className='fa fa-mobile' aria-hidden='true'></i>{' '}
                       <input
@@ -1047,7 +1043,7 @@ export default function Register({ isModal }) {
                     </div>
                     {errorsProvider.celular && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.celular}</p>}
 
-                    <div className={styles.formInput}>
+                    <div className={styles.formInputPage}>
                       <label htmlFor='date'>Fecha nacimiento:</label>
                       <input
                         type='date'
@@ -1208,7 +1204,7 @@ export default function Register({ isModal }) {
       <>
         <div className='d-flex container align-items-center justify-content-center' style={{ marginTop: '1rem' }}>
           <div
-            className='col-6'
+            className={styles.registerContainer}
             style={{ borderRadius: '10px', border: '1px solid DarkGray', background: 'white', boxShadow: '0 0 5px 1px rgba(0, 0, 0, 0.4)' }}>
             <Col md={12}>
               <div className={`${styles.card} ${styles.myTabs}`} style={{ padding: '3rem' }}>
@@ -1233,8 +1229,7 @@ export default function Register({ isModal }) {
                           <i className='fa fa-user' style={{ left: '15px' }}></i>{' '}
                           <input
                             type='text'
-                            className={styles.formControl}
-                            style={{ width: '12rem' }}
+                            className={`${styles.formControl} ${styles.halfInput}`}
                             name='nombre'
                             placeholder='Nombre'
                             value={input.nombre}
@@ -1246,8 +1241,7 @@ export default function Register({ isModal }) {
                           <i className='fa fa-address-card' style={{ left: '13px' }}></i>
                           <input
                             type='text'
-                            className={styles.formControl}
-                            style={{ width: '12rem' }}
+                            className={`${styles.formControl} ${styles.halfInput}`}
                             name='apellido'
                             placeholder='Apellido'
                             value={input.apellido}
@@ -1458,16 +1452,15 @@ export default function Register({ isModal }) {
                     </div>
                   </Tab>
 
-                  <Tab eventKey='Proveedor' title='Registrar proovedor'>
+                  <Tab eventKey='Proveedor' title='Registrar proveedor'>
                     <div className='text-center mt-3'>
-                      <div className={styles.halfInputContainer}>
+                    <div className={styles.halfInputContainer}>
                         <div className={styles.formInput}>
                           {' '}
                           <i className='fa fa-user' style={{ left: '15px' }}></i>{' '}
                           <input
                             type='text'
-                            className={styles.formControl}
-                            style={{ width: '12rem' }}
+                            className={`${styles.formControl} ${styles.halfInput}`}
                             name='nombre'
                             placeholder='Nombre'
                             value={inputProvider.nombre}
@@ -1479,8 +1472,7 @@ export default function Register({ isModal }) {
                           <i className='fa fa-address-card' style={{ left: '13px' }}></i>
                           <input
                             type='text'
-                            className={styles.formControl}
-                            style={{ width: '12rem' }}
+                            className={`${styles.formControl} ${styles.halfInput}`}
                             name='apellido'
                             placeholder='Apellido'
                             value={inputProvider.apellido}
@@ -1494,9 +1486,9 @@ export default function Register({ isModal }) {
                       {errorsProvider.nombre && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.nombre}</p>}
                       {errorsProvider.apellido && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.apellido}</p>}
 
-                      <div className={styles.formInput}>
+                      <div className={styles.formInputPage}>
                         {' '}
-                        <i className='fa fa-envelope'></i>{' '}
+                        <i className='fa fa-envelope' style={{ left: '5rem!important' }}></i>{' '}
                         <input
                           type='text'
                           className={styles.formControl}
@@ -1508,7 +1500,7 @@ export default function Register({ isModal }) {
                       </div>
                       {errorsProvider.email && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.email}</p>}
 
-                      <div className={styles.formInput}>
+                      <div className={styles.formInputPage}>
                         {' '}
                         <i className='fa fa-lock'></i>{' '}
                         <input
@@ -1522,7 +1514,7 @@ export default function Register({ isModal }) {
                       </div>
                       {errorsProvider.password && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.password}</p>}
 
-                      <div className={styles.formInput}>
+                      <div className={styles.formInputPage}>
                         {' '}
                         <i className='fa fa-camera' aria-hidden='true'></i>{' '}
                         <input
@@ -1536,7 +1528,7 @@ export default function Register({ isModal }) {
                       </div>
                       {errorsProvider.imagen && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.imagen}</p>}
 
-                      <div className={styles.formInput}>
+                      <div className={styles.formInputPage}>
                         {' '}
                         <i className='fa fa-mobile' aria-hidden='true'></i>{' '}
                         <input
@@ -1550,7 +1542,7 @@ export default function Register({ isModal }) {
                       </div>
                       {errorsProvider.celular && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.celular}</p>}
 
-                      <div className={styles.formInput}>
+                      <div className={styles.formInputPage}>
                         <label htmlFor='date'>Fecha nacimiento:</label>
                         <input
                           type='date'
