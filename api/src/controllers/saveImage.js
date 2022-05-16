@@ -7,7 +7,7 @@ const saveImage = (req, res) => {
     if (err) return res.status(500).send({ message: err })
 
     return res.status(200).send({ message: 'File upload' })
-  })
+  }) 
 }
 
 module.exports = {
