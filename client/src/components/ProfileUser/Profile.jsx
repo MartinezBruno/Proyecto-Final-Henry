@@ -28,7 +28,7 @@ function ProfileUser() {
                 <div className={`card-body ${styles.cardBody}`}>
                   <div className='d-flex flex-column align-items-center text-center'>
                     <img
-                      src={UniqueUser.imagen}
+                      src={`http://localhost:3001/profiles/${UniqueUser.imagen}`}
                       alt={UniqueUser.nombre_apellido_usuario}
                       className='rounded-circle'
                       width='150'
