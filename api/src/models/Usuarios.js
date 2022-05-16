@@ -51,5 +51,11 @@ module.exports = (sequelize) => {
       allowNull: false,
       defaultValue: 'SIN VERIFICAR',
     },
+  
+    BANNED: {
+       type: DataTypes.STRING,
+       defaultValue: 'No'
+    }
+  
   })
 }
