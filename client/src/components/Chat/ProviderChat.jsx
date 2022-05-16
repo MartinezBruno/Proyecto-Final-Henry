@@ -143,7 +143,7 @@ export default function ProviderChat() {
                 ) : (
                   ''
                 )}
-                <ul className='m-b-0'>
+                <ul className='m-b-0' style={{marginTop:"80px"}}>
                   {actualChat.CHAT?.length > 0 ? (
                     actualChat.CHAT?.map((message, index) =>
                       message.includes(user.nombreApellido) ? (
@@ -159,7 +159,7 @@ export default function ProviderChat() {
                   ) : (
                     <>
                       <div className='row chat-empty '>
-                        <img src='https://upload.wikimedia.org/wikipedia/commons/1/1a/Dialogos_2.png' style={{ width: '400px', marginTop: '150px' }} />
+                        <img src='https://upload.wikimedia.org/wikipedia/commons/1/1a/Dialogos_2.png' style={{ width: '400px', marginTop: '70px' }} />
                       </div>
                       <h4 style={{ display: 'flex', justifyContent: 'center', margin: '50px', textAlign: 'center' }}>
                         ¡Mantente conectado con tus Clientes y chatea con ellos en vivo! Acceda a un chat para empezar a hablar

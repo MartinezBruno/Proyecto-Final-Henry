@@ -74,7 +74,6 @@ export default function UserChat() {
             <div id='plist' className='people-list' style={{ height: '79vh', border: '1px solid lightgray', borderRight: '2px solid lightgray' }}>
               <h4 style={{ display: 'flex', justifyContent: 'center' }}>Chats Abiertos</h4>
               <hr style={{ height: '2px', marginTop: '20px' }} />
-              <div className='input-group'>{/* <input type='text' className='form-control' placeholder='Buscar...' /> */}</div>
               <ul className='list-unstyled chat-list mt-2 mb-0'>
                 {chatHistory.length > 0 ? (
                   chatHistory?.map((p) => (
@@ -111,9 +110,9 @@ export default function UserChat() {
             </div>
 
             <div className='chat'>
-              <div className='chat-header clearfix' style={{ position: 'fixed', backgroundColor: 'white', zIndex: '1', borderBottom: '2px solid lightgray' }}>
-                <div className='row'>
-                  <div className='col-lg-6'>
+                <div className='chat-header clearfix' style={{backgroundColor: 'white', zIndex: '1', borderBottom: '2px solid lightgray' }}>
+                <div className='row '>
+                  <div className='col-lg-6 '>
                     {actualChat.id || idProvider ? (
                       <>
                         <img
@@ -166,7 +165,7 @@ export default function UserChat() {
                   ) : (
                     <>
                       <div className='row chat-empty '>
-                        <img src='https://upload.wikimedia.org/wikipedia/commons/1/1a/Dialogos_2.png' style={{ width: '400px', marginTop: '150px' }} />
+                        <img src='https://upload.wikimedia.org/wikipedia/commons/1/1a/Dialogos_2.png' style={{ width: '400px', marginTop: '70px' }} />
                       </div>
                       {idNewProvider ? (
                         <h4 style={{ display: 'flex', justifyContent: 'center', margin: '50px', textAlign: 'center' }}>
@@ -185,7 +184,7 @@ export default function UserChat() {
                 <div id='ScrollDown'></div>
               </div>
             </div>
-            <div className='chat-message clearfix' style={{ marginLeft: '281px' }}>
+            <div className='chat-message clearfix' >
               {idNewProvider || actualChat.length !== 0 ? (
                 <div className='input-group mb-0'>
                   <div className='input-group-prepend '></div>

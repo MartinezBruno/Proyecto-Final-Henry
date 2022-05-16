@@ -9,13 +9,9 @@ export default function Chat() {
   const { user } = useSelector((state) => state.auth)
   console.log(user)
 
-  const dispatch = useDispatch()
-  const idUsuario = user.id
-
   if(user.Role === "USUARIO"){
     return <UserChat />
   }else{
     return <ProviderChat />
   }
-  // return <UserChat />
 }
