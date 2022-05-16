@@ -12,6 +12,7 @@ const checkout = require('./checkout')
 const pregunta = require('./pregunta')
 const chat = require('./chat')
 const eventos = require('./eventos')
+const upload = require('./upload')
 
 router.get('/', (req, res) => {
   res.send('API Attend Group Company')
@@ -28,5 +29,6 @@ router.use('/checkout', checkout)
 router.use('/pregunta', pregunta)
 router.use('/chat', chat)
 router.use('/eventos', eventos)
+router.use('/upload', upload)
 
 module.exports = router

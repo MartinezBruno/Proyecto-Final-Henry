@@ -9,6 +9,8 @@ import { providerRegister, rf, rs, userRegister } from '../../redux/slices/auth'
 import { chargeCities, chargeProvinces } from '../../redux/slices/countriesData'
 import { chargeAllUsers } from '../../redux/slices/user'
 import { getAllProviders } from '../../redux/slices/provider'
+import { v4 as uuidv4 } from 'uuid'
+import api from '../../services/api'
 import Swal from 'sweetalert2'
 import 'animate.css'
 
@@ -24,7 +26,7 @@ export default function Register({ isModal }) {
   const { provinces, cities, countries } = useSelector((state) => state.countriesData)
 
   const dispatch = useDispatch()
-
+  
   // Estado auxiliar para selects del pais/provincia/ciudad
   const [countriesInfo, setCountriesInfo] = useState({
     name: 'none',
@@ -598,6 +600,34 @@ export default function Register({ isModal }) {
     }
   }
 
+   // Cargar imagen de tipo File
+   const [file, setFile] = useState()
+   const [format, setFormat] = useState('')
+ 
+   const saveFile = (e) => {
+     setFile(e.target.files[0])
+     var formatImage = e.target.files[0]?.name.split('.')
+     setFormat(formatImage[formatImage.length-1])
+   }
+ 
+   const uploadFile = async (e) => {
+     const code = uuidv4()
+     console.log(code)
+     const formData = new FormData()
+     formData.append('file', file)
+     formData.append('format', format)
+     try {
+       const res = await api.post(`/upload/profile/${code}.${format}`, formData)
+       console.log(res)
+       setInput({
+         ...input,
+         [e.target.name] : code+"."+format
+        })
+     } catch (ex) {
+       console.log(ex)
+     }
+   }
+
   function finalCheck(e) {
     let errorsCounter = 0
     let dataEmpty = 0
@@ -782,13 +812,16 @@ export default function Register({ isModal }) {
                       {' '}
                       <i className='fa fa-camera' aria-hidden='true'></i>{' '}
                       <input
-                        type='text'
+                        type='file'
+                        accept="image/x-png,image/jpeg"
                         className={styles.formControl}
                         name='imagen'
                         placeholder='Imagen'
-                        value={input.imagen}
-                        onChange={(e) => handleChangeUser(e)}
+                        onChange={(e) => {
+                          saveFile(e)
+                        }}
                       />{' '}
+                      <button name='imagen' onClick={(e) => uploadFile(e)}>Upload</button>
                     </div>
                     {errors.imagen && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errors.imagen}</p>}
 
