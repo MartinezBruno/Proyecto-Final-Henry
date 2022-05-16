@@ -11,6 +11,7 @@ const automatic_post = require('./routes/automatic-post')
 // Middlewares to catch errors
 const notFound = require('./middlewares/notFound')
 const handleErrors = require('./middlewares/handleErrors.js')
+const fileUpload = require('express-fileupload')
 
 //INTEGRATION WITH SENTRY
 const Sentry = require('@sentry/node')
@@ -48,6 +49,7 @@ server.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }))
 server.use(bodyParser.json({ limit: '50mb' }))
 server.use(cookieParser())
 server.use(morgan('dev'))
+app.use(fileUpload())
 
 // All controllers should live here
 server.use('/api', routes)
