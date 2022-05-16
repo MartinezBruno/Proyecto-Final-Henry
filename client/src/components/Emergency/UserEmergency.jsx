@@ -106,20 +106,28 @@ export default function UserEmergency(props) {
                   </p>{' '}
                   <p>{userEmergency[0].ESPERA_MAXIMA}</p>
                 </div>
+                {userEmergency[0].ProveedorId === null && <>
+                
                 <p style={{ marginBottom: '0px' }}>
                   <b>Precio máximo:</b>
                 </p>{' '}
                 <p>$ {userEmergency[0].PRECIO_MAXIMO}</p>
+                </>
+                }
 
                 {userEmergency[0].ProveedorId !== null && 
                 <>
-                {console.log(allProviders.filter(el=> (el.id === userEmergency[0].ProveedorId)))}
                 <p style={{ marginBottom: '0px' }}>
                   <b>Precio del servicio actual:</b>
                 </p>{' '}
                 
                 <p>$ {allProviders.filter(el=> (el.id === userEmergency[0].ProveedorId) && (el.servicio.id === userEmergency[0].ServicioId) )[0]?.servicio.precio}</p>
-                
+                <p><span><b>Nombre proveedor: </b>{allProviders.filter(el=> (el.id === userEmergency[0].ProveedorId) && (el.servicio.id === userEmergency[0].ServicioId) )[0]?.nombre_apellido_proveedor}</span> <br />
+                <b>Ciudad: </b>
+                <span>{' ' + allProviders.filter(el=> (el.id === userEmergency[0].ProveedorId) && (el.servicio.id === userEmergency[0].ServicioId) )[0]?.provincia + ', '} </span>
+                <span>{allProviders.filter(el=> (el.id === userEmergency[0].ProveedorId) && (el.servicio.id === userEmergency[0].ServicioId) )[0]?.ciudad + ', '}  </span>
+                <span>{allProviders.filter(el=> (el.id === userEmergency[0].ProveedorId) && (el.servicio.id === userEmergency[0].ServicioId) )[0]?.pais}</span>
+                </p>
                 </>}
                 {userEmergency[0].ProveedorId !== null && (
                   <p className='text-success' style={{ margin: '5px 15px 0px 15px', fontSize: '12px' }}>
