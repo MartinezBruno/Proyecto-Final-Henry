@@ -70,12 +70,13 @@ export default function ProviderChat() {
               <hr style={{ height: '2px', marginTop: '20px' }} />
               <div className='input-group'>{/* <input type='text' className='form-control' placeholder='Buscar...' /> */}</div>
               <ul className='list-unstyled chat-list mt-2 mb-0'>
-                {chatHistory?.map((p) => (
+                { chatHistory.length > 0 ?
+                chatHistory?.map((p) => (
                   <a href='#ScrollDown'>
                     <li className='clearfix' value={p.id} onClick={() => handleChat(p.id, idProveedor)}>
                       <img
                         src={p.IMAGEN}
-                        style={{width:"45px", height:"45px"}}
+                        style={{ width: '45px', height: '45px' }}
                         alt='nt'
                         onError={(e) =>
                           (e.target.src =
@@ -83,7 +84,9 @@ export default function ProviderChat() {
                         }
                       />
                       <div className='about'>
-                        <div className='name' style={{fontWeight:"bold", fontSize:"16px"}}>{p.NOMBRE_APELLIDO_USUARIO}</div>
+                        <div className='name' style={{ fontWeight: 'bold', fontSize: '16px' }}>
+                          {p.NOMBRE_APELLIDO_USUARIO}
+                        </div>
                         <div className='status'>
                           {' '}
                           <p>Usuario</p>
@@ -91,19 +94,24 @@ export default function ProviderChat() {
                       </div>
                     </li>
                   </a>
-                ))}
+                )): (
+                  <p style={{ display: 'flex', justifyContent: 'center', textAlign: 'center', fontSize: '18px' }}>
+                    {' '}
+                    ¡No tienes chats abiertos! Cuando un Usuario compre tu servicio se pondrá en contacto contigo mediante este medio{' '}
+                  </p>
+                )}
               </ul>
             </div>
 
             <div className='chat'>
-              <div className='chat-header clearfix' style={{ position: 'fixed', backgroundColor: 'white', zIndex: '1', borderBottom: '2px solid lightgray' }}>
+              <div className='sticky-top chat-header clearfix' style={{backgroundColor: 'white', zIndex: '1', borderBottom: '2px solid lightgray' }}>
                 <div className='row'>
                   <div className='col-lg-6'>
                     {actualChat.id ? (
                       <>
                         <img
                           src={UniqueUser.imagen}
-                          style={{width:"45px", height:"45px"}}
+                          style={{ width: '40px', height: '40px' }}
                           alt='nt'
                           onError={(e) =>
                             (e.target.src =
@@ -126,7 +134,16 @@ export default function ProviderChat() {
                 </div>
               </div>
               <div className='chat-history'>
-                <ul className='m-b-0'>
+                {actualChat.CHAT?.length > 0 ? (
+                  <div className='ScrollDownButton' style={{ backgroundColor: 'rgba(128, 128, 128, 0.464)' }}>
+                    <a href='#ScrollDown'>
+                      <i class='fa fa-arrow-down' aria-hidden='true'></i>
+                    </a>
+                  </div>
+                ) : (
+                  ''
+                )}
+                <ul className='m-b-0' >
                   {actualChat.CHAT?.length > 0 ? (
                     actualChat.CHAT?.map((message, index) =>
                       message.includes(user.nombreApellido) ? (
@@ -142,7 +159,7 @@ export default function ProviderChat() {
                   ) : (
                     <>
                       <div className='row chat-empty '>
-                        <img src='https://upload.wikimedia.org/wikipedia/commons/1/1a/Dialogos_2.png' style={{ width: '400px', marginTop: '150px' }} />
+                        <img src='https://upload.wikimedia.org/wikipedia/commons/1/1a/Dialogos_2.png' style={{ width: '400px', marginTop:"70px" }} />
                       </div>
                       <h4 style={{ display: 'flex', justifyContent: 'center', margin: '50px', textAlign: 'center' }}>
                         ¡Mantente conectado con tus Clientes y chatea con ellos en vivo! Acceda a un chat para empezar a hablar
