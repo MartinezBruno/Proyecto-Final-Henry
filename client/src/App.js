@@ -21,6 +21,7 @@ import ServicesDetail from './components/ProfileProvider/ServicesDetail'
 import Purchases from './components/ProfileUser/Purchases'
 import Favorites from './components/Favorites/Favorites'
 import Chat from './components/Chat/Chat'
+import Calendar from './components/Calendar/Calendar'
 import { init } from '@sentry/react'
 import useRoutingInstrumentation from 'react-router-v6-instrumentation'
 import { BrowserTracing } from '@sentry/tracing'
@@ -78,6 +79,7 @@ function App() {
           <Route path='home/:idServ/:idProv' element={<ServicesDetail />} />
           <Route path='purchases' element={<Purchases />} />
           <Route path='home/chat' element={<Chat />} />
+          <Route path='home/calendar' element={<Calendar />} />
         </Route>
       </Routes>
       <Footer />

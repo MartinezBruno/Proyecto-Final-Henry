@@ -47,9 +47,25 @@ const getProveedorEvents = async (req, res) => {
       if (evento[0] !== undefined) eventos = [...eventos, ...evento]
     }
 
-    // if (eventos.length === 0) return res.status(404).send({ message: 'Este proveedor no tiene eventos agendados' })
+    if (eventos.length === 0) return res.status(400).send({ message: 'Este proveedor no tiene eventos agendados' })
+    let eventData = await Promise.all(
+      eventos.map(async (evento) => {
+        let event = await Evento.findByPk(evento.EventoId)
+        // console.log(event)
+        return event
+      })
+    )
 
-    return res.status(200).send(eventos)
+    eventData = eventData.map((event) => {
+      return {
+        id: event.id,
+        start: event.START,
+        end: event.END,
+        title: event.TITLE,
+        duracion: event.DURATION,
+      }
+    })
+    return res.status(200).send(eventData)
   } catch (error) {
     console.error(error)
     return res.status(500).send({ message: 'Error al obtener los eventos del proveedor' })
@@ -58,6 +74,7 @@ const getProveedorEvents = async (req, res) => {
 
 const createEvent = async (req, res) => {
   const { cart, id } = req.body
+  console.log(cart)
   try {
     let idProveedor = cart?.map((compra) => compra.provID)
     let idUsuario = id
@@ -105,6 +122,8 @@ const createEvent = async (req, res) => {
     // console.log(moment(start))
     // console.log(moment(start).add(0.5, 'h'))
 
+    let errores = []
+
     for (let i = 0; i < idProveedor.length; i++) {
       let proveedorId = idProveedor[i]
       let start = arrayStart[i]
@@ -132,7 +151,7 @@ const createEvent = async (req, res) => {
             let startUser = moment(start).format('YYYY-MM-DD HH:mm:ss')
             let endUser = moment(end).format('YYYY-MM-DD HH:mm:ss')
             if (!(startEvent.isBefore(startUser) && endEvent.isSameOrBefore(startUser)) || (startEvent.isAfter(startUser) && endEvent.isSameOrAfter(endUser))) {
-              return res.status(405).send({
+              return res.status(400).send({
                 message: 'Ya existe un evento programado para ' + proveedor.NOMBRE_APELLIDO_PROVEEDOR + ' entre el ' + startUser + ' y ' + endUser,
               })
             }
@@ -140,6 +159,7 @@ const createEvent = async (req, res) => {
         }
       }
     }
+    // if (errores.length > 0) return res.status(400).send(errores)
 
     for (let i = 0; i < idProveedor.length; i++) {
       let title = arrayTitle[i]
