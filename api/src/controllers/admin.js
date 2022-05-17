@@ -77,7 +77,6 @@ const hacerAdmin = async (req, res) => {
     if (ProveedorId) {
       let datosProv = await Proveedor.findOne({ where: { id: ProveedorId } })
 
-      
       let datosProv2 = {
         id: datosProv.id,
         nombre: datosProv.NOMBRE_APELLIDO_PROVEEDOR,
@@ -116,18 +115,18 @@ const hacerAdmin = async (req, res) => {
 
       res.status(200).send('Proveedor Transferido a Admin')
     }
-  
-if (UsuarioId) {
-    let datosUser = await Usuario.findOne({ where: { id: UsuarioId } })
 
-    let datosUser2 = {
+    if (UsuarioId) {
+      let datosUser = await Usuario.findOne({ where: { id: UsuarioId } })
+
+      let datosUser2 = {
         id: datosUser.id,
         nombre: datosUser.NOMBRE_APELLIDO_USUARIO,
         password: datosUser.PASSWORD,
         email: datosUser.EMAIL,
         imagen: datosUser.IMAGEN,
         fecha_nacimiento: datosUser.FECHA_NACIMIENTO,
-        celular:datosUser.CELULAR,
+        celular: datosUser.CELULAR,
         empresa: 'ATTEND',
         puesto: 'CEO',
       }
@@ -154,59 +153,89 @@ if (UsuarioId) {
       })
       await admin.setRole(role)
 
-     await Usuario.destroy({where:{id: UsuarioId}})
-     res.status(200).send('Usuario Transferido a Admin')
-
+      await Usuario.destroy({ where: { id: UsuarioId } })
+      res.status(200).send('Usuario Transferido a Admin')
     }
-
-
-
-
-} catch (e) {
+  } catch (e) {
     console.log(e)
     return res.status(400).send({ message: 'Error en hacerAdmin' })
   }
 }
 
-const getCompras= async (req,res) => {
-
-let compras = await Compra.findAll()
-let proveedoresServicios = [] 
-let proveedores = []
-let comprasSend = []
-for(let i=0 ; i<compras.length ; i++) {
-  
-  
-  let DataUsuario = await Usuario.findOne({where:{id: compras[i].UsuarioId}})
-  DataUsuario = {
-    nombre: DataUsuario.NOMBRE_APELLIDO_USUARIO,
-    email: DataUsuario.EMAIL,
-    imagen: DataUsuario.IMAGEN
-  }
-  
-  let ProveedorServicio = await Proveedor_Servicio.findOne({where: {id: compras[i].ProveedorServicioId}})
-  proveedoresServicios.push(ProveedorServicio) 
-
-  for(let j= 0 ; j<proveedoresServicios.length; j++){
-        let proveedor = await Proveedor.findOne({where: {id: proveedoresServicios[i].ProveedorId} })
-        // console.log(proveedor)
-        proveedores.push(proveedor)
-      }
-      
-      let comprasDef = {
-        id: compras[i].id,
-        nombreUsuario: DataUsuario.nombre,
-        emailUsuario: DataUsuario.email,
-        imagenUsuario: DataUsuario.imagen,
-        nombreProveedor: proveedores[i].NOMBRE_APELLIDO_PROVEEDOR,
-        emailProveedor: proveedores[i].EMAIL,
-        imagenProveedor: proveedores[i].IMAGEN
-      }
-      comprasSend.push(comprasDef)
+const getCompras = async (req, res) => {
+  let compras = await Compra.findAll()
+  let proveedoresServicios = []
+  let proveedores = []
+  let comprasSend = []
+  for (let i = 0; i < compras.length; i++) {
+    let DataUsuario = await Usuario.findOne({ where: { id: compras[i].UsuarioId } })
+    DataUsuario = {
+      nombre: DataUsuario.NOMBRE_APELLIDO_USUARIO,
+      email: DataUsuario.EMAIL,
+      imagen: DataUsuario.IMAGEN,
     }
-   return res.status(200).send(comprasSend)
+
+    let ProveedorServicio = await Proveedor_Servicio.findOne({ where: { id: compras[i].ProveedorServicioId } })
+    proveedoresServicios.push(ProveedorServicio)
+
+    for (let j = 0; j < proveedoresServicios.length; j++) {
+      let proveedor = await Proveedor.findOne({ where: { id: proveedoresServicios[i].ProveedorId } })
+      // console.log(proveedor)
+      proveedores.push(proveedor)
+    }
+
+    let comprasDef = {
+      id: compras[i].id,
+      nombreUsuario: DataUsuario.nombre,
+      emailUsuario: DataUsuario.email,
+      imagenUsuario: DataUsuario.imagen,
+      nombreProveedor: proveedores[i].NOMBRE_APELLIDO_PROVEEDOR,
+      emailProveedor: proveedores[i].EMAIL,
+      imagenProveedor: proveedores[i].IMAGEN,
+    }
+    comprasSend.push(comprasDef)
   }
-  
+  return res.status(200).send(comprasSend)
+}
+
+const compraDetail = async (req, res) => {
+  const { id } = req.params
+  try {
+    const compra = await Compra.findByPk(id)
+    const provServ = await Proveedor_Servicio.findOne({ where: { id: compra.ProveedorServicioId } })
+    if (!provServ) return res.status(404).send({ message: 'Proveedor de servicio no encontrado' })
+
+    const usuario = await Usuario.findByPk(compra.UsuarioId)
+    if (!usuario) return res.status(404).send({ message: 'Usuario no encontrado' })
+
+    const prov = await Proveedor.findByPk(provServ.ProveedorId)
+    if (!prov) return res.status(404).send({ message: 'Proveedor no encontrado' })
+
+    const service = await Servicio.findByPk(provServ.ServicioId)
+    const precio = await Precio.findByPk(provServ.PrecioId)
+    const descripcion = await Descripcion.findByPk(provServ.DescripcionId)
+    if (!service || !precio || !descripcion) return res.status(404).send({ message: 'Servicio no encontrado' })
+
+    const detail = {
+      id: compra.id,
+      nombreUsuario: usuario.NOMBRE_APELLIDO_USUARIO,
+      emailUsuario: usuario.EMAIL,
+      imagenUsuario: usuario.IMAGEN,
+      nombreProveedor: prov.NOMBRE_APELLIDO_PROVEEDOR,
+      emailProveedor: prov.EMAIL,
+      imagenProveedor: prov.IMAGEN,
+      nombreServicio: service.NOMBRE_SERVICIO,
+      descripcionServicio: descripcion.DESCRIPCION,
+      precioServicio: precio.PRECIO,
+      fechaCompra: compra.createdAt,
+    }
+
+    return res.status(200).send(detail)
+  } catch (error) {
+    console.error(error)
+    return res.status(400).send({ message: 'Error en compraDetail' })
+  }
+}
 
 // console.log(compras)
 
@@ -216,5 +245,6 @@ module.exports = {
   ban,
   unBann,
   hacerAdmin,
-  getCompras
+  getCompras,
+  compraDetail,
 }
