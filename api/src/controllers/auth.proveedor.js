@@ -3,6 +3,10 @@ const config = require('../config/auth.config')
 const { Proveedor, Proveedor_Servicio, Precio, Descripcion, DuracionServicio, Servicio, Ciudad, Provincia, Pais, Role, RefreshToken } = require('../db')
 var jwt = require('jsonwebtoken')
 var bcrypt = require('bcryptjs')
+const { sendMail } = require('../mail')
+const { v4: uuidv4 } = require('uuid')
+const { getToken, getTokenData } = require('../config/tokenMail')
+const { getTemplate } = require('./email')
 
 exports.signup = async (req, res) => {
   // Guardar usuario en la base de datos
@@ -50,6 +54,9 @@ exports.signup = async (req, res) => {
       where: { NOMBRE_CIUDAD: ciudad },
     })
 
+    // Generar el código
+    const code = uuidv4()
+
     let newProveedor = await Proveedor.create({
       NOMBRE_APELLIDO_PROVEEDOR: `${nombre} ${apellido}`,
       PASSWORD: bcrypt.hashSync(password, 8),
@@ -58,6 +65,7 @@ exports.signup = async (req, res) => {
       FECHA_NACIMIENTO: fecha_nacimiento,
       CALIFICACION: [],
       CELULAR: celular,
+      CODE: code,
     })
     let role = await Role.findOne({
       where: { id: 2 },
@@ -127,9 +135,92 @@ exports.signup = async (req, res) => {
       })
       proveedor_servicio.setDuracionServicio(dur)
     }
+
+    // MAILING //
+
+    // Generar token
+    const token = getToken({ email, code })
+
+    // Obtener un template
+    const template = getTemplate(nombre, token)
+
+    // Configurar el email
+    const options = {
+      user: 'no-reply@weattend.online',
+      mailOptions: {
+        from: "'Attend' <no-reply@weattend.online>",
+        to: `${email}`,
+        subject: '¡Bienvenido a Attend!',
+        text: 'Para acceder a todas nuestras funcionalidades por favor verificá tu e-mail.',
+        html: template,
+      },
+    }
+
+    //Enviar el mail
+    // sendMail(options) descomentar esto para poder enviar correos
+
     return res.send({ message: '¡Proveedor registrado exitosamente!' })
   } catch (error) {
     res.status(500).send({ message: error.message })
+  }
+}
+
+exports.confirm = async (req, res) => {
+  try {
+    // Obtener el token
+    const { token } = req.params
+
+    // Verificar la data
+    const data = await getTokenData(token)
+
+    if (data === null) {
+      return res.json({
+        success: false,
+        msg: 'Error al obtener data',
+      })
+    }
+
+    const { email, code } = data.data
+
+    // Verificar existencia del usuario
+    const user = await Proveedor.findOne({
+      where: {
+        EMAIL: email,
+      },
+    })
+
+    if (!user) {
+      return res.json({
+        success: false,
+        msg: 'Usuario no existe',
+      })
+    }
+
+    // Verificar el código
+    if (code !== user.CODE) {
+      return res.send('/error.html')
+    }
+
+    // Actualizar usuario
+    await Proveedor.update(
+      {
+        STATUSCODE: 'VERIFICADO',
+      },
+      {
+        where: {
+          EMAIL: email,
+        },
+      }
+    )
+
+    // Redireccionar a la confirmación
+    return res.send('/confirm.html')
+  } catch (error) {
+    console.log(error)
+    return res.json({
+      success: false,
+      msg: 'Error al confirmar usuario',
+    })
   }
 }
 

@@ -12,7 +12,9 @@ const {
   Descripcion,
   Favorito,
   Usuario_Favorito,
+  Emergencia,
 } = require('../db')
+const { emergencia } = require('./emergencia')
 
 const getUsers = async (req, res) => {
   try {
@@ -352,8 +354,17 @@ const compraSuccess = async (req, res) => {
 
       compra.setUsuario(usuario)
       compra.setProveedor_Servicio(provServ)
+
     }
-    return res.status(200).send({ message: 'Compra guardada en la DB' })
+    
+    let emergencia = await Emergencia.findAll({
+      where: {UsuarioId: idUsuario}
+    })
+    if(emergencia.length > 0){
+       await Emergencia.update({ COMPRA_SUCCES: 'Si' }, { where: { UsuarioId: idUsuario } })
+    }
+
+  return res.status(200).send({ message: 'Compra guardada en la DB' })
   } catch (error) {
     console.error(error)
     return res.status(500).send({ message: 'Error al guardar compra' })

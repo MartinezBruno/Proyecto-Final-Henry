@@ -1,7 +1,9 @@
 const { Servicio } = require('../db')
 
 const getServicios = async (req, res) => {
+  
   let servicio = await Servicio.findAll()
+  console.log(servicio)
   servicio = servicio.map((servicio) => {
     return {
       id: servicio.id,

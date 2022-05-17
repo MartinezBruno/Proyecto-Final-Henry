@@ -50,6 +50,7 @@ const {
   Evento,
   CompraVerify,
   DuracionServicio,
+  Emergencia
 } = sequelize.models
 
 // Aca vendrian las relaciones
@@ -144,11 +145,18 @@ Usuario.belongsToMany(Favorito, { through: 'Usuario_Favorito' })
 
 CompraVerify.belongsTo(Evento)
 Evento.hasOne(CompraVerify)
-
 CompraVerify.belongsTo(Usuario)
 Usuario.hasMany(CompraVerify)
 CompraVerify.belongsTo(Proveedor_Servicio)
 Proveedor_Servicio.hasMany(CompraVerify)
+Usuario.hasOne(Emergencia)
+Emergencia.belongsTo(Usuario)
+Proveedor.hasOne(Emergencia)
+Emergencia.belongsTo(Proveedor)
+Servicio.hasOne(Emergencia)
+Emergencia.belongsTo(Servicio)
+Emergencia.belongsTo(Proveedor_Servicio)
+Proveedor_Servicio.hasOne(Emergencia)
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');

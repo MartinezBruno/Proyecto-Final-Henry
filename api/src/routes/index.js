@@ -13,6 +13,9 @@ const pregunta = require('./pregunta')
 const chat = require('./chat')
 const eventos = require('./eventos')
 const upload = require('./upload')
+const emergencia = require ('./Emergencia')
+const { confirmEmail } = require('../mail/views')
+const admin = require ('./admin')
 
 router.get('/', (req, res) => {
   res.send('API Attend Group Company')
@@ -30,5 +33,8 @@ router.use('/pregunta', pregunta)
 router.use('/chat', chat)
 router.use('/eventos', eventos)
 router.use('/upload', upload)
+router.use('/emergencia', emergencia)
+router.use('/admin', admin)
+
 
 module.exports = router
