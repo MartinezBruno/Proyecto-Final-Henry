@@ -15,6 +15,7 @@ const {
   Emergencia,
   Admin,
   Role,
+  Pregunta
 } = require('../db')
 const { v4: uuidv4 } = require('uuid')
 
@@ -208,7 +209,25 @@ for(let i=0 ; i<compras.length ; i++) {
   }
   
 
-// console.log(compras)
+const deleteComent = async (req,res) => {
+ let {ProveedorId, ServicioId, UsuarioId} = req.body
+ 
+ let proveedorServ = await Proveedor_Servicio.findOne({where:{ProveedorId: ProveedorId, ServicioId: ServicioId}})
+//  console.log(proveedorServ)
+ 
+await  Comentario.destroy({where: {ProveedorServicioId: proveedorServ.id, UsuarioId: UsuarioId}})
+
+return res.status(200).send('comentario eliminado')
+}
+
+const deletePregunta = async (req,res) => {
+  let {ProveedorId, ServicioId, UsuarioId} = req.body
+  let proveedorServ = await Proveedor_Servicio.findOne({where:{ProveedorId: ProveedorId, ServicioId: ServicioId}})
+  //  console.log(proveedorServ)
+  await  Pregunta.destroy({where: {ProveedorServicioId: proveedorServ.id, UsuarioId: UsuarioId}})
+  return res.status(200).send('pregunta eliminada')
+  }
+
 
 module.exports = {
   getUsers,
@@ -216,5 +235,7 @@ module.exports = {
   ban,
   unBann,
   hacerAdmin,
-  getCompras
+  getCompras,
+  deleteComent,
+  deletePregunta
 }
