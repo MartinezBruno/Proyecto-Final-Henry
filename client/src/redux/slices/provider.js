@@ -68,6 +68,9 @@ export const providerSlice = createSlice({
     Refresh: (state, action) => {
       state.serviceProvider = state.serviceProvider
     },
+    ModifyProvider: (state, action) => {
+      state.provider = action.payload
+    },
   },
 })
 
@@ -84,12 +87,13 @@ export const {
   SetServiceProvider,
   SetMessage,
   Refresh,
+  ModifyProvider,
 } = providerSlice.actions
 
 export default providerSlice.reducer
 
-export function setMessage(payload){
-  return function (dispatch){
+export function setMessage(payload) {
+  return function (dispatch) {
     console.log(payload)
     dispatch(SetMessage(payload))
   }
@@ -167,5 +171,13 @@ export function setCiudades(payload) {
   return async function (dispatch) {
     let info = payload !== 'Todos' && (await api.get(`/ciudad/${payload}`))
     dispatch(SetCiudades(info.data))
+  }
+}
+
+export function modifyProvider(id, payload) {
+  return async function (dispatch) {
+    await api.put(`/proveedor/${id}`, payload)
+    // console.log(payload)
+    dispatch(ModifyProvider())
   }
 }

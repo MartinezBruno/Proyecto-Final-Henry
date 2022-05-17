@@ -1,10 +1,24 @@
-const { Proveedor, Servicio, Ciudad, Provincia, Pais, Precio, Proveedor_Servicio, Descripcion, Role, Pregunta, Usuario, Comentario } = require('../db')
+const {
+  Proveedor,
+  Servicio,
+  Ciudad,
+  Provincia,
+  Pais,
+  Precio,
+  Proveedor_Servicio,
+  Descripcion,
+  Role,
+  Pregunta,
+  Usuario,
+  Comentario,
+  DuracionServicio,
+} = require('../db')
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 
 const allProvs = async () => {
   let proveedorServ = await Proveedor_Servicio.findAll({
-    attributes: ['ServicioId', 'ProveedorId', 'PrecioId', 'DescripcionId'],
+    attributes: ['ServicioId', 'ProveedorId', 'PrecioId', 'DescripcionId', 'DuracionServicioId'],
     include: [
       {
         model: Precio,
@@ -13,6 +27,10 @@ const allProvs = async () => {
       {
         model: Descripcion,
         attributes: ['DESCRIPCION'],
+      },
+      {
+        model: DuracionServicio,
+        attributes: ['DURACION'],
       },
     ],
   })
@@ -24,6 +42,7 @@ const allProvs = async () => {
       PrecioId: el.PrecioId,
       Precio: el.Precio.PRECIO,
       Descripcion: el.Descripcion.DESCRIPCION,
+      DuracionServicio: el.DuracionServicio.DURACION,
     }
   })
 
@@ -53,6 +72,7 @@ const allProvs = async () => {
       servicio: servicio,
       precio: proveedorServ[i].Precio,
       descripcion: proveedorServ[i].Descripcion,
+      duracion: proveedorServ[i].DuracionServicio,
     })
   }
 
@@ -87,6 +107,7 @@ const allProvs = async () => {
           remote: prov.servicio.REMOTE,
           precio: prov.precio,
           descripcion: prov.descripcion,
+          duracionServicio: prov.duracion,
         },
       }
     }
@@ -175,6 +196,10 @@ const getProvByID = async (req, res, next) => {
           model: Descripcion,
           attributes: ['DESCRIPCION'],
         },
+        {
+          model: DuracionServicio,
+          attributes: ['DURACION'],
+        },
       ],
     })
 
@@ -204,6 +229,7 @@ const getProvByID = async (req, res, next) => {
         servicio: servicio,
         precio: proveedorServ[i].Precio,
         descripcion: proveedorServ[i].Descripcion,
+        duracionServicio: proveedorServ[i].DuracionServicio,
       })
     }
     proveedorAMostrar = {
@@ -225,6 +251,7 @@ const getProvByID = async (req, res, next) => {
           remote: servicio.servicio.REMOTE,
           precio: servicio.precio.PRECIO,
           descripcion: servicio.descripcion.DESCRIPCION,
+          duracionServicio: servicio.duracionServicio.DURACION,
         }
       }),
     }
@@ -244,6 +271,7 @@ const deleteServicio_Prov = async (req, res) => {
 
     let precio = precioDisp.PrecioId
     let descripcionDisp = precioDisp.DescripcionId
+    let duracionDisp = precioDisp.DuracionServicioId
 
     await Descripcion.destroy({
       where: [{ id: descripcionDisp }],
@@ -251,6 +279,10 @@ const deleteServicio_Prov = async (req, res) => {
 
     await Precio.destroy({
       where: [{ id: precio }],
+    })
+
+    await DuracionServicio.destroy({
+      where: [{ id: duracionDisp }],
     })
 
     await Proveedor_Servicio.destroy({
@@ -271,6 +303,7 @@ const deleteServicio_Prov = async (req, res) => {
         REMOTE: true,
         PRECIO: NaN,
         DESCRIPCION: '',
+        DURACION: '',
       }
 
       let serviciosDisp = await Servicio.findOne({
@@ -294,9 +327,13 @@ const deleteServicio_Prov = async (req, res) => {
       let d = await Descripcion.create({
         DESCRIPCION: servicio.DESCRIPCION,
       })
+      let dur = await DuracionServicio.create({
+        DURACION: servicio.DURACION,
+      })
 
       await proveedor_servicio.setPrecio(p)
       await proveedor_servicio.setDescripcion(d)
+      await proveedor_servicio.setDuracionServicio(dur)
     }
 
     return res.status(204).send({ msg: 'Servicio eliminado' })
@@ -321,6 +358,7 @@ const addServicio_Prov = async (req, res, next) => {
 
     let arrayPrecios = servicios.map((servicio) => servicio.PRECIO)
     let arrayDescripcion = servicios.map((servicio) => servicio.DESCRIPCION)
+    let arrayDuration = servicios.map((servicio) => servicio.DURACION)
 
     let serviciosDisp = await Servicio.findAll({
       where: {
@@ -368,6 +406,26 @@ const addServicio_Prov = async (req, res, next) => {
         },
       })
       proveedor_servicio.setDescripcion(d)
+    }
+
+    for (let i = 0; i < arrayDuration.length; i++) {
+      let dur = await DuracionServicio.create({
+        DURACION: arrayDuration[i],
+      })
+      let proovedor = await Proveedor.findOne({ where: { id: id } })
+      let servicio = await Servicio.findOne({
+        where: {
+          NOMBRE_SERVICIO: arrayServicios[i].NOMBRE_SERVICIO,
+          REMOTE: arrayServicios[i].REMOTE,
+        },
+      })
+      let proveedor_servicio = await Proveedor_Servicio.findOne({
+        where: {
+          ProveedorId: proovedor.id,
+          ServicioId: servicio.id,
+        },
+      })
+      proveedor_servicio.setDuracionServicio(dur)
     }
     return res.status(204).send({ message: 'Servicios agregados' })
   } catch (error) {
@@ -1091,6 +1149,29 @@ const filtroProveedor = async (req, res, next) => {
   }
 }
 
+const putProvider = async (req, res, next) => {
+  const { id } = req.params
+  const { nombre_apellido_proveedor, email, celular, fecha_nacimiento } = req.body
+  try {
+    const proveedor = await Proveedor.findByPk(id)
+    proveedor === null
+      ? res.status(404).send('No se encontró el proveedor')
+      : await Proveedor.update(
+          {
+            NOMBRE_APELLIDO_PROVEEDOR: nombre_apellido_proveedor,
+            EMAIL: email,
+            CELULAR: celular,
+            FECHA_NACIMIENTO: fecha_nacimiento,
+          },
+          { where: { id: id } }
+        )
+    return res.status(204).send({ message: 'Proveedor actualizado' })
+  } catch (error) {
+    console.error(error)
+    return res.status(500).send(error)
+  }
+}
+
 module.exports = {
   getProv,
   getProvByID,
@@ -1099,4 +1180,5 @@ module.exports = {
   filtroPorProfesion,
   filtroPorProvincia,
   filtroProveedor,
+  putProvider,
 }

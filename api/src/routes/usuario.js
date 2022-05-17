@@ -40,20 +40,20 @@ router.put('/favoritos/:userId/:provId', addFavorito)
 
 router.delete('/favoritos/:userId/:provId', deleteFavorito)
 
-router.get('/test/all', allAccess)
+// router.get('/test/all', allAccess)
 
-router.get('/test/usuario', [authJwt.verifyToken], userBoard)
+// router.get('/test/usuario', [authJwt.verifyToken], userBoard)
 
 router.put('/:id', putUser)
 
-router.get('/test/proveedor', [authJwt.verifyToken, authJwt.isProveedor], userBoard)
+// router.get('/test/proveedor', [authJwt.verifyToken, authJwt.isProveedor], userBoard)
 
 router.post('/compraSuccess', compraSuccess)
 
 router.get('/compraSuccess/misCompras', misCompras)
 
-router.get('/test/mod', [authJwt.verifyToken, authJwt.isModerator], moderatorBoard)
+// router.get('/test/mod', [authJwt.verifyToken, authJwt.isModerator], moderatorBoard)
 
-router.get('/test/admin', [authJwt.verifyToken, authJwt.isAdmin], adminBoard)
+// router.get('/test/admin', [authJwt.verifyToken, authJwt.isAdmin], adminBoard)
 
 module.exports = router
