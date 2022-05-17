@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Swal from 'sweetalert2'
-import FullCalendar from '@fullcalendar/react' // must go before plugins
+import FullCalendar, { BASE_OPTION_REFINERS } from '@fullcalendar/react' // must go before plugins
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
@@ -96,32 +96,43 @@ function Calendar({ isModal, provID, service }) {
     return Swal.fire('Fecha agendada correctamente', '', 'success')
   }
   useEffect(() => {
-    dispatch(getAllEvents(provID))
+    dispatch(getAllEvents(provID, service.id))
   }, [dispatch])
 
-  const handleAddToCart = (service, e) => {
+  const handleAddToCart = (service, e, id, i) => {
     e.preventDefault()
     let fecha = moment(input.fecha_evento + ' ' + input.hora_evento).format('YYYY-MM-DD HH:mm')
     const evento = Object.assign({ start: fecha }, service)
     dispatch(setEventos(evento))
+    let boton = document.getElementById(id)
+    boton.disabled = true
+    boton.innerText = '✓'
+    boton.style.backgroundColor = '#198754'
+    boton.style.color = 'black'
+    boton.style.fontWeight = 'bold'
+    boton.style.border = '1px solid black'
+    boton.style.padding = '0.5rem 1.5rem 0.5rem 1.5rem'
+    document.querySelector('.form' + i).disabled = true
+    document.querySelector('.form-control' + i).disabled = true
   }
 
   let allForms = []
   for (let i = 0; i < count; i++) {
+    let id = 'boton' + i
     allForms.push(
       <form className='m-4' id={`form${[i]}`}>
         <div className='form-group'>
           <label>Fecha:</label>
-          <input type='date' name='fecha_evento' onChange={handleOnChange} className='form-control' />
+          <input type='date' name='fecha_evento' onChange={handleOnChange} className={'form-control form' + i} />
         </div>
         {errors.fecha_evento && <p className={` animate__animated animate__fadeInDown `}>{errors.fecha_evento}</p>}
         <div className='form-group'>
           <label>Hora:</label>
-          <input type='time' name='hora_evento' onChange={handleOnChange} className='form-control' />
+          <input type='time' name='hora_evento' onChange={handleOnChange} className={'form-control form-control' + i} />
         </div>
         {errors.hora_evento && <p className={` animate__animated animate__fadeInDown `}>{errors.hora_evento}</p>}
         <div className='form-group'>
-          <button type='submit' onClick={(e) => handleAddToCart(service, e)} className='btn btn-outline-success mt-3'>
+          <button type='submit' onClick={(e) => handleAddToCart(service, e, id, i)} id={id} className='btn btn-outline-success mt-3'>
             Agregar
           </button>
         </div>
