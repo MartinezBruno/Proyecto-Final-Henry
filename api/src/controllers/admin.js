@@ -168,10 +168,53 @@ if (UsuarioId) {
   }
 }
 
+const getCompras= async (req,res) => {
+
+let compras = await Compra.findAll()
+let proveedoresServicios = [] 
+let proveedores = []
+let comprasSend = []
+for(let i=0 ; i<compras.length ; i++) {
+  
+  
+  let DataUsuario = await Usuario.findOne({where:{id: compras[i].UsuarioId}})
+  DataUsuario = {
+    nombre: DataUsuario.NOMBRE_APELLIDO_USUARIO,
+    email: DataUsuario.EMAIL,
+    imagen: DataUsuario.IMAGEN
+  }
+  
+  let ProveedorServicio = await Proveedor_Servicio.findOne({where: {id: compras[i].ProveedorServicioId}})
+  proveedoresServicios.push(ProveedorServicio) 
+
+  for(let j= 0 ; j<proveedoresServicios.length; j++){
+        let proveedor = await Proveedor.findOne({where: {id: proveedoresServicios[i].ProveedorId} })
+        // console.log(proveedor)
+        proveedores.push(proveedor)
+      }
+      
+      let comprasDef = {
+        id: compras[i].id,
+        nombreUsuario: DataUsuario.nombre,
+        emailUsuario: DataUsuario.email,
+        imagenUsuario: DataUsuario.imagen,
+        nombreProveedor: proveedores[i].NOMBRE_APELLIDO_PROVEEDOR,
+        emailProveedor: proveedores[i].EMAIL,
+        imagenProveedor: proveedores[i].IMAGEN
+      }
+      comprasSend.push(comprasDef)
+    }
+   return res.status(200).send(comprasSend)
+  }
+  
+
+// console.log(compras)
+
 module.exports = {
   getUsers,
   getProviders,
   ban,
   unBann,
   hacerAdmin,
+  getCompras
 }
