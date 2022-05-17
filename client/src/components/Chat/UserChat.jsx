@@ -110,7 +110,7 @@ export default function UserChat() {
             </div>
 
             <div className='chat'>
-                <div className='chat-header clearfix' style={{backgroundColor: 'white', zIndex: '1', borderBottom: '2px solid lightgray' }}>
+                <div className='sticky-top chat-header clearfix' style={{backgroundColor: 'white', zIndex: '1', borderBottom: '2px solid lightgray' }}>
                 <div className='row '>
                   <div className='col-lg-6 '>
                     {actualChat.id || idProvider ? (

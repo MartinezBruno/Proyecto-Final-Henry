@@ -104,7 +104,7 @@ export default function ProviderChat() {
             </div>
 
             <div className='chat'>
-              <div className='chat-header clearfix' style={{ position: 'fixed', backgroundColor: 'white', zIndex: '1', borderBottom: '2px solid lightgray' }}>
+              <div className='sticky-top chat-header clearfix' style={{backgroundColor: 'white', zIndex: '1', borderBottom: '2px solid lightgray' }}>
                 <div className='row'>
                   <div className='col-lg-6'>
                     {actualChat.id ? (
@@ -136,14 +136,14 @@ export default function ProviderChat() {
               <div className='chat-history'>
                 {actualChat.CHAT?.length > 0 ? (
                   <div className='ScrollDownButton' style={{ backgroundColor: 'rgba(128, 128, 128, 0.464)' }}>
-                    <a href='#ScrollDown' className=''>
+                    <a href='#ScrollDown'>
                       <i class='fa fa-arrow-down' aria-hidden='true'></i>
                     </a>
                   </div>
                 ) : (
                   ''
                 )}
-                <ul className='m-b-0' style={{marginTop:"80px"}}>
+                <ul className='m-b-0' >
                   {actualChat.CHAT?.length > 0 ? (
                     actualChat.CHAT?.map((message, index) =>
                       message.includes(user.nombreApellido) ? (
@@ -159,7 +159,7 @@ export default function ProviderChat() {
                   ) : (
                     <>
                       <div className='row chat-empty '>
-                        <img src='https://upload.wikimedia.org/wikipedia/commons/1/1a/Dialogos_2.png' style={{ width: '400px', marginTop: '70px' }} />
+                        <img src='https://upload.wikimedia.org/wikipedia/commons/1/1a/Dialogos_2.png' style={{ width: '400px', marginTop:"70px" }} />
                       </div>
                       <h4 style={{ display: 'flex', justifyContent: 'center', margin: '50px', textAlign: 'center' }}>
                         ¡Mantente conectado con tus Clientes y chatea con ellos en vivo! Acceda a un chat para empezar a hablar
