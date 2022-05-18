@@ -86,10 +86,9 @@ function Calendar({ isModal, provID, service }) {
       }
     }
 
-    dispatch(setEventos(evento))
-    console.log(error)
-    console.log('hola')
-    if (error) {
+    let hola = dispatch(setEventos(evento))
+
+    if (hola) {
       return Swal.fire('Error al agendar la fecha', 'Horario no disponible', 'error')
     } else {
       let boton = document.getElementById(id)
@@ -103,8 +102,14 @@ function Calendar({ isModal, provID, service }) {
       document.querySelector('.form' + i).disabled = true
       document.querySelector('.form-control' + i).disabled = true
     }
-    console.log('chau')
-    console.log(error)
+  }
+
+  const handleVerify = (e, error) => {
+    e.preventDefault()
+    if (error) {
+      return Swal.fire('Error al agendar la fecha', 'Horario no disponible', 'error')
+    }
+    return Swal.fire('Ta pronto master', 'Horario no disponible', 'success')
   }
 
   let allForms = []
@@ -123,9 +128,11 @@ function Calendar({ isModal, provID, service }) {
         </div>
         {errors.hora_evento && <p className={` animate__animated animate__fadeInDown `}>{errors.hora_evento}</p>}
         <div className='form-group'>
-          <button type='submit' onClick={(e) => handleAddToCart(service, e, id, i)} id={id} className='btn btn-outline-success mt-3'>
-            Agregar
-          </button>
+          {input && !errors.fecha_evento && !errors.hora_evento ? (
+            <button type='submit' onClick={(e) => handleAddToCart(service, e, id, i)} id={id} className='btn btn-outline-success mt-3'>
+              Agregar
+            </button>
+          ) : null}
         </div>
         <hr />
       </form>
@@ -151,6 +158,9 @@ function Calendar({ isModal, provID, service }) {
         <div className='ms-4'>
           <h4>Elije la fecha y hora a la que quieres agendar tu servicio</h4>
           {allForms}
+          <button type='submit' onClick={(e) => handleVerify(e, error)}>
+            Verficar
+          </button>
         </div>
       </div>
     )
