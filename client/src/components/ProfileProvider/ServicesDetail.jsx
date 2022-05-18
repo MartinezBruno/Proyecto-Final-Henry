@@ -35,14 +35,15 @@ export default function ProfileDetails() {
   }
 
   const handleDeleteQuestion = (e) => {
+    // let id = { idPregunta : e.target.value}
     console.log(e.target.value)
-    api.delete('/admin/preguntas', e.target.value).then(() => Swal.fire('Pregunta eliminada Correctamente', '', 'success'))
+    api.delete(`/admin/pregunta/${e.target.value}`).then(() => Swal.fire('Pregunta eliminada Correctamente', '', 'success')).then(() => window.location.reload())
   }
   const handleDeleteComentario = (e) => {
     console.log(e.target.value)
-    // api
-    // .delete('/admin/preguntas', e.target.value)
-    // .then(() => Swal.fire('Pregunta eliminada Correctamente', '', 'success'))
+    api
+    .delete(`/admin/comentarios/${e.target.value}`)
+    .then(() => Swal.fire('Pregunta eliminada Correctamente', '', 'success')).then(() => window.location.reload())
   }
 
   useEffect(() => {
@@ -381,7 +382,7 @@ export default function ProfileDetails() {
                                 className='list-group-item list-group-item-action list-group-item-light '
                                 style={{ marginBottom: '10px', border: '1px solid lightgray' }}>
                                 <div style={{ backgrondColor: 'red' }}>
-                                  {user.Role === 'USUARIO' ? (
+                                  {user.Role === 'ADMIN' ? (
                                     <button
                                       type='button'
                                       class='btn-close position-absolute top-0 end-0'
