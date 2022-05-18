@@ -13,6 +13,7 @@ const {
   Comentario,
   DuracionServicio,
 } = require('../db')
+var bcrypt = require('bcryptjs')
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 
@@ -1171,6 +1172,36 @@ const putProvider = async (req, res, next) => {
   }
 }
 
+const changePassword = async (req, res) => {
+  const { id } = req.params
+  const { password, oldPassword } = req.body
+  try {
+    const providerEncontrado = await Proveedor.findOne({
+      where: { id: id },
+    })
+
+    if (providerEncontrado === null) return res.status(404).send({ message: 'No se encontró un usuario con ese id' })
+
+    const passwordIsValid = bcrypt.compareSync(oldPassword, providerEncontrado.PASSWORD)
+    if (!passwordIsValid) {
+      return res.status(401).send({
+        message: '¡Contraseña incorrecta!',
+      })
+    }
+
+    await Proveedor.update(
+      {
+        PASSWORD: bcrypt.hashSync(password, 8),
+      },
+      { where: { id: id } }
+    )
+    return res.status(204).send({ message: 'Contraseña actualizada correctamente' })
+  } catch (error) {
+    console.error(error)
+    return res.status(500).send({ message: 'Error al actualizar contraseña' })
+  }
+}
+
 module.exports = {
   getProv,
   getProvByID,
@@ -1180,4 +1211,5 @@ module.exports = {
   filtroPorProvincia,
   filtroProveedor,
   putProvider,
+  changePassword,
 }
