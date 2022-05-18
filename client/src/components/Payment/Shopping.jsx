@@ -33,7 +33,7 @@ export default function Shopping() {
     <>
       <div className='container' style={{ marginTop: '2rem' }}>
         <div className='row align-items-center justify-content-center text-center'>
-          <div className='col-6'>
+          <div className='col' style={{maxWidth:'700px'}}>
             <h3>Ya casi terminamos...</h3>
             <br />
             <table className='table'>

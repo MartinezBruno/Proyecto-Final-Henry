@@ -56,7 +56,7 @@ export default function Login(props) {
     api
       .post('/auth/proveedor/signin', provToLog)
       .then((r) => {
-        dispatch(userLogin(provToLog))
+        dispatch(providerLogin(provToLog))
         Swal.fire('¡Sesión iniciada correctamente!', '', 'success')
       })
       .catch((err) => {
@@ -143,9 +143,9 @@ export default function Login(props) {
                         />{' '}
                       </div>
                       <div className={styles.formInput}></div>
-                      <div className='recaptcha'>
+                      {/* <div className='recaptcha'>
                         <ReCAPTCHA ref={captcha} sitekey='6Le5jukfAAAAAD7b-AKYrJS1A8bT_VqYBbXPwLcX' onChange={onRecaptcha} />
-                      </div>
+                      </div> */}
 
                       <button className={`btn btn-success mt-4 ${styles.signup}`} onClick={(e) => handleSubmit(e)}>
                         Iniciar sesión
@@ -223,9 +223,9 @@ export default function Login(props) {
                         />{' '}
                       </div>
                       <div className={styles.formInput}></div>
-                      <div className='recaptcha'>
+                      {/* <div className='recaptcha'>
                         <ReCAPTCHA ref={captcha} sitekey='6Le5jukfAAAAAD7b-AKYrJS1A8bT_VqYBbXPwLcX' onChange={onRecaptcha} />
-                      </div>
+                      </div> */}
 
                       <button className={`btn btn-success mt-4 ${styles.signup}`} onClick={(e) => handleSubmitProvider(e)}>
                         Iniciar sesión
@@ -306,9 +306,9 @@ export default function Login(props) {
                             />{' '}
                           </div>
                           <div className={styles.formInput}></div>
-                          <div className='recaptcha'>
+                          {/* <div className='recaptcha'>
                             <ReCAPTCHA ref={captcha} sitekey='6Le5jukfAAAAAD7b-AKYrJS1A8bT_VqYBbXPwLcX' onChange={onRecaptcha} />
-                          </div>
+                          </div> */}
 
                           <button className={`btn btn-success mt-4 ${styles.signup}`} onClick={(e) => handleSubmit(e)}>
                             Iniciar sesión
@@ -319,25 +319,28 @@ export default function Login(props) {
                             </div>
                           )}
                         </div>
-
-                        <div className='d-flex justify-content-center mt-4'>
+                        <div className='text-center mt-3'>
                       {' '}
-                      {/* <span className={styles.social}>
+                      <span>O inicia sesión usando:</span>{' '}
+                    </div>
+                        <div className='d-flex justify-content-center mt-4'>
+                          {' '}
+                          {/* <span className={styles.social}>
                         <i className='fa fa-google'></i>
                       </span>{' '} */}
-                      <FacebookLogin
-                        appId='422066786032438'
-                        autoLoad={false}
-                        fields='name,email,picture,birthday'
-                        onClick={facebookClicked}
-                        callback={facebookUser}
-                        cssClass={styles.social}
-                        textButton={<i className='fa fa-facebook'></i>}
-                      />
-                      {/* <span className={styles.social}>
+                          <FacebookLogin
+                            appId='422066786032438'
+                            autoLoad={false}
+                            fields='name,email,picture,birthday'
+                            onClick={facebookClicked}
+                            callback={facebookUser}
+                            cssClass={styles.social}
+                            textButton={<i className='fa fa-facebook'></i>}
+                          />
+                          {/* <span className={styles.social}>
                         <i className='fa fa-linkedin'></i>
                       </span>{' '} */}
-                    </div>
+                        </div>
                         <div className='text-center mt-4'>
                           {' '}
                           <span>¿No estás registrado?</span>{' '}
@@ -359,7 +362,7 @@ export default function Login(props) {
                         <div className='text-center mt-3'>
                           <div className={styles.formInput}>
                             {' '}
-                            <i className='fa fa-envelope'></i>{' '}
+                            <i className='fa fa-envelope' style={{ left: '1.4rem' }}></i>{' '}
                             <input
                               type='text'
                               name='email'
@@ -371,7 +374,7 @@ export default function Login(props) {
                           </div>
                           <div className={styles.formInput}>
                             {' '}
-                            <i className='fa fa-lock'></i>{' '}
+                            <i className='fa fa-lock' style={{ left: '1.4rem' }}></i>{' '}
                             <input
                               type='password'
                               name='password'
@@ -382,33 +385,36 @@ export default function Login(props) {
                             />{' '}
                           </div>
                           <div className={styles.formInput}></div>
-                          <div className='recaptcha'>
+                          {/* <div className='recaptcha'>
                             <ReCAPTCHA ref={captcha} sitekey='6Le5jukfAAAAAD7b-AKYrJS1A8bT_VqYBbXPwLcX' onChange={onRecaptcha} />
-                          </div>
+                          </div> */}
 
                           <button className={`btn btn-success mt-4 ${styles.signup}`} onClick={(e) => handleSubmitProvider(e)}>
                             Iniciar sesión
                           </button>
                         </div>
-
+                        <div className='text-center mt-3'>
+                          {' '}
+                          <span>O inicia sesión usando:</span>{' '}
+                        </div>
                         <div className='d-flex justify-content-center mt-4'>
-                      {' '}
-                      {/* <span className={styles.social}>
+                          {' '}
+                          {/* <span className={styles.social}>
                         <i className='fa fa-google'></i>
                       </span>{' '} */}
-                      <FacebookLogin
-                        appId='422066786032438'
-                        autoLoad={false}
-                        fields='name,email,picture,birthday'
-                        onClick={facebookClicked}
-                        callback={facebookProv}
-                        cssClass={styles.social}
-                        textButton={<i className='fa fa-facebook'></i>}
-                      />
-                      {/* <span className={styles.social}>
+                          <FacebookLogin
+                            appId='422066786032438'
+                            autoLoad={false}
+                            fields='name,email,picture,birthday'
+                            onClick={facebookClicked}
+                            callback={facebookProv}
+                            cssClass={styles.social}
+                            textButton={<i className='fa fa-facebook'></i>}
+                          />
+                          {/* <span className={styles.social}>
                         <i className='fa fa-linkedin'></i>
                       </span>{' '} */}
-                    </div>
+                        </div>
                         <div className='text-center mt-4'>
                           {' '}
                           <span>¿No estás registrado?</span>{' '}
