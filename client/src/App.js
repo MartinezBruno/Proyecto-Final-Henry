@@ -22,6 +22,9 @@ import Purchases from './components/ProfileUser/Purchases'
 import Favorites from './components/Favorites/Favorites'
 import Chat from './components/Chat/Chat'
 import Calendar from './components/Calendar/Calendar'
+import UsersList  from './components/Admin/UsersList'
+import ProvidersList from './components/Admin/ProvidersList'
+import SalesHistory from './components/Admin/SalesHistory'
 import { init } from '@sentry/react'
 import useRoutingInstrumentation from 'react-router-v6-instrumentation'
 import { BrowserTracing } from '@sentry/tracing'
@@ -80,6 +83,9 @@ function App() {
           <Route path='purchases' element={<Purchases />} />
           <Route path='home/chat' element={<Chat />} />
           <Route path='home/calendar' element={<Calendar />} />
+          <Route path='admin/usersList' element={<UsersList />} />
+          <Route path='admin/providersList' element={<ProvidersList />} />
+          <Route path='admin/salesHistory' element={<SalesHistory />} />
         </Route>
       </Routes>
       <Footer />
