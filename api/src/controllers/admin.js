@@ -292,7 +292,7 @@ const getCompras = async (req, res) => {
            id: compraProveedoresId[x],
            servicio: servicios[x].NOMBRE_SERVICIO,
            remoto: servicios[x].REMOTE,
-           usuario: 'Este usuario ya no exite',
+           usuario: 'Este usuario ya no existe',
            nombreProveedor: proveedores[x].NOMBRE_APELLIDO_PROVEEDOR,
            emailProveedor: proveedores[x].EMAIL,
            imagenProveedor: proveedores[x].IMAGEN,
@@ -307,7 +307,7 @@ const getCompras = async (req, res) => {
          nombreUsuario: dataUsuarios[k].nombre,
          emailUsuario: dataUsuarios[k].email,
          imagenUsuario: dataUsuarios[k].imagen,
-         proveedor: 'este proveedor ya no existe',
+         proveedor: 'Este proveedor ya no existe',
      })
    }
  }

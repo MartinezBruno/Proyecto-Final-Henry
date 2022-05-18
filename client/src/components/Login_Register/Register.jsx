@@ -672,12 +672,12 @@ export default function Register({ isModal }) {
   const saveFile = (e) => {
     setFile(e.target.files[0])
     var formatImage = e.target.files[0]?.name.split('.')
-    setFormat(formatImage[formatImage.length - 1])
+    setFormat(formatImage[formatImage?.length - 1])
   }
 
   const uploadUserFile = async (e) => {
     const code = uuidv4()
-    console.log(code)
+    // console.log(code)
     const formData = new FormData()
     formData.append('file', file)
     formData.append('format', format)
