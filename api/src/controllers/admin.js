@@ -292,7 +292,7 @@ const getCompras = async (req, res) => {
            id: compraProveedoresId[x],
            servicio: servicios[x].NOMBRE_SERVICIO,
            remoto: servicios[x].REMOTE,
-           usuario: 'Este usuario ya no exite',
+           usuario: 'Este usuario ya no existe',
            nombreProveedor: proveedores[x].NOMBRE_APELLIDO_PROVEEDOR,
            emailProveedor: proveedores[x].EMAIL,
            imagenProveedor: proveedores[x].IMAGEN,
@@ -307,7 +307,7 @@ const getCompras = async (req, res) => {
          nombreUsuario: dataUsuarios[k].nombre,
          emailUsuario: dataUsuarios[k].email,
          imagenUsuario: dataUsuarios[k].imagen,
-         proveedor: 'este proveedor ya no existe',
+         proveedor: 'Este proveedor ya no existe',
      })
    }
  }
@@ -317,12 +317,9 @@ const getCompras = async (req, res) => {
 }
 
 const deleteComent = async (req, res) => {
-  let { idComentario} = req.params
+  let { idComentario } = req.params
 
-  let proveedorServ = await Proveedor_Servicio.findOne({ where: { ProveedorId: ProveedorId, ServicioId: ServicioId } })
-  //  console.log(proveedorServ)
-
-  await Comentario.destroy({ where: { ProveedorServicioId: proveedorServ.id, UsuarioId: UsuarioId } })
+  await Comentario.destroy({ where: {id: idComentario} })
 
   return res.status(200).send('comentario eliminado')
 }
