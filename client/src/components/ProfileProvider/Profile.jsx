@@ -7,6 +7,7 @@ import ProfileShowInfoProv from './ProfileShowInfo'
 import { getUniqueProvider } from '../../redux/slices/provider'
 import AddService from '../Services/AddService'
 import DeleteService from '../Services/DeleteService'
+import ChangePassword from '../ChangePassword'
 
 function ProfileProveedor() {
   const [isEditing, setEditing] = useState(false)
@@ -39,6 +40,9 @@ function ProfileProveedor() {
                       <h4>{uniqueprovider?.nombre_apellido_proveedor}</h4>
                       <p className='text-muted font-size-sm'>{user.Role}</p>
                       <p className='text-muted font-size-sm'>{uniqueprovider?.pais + ', ' + uniqueprovider?.provincia}</p>
+                      <br />
+                      <p>¿Quieres cambiar tu contraseña?</p>
+                      <ChangePassword />
                       {/* <button className="btn btn-primary" style={{margin: '7px'}}>Follow</button>
                   <button className="btn btn-outline-primary">Mensaje</button> */}
                     </div>
@@ -83,8 +87,12 @@ function ProfileProveedor() {
                 </tbody>
               </table>
               <div className={`d-flex justify-content-center`}>
-                <AddService />
-                <DeleteService />
+                <div className='mx-3'>
+                  <AddService />
+                </div>
+                <div className='mx-3'>
+                  <DeleteService />
+                </div>
               </div>
             </div>
           </div>

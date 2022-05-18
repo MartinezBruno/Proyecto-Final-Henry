@@ -123,6 +123,7 @@ function Calendar({ isModal, provID, service }) {
     let id = 'boton' + i
     allForms.push(
       <form className='m-4' id={`form${[i]}`}>
+        {/* <input type='datetime-local' /> */}
         <div className='form-group'>
           <label>Fecha:</label>
           <input type='date' name='fecha_evento' onChange={handleOnChange} className={'form-control form' + i} />
@@ -164,9 +165,6 @@ function Calendar({ isModal, provID, service }) {
         <div className='ms-4'>
           <h4>Elije la fecha y hora a la que quieres agendar tu servicio</h4>
           {allForms}
-          <button type='submit' onClick={(e) => handleVerify(e, error)}>
-            Verficar
-          </button>
         </div>
       </div>
     )

@@ -243,7 +243,7 @@ const getProvByID = async (req, res, next) => {
       creation_date: proveedor.createdAt,
       ciudad: proveedor.Ciudad ? proveedor.Ciudad.NOMBRE_CIUDAD : 'Sin definir',
       provincia: proveedor.Provincium ? proveedor.Provincium.NOMBRE_PROVINCIA : 'Sin definir',
-      pais: proveedor.Pai.NOMBRE_PAIS,
+      pais: proveedor.Pai ? proveedor.Pai.NOMBRE_PAIS : 'Sin definir',
       servicios: servicios.map((servicio) => {
         return {
           id: servicio.servicio.id,
@@ -1174,7 +1174,7 @@ const putProvider = async (req, res, next) => {
 
 const changePassword = async (req, res) => {
   const { id } = req.params
-  const { password, oldPassword } = req.body
+  const { newPassword, oldPassword } = req.body
   try {
     const providerEncontrado = await Proveedor.findOne({
       where: { id: id },
@@ -1191,7 +1191,7 @@ const changePassword = async (req, res) => {
 
     await Proveedor.update(
       {
-        PASSWORD: bcrypt.hashSync(password, 8),
+        PASSWORD: bcrypt.hashSync(newPassword, 8),
       },
       { where: { id: id } }
     )

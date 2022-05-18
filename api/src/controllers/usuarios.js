@@ -277,14 +277,14 @@ const putUser = async (req, res, next) => {
 
 const changePassword = async (req, res) => {
   const { id } = req.params
-  const { password, oldPassword } = req.body
+  const { newPassword, oldPassword } = req.body
   try {
     const usuarioEncontrado = await Usuario.findOne({
       where: { id: id },
     })
 
     if (usuarioEncontrado === null) return res.status(404).send({ message: 'No se encontró un usuario con ese id' })
-    
+
     const passwordIsValid = bcrypt.compareSync(oldPassword, usuarioEncontrado.PASSWORD)
     if (!passwordIsValid) {
       return res.status(401).send({
@@ -294,7 +294,7 @@ const changePassword = async (req, res) => {
 
     await Usuario.update(
       {
-        PASSWORD: bcrypt.hashSync(password, 8),
+        PASSWORD: bcrypt.hashSync(newPassword, 8),
       },
       { where: { id: id } }
     )
