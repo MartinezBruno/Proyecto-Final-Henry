@@ -38,10 +38,9 @@ exports.signup = async (req, res) => {
       CELULAR: celular,
       CODE: code,
     })
-    if (paisDisp) await newUser.setPais(paisDisp)
 
-    if (provinciaDisp) await newUser.setProvincia(provinciaDisp)
-
+    if (paisDisp) await newUser.setPai(paisDisp)
+    if (provinciaDisp) await newUser.setProvincium(provinciaDisp)
     if (ciudadDisp) await newUser.setCiudad(ciudadDisp)
 
     let role = await Role.findOne({
