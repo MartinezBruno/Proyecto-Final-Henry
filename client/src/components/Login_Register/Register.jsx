@@ -15,7 +15,6 @@ import Swal from 'sweetalert2'
 import 'animate.css'
 import ReCAPTCHA from 'react-google-recaptcha'
 import FacebookLogin from 'react-facebook-login'
-import api from '../../services/api'
 
 
 export default function Register({ isModal }) {
@@ -40,7 +39,6 @@ export default function Register({ isModal }) {
   }
 
   function responseFacebook(e){
-    // console.log('respuesta:', e)
     let userName= e.name.split(' ')
 
     let userRegister = { 
@@ -49,24 +47,46 @@ export default function Register({ isModal }) {
       password: e.id, ///VERIFICAR
       email: e.email,
       imagen: e.picture.data.url,
-      fecha_nacimiento: "30-11-1960",
-      pais: "Argentina",
-      provincia: "Provincia de Buenos Aires",
-      ciudad: "Partido de La Plata",
-      celular: 2841282
-
+      // fecha_nacimiento: "30-11-1960",
+      // pais: "Argentina",
+      // provincia: "Provincia de Buenos Aires",
+      // ciudad: "Partido de La Plata",
+      // celular: 2841282
     }
+  api
+    .post('/auth/usuario/signup', userRegister)
+    .then((r) => {
+      Swal.fire('¡Registrado con exito!', '', 'success')
+    })
+    .catch((err) => {
+      Swal.fire('¡Ha ocurrido un error, intentalo nuevamente!', '', 'error')
+    })
 
-    console.log(userRegister)
+  }
 
-  // api
-  //   .post('/auth/usuario/signup', input)
-  //   .then((r) => {
-  //     Swal.fire('¡Logueado con exito!', '', 'success')
-  //   })
-  //   .catch((err) => {
-  //     Swal.fire('¡Datos incorrectos!', '', 'error')
-  //   })
+  function responseFacebookProv(e){
+    let userName= e.name.split(' ')
+
+    let provRegister = { 
+      nombre: userName[0],
+      apellido: userName[1],
+      password: e.id, ///VERIFICAR
+      email: e.email,
+      imagen: e.picture.data.url,
+      // fecha_nacimiento: "30-11-1960",
+      // pais: "Argentina",
+      // provincia: "Provincia de Buenos Aires",
+      // ciudad: "Partido de La Plata",
+      // celular: 2841282
+    }
+  api
+    .post('/auth/proveedor/signup', provRegister)
+    .then((r) => {
+      Swal.fire('¡Registrado con exito!', '', 'success')
+    })
+    .catch((err) => {
+      Swal.fire('¡Ha ocurrido un error, intentalo nuevamente!', '', 'error')
+    })
 
   }
   function facebookClicked(e){
@@ -1004,20 +1024,22 @@ export default function Register({ isModal }) {
                     {/* <span className={styles.social}>
                       <i className='fa fa-google'></i>
                     // </span>{' '} */}
-                    //{' '}
+                    {/* //{' '}
                     <span className={styles.social}>
                       // <i className='fa fa-facebook'></i>
                       //{' '}
-                    </span>{' '}
+                    </span>{' '} */}
                     {/* <span className={styles.social}>
                       <i className='fa fa-linkedin'></i>
                     </span>{' '} */}
                     <FacebookLogin
                       appId='422066786032438'
                       autoLoad={false}
-                      fields='name,email,picture'
+                      fields='name,email,picture,birthday'
                       onClick={facebookClicked}
                       callback={responseFacebook}
+                      cssClass={styles.social}
+                      textButton={<i className='fa fa-facebook'></i>}
                     />
                   </div>
                   <div className='text-center mt-4'>
@@ -1241,13 +1263,13 @@ export default function Register({ isModal }) {
                     </button>
                   </div>
 
-                  {/* <div className='text-center mt-3'>
+                  <div className='text-center mt-3'>
                     {' '}
                     <span>O registrate usando:</span>{' '}
                   </div>
                   <div className='d-flex justify-content-center mt-4'>
                     {' '}
-                    <span className={styles.social}>
+                    {/* <span className={styles.social}>
                       <i className='fa fa-google'></i>
                     </span>{' '}
                     <span className={styles.social}>
@@ -1255,8 +1277,17 @@ export default function Register({ isModal }) {
                     </span>{' '}
                     <span className={styles.social}>
                       <i className='fa fa-linkedin'></i>
-                    </span>{' '}
-                  </div>*/}
+                    </span>{' '} */}
+                     <FacebookLogin
+                      appId='422066786032438'
+                      autoLoad={false}
+                      fields='name,email,picture,birthday'
+                      onClick={facebookClicked}
+                      callback={responseFacebookProv}
+                      cssClass={styles.social}
+                      textButton={<i className='fa fa-facebook'></i>}
+                    />
+                  </div>
                   <div className='text-center mt-4'>
                     {' '}
                     <span>¿Ya estás registrado?</span>{' '}
@@ -1495,13 +1526,13 @@ export default function Register({ isModal }) {
                       </button>
                     </div>
 
-                    {/* <div className='text-center mt-3'>
+                    <div className='text-center mt-3'>
                       {' '}
                       <span>O registrate usando:</span>{' '}
                     </div>
                     <div className='d-flex justify-content-center mt-4'>
                       {' '}
-                      <span className={styles.social}>
+                      {/* <span className={styles.social}>
                         <i className='fa fa-google'></i>
                       </span>{' '}
                       <span className={styles.social}>
@@ -1509,8 +1540,17 @@ export default function Register({ isModal }) {
                       </span>{' '}
                       <span className={styles.social}>
                         <i className='fa fa-linkedin'></i>
-                      </span>{' '}
-                    </div> */}
+                      </span>{' '} */}
+                       <FacebookLogin
+                      appId='422066786032438'
+                      autoLoad={false}
+                      fields='name,email,picture,birthday'
+                      onClick={facebookClicked}
+                      callback={responseFacebook}
+                      cssClass={styles.social}
+                      textButton={<i className='fa fa-facebook'></i>}
+                    />
+                    </div>
                     <div className='text-center mt-4'>
                       {' '}
                       <span>¿Ya estás registrado?</span>{' '}
@@ -1732,13 +1772,13 @@ export default function Register({ isModal }) {
                       </button>
                     </div>
 
-                    {/* <div className='text-center mt-3'>
+                    <div className='text-center mt-3'>
                       {' '}
                       <span>O registrate usando:</span>{' '}
                     </div>
                     <div className='d-flex justify-content-center mt-4'>
                       {' '}
-                      <span className={styles.social}>
+                      {/* <span className={styles.social}>
                         <i className='fa fa-google'></i>
                       </span>{' '}
                       <span className={styles.social}>
@@ -1746,8 +1786,17 @@ export default function Register({ isModal }) {
                       </span>{' '}
                       <span className={styles.social}>
                         <i className='fa fa-linkedin'></i>
-                      </span>{' '}
-                    </div> */}
+                      </span>{' '} */}
+                       <FacebookLogin
+                      appId='422066786032438'
+                      autoLoad={false}
+                      fields='name,email,picture,birthday'
+                      onClick={facebookClicked}
+                      callback={responseFacebookProv}
+                      cssClass={styles.social}
+                      textButton={<i className='fa fa-facebook'></i>}
+                    />
+                    </div>
                     <div className='text-center mt-4'>
                       {' '}
                       <span>¿Ya estás registrado?</span>{' '}

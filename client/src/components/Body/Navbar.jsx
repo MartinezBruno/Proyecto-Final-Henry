@@ -169,8 +169,10 @@ export default function NavBar() {
                     </NavDropdown.Item>
                   </>
                 )}
-                     <NavDropdown.Item href='/emergencies'>
-                        Mis emergencias
+                     <NavDropdown.Item >
+                     <NavLink to='/emergencies' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
+                     <i class="fa fa-bolt" aria-hidden="true"></i> Mis emergencias
+                      </NavLink>
                    
                     </NavDropdown.Item>
                 <Dropdown.Divider/>

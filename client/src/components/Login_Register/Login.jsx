@@ -1,5 +1,6 @@
 import React, { useRef } from 'react'
 import styles from '../../styles/login.module.css'
+import styleSocial from '../../styles/register.module.css'
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
 import { Link } from 'react-router-dom'
@@ -10,6 +11,7 @@ import Swal from 'sweetalert2'
 import { useEffect } from 'react'
 import api from '../../services/api'
 import ReCAPTCHA from 'react-google-recaptcha'
+import FacebookLogin from 'react-facebook-login'
 
 export default function Login(props) {
   const dispatch = useDispatch()
@@ -29,6 +31,41 @@ export default function Login(props) {
   function onRecaptcha(e) {
     e.preventDefault(e)
     captcha.current.getValue()
+  }
+  function facebookUser(e) {
+    let userToLog = {
+      password: e.id, ///VERIFICAR
+      email: e.email,
+    }
+    api
+      .post('/auth/usuario/signin', userToLog)
+      .then((r) => {
+        dispatch(userLogin(userToLog))
+        Swal.fire('¡Sesión iniciada correctamente!', '', 'success')
+      })
+      .catch((err) => {
+        Swal.fire('¡Ha ocurrido un error, intentalo nuevamente!', '', 'error')
+      })
+  }
+
+  function facebookProv(e) {
+    let provToLog = {
+      password: e.id, ///VERIFICAR
+      email: e.email,
+    }
+    api
+      .post('/auth/proveedor/signin', provToLog)
+      .then((r) => {
+        dispatch(userLogin(provToLog))
+        Swal.fire('¡Sesión iniciada correctamente!', '', 'success')
+      })
+      .catch((err) => {
+        Swal.fire('¡Ha ocurrido un error, intentalo nuevamente!', '', 'error')
+      })
+  }
+
+  function facebookClicked(e) {
+    console.log('clicked:', e)
   }
 
   function handleChange(e) {
@@ -120,22 +157,28 @@ export default function Login(props) {
                       )}
                     </div>
 
-                    {/* <div className='text-center mt-3'>
+                    <div className='text-center mt-3'>
                       {' '}
                       <span>O inicia sesión usando:</span>{' '}
                     </div>
                     <div className='d-flex justify-content-center mt-4'>
                       {' '}
-                      <span className={styles.social}>
+                      {/* <span className={styles.social}>
                         <i className='fa fa-google'></i>
-                      </span>{' '}
-                      <span className={styles.social}>
-                        <i className='fa fa-facebook'></i>
-                      </span>{' '}
-                      <span className={styles.social}>
+                      </span>{' '} */}
+                      <FacebookLogin
+                        appId='422066786032438'
+                        autoLoad={false}
+                        fields='name,email,picture,birthday'
+                        onClick={facebookClicked}
+                        callback={facebookUser}
+                        cssClass={styles.social}
+                        textButton={<i className='fa fa-facebook'></i>}
+                      />
+                      {/* <span className={styles.social}>
                         <i className='fa fa-linkedin'></i>
-                      </span>{' '}
-                    </div> */}
+                      </span>{' '} */}
+                    </div>
                     <div className='text-center mt-4'>
                       {' '}
                       <span>¿No estás registrado?</span>{' '}
@@ -189,22 +232,28 @@ export default function Login(props) {
                       </button>
                     </div>
 
-                    {/* <div className='text-center mt-3'>
+                    <div className='text-center mt-3'>
                       {' '}
                       <span>O inicia sesión usando:</span>{' '}
                     </div>
                     <div className='d-flex justify-content-center mt-4'>
                       {' '}
-                      <span className={styles.social}>
+                      {/* <span className={styles.social}>
                         <i className='fa fa-google'></i>
-                      </span>{' '}
-                      <span className={styles.social}>
-                        <i className='fa fa-facebook'></i>
-                      </span>{' '}
-                      <span className={styles.social}>
+                      </span>{' '} */}
+                      <FacebookLogin
+                        appId='422066786032438'
+                        autoLoad={false}
+                        fields='name,email,picture,birthday'
+                        onClick={facebookClicked}
+                        callback={facebookProv}
+                        cssClass={styles.social}
+                        textButton={<i className='fa fa-facebook'></i>}
+                      />
+                      {/* <span className={styles.social}>
                         <i className='fa fa-linkedin'></i>
-                      </span>{' '}
-                    </div> */}
+                      </span>{' '} */}
+                    </div>
                     <div className='text-center mt-4'>
                       {' '}
                       <span>¿No estás registrado?</span>{' '}
@@ -224,8 +273,7 @@ export default function Login(props) {
     return (
       <>
         <div className='d-flex container align-items-center justify-content-center' style={{ marginTop: '1rem' }}>
-          <div
-            className={styles.loginContainer}>
+          <div className={styles.loginContainer}>
             <Tabs defaultActiveKey='Usuario' id='uncontrolled-tab-example' className='mb-3 text-center justify-content-center'>
               <Tab eventKey='Usuario' title='Como usuario'>
                 <div className='container '>
@@ -272,22 +320,24 @@ export default function Login(props) {
                           )}
                         </div>
 
-                        {/* <div className='text-center mt-3'>
-                          {' '}
-                          <span>O inicia sesión usando:</span>{' '}
-                        </div>
                         <div className='d-flex justify-content-center mt-4'>
-                          {' '}
-                          <span className={styles.social}>
-                            <i className='fa fa-google'></i>
-                          </span>{' '}
-                          <span className={styles.social}>
-                            <i className='fa fa-facebook'></i>
-                          </span>{' '}
-                          <span className={styles.social}>
-                            <i className='fa fa-linkedin'></i>
-                          </span>{' '}
-                        </div> */}
+                      {' '}
+                      {/* <span className={styles.social}>
+                        <i className='fa fa-google'></i>
+                      </span>{' '} */}
+                      <FacebookLogin
+                        appId='422066786032438'
+                        autoLoad={false}
+                        fields='name,email,picture,birthday'
+                        onClick={facebookClicked}
+                        callback={facebookUser}
+                        cssClass={styles.social}
+                        textButton={<i className='fa fa-facebook'></i>}
+                      />
+                      {/* <span className={styles.social}>
+                        <i className='fa fa-linkedin'></i>
+                      </span>{' '} */}
+                    </div>
                         <div className='text-center mt-4'>
                           {' '}
                           <span>¿No estás registrado?</span>{' '}
@@ -341,22 +391,24 @@ export default function Login(props) {
                           </button>
                         </div>
 
-                        {/* <div className='text-center mt-3'>
-                          {' '}
-                          <span>O inicia sesión usando:</span>{' '}
-                        </div>
                         <div className='d-flex justify-content-center mt-4'>
-                          {' '}
-                          <span className={styles.social}>
-                            <i className='fa fa-google'></i>
-                          </span>{' '}
-                          <span className={styles.social}>
-                            <i className='fa fa-facebook'></i>
-                          </span>{' '}
-                          <span className={styles.social}>
-                            <i className='fa fa-linkedin'></i>
-                          </span>{' '}
-                        </div> */}
+                      {' '}
+                      {/* <span className={styles.social}>
+                        <i className='fa fa-google'></i>
+                      </span>{' '} */}
+                      <FacebookLogin
+                        appId='422066786032438'
+                        autoLoad={false}
+                        fields='name,email,picture,birthday'
+                        onClick={facebookClicked}
+                        callback={facebookProv}
+                        cssClass={styles.social}
+                        textButton={<i className='fa fa-facebook'></i>}
+                      />
+                      {/* <span className={styles.social}>
+                        <i className='fa fa-linkedin'></i>
+                      </span>{' '} */}
+                    </div>
                         <div className='text-center mt-4'>
                           {' '}
                           <span>¿No estás registrado?</span>{' '}

@@ -24,6 +24,9 @@ function Calendar({ isModal, provID, service }) {
     hora_evento: '',
   })
 
+  function handleVerify(){
+    
+  }
   const handleOnChange = (e) => {
     e.preventDefault()
     handleErrors(e)
