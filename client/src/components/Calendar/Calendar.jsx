@@ -5,14 +5,14 @@ import FullCalendar from '@fullcalendar/react' // must go before plugins
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
-import { addEvent, getAllEvents, setEventos, setError } from '../../redux/slices/events'
+import { addEvent, getAllEvents, setEventos } from '../../redux/slices/events'
 import moment from 'moment'
 
 function Calendar({ isModal, provID, service }) {
   const dispatch = useDispatch()
   const count = service.count
 
-  const { events, error } = useSelector((state) => state.events)
+  let { events, error } = useSelector((state) => state.events)
 
   const [input, setInput] = useState({
     fecha_evento: '',
@@ -72,7 +72,7 @@ function Calendar({ isModal, provID, service }) {
     dispatch(getAllEvents(provID, service.id))
   }, [dispatch])
 
-  const handleAddToCart = async (service, e, id, i) => {
+  const handleAddToCart = (service, e, id, i) => {
     e.preventDefault()
     let fecha = moment(input.fecha_evento + ' ' + input.hora_evento).format('YYYY-MM-DD HH:mm')
     const evento = Object.assign({ start: fecha }, service)
@@ -86,9 +86,8 @@ function Calendar({ isModal, provID, service }) {
       }
     }
 
-    let hola = dispatch(setEventos(evento))
-
-    if (hola) {
+    dispatch(setEventos(evento))
+    if (error.estado) {
       return Swal.fire('Error al agendar la fecha', 'Horario no disponible', 'error')
     } else {
       let boton = document.getElementById(id)
@@ -102,14 +101,6 @@ function Calendar({ isModal, provID, service }) {
       document.querySelector('.form' + i).disabled = true
       document.querySelector('.form-control' + i).disabled = true
     }
-  }
-
-  const handleVerify = (e, error) => {
-    e.preventDefault()
-    if (error) {
-      return Swal.fire('Error al agendar la fecha', 'Horario no disponible', 'error')
-    }
-    return Swal.fire('Ta pronto master', 'Horario no disponible', 'success')
   }
 
   let allForms = []

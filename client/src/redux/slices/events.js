@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import api from '../../services/api'
 import moment from 'moment'
+import Swal from 'sweetalert2'
 
 export const eventSlice = createSlice({
   name: 'events',
@@ -9,7 +10,7 @@ export const eventSlice = createSlice({
     eventosAgendados: [],
     agendados: false,
     Hour: [],
-    error: false,
+    error: { estado: false },
   },
   reducers: {
     GetAllEvents: (state, action) => {
@@ -21,11 +22,11 @@ export const eventSlice = createSlice({
       let endHour = moment(startHour).add(duracion, 'h').format('YYYY-MM-DD HH:mm')
       if (state.Hour.length === 0) {
         state.eventosAgendados.push(action.payload)
-        state.Hour.push({ rovID: action.payload.provID, start: startHour, end: endHour })
+        state.Hour.push({ provID: action.payload.provID, start: startHour, end: endHour, id: action.payload.id })
       } else {
         if (state.eventosAgendados.filter((el) => el.provID === action.payload.provID).length === 0) {
           state.eventosAgendados.push(action.payload)
-          state.Hour.push({ ProvID: action.payload.ProvID, start: startHour, end: endHour })
+          state.Hour.push({ provID: action.payload.provID, start: startHour, end: endHour, id: action.payload.id })
         } else {
           for (let i = 0; i < state.Hour.length; i++) {
             if (
@@ -34,11 +35,12 @@ export const eventSlice = createSlice({
                 (moment(startHour).isSameOrAfter(moment(state.Hour[i].end)) && moment(endHour).isSameOrAfter(moment(state.Hour[i].end)))
               )
             ) {
-              state.error = true
-              console.log('SE TE CHINGARON LAS HORAS GIL')
-              return true
+              state.error.estado = true
+              return Swal.fire('Error al agendar la fecha', 'Horario no disponible', 'error')
             }
           }
+          state.eventosAgendados.push(action.payload)
+          state.Hour.push({ provID: action.payload.provID, start: startHour, end: endHour, id: action.payload.id })
         }
       }
     },
@@ -49,32 +51,30 @@ export const eventSlice = createSlice({
       state.countEvent = state.countEvent + action.payload
     },
     VaciarProveedor: (state, action) => {
-      console.log(action.payload)
       if (state.eventosAgendados.filter((el) => el.provID === action.payload.provID && el.id === action.payload.id).length > 0)
         state.eventosAgendados = state.eventosAgendados.filter((el) => el.provID !== action.payload.provID && el.id !== action.payload.id)
+      if (state.Hour.filter((el) => el.provID === action.payload.provID && el.id === action.payload.id).length > 0)
+        state.Hour = state.Hour.filter((el) => el.provID !== action.payload.provID && el.id !== action.payload.id)
     },
     Agenda: (state, action) => {
       state.agendados = action.payload
-    },
-    SetError: (state, action) => {
-      state.error = false
     },
   },
 })
 
 export default eventSlice.reducer
 
-export const { GetAllEvents, SetEventCount, SetEventos, VaciarEventos, VaciarProveedor, Agenda, SetError } = eventSlice.actions
+export const { GetAllEvents, SetEventCount, SetEventos, VaciarEventos, VaciarProveedor, Agenda, GetState } = eventSlice.actions
 
 export const getAllEvents = (idProvider, idServicio) => async (dispatch) => {
-  const events = await api.get(`/eventos/proveedor/${idProvider}`)
-  dispatch(GetAllEvents(events.data))
   let algo = {
     provID: idProvider,
     id: idServicio,
   }
   dispatch(VaciarProveedor(algo))
   // dispatch(SetEventCount(0))
+  const events = await api.get(`/eventos/proveedor/${idProvider}`)
+  dispatch(GetAllEvents(events.data))
 }
 
 export const addEvent = (cart, id) => async (dispatch) => {
@@ -88,8 +88,4 @@ export const addEvent = (cart, id) => async (dispatch) => {
 
 export const setEventos = (event) => (dispatch) => {
   return dispatch(SetEventos(event))
-}
-
-export const setError = () => (dispatch) => {
-  dispatch(SetError())
 }

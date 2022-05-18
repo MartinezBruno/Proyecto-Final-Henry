@@ -25,7 +25,7 @@ export default function Shopping() {
       console.log(services)
       let url = await dispatch(payServices(services))
       window.location.href = `${url.init_point}`
-    }, 3500)
+    }, 2000)
     return Swal.fire('Fechas agendada correctamente', 'Redirigiendo a MercadoPago, por favor aguarde', 'success')
   }
 
