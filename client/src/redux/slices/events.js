@@ -18,7 +18,7 @@ export const eventSlice = createSlice({
     },
     SetEventos: (state, action) => {
       let startHour = action.payload.start
-      let duracion = action.payload.duracion === 'Sin definir' ? 24 : Number(action.payload.duracion)
+      let duracion = action.payload.duracion === 'Sin definir' ? 8 : Number(action.payload.duracion)
       let endHour = moment(startHour).add(duracion, 'h').format('YYYY-MM-DD HH:mm')
       if (state.Hour.length === 0) {
         state.eventosAgendados.push(action.payload)

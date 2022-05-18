@@ -83,9 +83,9 @@ function ChangePassword() {
   }
   return (
     <>
-      <a href='#' onClick={handleShow}>
+      <button type='button' className='btn btn-outline-warning mx-4' onClick={handleShow}>
         Cambiar contraseña
-      </a>
+      </button>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Cambiar contraseña</Modal.Title>

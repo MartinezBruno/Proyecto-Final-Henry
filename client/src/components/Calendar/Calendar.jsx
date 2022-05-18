@@ -6,16 +6,19 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import { addEvent, getAllEvents, setEventos } from '../../redux/slices/events'
+import styles from './Calendar.module.css'
 import moment from 'moment'
 
 function Calendar({ isModal, provID, service, horaInicio, horaFinal }) {
   const dispatch = useDispatch()
   const count = service.count
-
+  const duracion = service.duracion === 'Sin definir' ? 8 : service.duracion
   const HORA_INICIO = horaInicio ? horaInicio : '09:00'
   const HORA_FINAL = horaFinal ? horaFinal : '18:00'
+  let hora_final = Number(HORA_FINAL) - Number(duracion)
 
-  let parseFinal = Number(HORA_FINAL) - Number(service.duracion)
+  let parseInicio = moment(HORA_INICIO, 'HH:mm').format('HH:mm')
+  let parseFinal = moment(hora_final, 'HH:mm').format('HH:mm')
 
   let { events, error } = useSelector((state) => state.events)
 
@@ -93,7 +96,7 @@ function Calendar({ isModal, provID, service, horaInicio, horaFinal }) {
     let fecha = moment(input.fecha_evento + ' ' + input.hora_evento).format('YYYY-MM-DD HH:mm')
     let fechaEnd
     if (service.duracion === 'Sin definir') {
-      fechaEnd = moment(fecha).add(24, 'h').format('YYYY-MM-DD HH:mm')
+      fechaEnd = moment(fecha).add(8, 'h').format('YYYY-MM-DD HH:mm')
       console.log(fechaEnd)
     } else {
       fechaEnd = moment(fecha).add(Number(service.duracion), 'h').format('YYYY-MM-DD HH:mm')
@@ -148,11 +151,11 @@ function Calendar({ isModal, provID, service, horaInicio, horaFinal }) {
         {errors.fecha_evento && <p className={` animate__animated animate__fadeInDown `}>{errors.fecha_evento}</p>}
         <div className='form-group'>
           <label>
-            Seleccione una hora entre {HORA_INICIO} y {parseFinal}:
+            Seleccione una hora entre {parseInicio} y {parseFinal}:
           </label>
           <input
             type='time'
-            min={HORA_INICIO}
+            min={parseInicio}
             max={parseFinal}
             required
             name='hora_evento'
@@ -168,14 +171,13 @@ function Calendar({ isModal, provID, service, horaInicio, horaFinal }) {
             </button>
           ) : null}
         </div>
-        <hr />
       </form>
     )
   }
 
   if (isModal) {
     return (
-      <div className='d-flex flex-row'>
+      <div className={`d-flex align-items-center flex-xl-row flex-lg-column flex-sm-column ${styles.calendar}`}>
         <div style={{ width: '45rem' }} className='ms-4'>
           <FullCalendar
             plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
@@ -189,9 +191,9 @@ function Calendar({ isModal, provID, service, horaInicio, horaFinal }) {
             initialView='dayGridMonth'
           />
         </div>
-        <div className='ms-4'>
-          <h4>Elije la fecha y hora a la que quieres agendar tu servicio (El servicio dura {service.duracion} hs.)</h4>
-          {allForms}
+        <div>
+          <h4 className='text-center mt-4'>Elije la fecha y hora a la que quieres agendar tu servicio (El servicio dura {duracion} hs.)</h4>
+          <div className='d-flex flex-wrap justify-content-center'>{allForms}</div>
         </div>
       </div>
     )

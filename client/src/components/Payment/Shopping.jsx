@@ -84,7 +84,7 @@ export default function Shopping() {
                 Seguir buscando
               </Button>
             </Link>
-            {agendados ? null : services?.length === eventosAgendados?.length ? (
+            {agendados ? null : services?.length === eventosAgendados?.length && services.length > 0 ? (
               <Button variant='success' onClick={(e) => handleOnClick(services)}>
                 <i className='fa fa-lock' aria-hidden='true'></i> Pagar Ahora
               </Button>

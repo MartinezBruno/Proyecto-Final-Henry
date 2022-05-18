@@ -2,7 +2,9 @@ import React from 'react'
 import styles from '../../styles/profile.module.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
+import ChangePassword from '../ChangePassword'
 import { getUniqueProvider } from '../../redux/slices/provider'
+import EditarDisponibilidad from './EditarDisponibilidad'
 
 export default function ProfileShowInfo(props) {
   function handleSave() {
@@ -62,6 +64,8 @@ export default function ProfileShowInfo(props) {
               <button type='submit' className='btn btn-dark' onClick={handleSave}>
                 EDITAR
               </button>
+              <ChangePassword />
+              <EditarDisponibilidad />
             </div>
           </div>
         </div>

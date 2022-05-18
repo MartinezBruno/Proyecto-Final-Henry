@@ -7,7 +7,6 @@ import ProfileShowInfoProv from './ProfileShowInfo'
 import { getUniqueProvider } from '../../redux/slices/provider'
 import AddService from '../Services/AddService'
 import DeleteService from '../Services/DeleteService'
-import ChangePassword from '../ChangePassword'
 
 function ProfileProveedor() {
   const [isEditing, setEditing] = useState(false)
@@ -15,6 +14,7 @@ function ProfileProveedor() {
   const dispatch = useDispatch()
   const { user } = useSelector((state) => state.auth)
   const { uniqueprovider } = useSelector((state) => state.provider)
+  console.log(uniqueprovider)
 
   useEffect(() => {
     dispatch(getUniqueProvider(user.id))
@@ -41,8 +41,11 @@ function ProfileProveedor() {
                       <p className='text-muted font-size-sm'>{user.Role}</p>
                       <p className='text-muted font-size-sm'>{uniqueprovider?.pais + ', ' + uniqueprovider?.provincia}</p>
                       <br />
-                      <p>¿Quieres cambiar tu contraseña?</p>
-                      <ChangePassword />
+                      <h4>
+                        Disponibilidad horaria: <span>{uniqueprovider.hora_inicio === 'Sin definir' ? '08:00' : uniqueprovider.hora_inicio}</span>-
+                        <span>{uniqueprovider.hora_final === 'Sin definir' ? '18:00' : uniqueprovider.hora_final}</span>
+                      </h4>
+
                       {/* <button className="btn btn-primary" style={{margin: '7px'}}>Follow</button>
                   <button className="btn btn-outline-primary">Mensaje</button> */}
                     </div>

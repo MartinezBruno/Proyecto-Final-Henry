@@ -84,7 +84,7 @@ const createEvent = async (req, res) => {
     for (let i = 0; i < cart.length; i++) {
       let provServ = await Proveedor_Servicio.findOne({ where: { ProveedorId: idProveedor[i], ServicioId: idServicio[i] } })
       let duracion = await DuracionServicio.findOne({ where: { id: provServ.DuracionServicioId } })
-      if (duracion.DURACION === 'Sin definir') arrayDuration.push(24)
+      if (duracion.DURACION === 'Sin definir') arrayDuration.push(8)
       else arrayDuration.push(Number(duracion.DURACION))
     }
 
