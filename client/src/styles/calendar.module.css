@@ -1,0 +1,17 @@
+@media screen and (max-width: 770px) {
+    .columnOnSmall{
+        flex-direction: column!important;
+    }
+    .hideOnSmall{
+      display:none!important;
+    }
+    .showOnSmall{
+      display: inherit!important;
+    }
+    .wrapOnSmall{
+      flex-wrap: wrap;
+    }
+    .logoImg{
+      max-width: 200px;
+    }
+  }

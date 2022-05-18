@@ -7,6 +7,7 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import { addEvent, getAllEvents, setEventos } from '../../redux/slices/events'
 import moment from 'moment'
+import styles from '../../styles/calendar.module.css'
 
 function Calendar({ isModal, provID, service }) {
   const dispatch = useDispatch()
@@ -135,8 +136,8 @@ function Calendar({ isModal, provID, service }) {
 
   if (isModal) {
     return (
-      <div className='d-flex flex-row'>
-        <div style={{ width: '45rem' }} className='ms-4'>
+      <div className={`d-flex flex-row ${styles.columnOnSmall}`}>
+        <div>
           <FullCalendar
             plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
             headerToolbar={{
@@ -149,7 +150,7 @@ function Calendar({ isModal, provID, service }) {
             initialView='dayGridMonth'
           />
         </div>
-        <div className='ms-4'>
+        <div className='col text-center' style={{margin:'10px'}}>
           <h4>Elije la fecha y hora a la que quieres agendar tu servicio</h4>
           {allForms}
           <button type='submit' onClick={(e) => handleVerify(e, error)}>

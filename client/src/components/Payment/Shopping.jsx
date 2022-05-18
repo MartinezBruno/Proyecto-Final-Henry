@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import { clearCart, payServices } from '../../redux/slices/shoppingCart'
 import { addEvent } from '../../redux/slices/events'
 import CartServices from './CartServices'
+import styles from '../../styles/shopping.module.css'
 
 export default function Shopping() {
   let { services, acumServices } = useSelector((state) => state.shoppingCart)
@@ -33,16 +34,16 @@ export default function Shopping() {
     <>
       <div className='container' style={{ marginTop: '2rem' }}>
         <div className='row align-items-center justify-content-center text-center'>
-          <div className='col' style={{maxWidth:'700px'}}>
+          <div>
             <h3>Ya casi terminamos...</h3>
             <br />
-            <table className='table'>
+            <table className='table' style={{maxWidth:'300px!important'}}>
               <thead className='table-dark'>
                 <tr style={{ border: 'none' }}>
                   <th scope='col'>AGENDAR</th>
                   <th scope='col'>SERVICIO</th>
-                  <th scope='col'>COSTO</th>
-                  <th scope='col'>CANTIDAD</th>
+                  <th scope='col' className={styles.hideOnSmall}>COSTO</th>
+                  <th scope='col' className={styles.hideOnSmall}>CANTIDAD</th>
                   <th scope='col'>TOTAL</th>
                   <th scope='col'> </th>
                 </tr>

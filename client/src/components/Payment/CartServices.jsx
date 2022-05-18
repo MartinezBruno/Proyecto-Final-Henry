@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import styles from '../../styles/FloatCartButton.module.css'
+import stylesRes from '../../styles/shopping.module.css'
 import { Modal } from 'react-bootstrap'
 import Badge from 'react-bootstrap/Badge'
 import { useDispatch, useSelector } from 'react-redux'
@@ -54,11 +55,11 @@ function CartServices({ id, provName, provID, nombreServ, precio, count, remote,
           </div>
         </td>
 
-        <td>
+        <td className={stylesRes.hideOnSmall}>
           <p style={{ marginTop: '40%' }}>{'$' + precio}</p>
         </td>
 
-        <td>
+        <td className={stylesRes.hideOnSmall}>
           <p style={{ marginTop: '25%' }}>{count}</p>
         </td>
         <td>
