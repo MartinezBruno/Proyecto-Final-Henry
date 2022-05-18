@@ -1,33 +1,49 @@
 import React from 'react'
 import Button from 'react-bootstrap/Button'
+import Swal from 'sweetalert2'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { clearCart, payServices } from '../../redux/slices/shoppingCart'
+import { addEvent } from '../../redux/slices/events'
 import CartServices from './CartServices'
+import styles from '../../styles/shopping.module.css'
 
 export default function Shopping() {
   let { services, acumServices } = useSelector((state) => state.shoppingCart)
+  let { eventosAgendados, agendados } = useSelector((state) => state.events)
+  let { user } = useSelector((state) => state.auth)
+  if (user.Role === 'USUARIO') {
+    var userId = user.id
+  }
+
   let dispatch = useDispatch()
 
-  const handleOnClick = async (services) => {
-    let url = await dispatch(payServices(services))
-    window.location.href = `${url.init_point}`
+  // const handleOnClick = async (services) => {}
+  const handleAddEvent = (service, id, e, services) => {
+    e.preventDefault()
+    dispatch(addEvent(service, id))
+    setTimeout(async () => {
+      console.log(services)
+      let url = await dispatch(payServices(services))
+      window.location.href = `${url.init_point}`
+    }, 2000)
+    return Swal.fire('Fechas agendada correctamente', 'Redirigiendo a MercadoPago, por favor aguarde', 'success')
   }
 
   return (
     <>
       <div className='container' style={{ marginTop: '2rem' }}>
         <div className='row align-items-center justify-content-center text-center'>
-          <div className='col-6'>
+          <div>
             <h3>Ya casi terminamos...</h3>
             <br />
-            <table className='table'>
+            <table className='table' style={{maxWidth:'300px!important'}}>
               <thead className='table-dark'>
                 <tr style={{ border: 'none' }}>
                   <th scope='col'>AGENDAR</th>
                   <th scope='col'>SERVICIO</th>
-                  <th scope='col'>COSTO</th>
-                  <th scope='col'>CANTIDAD</th>
+                  <th scope='col' className={styles.hideOnSmall}>COSTO</th>
+                  <th scope='col' className={styles.hideOnSmall}>CANTIDAD</th>
                   <th scope='col'>TOTAL</th>
                   <th scope='col'> </th>
                 </tr>
@@ -75,11 +91,19 @@ export default function Shopping() {
                 Seguir buscando
               </Button>
             </Link>
-            {acumServices.length > 0 ? (
+            {agendados ? null : services?.length === eventosAgendados?.length ? (
+              <button variant='success' onClick={(e) => handleAddEvent(eventosAgendados, userId, e, services)}>
+                <i className='fa fa-lock' aria-hidden='true'></i> Agregar evento
+              </button>
+            ) : (
+              <h3>Aun faltan agendar {services?.length - eventosAgendados?.length} servicios</h3>
+            )}
+
+            {/* {acumServices.length > 0 ? (
               <Button variant='success' onClick={() => handleOnClick({ services: services })}>
                 <i className='fa fa-lock' aria-hidden='true'></i> PAGAR AHORA
               </Button>
-            ) : null}
+            ) : null} */}
           </div>
         </div>
       </div>

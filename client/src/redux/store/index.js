@@ -9,6 +9,7 @@ import services from '../slices/services'
 import purchases from '../slices/purchases'
 import favorites from '../slices/favorites'
 import chat from '../slices/chat'
+import emergency from '../slices/emergency'
 import events from '../slices/events'
 import admin from '../slices/admin'
 
@@ -25,6 +26,7 @@ export default configureStore({
     purchases,
     favorites,
     chat,
+    emergency,
     events,
     admin
   },

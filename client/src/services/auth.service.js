@@ -37,6 +37,19 @@ const providerLogin = ({email, password}) => {
       return response.data;
     });
 };
+const adminLogin = ({email, password}) => {
+  return api
+    .post("/auth/admin/signin", {
+      email,
+      password
+    })
+    .then((response) => {
+      if (response.data.accessToken) {
+        TokenService.setUser(response.data);
+      }
+      return response.data;
+    });
+};
 
 const logout = () => {
   TokenService.removeUser();
@@ -51,6 +64,7 @@ const AuthService = {
   providerRegister,
   userLogin,
   providerLogin,
+  adminLogin,
   logout,
   getCurrentUser,
 };

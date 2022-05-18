@@ -161,6 +161,47 @@ const hacerAdmin = async (req, res) => {
   } catch (e) {
     console.log(e)
     return res.status(400).send({ message: 'Error en hacerAdmin' })
+
+  }
+  return res.status(200).send(comprasSend)
+}
+
+const compraDetail = async (req, res) => {
+  const { id } = req.params
+  try {
+    const compra = await Compra.findByPk(id)
+    const provServ = await Proveedor_Servicio.findOne({ where: { id: compra.ProveedorServicioId } })
+    if (!provServ) return res.status(404).send({ message: 'Proveedor de servicio no encontrado' })
+
+    const usuario = await Usuario.findByPk(compra.UsuarioId)
+    if (!usuario) return res.status(404).send({ message: 'Usuario no encontrado' })
+
+    const prov = await Proveedor.findByPk(provServ.ProveedorId)
+    if (!prov) return res.status(404).send({ message: 'Proveedor no encontrado' })
+
+    const service = await Servicio.findByPk(provServ.ServicioId)
+    const precio = await Precio.findByPk(provServ.PrecioId)
+    const descripcion = await Descripcion.findByPk(provServ.DescripcionId)
+    if (!service || !precio || !descripcion) return res.status(404).send({ message: 'Servicio no encontrado' })
+
+    const detail = {
+      id: compra.id,
+      nombreUsuario: usuario.NOMBRE_APELLIDO_USUARIO,
+      emailUsuario: usuario.EMAIL,
+      imagenUsuario: usuario.IMAGEN,
+      nombreProveedor: prov.NOMBRE_APELLIDO_PROVEEDOR,
+      emailProveedor: prov.EMAIL,
+      imagenProveedor: prov.IMAGEN,
+      nombreServicio: service.NOMBRE_SERVICIO,
+      descripcionServicio: descripcion.DESCRIPCION,
+      precioServicio: precio.PRECIO,
+      fechaCompra: compra.createdAt,
+    }
+
+    return res.status(200).send(detail)
+  } catch (error) {
+    console.error(error)
+    return res.status(400).send({ message: 'Error en compraDetail' })
   }
 }
 
@@ -251,7 +292,7 @@ const getCompras = async (req, res) => {
            id: compraProveedoresId[x],
            servicio: servicios[x].NOMBRE_SERVICIO,
            remoto: servicios[x].REMOTE,
-           usuario: 'Este usuario ya no exite',
+           usuario: 'Este usuario ya no existe',
            nombreProveedor: proveedores[x].NOMBRE_APELLIDO_PROVEEDOR,
            emailProveedor: proveedores[x].EMAIL,
            imagenProveedor: proveedores[x].IMAGEN,
@@ -266,7 +307,7 @@ const getCompras = async (req, res) => {
          nombreUsuario: dataUsuarios[k].nombre,
          emailUsuario: dataUsuarios[k].email,
          imagenUsuario: dataUsuarios[k].imagen,
-         proveedor: 'este proveedor ya no existe',
+         proveedor: 'Este proveedor ya no existe',
      })
    }
  }
@@ -344,6 +385,7 @@ module.exports = {
   unBann,
   hacerAdmin,
   getCompras,
+  compraDetail,
   deleteComent,
   deletePregunta,
   getAyudas,

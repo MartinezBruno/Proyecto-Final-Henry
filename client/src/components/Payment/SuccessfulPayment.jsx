@@ -19,6 +19,8 @@ export default function SuccessfulPayment() {
 
     let dataFormateada = { cart: dataParaMandar, id: user.id }
 
+    console.log(dataFormateada)
+
     api.post('/usuario/compraSuccess', dataFormateada)
     localStorage.clear()
     dispatch(clearServices())

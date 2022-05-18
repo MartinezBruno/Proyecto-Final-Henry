@@ -83,7 +83,7 @@ export default function Purchases() {
       <>
         <div className='container mt-3'>
           <div className='row align-items-center justify-content-center text-center'>
-            <div className='col-6'>
+            <div className='col' style={{maxWidth:'650px'}}>
               <h3>Listado de tus compras.</h3>
               <hr />
               <table className='table'>

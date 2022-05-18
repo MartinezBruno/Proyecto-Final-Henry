@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import styles from '../../styles/FloatCartButton.module.css'
+import stylesRes from '../../styles/shopping.module.css'
 import { Modal } from 'react-bootstrap'
 import Badge from 'react-bootstrap/Badge'
 import { useDispatch, useSelector } from 'react-redux'
@@ -15,7 +16,7 @@ function CartServices({ id, provName, provID, nombreServ, precio, count, remote,
   const [fullscreen, setFullscreen] = useState(true)
 
   const handleCloseCalendar = () => setShowCalendar(false)
-  const handleShowCalendar = () => {
+  const handleShowCalendar = (e) => {
     setShowCalendar(true)
     setFullscreen(true)
   }
@@ -24,8 +25,8 @@ function CartServices({ id, provName, provID, nombreServ, precio, count, remote,
     <>
       <tr>
         <td>
-          <div>
-            <button onClick={handleShowCalendar} className='btn btn-primary'>
+          <div className='mt-4'>
+            <button onClick={handleShowCalendar} className='btn btn-primary' style={{ fontSize: '.7rem' }}>
               Agregar Evento
             </button>
             <Modal show={showCalendar} onHide={handleCloseCalendar} fullscreen={fullscreen}>
@@ -34,9 +35,14 @@ function CartServices({ id, provName, provID, nombreServ, precio, count, remote,
                   <h5>Agendar evento</h5>
                 </Modal.Title>
               </Modal.Header>
-              <Modal.Body style={{ width: '100%' }}>
+              <Modal.Body className='d-flex justify-content-center align-items-center flex-row'>
                 <Calendar isModal={true} provID={provID} service={servicio} />
               </Modal.Body>
+              <Modal.Footer>
+                <Button variant='primary' onClick={handleCloseCalendar}>
+                  Continuar
+                </Button>
+              </Modal.Footer>
             </Modal>
           </div>
         </td>
@@ -49,11 +55,11 @@ function CartServices({ id, provName, provID, nombreServ, precio, count, remote,
           </div>
         </td>
 
-        <td>
+        <td className={stylesRes.hideOnSmall}>
           <p style={{ marginTop: '40%' }}>{'$' + precio}</p>
         </td>
 
-        <td>
+        <td className={stylesRes.hideOnSmall}>
           <p style={{ marginTop: '25%' }}>{count}</p>
         </td>
         <td>
@@ -66,18 +72,18 @@ function CartServices({ id, provName, provID, nombreServ, precio, count, remote,
               variant='secondary'
               style={{ fontSize: '0.8rem' }}
               onClick={() => {
-                dispatch(addToCart(servicio))
+                dispatch(deleteService(services, id, provID))
               }}>
-              <i className='fa fa-plus-circle' aria-hidden='true'></i>
+              {' '}
+              <i className='fa fa-minus-circle' aria-hidden='true'></i>
             </Button>
             <Button
               variant='secondary'
               style={{ fontSize: '0.8rem' }}
               onClick={() => {
-                dispatch(deleteService(services, id, provID))
+                dispatch(addToCart(servicio))
               }}>
-              {' '}
-              <i className='fa fa-minus-circle' aria-hidden='true'></i>
+              <i className='fa fa-plus-circle' aria-hidden='true'></i>
             </Button>
             <Button
               variant='danger'
