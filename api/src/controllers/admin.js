@@ -328,7 +328,7 @@ const deleteComent = async (req, res) => {
 }
 
 const deletePregunta = async (req, res) => {
-  let { idPregunta } = req.body
+  let { idPregunta } = req.params
   let pregunta = await Pregunta.findOne({ where: {id: idPregunta} })
    console.log(pregunta)
   await Pregunta.destroy({ where:{id:idPregunta}})
