@@ -244,7 +244,7 @@ const getProvByID = async (req, res, next) => {
       creation_date: proveedor.createdAt,
       ciudad: proveedor.Ciudad ? proveedor.Ciudad.NOMBRE_CIUDAD : 'Sin definir',
       provincia: proveedor.Provincium ? proveedor.Provincium.NOMBRE_PROVINCIA : 'Sin definir',
-      pais: proveedor.Pai.NOMBRE_PAIS,
+      pais: proveedor.Pai ? proveedor.Pai.NOMBRE_PAIS : 'Sin definir',
       servicios: servicios.map((servicio) => {
         return {
           id: servicio.servicio.id,

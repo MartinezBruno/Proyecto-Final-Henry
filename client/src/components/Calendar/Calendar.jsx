@@ -1,29 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Swal from 'sweetalert2'
-import FullCalendar, { computeFallbackHeaderFormat } from '@fullcalendar/react' // must go before plugins
+import FullCalendar from '@fullcalendar/react' // must go before plugins
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
-import { addEvent, getAllEvents } from '../../redux/slices/events'
+import { addEvent, getAllEvents, setEventos } from '../../redux/slices/events'
 import moment from 'moment'
+import styles from '../../styles/calendar.module.css'
 
 function Calendar({ isModal, provID, service }) {
   const dispatch = useDispatch()
+  const count = service.count
 
-  const cart = (data, fecha) => {
-    return data.map((item) => ({
-      ...item,
-      start: fecha,
-    }))
-  }
-
-  const { user } = useSelector((state) => state.auth)
-  const { events, error } = useSelector((state) => state.events)
-
-  if (user.Role === 'USUARIO') {
-    var userId = user.id
-  }
+  let { events, error } = useSelector((state) => state.events)
 
   const [input, setInput] = useState({
     fecha_evento: '',
@@ -35,10 +25,12 @@ function Calendar({ isModal, provID, service }) {
     hora_evento: '',
   })
 
+  function handleVerify(){
+    
+  }
   const handleOnChange = (e) => {
     e.preventDefault()
     handleErrors(e)
-
     setInput({
       ...input,
       [e.target.name]: e.target.value,
@@ -80,32 +72,72 @@ function Calendar({ isModal, provID, service }) {
     }
   }
 
-  const handleAddEvent = (service, id, e) => {
+  useEffect(() => {
+    dispatch(getAllEvents(provID, service.id))
+  }, [dispatch])
+
+  const handleAddToCart = (service, e, id, i) => {
     e.preventDefault()
+    let fecha = moment(input.fecha_evento + ' ' + input.hora_evento).format('YYYY-MM-DD HH:mm')
+    const evento = Object.assign({ start: fecha }, service)
     if (input.fecha_evento === '' || input.hora_evento === '') {
       return Swal.fire('Error al cambiar los datos', 'Por favor Intentelo nuevamente y asegurece de llenar todos los campos', 'error')
     }
-    let fecha = input.fecha_evento + ' ' + input.hora_evento
-    const cart = [Object.assign({ start: fecha }, service)]
-
-    dispatch(addEvent(cart, id))
-    if (error) {
-      return Swal.fire('Error al agendar la fehca', 'Parece que el proveedor esta ocupado, intentelo nuevamente', 'error')
+    for (let i = 0; i < events.length; i++) {
+      let event = events[i]
+      if (moment(fecha).isSame(event.start)) {
+        return Swal.fire('Error al cambiar los datos', 'Ya existe un evento en esa fecha', 'error')
+      }
     }
-    setInput({
-      fecha_evento: '',
-      hora_evento: '',
-    })
-    return Swal.fire('Fecha agendada correctamente', '', 'success')
+
+    dispatch(setEventos(evento))
+    if (error.estado) {
+      return Swal.fire('Error al agendar la fecha', 'Horario no disponible', 'error')
+    } else {
+      let boton = document.getElementById(id)
+      boton.disabled = true
+      boton.innerText = '✓'
+      boton.style.backgroundColor = '#198754'
+      boton.style.color = 'black'
+      boton.style.fontWeight = 'bold'
+      boton.style.border = '1px solid black'
+      boton.style.padding = '0.5rem 1.5rem 0.5rem 1.5rem'
+      document.querySelector('.form' + i).disabled = true
+      document.querySelector('.form-control' + i).disabled = true
+    }
   }
-  useEffect(() => {
-    dispatch(getAllEvents(provID))
-  }, [dispatch])
+
+  let allForms = []
+  for (let i = 0; i < count; i++) {
+    let id = 'boton' + i
+    allForms.push(
+      <form className='m-4' id={`form${[i]}`}>
+        <div className='form-group'>
+          <label>Fecha:</label>
+          <input type='date' name='fecha_evento' onChange={handleOnChange} className={'form-control form' + i} />
+        </div>
+        {errors.fecha_evento && <p className={` animate__animated animate__fadeInDown `}>{errors.fecha_evento}</p>}
+        <div className='form-group'>
+          <label>Hora:</label>
+          <input type='time' name='hora_evento' onChange={handleOnChange} className={'form-control form-control' + i} />
+        </div>
+        {errors.hora_evento && <p className={` animate__animated animate__fadeInDown `}>{errors.hora_evento}</p>}
+        <div className='form-group'>
+          {input && !errors.fecha_evento && !errors.hora_evento ? (
+            <button type='submit' onClick={(e) => handleAddToCart(service, e, id, i)} id={id} className='btn btn-outline-success mt-3'>
+              Agregar
+            </button>
+          ) : null}
+        </div>
+        <hr />
+      </form>
+    )
+  }
 
   if (isModal) {
     return (
-      <div className='d-flex flex-row'>
-        <div style={{ width: '45rem' }} className='ms-4'>
+      <div className={`d-flex flex-row ${styles.columnOnSmall}`}>
+        <div>
           <FullCalendar
             plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
             headerToolbar={{
@@ -116,28 +148,14 @@ function Calendar({ isModal, provID, service }) {
             locale='es'
             events={events}
             initialView='dayGridMonth'
-            eventAdd={handleAddEvent}
           />
         </div>
-        <div className='ms-4'>
-          <form>
-            <h4>Elije la fecha y hora a la que quieres agendar tu servicio</h4>
-            <div>
-              <label>Fecha:</label>
-              <input type='date' name='fecha_evento' onChange={handleOnChange} />
-            </div>
-            {errors.fecha_evento && <p className={` animate__animated animate__fadeInDown `}>{errors.fecha_evento}</p>}
-            <div>
-              <label>Hora:</label>
-              <input type='time' name='hora_evento' onChange={handleOnChange} />
-            </div>
-            {errors.hora_evento && <p className={` animate__animated animate__fadeInDown `}>{errors.hora_evento}</p>}
-            <div>
-              <button type='submit' onClick={(e) => handleAddEvent(service, userId, e)}>
-                Agregar evento
-              </button>
-            </div>
-          </form>
+        <div className='col text-center' style={{margin:'10px'}}>
+          <h4>Elije la fecha y hora a la que quieres agendar tu servicio</h4>
+          {allForms}
+          <button type='submit' onClick={(e) => handleVerify(e, error)}>
+            Verficar
+          </button>
         </div>
       </div>
     )

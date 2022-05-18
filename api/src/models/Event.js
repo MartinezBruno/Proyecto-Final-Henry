@@ -17,5 +17,9 @@ module.exports = (sequelize) => {
     DURATION: {
       type: DataTypes.STRING,
     },
+    AGREGADO: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
   })
 }

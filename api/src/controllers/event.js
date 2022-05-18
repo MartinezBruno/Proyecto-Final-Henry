@@ -1,4 +1,5 @@
 const { CompraVerify, Compra, Usuario, Proveedor, Evento, Proveedor_Servicio, DuracionServicio } = require('../db')
+const { Op } = require('sequelize')
 var moment = require('moment')
 
 const getEvents = async (req, res) => {
@@ -21,11 +22,7 @@ const getEvents = async (req, res) => {
   }
 }
 
-/**
- * It gets all the events of a provider
- * @param proveedor_id - The id of the provider by body.
- * @returns An array of compras
- */
+
 const getProveedorEvents = async (req, res) => {
   const { proveedor_id } = req.params
   try {
@@ -74,7 +71,6 @@ const getProveedorEvents = async (req, res) => {
 
 const createEvent = async (req, res) => {
   const { cart, id } = req.body
-  console.log(cart)
   try {
     let idProveedor = cart?.map((compra) => compra.provID)
     let idUsuario = id
@@ -122,7 +118,7 @@ const createEvent = async (req, res) => {
     // console.log(moment(start))
     // console.log(moment(start).add(0.5, 'h'))
 
-    let errores = []
+    // let errores = []
 
     for (let i = 0; i < idProveedor.length; i++) {
       let proveedorId = idProveedor[i]
@@ -174,6 +170,7 @@ const createEvent = async (req, res) => {
         TITLE: title,
         DURATION: duration,
       })
+      await Evento.update({ AGREGADO: true }, { where: { id: event.id } })
       let proveedorServicio = await Proveedor_Servicio.findOne({
         where: {
           ProveedorId: idProveedor[i],

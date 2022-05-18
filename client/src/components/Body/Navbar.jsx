@@ -17,8 +17,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown'
 
 export default function NavBar() {
   const location = useLocation()
-  console.log(location)
-  const [showRegister, setShowRegister] = useState(false)
+   const [showRegister, setShowRegister] = useState(false)
   const [showLogin, setShowLogin] = useState(false)
   let role
   const { user } = useSelector((state) => state.auth)
@@ -219,26 +218,17 @@ export default function NavBar() {
                     </NavDropdown.Item>
                   </>
                 )}
-                <Dropdown.Divider className={`${styles.showOnSmall}`} />
-                <Dropdown.Item href='/' onClick={() => handleLogout()} className={`${styles.showOnSmall}`}>
+                     <NavDropdown.Item >
+                     <NavLink to='/emergencies' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
+                     <i class="fa fa-bolt" aria-hidden="true"></i> Mis emergencias
+                      </NavLink>
+                   
+                    </NavDropdown.Item>
+                <Dropdown.Divider/>
+                <Dropdown.Item href='/' onClick={() => handleLogout()} >
                   <i className='fa fa-sign-out' aria-hidden='true'></i> Cerrar sesión
                 </Dropdown.Item>
               </NavDropdown>
-              <NavLink to={'/'}>
-                <Button
-                  variant='secondary'
-                  onClick={() => handleLogout()}
-                  className={`btn btn-primary ${styles.hideOnSmall}`}
-                  style={{
-                    color: 'black',
-                    backgroundColor: 'lightgray',
-                    borderRadius: '20px',
-                    width: '7rem',
-                    fontSize: '12px',
-                  }}>
-                  <i className='fa fa-sign-out' aria-hidden='true'></i> Cerrar sesión
-                </Button>
-              </NavLink>
               {/* 
               <a href='#' className='link-success'>
                 <p

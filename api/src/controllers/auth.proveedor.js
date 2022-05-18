@@ -42,17 +42,21 @@ exports.signup = async (req, res) => {
       },
     })
 
-    let paisDisp = await Pais.findOne({
-      where: { NOMBRE_PAIS: pais },
-    })
-
-    let provinciasDisp = await Provincia.findOne({
-      where: { NOMBRE_PROVINCIA: provincia },
-    })
-
-    let ciudadesDisp = await Ciudad.findOne({
-      where: { NOMBRE_CIUDAD: ciudad },
-    })
+    let paisDisp = pais
+      ? await Pais.findOne({
+          where: { NOMBRE_PAIS: pais },
+        })
+      : null
+    let provinciasDisp = provincia
+      ? await Provincia.findOne({
+          where: { NOMBRE_PROVINCIA: provincia },
+        })
+      : null
+    let ciudadesDisp = ciudad
+      ? await Ciudad.findOne({
+          where: { NOMBRE_CIUDAD: ciudad },
+        })
+      : null
 
     // Generar el código
     const code = uuidv4()
@@ -72,9 +76,9 @@ exports.signup = async (req, res) => {
     })
 
     await newProveedor.addServicios(serviciosDisp)
-    await newProveedor.setPai(paisDisp)
-    await newProveedor.setProvincium(provinciasDisp)
-    await newProveedor.setCiudad(ciudadesDisp)
+    if (paisDisp) await newProveedor.setPai(paisDisp)
+    if (provinciasDisp) await newProveedor.setProvincium(provinciasDisp)
+    if (ciudadesDisp) await newProveedor.setCiudad(ciudadesDisp)
     await newProveedor.setRole(role)
 
     for (let i = 0; i < arrayPrecios.length; i++) {
@@ -258,13 +262,13 @@ exports.signin = async (req, res) => {
       id: proveedor.id,
       nombreApellido: proveedor.NOMBRE_APELLIDO_PROVEEDOR,
       email: proveedor.EMAIL,
-      celular: proveedor.CELULAR,
+      celular: proveedor.CELULAR ? proveedor.CELULAR : 123456789,
       imagen: proveedor.IMAGEN,
-      fechaNacimiento: proveedor.FECHA_NACIMIENTO,
+      fechaNacimiento: proveedor.FECHA_NACIMIENTO ? proveedor.FECHA_NACIMIENTO : 'Sin definir',
       calificacion: proveedor.CALIFICACION,
       ciudad: proveedor.Ciudad ? proveedor.Ciudad.NOMBRE_CIUDAD : 'Sin definir',
       provincia: proveedor.Provincium ? proveedor.Provincium.NOMBRE_PROVINCIA : 'Sin definir',
-      pais: proveedor.Pai.NOMBRE_PAIS,
+      pais: proveedor.Pai ? proveedor.Pai.NOMBRE_PAIS : 'Sin definir',
       Role: authorities[0],
       accessToken: token,
       refreshToken: refreshToken,
