@@ -3,6 +3,8 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { getServiceProvider, RefreshService } from '../../redux/slices/provider'
+import api from '../../services/api'
+import Swal from 'sweetalert2'
 import { Button, Modal } from 'react-bootstrap'
 import Questions from '../Questions'
 import { addToCart, updateStateFromStorage } from '../../redux/slices/shoppingCart'
@@ -32,6 +34,17 @@ export default function ProfileDetails() {
     setShowQuestions(true)
   }
 
+  const handleDeleteQuestion = (e) => {
+    console.log(e.target.value)
+    api.delete('/admin/preguntas', e.target.value).then(() => Swal.fire('Pregunta eliminada Correctamente', '', 'success'))
+  }
+  const handleDeleteComentario = (e) => {
+    console.log(e.target.value)
+    // api
+    // .delete('/admin/preguntas', e.target.value)
+    // .then(() => Swal.fire('Pregunta eliminada Correctamente', '', 'success'))
+  }
+
   useEffect(() => {
     dispatch(getServiceProvider(idProv, idServ))
   }, [dispatch, idProv, idServ])
@@ -53,7 +66,7 @@ export default function ProfileDetails() {
                         </NavLink>
                         <img
                           src={`http://localhost:3001/profiles/${serviceProvider[0]?.imagen}`}
-                          alt={"NI"}
+                          alt={'NI'}
                           className='rounded-circle'
                           width='150'
                           onError={(e) => (e.target.src = 'https://www.softzone.es/app/uploads-softzone.es/2018/04/guest.png?x=480&quality=20')}
@@ -278,6 +291,18 @@ export default function ProfileDetails() {
                                 className='list-group-item list-group-item-action list-group-item-light'
                                 style={{ marginBottom: '10px', border: '1px solid lightgray' }}>
                                 <div class='d-grid gap-2 d-md-flex justify-content-md-end'>
+                                  {user.Role === 'ADMIN' ? (
+                                    <button
+                                      type='button'
+                                      class='btn-close position-absolute top-0 end-0'
+                                      aria-label='Close'
+                                      value={preg.id}
+                                      onClick={(e) => handleDeleteQuestion(e)}
+                                      style={{ margin: '10px' }}></button>
+                                  ) : (
+                                    ''
+                                  )}
+
                                   {user.Role === 'PROVEEDOR' && user.id === idProv && (
                                     <button
                                       class='btn btn-primary'
@@ -355,6 +380,19 @@ export default function ProfileDetails() {
                               <span
                                 className='list-group-item list-group-item-action list-group-item-light '
                                 style={{ marginBottom: '10px', border: '1px solid lightgray' }}>
+                                <div style={{ backgrondColor: 'red' }}>
+                                  {user.Role === 'USUARIO' ? (
+                                    <button
+                                      type='button'
+                                      class='btn-close position-absolute top-0 end-0'
+                                      aria-label='Close'
+                                      value={com.id}
+                                      onClick={(e) => handleDeleteComentario(e)}
+                                      style={{ margin: '10px' }}></button>
+                                  ) : (
+                                    ''
+                                  )}
+                                </div>
                                 <b style={{}}>
                                   {}
                                   {com.USUARIO}:
@@ -373,7 +411,7 @@ export default function ProfileDetails() {
                         )}
                       </div>
                       <div className='row'>
-                        <div className='col-sm-12'>{/* <button className="btn btn-dark">EDITAR</button> */}</div>
+                        <div className='col-sm-12'><button className="btn btn-dark">EDITAR</button></div>
                       </div>
                     </div>
                   </div>
