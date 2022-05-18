@@ -43,8 +43,10 @@ export default function NavBar() {
       {/* ////////////////////////////////////////////////////////////////////////////////////////////////////////////////EMPIEZA NAVBAR DE ALGUIEN  NO LOGUEADO */}
       {!isLoggedIn && (
         <div className={`d-flex container justify-content-center ${styles.navMain} ${styles.wrapOnSmall}`}>
-                    <div className={`${styles.logoWrap} ${styles.showOnSmall} `}>
-          <Link to='/' className={`${styles.showOnSmall}`}><img className={`${styles.logoImg} ${styles.showOnSmall}`} src={location.pathname ==='/' ? logoLight : logo} alt='logo' /></Link>
+          <div className={`${styles.logoWrap} ${styles.showOnSmall} `}>
+            <Link to='/' className={`${styles.showOnSmall}`}>
+              <img className={`${styles.logoImg} ${styles.showOnSmall}`} src={location.pathname === '/' ? logoLight : logo} alt='logo' />
+            </Link>
           </div>
           <div className={`${styles.searchbarContainer} `}>
             <NavLink to='/'>
@@ -119,7 +121,9 @@ export default function NavBar() {
       {isLoggedIn && (
         <div className={`d-flex container justify-content-center align-items-center ${styles.wrapOnSmall}`} style={{ backgroundColor: 'transparent' }}>
           <div className={`${styles.logoWrap} ${styles.showOnSmall} `}>
-          <Link to='/' className={`${styles.showOnSmall}`}><img className={`${styles.logoImg} ${styles.showOnSmall}`} src={location.pathname ==='/' ? logoLight : logo} alt='logo' /></Link>
+            <Link to='/' className={`${styles.showOnSmall}`}>
+              <img className={`${styles.logoImg} ${styles.showOnSmall}`} src={location.pathname === '/' ? logoLight : logo} alt='logo' />
+            </Link>
           </div>
           <div className={`${styles.searchbarContainer} `}>
             <NavLink to='/'>
@@ -133,10 +137,55 @@ export default function NavBar() {
               <NavLink to='/about' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
                 NOSOTROS
               </NavLink>
-
+              {role === 'ADMIN' ? (
+                <>
+                  <NavLink to='/admin/usersList' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
+                    USUARIOS
+                  </NavLink>
+                  <NavLink to='/admin/providersList' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
+                    PROVEEDORES
+                  </NavLink>
+                  <NavLink to='/admin/salesHistory' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
+                    COMPRAS
+                  </NavLink>
+                </>
+              ) : (
+                ''
+              )}
             </div>
 
             <div className='d-flex align-items-center justify-content-center text-center' style={{ flexDirection: 'row' }}>
+              {role === 'ADMIN' ? (
+                <NavDropdown
+                  id='nav-dropdown-dark'
+                  title={
+                    <span>
+                      <i className='fa fa-user-circle' aria-hidden='true'></i> Administracion
+                    </span>
+                  }>
+                  <NavDropdown.Item>
+                    <NavLink to='/profile' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
+                      <i class='fa fa-address-card' aria-hidden='true'></i> USUARIOS
+                    </NavLink>
+                  </NavDropdown.Item>
+                  <NavDropdown.Item>
+                    <NavLink to='/home/chat' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
+                      <i class='fa fa-commenting' aria-hidden='true'></i> PROVEEDORES
+                    </NavLink>
+                  </NavDropdown.Item>
+                  <NavDropdown.Item>
+                    <NavLink to='/home/chat' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
+                      <i class='fa fa-commenting' aria-hidden='true'></i> COMPRAS
+                    </NavLink>
+                  </NavDropdown.Item>
+                  <Dropdown.Divider className={`${styles.showOnSmall}`} />
+                  <Dropdown.Item href='/' onClick={() => handleLogout()} className={`${styles.showOnSmall}`}>
+                    <i className='fa fa-sign-out' aria-hidden='true'></i> Cerrar sesión
+                  </Dropdown.Item>
+                </NavDropdown>
+              ) : (
+                ''
+              )}
               <NavDropdown
                 id='nav-dropdown-dark'
                 title={
@@ -146,25 +195,25 @@ export default function NavBar() {
                 }>
                 <NavDropdown.Item>
                   <NavLink to='/profile' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
-                  <i class="fa fa-address-card" aria-hidden="true"></i> Ver mi perfil
+                    <i class='fa fa-address-card' aria-hidden='true'></i> Ver mi perfil
                   </NavLink>
                 </NavDropdown.Item>
                 <NavDropdown.Item>
                   <NavLink to='/home/chat' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
-                  <i class="fa fa-commenting" aria-hidden="true"></i> Mis chats
+                    <i class='fa fa-commenting' aria-hidden='true'></i> Mis chats
                   </NavLink>
                 </NavDropdown.Item>
                 {role === 'USUARIO' && (
                   <>
                     <NavDropdown.Item>
                       <NavLink to='/purchases' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
-                      <i class="fa fa-shopping-cart" aria-hidden="true"></i> Mis compras
+                        <i class='fa fa-shopping-cart' aria-hidden='true'></i> Mis compras
                       </NavLink>
                     </NavDropdown.Item>
                     <NavDropdown.Item>
                       {' '}
                       <NavLink to='/profile/favorites' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
-                      <i class="fa fa-star" aria-hidden="true"></i> Mis favoritos
+                        <i class='fa fa-star' aria-hidden='true'></i> Mis favoritos
                       </NavLink>
                     </NavDropdown.Item>
                   </>
@@ -192,7 +241,6 @@ export default function NavBar() {
                   ¿Ya estás registrado? Inicia sesión
                 </p>
               </a> */}
-
               {/* <Modal show={showRegister} onHide={handleCloseRegister}>
                 <Modal.Header closeButton>
                   <Modal.Title>

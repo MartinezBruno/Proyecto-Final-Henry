@@ -208,6 +208,7 @@ exports.signin = async (req, res) => {
       accessToken: token,
       refreshToken: refreshToken,
       message: '¡Bienvenido!',
+      banned: user.BANNED
     })
   } catch (error) {
     return res.status(500).send({ message: error.message })
