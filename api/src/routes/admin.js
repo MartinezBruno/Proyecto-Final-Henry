@@ -1,9 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
-const {getUsers, getProviders,ban, hacerAdmin, unBann, getCompras, deleteComent, deletePregunta, getAyudas, deleteUser} = require('../controllers/admin')
-
-
+const {getUsers, getProviders,ban, hacerAdmin, unBann, getCompras, deleteComent, compraDetail, deletePregunta, getAyudas, deleteUser} = require('../controllers/admin')
 
 router.get('/usuarios', getUsers)
 router.get('/proveedores', getProviders)
