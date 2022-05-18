@@ -144,23 +144,28 @@ export default function NavBar() {
                     <i className='fa fa-user-circle' aria-hidden='true'></i> MI PERFIL
                   </span>
                 }>
-                <NavDropdown.Item href='/profile'>
-                    Ver mi perfil
+                <NavDropdown.Item>
+                  <NavLink to='/profile' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
+                  <i class="fa fa-address-card" aria-hidden="true"></i> Ver mi perfil
+                  </NavLink>
                 </NavDropdown.Item>
-                <NavDropdown.Item href='/home/chat'>
-                  
-                    Mis chats
-                  
+                <NavDropdown.Item>
+                  <NavLink to='/home/chat' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
+                  <i class="fa fa-commenting" aria-hidden="true"></i> Mis chats
+                  </NavLink>
                 </NavDropdown.Item>
                 {role === 'USUARIO' && (
                   <>
-                    <NavDropdown.Item href='/purchases'>
-                     
-                        Mis compras
-                   
+                    <NavDropdown.Item>
+                      <NavLink to='/purchases' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
+                      <i class="fa fa-shopping-cart" aria-hidden="true"></i> Mis compras
+                      </NavLink>
                     </NavDropdown.Item>
-                    <NavDropdown.Item href='/profile/favorites'>
-                        Mis favoritos
+                    <NavDropdown.Item>
+                      {' '}
+                      <NavLink to='/profile/favorites' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
+                      <i class="fa fa-star" aria-hidden="true"></i> Mis favoritos
+                      </NavLink>
                     </NavDropdown.Item>
                   </>
                 )}

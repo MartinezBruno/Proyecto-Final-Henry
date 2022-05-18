@@ -28,8 +28,8 @@ function ProfileUser() {
                 <div className={`card-body ${styles.cardBody}`}>
                   <div className='d-flex flex-column align-items-center text-center'>
                     <img
-                      src={UniqueUser.imagen}
-                      alt='Admin'
+                      src={`http://localhost:3001/profiles/${UniqueUser.imagen}`}
+                      alt={UniqueUser.nombre_apellido_usuario} 
                       className='rounded-circle'
                       width='150'
                       onError={(e) => (e.target.src = 'https://www.softzone.es/app/uploads-softzone.es/2018/04/guest.png?x=480&quality=20')}

@@ -10,15 +10,21 @@ const { getTemplate } = require('./email')
 exports.signup = async (req, res) => {
   const { nombre, apellido, password, email, imagen, fecha_nacimiento, pais, provincia, ciudad, celular, role } = req.body
   try {
-    let paisDisp = await Pais.findOne({
-      where: { NOMBRE_PAIS: pais },
-    })
-    let provinciaDisp = await Provincia.findOne({
-      where: { NOMBRE_PROVINCIA: provincia },
-    })
-    let ciudadDisp = await Ciudad.findOne({
-      where: { NOMBRE_CIUDAD: ciudad },
-    })
+    let paisDisp = pais
+      ? await Pais.findOne({
+          where: { NOMBRE_PAIS: pais },
+        })
+      : null
+    let provinciaDisp = provincia
+      ? await Provincia.findOne({
+          where: { NOMBRE_PROVINCIA: provincia },
+        })
+      : null
+    let ciudadDisp = ciudad
+      ? await Ciudad.findOne({
+          where: { NOMBRE_CIUDAD: ciudad },
+        })
+      : null
 
     // Generar el código
     const code = uuidv4()
@@ -32,9 +38,11 @@ exports.signup = async (req, res) => {
       CELULAR: celular,
       CODE: code,
     })
-    await newUser.setPai(paisDisp)
-    await newUser.setProvincium(provinciaDisp)
-    await newUser.setCiudad(ciudadDisp)
+    if (paisDisp) await newUser.setPais(paisDisp)
+
+    if (provinciaDisp) await newUser.setProvincia(provinciaDisp)
+
+    if (ciudadDisp) await newUser.setCiudad(ciudadDisp)
 
     let role = await Role.findOne({
       where: { id: 1 },
@@ -191,8 +199,8 @@ exports.signin = async (req, res) => {
       id: user.id,
       nombreApellido: user.NOMBRE_APELLIDO_USUARIO,
       email: user.EMAIL,
-      celular: user.CELULAR,
-      fechaDeNacimiento: user.FECHA_NACIMIENTO,
+      celular: user.CELULAR ? user.CELULAR : 123456789,
+      fechaDeNacimiento: user.FECHA_NACIMIENTO ? user.FECHA_NACIMIENTO : 'Sin definir',
       pais: user.Pai ? user.Pai.NOMBRE_PAIS : 'Sin definir',
       provincia: user.Provincium ? user.Provincium.NOMBRE_PROVINCIA : 'Sin definir',
       ciudad: user.Ciudad ? user.Ciudad.NOMBRE_CIUDAD : 'Sin definir',

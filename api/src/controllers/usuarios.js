@@ -268,7 +268,7 @@ const putUser = async (req, res, next) => {
           },
           { where: { id: id } }
         )
-    return res.send({ message: 'Usuario actualizado correctamente' })
+    return res.status(204).send({ message: 'Usuario actualizado correctamente' })
   } catch (error) {
     next(error)
     return res.status(500).send({ message: 'Error al actualizar usuario' })

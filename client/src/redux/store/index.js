@@ -10,6 +10,7 @@ import purchases from '../slices/purchases'
 import favorites from '../slices/favorites'
 import chat from '../slices/chat'
 import emergency from '../slices/emergency'
+import events from '../slices/events'
 
 export default configureStore({
   reducer: {
@@ -24,6 +25,7 @@ export default configureStore({
     purchases,
     favorites,
     chat,
-    emergency
+    emergency,
+    events,
   },
 })
