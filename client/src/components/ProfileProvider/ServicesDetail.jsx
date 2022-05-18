@@ -36,13 +36,11 @@ export default function ProfileDetails() {
 
   const handleDeleteQuestion = (e) => {
     console.log(e.target.value)
-    api.delete('/admin/preguntas', e.target.value).then(() => Swal.fire('Pregunta eliminada Correctamente', '', 'success'))
+    api.delete(`/admin/pregunta/${e.target.value}`).then(() => Swal.fire('Pregunta eliminada Correctamente', '', 'success')).then(window.location.reload())
   }
   const handleDeleteComentario = (e) => {
     console.log(e.target.value)
-    // api
-    // .delete('/admin/preguntas', e.target.value)
-    // .then(() => Swal.fire('Pregunta eliminada Correctamente', '', 'success'))
+    api.delete(`/admin/comentarios/${e.target.value}`).then(() => Swal.fire('Comentario eliminado Correctamente', '', 'success')).then(window.location.reload())
   }
 
   useEffect(() => {
@@ -290,11 +288,11 @@ export default function ProfileDetails() {
                               <span
                                 className='list-group-item list-group-item-action list-group-item-light'
                                 style={{ marginBottom: '10px', border: '1px solid lightgray' }}>
-                                <div class='d-grid gap-2 d-md-flex justify-content-md-end'>
+                                <div className='d-grid gap-2 d-md-flex justify-content-md-end'>
                                   {user.Role === 'ADMIN' ? (
                                     <button
                                       type='button'
-                                      class='btn-close position-absolute top-0 end-0'
+                                      className='btn-close position-absolute top-0 end-0'
                                       aria-label='Close'
                                       value={preg.id}
                                       onClick={(e) => handleDeleteQuestion(e)}
@@ -305,7 +303,7 @@ export default function ProfileDetails() {
 
                                   {user.Role === 'PROVEEDOR' && user.id === idProv && (
                                     <button
-                                      class='btn btn-primary'
+                                      className='btn btn-primary'
                                       type='button'
                                       value={preg.id}
                                       style={{ marginBottom: '-50px', height: '35px', textAlignLast: 'center' }}
@@ -334,10 +332,10 @@ export default function ProfileDetails() {
                       <div className='row'>
                         <div className='col-sm-12'>{/* <button className="btn btn-dark">EDITAR</button> */}</div>
                       </div>
-                      <div class='d-grid gap-2 col-6 mx-auto'>
+                      <div className='d-grid gap-2 col-6 mx-auto'>
                         {user.Role === 'USUARIO' && (
                           <button
-                            class='btn btn-primary '
+                            className='btn btn-primary '
                             type='button'
                             style={{ margin: 'auto', marginTop: '20px', width: '210px' }}
                             onClick={handleshowQuestions}>
@@ -381,10 +379,10 @@ export default function ProfileDetails() {
                                 className='list-group-item list-group-item-action list-group-item-light '
                                 style={{ marginBottom: '10px', border: '1px solid lightgray' }}>
                                 <div style={{ backgrondColor: 'red' }}>
-                                  {user.Role === 'USUARIO' ? (
+                                  {user.Role === 'ADMIN' ? (
                                     <button
                                       type='button'
-                                      class='btn-close position-absolute top-0 end-0'
+                                      className='btn-close position-absolute top-0 end-0'
                                       aria-label='Close'
                                       value={com.id}
                                       onClick={(e) => handleDeleteComentario(e)}
@@ -411,7 +409,6 @@ export default function ProfileDetails() {
                         )}
                       </div>
                       <div className='row'>
-                        <div className='col-sm-12'><button className="btn btn-dark">EDITAR</button></div>
                       </div>
                     </div>
                   </div>
@@ -436,7 +433,7 @@ export default function ProfileDetails() {
                 <br /> ¡Muchas Gracias!
               </h2>
               <NavLink to={'/login'}>
-                <button type='button' class='btn btn-success' style={{ marginTop: '30px' }}>
+                <button type='button' className='btn btn-success' style={{ marginTop: '30px' }}>
                   Iniciar Sesión
                 </button>
               </NavLink>

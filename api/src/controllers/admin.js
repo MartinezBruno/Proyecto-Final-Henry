@@ -317,7 +317,7 @@ const getCompras = async (req, res) => {
 }
 
 const deleteComent = async (req, res) => {
-  let { idComentario } = req.body
+  let { idComentario } = req.params
 
   await Comentario.destroy({ where: {id: idComentario} })
 
@@ -325,7 +325,7 @@ const deleteComent = async (req, res) => {
 }
 
 const deletePregunta = async (req, res) => {
-  let { idPregunta } = req.body
+  let { idPregunta } = req.params
   let pregunta = await Pregunta.findOne({ where: {id: idPregunta} })
    console.log(pregunta)
   await Pregunta.destroy({ where:{id:idPregunta}})
