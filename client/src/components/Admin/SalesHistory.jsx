@@ -41,15 +41,20 @@ export default function () {
                 <tr style={{ margin: 'auto' }} key={sell.id}>
                   <td> {sell.id} </td>
                   <td>
-                    <img src={sell.imagenProveedor} style={{ width: '40px', height: '40px', borderRadius: '50px' }} />
+                    <img
+                      src={`http://localhost:3001/profiles/${sell.imagenProveedor}`}
+                      style={{ width: '40px', height: '40px', borderRadius: '50px' }}
+                      alt={sell.nombreProveedor}
+                      onError={(e) => (e.target.src = 'https://www.softzone.es/app/uploads-softzone.es/2018/04/guest.png?x=480&quality=20')}
+                    />
                   </td>
                   {sell.nombreProveedor ? <td>{sell.nombreProveedor}</td> : <td>{sell.proveedor}</td>}
                   {sell.emailProveedor ? <td>{sell.emailProveedor}</td> : <td>{sell.proveedor}</td>}
                   <td>
                     <img src={sell.imagenUsuario} style={{ width: '40px', height: '40px', borderRadius: '50px' }} />
                   </td>
-                  {sell.nombreUsuario ?  <td>{sell.nombreUsuario}</td> : <td>{sell.usuario}</td>}
-                  {sell.emailUsuario ?  <td>{sell.emailUsuario}</td> : <td>{sell.usuario}</td>}
+                  {sell.nombreUsuario ? <td>{sell.nombreUsuario}</td> : <td>{sell.usuario}</td>}
+                  {sell.emailUsuario ? <td>{sell.emailUsuario}</td> : <td>{sell.usuario}</td>}
                 </tr>
               )
             })}
