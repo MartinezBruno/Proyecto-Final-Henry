@@ -24,8 +24,8 @@ function CartServices({ id, provName, provID, nombreServ, precio, count, remote,
     <>
       <tr>
         <td>
-          <div>
-            <button onClick={handleShowCalendar} className='btn btn-primary'>
+          <div className='mt-4'>
+            <button onClick={handleShowCalendar} className='btn btn-primary' style={{ fontSize: '.7rem' }}>
               Agregar Evento
             </button>
             <Modal show={showCalendar} onHide={handleCloseCalendar} fullscreen={fullscreen}>
@@ -71,18 +71,18 @@ function CartServices({ id, provName, provID, nombreServ, precio, count, remote,
               variant='secondary'
               style={{ fontSize: '0.8rem' }}
               onClick={() => {
-                dispatch(addToCart(servicio))
+                dispatch(deleteService(services, id, provID))
               }}>
-              <i className='fa fa-plus-circle' aria-hidden='true'></i>
+              {' '}
+              <i className='fa fa-minus-circle' aria-hidden='true'></i>
             </Button>
             <Button
               variant='secondary'
               style={{ fontSize: '0.8rem' }}
               onClick={() => {
-                dispatch(deleteService(services, id, provID))
+                dispatch(addToCart(servicio))
               }}>
-              {' '}
-              <i className='fa fa-minus-circle' aria-hidden='true'></i>
+              <i className='fa fa-plus-circle' aria-hidden='true'></i>
             </Button>
             <Button
               variant='danger'

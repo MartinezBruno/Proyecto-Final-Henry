@@ -36,7 +36,7 @@ export const eventSlice = createSlice({
             ) {
               state.error = true
               console.log('SE TE CHINGARON LAS HORAS GIL')
-              return
+              return true
             }
           }
         }
@@ -57,7 +57,7 @@ export const eventSlice = createSlice({
       state.agendados = action.payload
     },
     SetError: (state, action) => {
-      state.error = true
+      state.error = false
     },
   },
 })
@@ -87,7 +87,7 @@ export const addEvent = (cart, id) => async (dispatch) => {
 }
 
 export const setEventos = (event) => (dispatch) => {
-  dispatch(SetEventos(event))
+  return dispatch(SetEventos(event))
 }
 
 export const setError = () => (dispatch) => {
