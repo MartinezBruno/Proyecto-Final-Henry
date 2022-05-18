@@ -12,14 +12,10 @@ function Calendar({ isModal, provID, service, horaInicio, horaFinal }) {
   const dispatch = useDispatch()
   const count = service.count
 
-  const HORA_INICIO = horaInicio
-  const HORA_FINAL = horaFinal
+  const HORA_INICIO = horaInicio ? horaInicio : '09:00'
+  const HORA_FINAL = horaFinal ? horaFinal : '18:00'
 
-  let hora_i = moment().hour(HORA_INICIO).minutes(0).format('HH:mm')
   let parseFinal = Number(HORA_FINAL) - Number(service.duracion)
-  let hora_f = moment().hour(parseFinal).minutes(0).format('HH:mm')
-  // let hora = moment().hour(13).minutes(0).format('HH:mm')
-  // console.log(moment(hora).isBetween(moment(hora_f), moment(hora_i)))
 
   let { events, error } = useSelector((state) => state.events)
 
@@ -86,19 +82,6 @@ function Calendar({ isModal, provID, service, horaInicio, horaFinal }) {
         })
       }
     }
-    // if (e.target.name === 'hora_evento') {
-    //   setErrors((prevState) => {
-    //     return { ...prevState, [e.target.name]: '' }
-    //   })
-    //   let hora = Number(e.target.value.slice(0, 2))
-    //   let horaInit = Number(horaInicio)
-    //   let horaFin = Number(horaFinal) - Number(service.duracion)
-    //   if (hora < horaInit || hora > horaFin) {
-    //     setErrors((prevState) => {
-    //       return { ...prevState, [e.target.name]: 'Seleccione una hora válida' }
-    //     })
-    //   }
-    // }
   }
 
   useEffect(() => {
@@ -165,12 +148,12 @@ function Calendar({ isModal, provID, service, horaInicio, horaFinal }) {
         {errors.fecha_evento && <p className={` animate__animated animate__fadeInDown `}>{errors.fecha_evento}</p>}
         <div className='form-group'>
           <label>
-            Seleccione una hora entre {HORA_INICIO} y {HORA_FINAL}:
+            Seleccione una hora entre {HORA_INICIO} y {parseFinal}:
           </label>
           <input
             type='time'
             min={HORA_INICIO}
-            max={HORA_FINAL}
+            max={parseFinal}
             required
             name='hora_evento'
             onChange={handleOnChange}
