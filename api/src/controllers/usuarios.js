@@ -13,6 +13,7 @@ const {
   Favorito,
   Usuario_Favorito,
   Emergencia,
+  Ayuda
 } = require('../db')
 const { emergencia } = require('./emergencia')
 
@@ -403,6 +404,22 @@ const misCompras = async (req, res) => {
   }
 }
 
+
+const createAyuda = async (req,res) => {
+  let {usuarioId, asunto} = req.body
+    
+  let user = await Usuario.findByPk(usuarioId)
+  // console.log(user)
+   
+  let ayudaCreate = await Ayuda.create({
+    ASUNTO: asunto
+  })
+
+ ayudaCreate.setUsuario(user.id)
+
+}
+
+
 module.exports = {
   getUsers,
   getUserById,
@@ -417,4 +434,5 @@ module.exports = {
   buyReview,
   compraSuccess,
   misCompras,
+  createAyuda
 }

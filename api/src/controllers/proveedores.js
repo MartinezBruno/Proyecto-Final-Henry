@@ -12,6 +12,7 @@ const {
   Usuario,
   Comentario,
   DuracionServicio,
+  Ayuda
 } = require('../db')
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
@@ -1172,6 +1173,21 @@ const putProvider = async (req, res, next) => {
   }
 }
 
+
+const createAyuda = async (req,res) => {
+  let {proveedorId, asunto} = req.body
+    
+  let prov = await Proveedor.findByPk(proveedorId)
+   console.log(prov)
+   
+  let ayudaCreate = await Ayuda.create({
+    ASUNTO: asunto
+  })
+
+ ayudaCreate.setProveedor(prov.id)
+
+}
+
 module.exports = {
   getProv,
   getProvByID,
@@ -1181,4 +1197,5 @@ module.exports = {
   filtroPorProvincia,
   filtroProveedor,
   putProvider,
+  createAyuda
 }

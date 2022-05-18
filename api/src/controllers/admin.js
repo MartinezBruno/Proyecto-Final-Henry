@@ -15,7 +15,8 @@ const {
   Emergencia,
   Admin,
   Role,
-  Pregunta
+  Pregunta,
+  Ayuda
 } = require('../db')
 const { v4: uuidv4 } = require('uuid')
 
@@ -229,6 +230,38 @@ const deletePregunta = async (req,res) => {
   }
 
 
+const getAyudas =  async (req,res) => {
+  let ayudas = await Ayuda.findAll()
+  // console.log(ayudas)
+   
+  let ayudasDef = []
+  for(let i =0; i<ayudas.length ; i++) {
+     if (ayudas[i].UsuarioId) {
+     let user = await Usuario.findOne({where:{id: ayudas[i].UsuarioId}}) 
+     let userPush = {
+        idAyuda: ayudas[i].id,
+        asunto: ayudas[i].ASUNTO,
+        idUsuario: user.id,
+        nombre: user.NOMBRE_APELLIDO_USUARIO,
+        email: user.EMAIL
+     }
+    ayudasDef.push(userPush)
+    }   
+  if(ayudas[i].ProveedorId) {
+    let prov = await Proveedor.findOne({where:{id: ayudas[i].ProveedorId}}) 
+     let provPush = {
+        idAyuda: ayudas[i].id,
+        asunto: ayudas[i].ASUNTO,
+        idUsuario: prov.id,
+        nombre: prov.NOMBRE_APELLIDO_USUARIO,
+        email: prov.EMAIL
+     }
+    ayudasDef.push(provPush)
+  }
+  }
+return res.status(200).send(ayudasDef)
+}
+
 module.exports = {
   getUsers,
   getProviders,
@@ -237,5 +270,6 @@ module.exports = {
   hacerAdmin,
   getCompras,
   deleteComent,
-  deletePregunta
+  deletePregunta,
+  getAyudas
 }
