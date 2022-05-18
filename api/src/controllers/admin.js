@@ -276,12 +276,9 @@ const getCompras = async (req, res) => {
 }
 
 const deleteComent = async (req, res) => {
-  let { ProveedorId, ServicioId, UsuarioId } = req.body
+  let { idComentario } = req.body
 
-  let proveedorServ = await Proveedor_Servicio.findOne({ where: { ProveedorId: ProveedorId, ServicioId: ServicioId } })
-  //  console.log(proveedorServ)
-
-  await Comentario.destroy({ where: { ProveedorServicioId: proveedorServ.id, UsuarioId: UsuarioId } })
+  await Comentario.destroy({ where: {id: idComentario} })
 
   return res.status(200).send('comentario eliminado')
 }
@@ -326,6 +323,20 @@ const getAyudas = async (req, res) => {
   return res.status(200).send(ayudasDef)
 }
 
+const deleteUser = async (req,res) => {
+  let {idProveedor, idUsuario} = req.body
+
+  if(idProveedor) {
+    await Proveedor.destroy({where:{id: idProveedor}})
+    return res.status(200).send('proveedor eliminado')
+  }
+
+ if (idUsuario){
+   await Usuario.destroy({where:{id:idUsuario}})
+   return res.status(200).send('Usuario eliminado')
+  }
+}
+
 module.exports = {
   getUsers,
   getProviders,
@@ -336,4 +347,5 @@ module.exports = {
   deleteComent,
   deletePregunta,
   getAyudas,
+  deleteUser
 }

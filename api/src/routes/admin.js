@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
-const {getUsers, getProviders,ban, hacerAdmin, unBann, getCompras, deleteComent, deletePregunta, getAyudas} = require('../controllers/admin')
+const {getUsers, getProviders,ban, hacerAdmin, unBann, getCompras, deleteComent, deletePregunta, getAyudas, deleteUser} = require('../controllers/admin')
 
 
 
@@ -14,4 +14,5 @@ router.put('/unban', unBann)
 router.post('/setAdmin', hacerAdmin)
 router.delete('/comentarios', deleteComent)
 router.delete('/pregunta', deletePregunta)
+router.delete('/delete', deleteUser)
 module.exports = router
