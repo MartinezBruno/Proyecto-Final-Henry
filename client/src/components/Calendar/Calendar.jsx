@@ -10,7 +10,6 @@ import moment from 'moment'
 
 function Calendar({ isModal, provID, service }) {
   const dispatch = useDispatch()
-  console.log(service)
   const count = service.count
 
   const { events, error } = useSelector((state) => state.events)
@@ -86,21 +85,26 @@ function Calendar({ isModal, provID, service }) {
         return Swal.fire('Error al cambiar los datos', 'Ya existe un evento en esa fecha', 'error')
       }
     }
+
     dispatch(setEventos(evento))
+    console.log(error)
+    console.log('hola')
     if (error) {
-      dispatch(setError())
       return Swal.fire('Error al agendar la fecha', 'Horario no disponible', 'error')
+    } else {
+      let boton = document.getElementById(id)
+      boton.disabled = true
+      boton.innerText = '✓'
+      boton.style.backgroundColor = '#198754'
+      boton.style.color = 'black'
+      boton.style.fontWeight = 'bold'
+      boton.style.border = '1px solid black'
+      boton.style.padding = '0.5rem 1.5rem 0.5rem 1.5rem'
+      document.querySelector('.form' + i).disabled = true
+      document.querySelector('.form-control' + i).disabled = true
     }
-    let boton = document.getElementById(id)
-    boton.disabled = true
-    boton.innerText = '✓'
-    boton.style.backgroundColor = '#198754'
-    boton.style.color = 'black'
-    boton.style.fontWeight = 'bold'
-    boton.style.border = '1px solid black'
-    boton.style.padding = '0.5rem 1.5rem 0.5rem 1.5rem'
-    document.querySelector('.form' + i).disabled = true
-    document.querySelector('.form-control' + i).disabled = true
+    console.log('chau')
+    console.log(error)
   }
 
   let allForms = []

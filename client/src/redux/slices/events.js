@@ -8,7 +8,7 @@ export const eventSlice = createSlice({
     events: [],
     eventosAgendados: [],
     agendados: false,
-    lastHour: '0000-00-00 00:00',
+    Hour: [],
     error: false,
   },
   reducers: {
@@ -16,36 +16,29 @@ export const eventSlice = createSlice({
       state.events = action.payload
     },
     SetEventos: (state, action) => {
-      state.error = false
-      if (state.eventosAgendados.filter((el) => el.provID === action.payload.provID && el.id === action.payload.id).length < action.payload.count) {
-        for (let i = 0; i < state.eventosAgendados.length; i++) {
-          if (JSON.stringify(state.eventosAgendados[i]) === JSON.stringify(action.payload)) {
-            state.eventosAgendados[i] = action.payload
-            console.log(state.eventosAgendados[i] === action.payload)
-            return
-          }
-        }
-        let lastHour = action.payload.start
-        let duracion = Number(action.payload.duracion)
-        let minumunHour = moment(lastHour).add(duracion, 'h').format('YYYY-MM-DD HH:mm')
-        let algo = state.lastHour
-        
-
-        if (moment(algo).isSameOrBefore(minumunHour)) {
-          state.error = true
-        } else {
-          state.eventosAgendados.push(action.payload)
-          state.lastHour = minumunHour
-        }
+      let startHour = action.payload.start
+      let duracion = Number(action.payload.duracion)
+      let endHour = moment(startHour).add(duracion, 'h').format('YYYY-MM-DD HH:mm')
+      if (state.Hour.length === 0) {
+        state.eventosAgendados.push(action.payload)
+        state.Hour.push({ rovID: action.payload.provID, start: startHour, end: endHour })
       } else {
-        let index = state.eventosAgendados.findIndex(
-          (el) => el.provID === action.payload.provID && el.id === action.payload.id && el.start === action.payload.start
-        )
-        if (index !== -1) return
-        else {
-          let index = state.eventosAgendados.findIndex((el) => (el.provID = action.payload.provID && el.id === action.payload.id))
-          state.eventosAgendados.splice(index, 1)
+        if (state.eventosAgendados.filter((el) => el.provID === action.payload.provID).length === 0) {
           state.eventosAgendados.push(action.payload)
+          state.Hour.push({ ProvID: action.payload.ProvID, start: startHour, end: endHour })
+        } else {
+          for (let i = 0; i < state.Hour.length; i++) {
+            if (
+              !(
+                (moment(startHour).isSameOrBefore(moment(state.Hour[i].start)) && moment(endHour).isSameOrBefore(moment(state.Hour[i].end))) ||
+                (moment(startHour).isSameOrAfter(moment(state.Hour[i].end)) && moment(endHour).isSameOrAfter(moment(state.Hour[i].end)))
+              )
+            ) {
+              state.error = true
+              console.log('SE TE CHINGARON LAS HORAS GIL')
+              return
+            }
+          }
         }
       }
     },
@@ -64,7 +57,7 @@ export const eventSlice = createSlice({
       state.agendados = action.payload
     },
     SetError: (state, action) => {
-      state.error = false
+      state.error = true
     },
   },
 })
@@ -93,7 +86,7 @@ export const addEvent = (cart, id) => async (dispatch) => {
   // dispatch(AddEvent(evento.data))
 }
 
-export const setEventos = (event) => async (dispatch) => {
+export const setEventos = (event) => (dispatch) => {
   dispatch(SetEventos(event))
 }
 
