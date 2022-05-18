@@ -8,9 +8,18 @@ import interactionPlugin from '@fullcalendar/interaction'
 import { addEvent, getAllEvents, setEventos } from '../../redux/slices/events'
 import moment from 'moment'
 
-function Calendar({ isModal, provID, service }) {
+function Calendar({ isModal, provID, service, horaInicio, horaFinal }) {
   const dispatch = useDispatch()
   const count = service.count
+
+  const HORA_INICIO = horaInicio
+  const HORA_FINAL = horaFinal
+
+  let hora_i = moment().hour(HORA_INICIO).minutes(0).format('HH:mm')
+  let parseFinal = Number(HORA_FINAL) - Number(service.duracion)
+  let hora_f = moment().hour(parseFinal).minutes(0).format('HH:mm')
+  // let hora = moment().hour(13).minutes(0).format('HH:mm')
+  // console.log(moment(hora).isBetween(moment(hora_f), moment(hora_i)))
 
   let { events, error } = useSelector((state) => state.events)
 
@@ -66,6 +75,30 @@ function Calendar({ isModal, provID, service }) {
         })
       }
     }
+    if (e.target.name === 'hora_evento') {
+      console.log(e.target)
+      setErrors((prevState) => {
+        return { ...prevState, [e.target.name]: '' }
+      })
+      if (!e.target.validity.valid) {
+        setErrors((prevState) => {
+          return { ...prevState, [e.target.name]: 'Seleccione un horario disponible para el proveedor' }
+        })
+      }
+    }
+    // if (e.target.name === 'hora_evento') {
+    //   setErrors((prevState) => {
+    //     return { ...prevState, [e.target.name]: '' }
+    //   })
+    //   let hora = Number(e.target.value.slice(0, 2))
+    //   let horaInit = Number(horaInicio)
+    //   let horaFin = Number(horaFinal) - Number(service.duracion)
+    //   if (hora < horaInit || hora > horaFin) {
+    //     setErrors((prevState) => {
+    //       return { ...prevState, [e.target.name]: 'Seleccione una hora válida' }
+    //     })
+    //   }
+    // }
   }
 
   useEffect(() => {
@@ -92,6 +125,7 @@ function Calendar({ isModal, provID, service }) {
       // if (moment(fecha).isSame(event.start)) {
       //   return Swal.fire('Error al cambiar los datos', 'Ya existe un evento en esa fecha', 'error')
       // }
+
       if (
         !(
           (moment(fecha).isSameOrBefore(moment(events[i].start)) && moment(fechaEnd).isSameOrBefore(moment(events[i].start))) ||
@@ -130,8 +164,18 @@ function Calendar({ isModal, provID, service }) {
         </div>
         {errors.fecha_evento && <p className={` animate__animated animate__fadeInDown `}>{errors.fecha_evento}</p>}
         <div className='form-group'>
-          <label>Hora:</label>
-          <input type='time' name='hora_evento' onChange={handleOnChange} className={'form-control form-control' + i} />
+          <label>
+            Seleccione una hora entre {HORA_INICIO} y {HORA_FINAL}:
+          </label>
+          <input
+            type='time'
+            min={HORA_INICIO}
+            max={HORA_FINAL}
+            required
+            name='hora_evento'
+            onChange={handleOnChange}
+            className={'form-control form-control' + i}
+          />
         </div>
         {errors.hora_evento && <p className={` animate__animated animate__fadeInDown `}>{errors.hora_evento}</p>}
         <div className='form-group'>
@@ -163,7 +207,7 @@ function Calendar({ isModal, provID, service }) {
           />
         </div>
         <div className='ms-4'>
-          <h4>Elije la fecha y hora a la que quieres agendar tu servicio</h4>
+          <h4>Elije la fecha y hora a la que quieres agendar tu servicio (El servicio dura {service.duracion} hs.)</h4>
           {allForms}
         </div>
       </div>

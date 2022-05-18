@@ -7,15 +7,23 @@ import Button from 'react-bootstrap/Button'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import { addToCart, deleteAllOfOneService, deleteService, payServices } from '../../redux/slices/shoppingCart'
 import Calendar from '../Calendar/Calendar'
+import { getUniqueProvider } from '../../redux/slices/provider'
+import moment from 'moment'
 
 function CartServices({ id, provName, provID, nombreServ, precio, count, remote, servicio }) {
   const dispatch = useDispatch()
   let { services } = useSelector((state) => state.shoppingCart)
+  const { uniqueprovider } = useSelector((state) => state.provider)
   const [showCalendar, setShowCalendar] = useState(false)
   const [fullscreen, setFullscreen] = useState(true)
 
   const handleCloseCalendar = () => setShowCalendar(false)
   const handleShowCalendar = (e) => {
+    // console.log(moment().hour(18).minutes(0).format('HH:mm'))
+    // console.log(moment().hour(9).minutes(0).format('HH:mm'))
+    dispatch(getUniqueProvider(provID))
+    console.log(uniqueprovider)
+
     setShowCalendar(true)
     setFullscreen(true)
   }
@@ -35,7 +43,7 @@ function CartServices({ id, provName, provID, nombreServ, precio, count, remote,
                 </Modal.Title>
               </Modal.Header>
               <Modal.Body className='d-flex justify-content-center align-items-center flex-row'>
-                <Calendar isModal={true} provID={provID} service={servicio} />
+                <Calendar isModal={true} provID={provID} service={servicio} horaInicio={uniqueprovider.hora_inicio} horaFinal={uniqueprovider.hora_final} />
               </Modal.Body>
               <Modal.Footer>
                 <Button variant='primary' onClick={handleCloseCalendar}>

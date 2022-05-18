@@ -110,6 +110,8 @@ const allProvs = async () => {
           descripcion: prov.descripcion,
           duracionServicio: prov.duracion,
         },
+        hora_inicio: prov.servicio.HORA_INICIO ? prov.proveedor.HORA_INICIO : 'Sin definir',
+        hora_final: prov.servicio.HORA_FINAL ? prov.proveedor.HORA_FINAL : 'Sin definir',
       }
     }
     return null
@@ -254,6 +256,8 @@ const getProvByID = async (req, res, next) => {
           duracionServicio: servicio.duracionServicio.DURACION,
         }
       }),
+      hora_inicio: proveedor.HORA_INICIO ? proveedor.HORA_INICIO : 'Sin definir',
+      hora_final: proveedor.HORA_FINAL ? proveedor.HORA_FINAL : 'Sin definir',
     }
     return res.status(200).send(proveedorAMostrar)
   } catch (error) {
@@ -1151,7 +1155,7 @@ const filtroProveedor = async (req, res, next) => {
 
 const putProvider = async (req, res, next) => {
   const { id } = req.params
-  const { nombre_apellido_proveedor, email, celular, fecha_nacimiento } = req.body
+  const { nombre_apellido_proveedor, email, celular, fecha_nacimiento, hora_inicio, hora_final } = req.body
   try {
     const proveedor = await Proveedor.findByPk(id)
     proveedor === null
@@ -1162,6 +1166,8 @@ const putProvider = async (req, res, next) => {
             EMAIL: email,
             CELULAR: celular,
             FECHA_NACIMIENTO: fecha_nacimiento,
+            HORA_INICIO: hora_inicio,
+            HORA_FINAL: hora_final,
           },
           { where: { id: id } }
         )
