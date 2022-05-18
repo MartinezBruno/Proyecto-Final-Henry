@@ -75,15 +75,30 @@ function Calendar({ isModal, provID, service }) {
   const handleAddToCart = (service, e, id, i) => {
     e.preventDefault()
     let fecha = moment(input.fecha_evento + ' ' + input.hora_evento).format('YYYY-MM-DD HH:mm')
+    let fechaEnd
+    if (service.duracion === 'Sin definir') {
+      fechaEnd = moment(fecha).add(24, 'h').format('YYYY-MM-DD HH:mm')
+      console.log(fechaEnd)
+    } else {
+      fechaEnd = moment(fecha).add(Number(service.duracion), 'h').format('YYYY-MM-DD HH:mm')
+    }
     const evento = Object.assign({ start: fecha }, service)
+    console.log(service)
     if (input.fecha_evento === '' || input.hora_evento === '') {
       return Swal.fire('Error al cambiar los datos', 'Por favor Intentelo nuevamente y asegurece de llenar todos los campos', 'error')
     }
     for (let i = 0; i < events.length; i++) {
-      let event = events[i]
-      if (moment(fecha).isSame(event.start)) {
+      // let event = events[i]
+      // if (moment(fecha).isSame(event.start)) {
+      //   return Swal.fire('Error al cambiar los datos', 'Ya existe un evento en esa fecha', 'error')
+      // }
+      if (
+        !(
+          (moment(fecha).isSameOrBefore(moment(events[i].start)) && moment(fechaEnd).isSameOrBefore(moment(events[i].start))) ||
+          (moment(fecha).isSameOrAfter(moment(events[i].end)) && moment(fechaEnd).isSameOrAfter(moment(events[i].end)))
+        )
+      )
         return Swal.fire('Error al cambiar los datos', 'Ya existe un evento en esa fecha', 'error')
-      }
     }
 
     dispatch(setEventos(evento))

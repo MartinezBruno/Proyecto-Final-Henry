@@ -22,7 +22,6 @@ export default function Shopping() {
     e.preventDefault()
     dispatch(addEvent(service, id))
     setTimeout(async () => {
-      console.log(services)
       let url = await dispatch(payServices(services))
       window.location.href = `${url.init_point}`
     }, 2000)
