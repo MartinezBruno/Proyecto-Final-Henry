@@ -134,9 +134,11 @@ function Calendar({ isModal, provID, service }) {
         </div>
         {errors.hora_evento && <p className={` animate__animated animate__fadeInDown `}>{errors.hora_evento}</p>}
         <div className='form-group'>
-          <button type='submit' onClick={(e) => handleAddToCart(service, e, id, i)} id={id} className='btn btn-outline-success mt-3'>
-            Agregar
-          </button>
+          {input && !errors.fecha_evento && !errors.hora_evento ? (
+            <button type='submit' onClick={(e) => handleAddToCart(service, e, id, i)} id={id} className='btn btn-outline-success mt-3'>
+              Agregar
+            </button>
+          ) : null}
         </div>
         <hr />
       </form>
@@ -162,6 +164,9 @@ function Calendar({ isModal, provID, service }) {
         <div className='ms-4'>
           <h4>Elije la fecha y hora a la que quieres agendar tu servicio</h4>
           {allForms}
+          <button type='submit' onClick={(e) => handleVerify(e, error)}>
+            Verficar
+          </button>
         </div>
       </div>
     )

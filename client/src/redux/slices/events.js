@@ -87,5 +87,5 @@ export const addEvent = (cart, id) => async (dispatch) => {
 }
 
 export const setEventos = (event) => (dispatch) => {
-  dispatch(SetEventos(event))
+  return dispatch(SetEventos(event))
 }

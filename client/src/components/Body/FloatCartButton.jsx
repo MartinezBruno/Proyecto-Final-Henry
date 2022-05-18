@@ -122,18 +122,18 @@ export default function FloatCartButton() {
                             variant='secondary'
                             style={{ fontSize: '0.8rem' }}
                             onClick={() => {
-                              dispatch(addToCart(serv))
+                              dispatch(deleteService(services, serv.id, serv.provID))
                             }}>
-                            <i class='fa fa-plus-circle' aria-hidden='true'></i>
+                            {' '}
+                            <i class='fa fa-minus-circle' aria-hidden='true'></i>
                           </Button>
                           <Button
                             variant='secondary'
                             style={{ fontSize: '0.8rem' }}
                             onClick={() => {
-                              dispatch(deleteService(services, serv.id, serv.provID))
+                              dispatch(addToCart(serv))
                             }}>
-                            {' '}
-                            <i class='fa fa-minus-circle' aria-hidden='true'></i>
+                            <i class='fa fa-plus-circle' aria-hidden='true'></i>
                           </Button>
                           <Button
                             variant='danger'
