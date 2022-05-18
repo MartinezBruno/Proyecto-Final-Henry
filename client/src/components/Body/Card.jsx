@@ -20,9 +20,9 @@ export default function Card({ nombre, imagen, idProv, idServ, servicio, descrip
         title: '<strong>Debes estar <u>Logueado</u> para poder ver mas información</strong>',
         icon: 'warning',
         html:
-          '<a href="http://localhost:3000/login">Inicia sesión</a> para continuar con su compra. ' +
+          '<a href="http://weattend.com.ar/login">Inicia sesión</a> para continuar con su compra. ' +
           '<br/>' +
-          'Si no tienes una cuenta, <a href="http://localhost:3000/register">Regístrate</a> de forma rápida y sencilla.',
+          'Si no tienes una cuenta, <a href="http://weattend.com.ar/register">Regístrate</a> de forma rápida y sencilla.',
         showCloseButton: true,
         // showCancelButton: true,
         focusConfirm: false,
