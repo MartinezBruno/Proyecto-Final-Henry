@@ -292,7 +292,7 @@ const getCompras = async (req, res) => {
            id: compraProveedoresId[x],
            servicio: servicios[x].NOMBRE_SERVICIO,
            remoto: servicios[x].REMOTE,
-           usuario: 'Este usuario ya no existe',
+           usuario: 'Este usuario ya no exite',
            nombreProveedor: proveedores[x].NOMBRE_APELLIDO_PROVEEDOR,
            emailProveedor: proveedores[x].EMAIL,
            imagenProveedor: proveedores[x].IMAGEN,
@@ -307,7 +307,7 @@ const getCompras = async (req, res) => {
          nombreUsuario: dataUsuarios[k].nombre,
          emailUsuario: dataUsuarios[k].email,
          imagenUsuario: dataUsuarios[k].imagen,
-         proveedor: 'Este proveedor ya no existe',
+         proveedor: 'este proveedor ya no existe',
      })
    }
  }
@@ -317,15 +317,18 @@ const getCompras = async (req, res) => {
 }
 
 const deleteComent = async (req, res) => {
-  let { idComentario } = req.body
+  let { idComentario} = req.params
 
-  await Comentario.destroy({ where: {id: idComentario} })
+  let proveedorServ = await Proveedor_Servicio.findOne({ where: { ProveedorId: ProveedorId, ServicioId: ServicioId } })
+  //  console.log(proveedorServ)
+
+  await Comentario.destroy({ where: { ProveedorServicioId: proveedorServ.id, UsuarioId: UsuarioId } })
 
   return res.status(200).send('comentario eliminado')
 }
 
 const deletePregunta = async (req, res) => {
-  let { idPregunta } = req.params
+  let { idPregunta } = req.body
   let pregunta = await Pregunta.findOne({ where: {id: idPregunta} })
    console.log(pregunta)
   await Pregunta.destroy({ where:{id:idPregunta}})
