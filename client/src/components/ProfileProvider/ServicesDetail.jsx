@@ -52,12 +52,11 @@ export default function ProfileDetails() {
                           <button type='submit' className='btn-close' aria-label='Close' style={{ marginLeft: '-350px' }}></button>
                         </NavLink>
                         <img
-                          src={serviceProvider[0]?.imagen}
-                          alt='Admin'
+                          src={`http://localhost:3001/profiles/${serviceProvider[0]?.imagen}`}
+                          alt={"NI"}
                           className='rounded-circle'
                           width='150'
-                          height='150'
-                          onError={(e) => (e.target.src = 'https://www.softzone.es/app/uploads/2018/04/guest.png?x=480&quality=20')}
+                          onError={(e) => (e.target.src = 'https://www.softzone.es/app/uploads-softzone.es/2018/04/guest.png?x=480&quality=20')}
                         />
                         <div className='mt-3'>
                           {/* MAPEO nombre:*/}

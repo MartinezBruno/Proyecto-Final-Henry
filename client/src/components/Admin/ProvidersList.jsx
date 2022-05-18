@@ -15,15 +15,25 @@ export default function ProvidersList() {
     dispatch(setAllProviders())
   }, [])
 
-  //   const handleGetUser = (id) => {
-  //     dispatch(getUser(id))
-  //   }
-
-  const GiveAdmin = (e) => {
+  const giveAdmin = (e) => {
     console.log(e.target.value)
     api
       .post('/admin/setAdmin', { ProveedorId: e.target.value })
       .then(() => Swal.fire('Proveedor ascendido a Administrador correctamente', '', 'success').then(() => window.location.reload()))
+  }
+
+  const giveBan = (e) => {
+    console.log(e.target.value)
+    api
+      .put('/admin/ban', { ProveedorId: e.target.value })
+      .then(() => Swal.fire('Usuario Baneado correctamente', '', 'success').then(() => window.location.reload()))
+  }
+
+  const unBan = (e) => {
+    console.log(e.target.value)
+    api
+      .put('/admin/unban', { ProveedorId: e.target.value })
+      .then(() => Swal.fire('Usuario Desbaneado correctamente', '', 'success').then(() => window.location.reload()))
   }
 
   return (
@@ -47,29 +57,35 @@ export default function ProvidersList() {
               <tr style={{ margin: 'auto' }} key={prov.id}>
                 <td>
                   {/* <img src={`http://localhost:3001/profiles/${prov.IMAGEN}`} style={{ width: '40px', height: '40px', borderRadius: '50px' }} /> */}
-                  <img src={prov.IMAGEN} style={{ width: '40px', height: '40px', borderRadius: '50px' }} />
+                  {/* <img src={prov.IMAGEN} style={{ width: '40px', height: '40px', borderRadius: '50px' }} /> */}
+                  <img
+                    src={`http://localhost:3001/profiles/${prov.IMAGEN}`}
+                    alt={prov.NOMBRE_APELLIDO_PROVEEDOR}
+                    style={{ width: '40px', height: '40px', borderRadius: '50px' }}
+                    onError={(e) => (e.target.src = 'https://www.softzone.es/app/uploads-softzone.es/2018/04/guest.png?x=480&quality=20')}
+                  />
                 </td>
                 <td> {prov.id} </td>
                 <td>{prov.NOMBRE_APELLIDO_PROVEEDOR}</td>
                 <td> {prov.EMAIL} </td>
                 <td>
-                  <button value={prov.id} onClick={(e) => GiveAdmin(e)} className='btn' style={{ padding: '5px', backgroundColor: 'green', color: 'white' }}>
+                  <button value={prov.id} onClick={(e) => giveAdmin(e)} className='btn' style={{ padding: '5px', backgroundColor: 'green', color: 'white' }}>
                     {' '}
                     <i className='fa fa-info-circle' aria-hidden='true'></i> Give Admin
                   </button>
                 </td>
-                { prov.BANNED === 'No' ? (
+                {prov.BANNED === 'No' ? (
                   <td>
-                    <button value={prov.id} onClick={(e) => GiveAdmin(e)} className='btn' style={{ padding: '5px', backgroundColor: 'red', color: 'white' }}>
+                    <button value={prov.id} onClick={(e) => giveBan(e)} className='btn' style={{ padding: '5px', backgroundColor: 'gray', color: 'white' }}>
                       {' '}
-                      <i className='fa fa-info-circle' aria-hidden='true'></i> Banear
+                      Dar Ban
                     </button>
                   </td>
-                ) :  (
+                ) : (
                   <td>
-                    <button value={prov.id} onClick={(e) => GiveAdmin(e)} className='btn' style={{ padding: '5px', backgroundColor: 'gray', color: 'white' }}>
+                    <button value={prov.id} onClick={(e) => unBan(e)} className='btn' style={{ padding: '5px', backgroundColor: 'red', color: 'white' }}>
                       {' '}
-                      <i className='fa fa-info-circle' aria-hidden='true'></i> Quitar Ban
+                      Quitar Ban
                     </button>
                   </td>
                 )}

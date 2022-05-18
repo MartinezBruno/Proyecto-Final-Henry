@@ -25,6 +25,18 @@ export default function UsersList() {
     window.location.reload()
   }
 
+  const giveBan = (e) => {
+    console.log(e.target.value)
+    api.put('/admin/ban', {UsuarioId: e.target.value})
+    .then(() => Swal.fire('Usuario Baneado correctamente', '', 'success').then(() => window.location.reload()))
+  }
+
+  const unBan = (e) => {
+    console.log(e.target.value)
+    api.put('/admin/unban', {UsuarioId: e.target.value})
+    .then(() => Swal.fire('Usuario Desbaneado correctamente', '', 'success').then(() => window.location.reload()))
+  }
+
   return (
     <div className='col-md-10' style={{ margin: 'auto'}}>
       <table className='table table-hover text-center'>
@@ -56,14 +68,21 @@ export default function UsersList() {
                       <i className='fa fa-info-circle' aria-hidden='true'></i> Give Admin
                     </button> 
                 </td>
-                {/* <td>
-                  <NavLink onClick={(user) => handleGetUser(user.id)} to={`/home/`}>
-                    <button className='btn ' style={{ padding: '5px', backgroundColor: 'steelBlue', color: 'white' }}>
+                { user.BANNED === 'No' ? (
+                  <td>
+                    <button value={user.id} onClick={(e) => giveBan(e)} className='btn'  style={{ padding: '5px', backgroundColor: 'gray', color: 'white' }}>
                       {' '}
-                      <i className='fa fa-info-circle' aria-hidden='true'></i> PROFILE
+                      Dar Ban
                     </button>
-                  </NavLink>
-                </td> */}
+                  </td>
+                ) :  (
+                  <td>
+                    <button value={user.id} onClick={(e) => unBan(e)} className='btn' style={{ padding: '5px', backgroundColor: 'red', color: 'white' }}>
+                      {' '}
+                      Quitar Ban
+                    </button>
+                  </td>
+                )}
               </tr>
             )
           })}
