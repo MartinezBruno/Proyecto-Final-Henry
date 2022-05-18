@@ -1,23 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Swal from 'sweetalert2'
-import FullCalendar, { BASE_OPTION_REFINERS } from '@fullcalendar/react' // must go before plugins
+import FullCalendar from '@fullcalendar/react' // must go before plugins
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
-import { addEvent, getAllEvents, setEventos } from '../../redux/slices/events'
+import { addEvent, getAllEvents, setEventos, setError } from '../../redux/slices/events'
 import moment from 'moment'
 
 function Calendar({ isModal, provID, service }) {
   const dispatch = useDispatch()
+  console.log(service)
   const count = service.count
 
-  const { user } = useSelector((state) => state.auth)
-  const { events, eventosAgendados } = useSelector((state) => state.events)
-
-  if (user.Role === 'USUARIO') {
-    var userId = user.id
-  }
+  const { events, error } = useSelector((state) => state.events)
 
   const [input, setInput] = useState({
     fecha_evento: '',
@@ -32,7 +28,6 @@ function Calendar({ isModal, provID, service }) {
   const handleOnChange = (e) => {
     e.preventDefault()
     handleErrors(e)
-
     setInput({
       ...input,
       [e.target.name]: e.target.value,
@@ -74,36 +69,28 @@ function Calendar({ isModal, provID, service }) {
     }
   }
 
-  const handleAddEvent = (service, id, e) => {
+  useEffect(() => {
+    dispatch(getAllEvents(provID, service.id))
+  }, [dispatch])
+
+  const handleAddToCart = async (service, e, id, i) => {
     e.preventDefault()
+    let fecha = moment(input.fecha_evento + ' ' + input.hora_evento).format('YYYY-MM-DD HH:mm')
+    const evento = Object.assign({ start: fecha }, service)
     if (input.fecha_evento === '' || input.hora_evento === '') {
       return Swal.fire('Error al cambiar los datos', 'Por favor Intentelo nuevamente y asegurece de llenar todos los campos', 'error')
     }
-    let fecha = moment(input.fecha_evento + ' ' + input.hora_evento).format('YYYY-MM-DD HH:mm')
-    const cart = [Object.assign({ start: fecha }, service)]
-
     for (let i = 0; i < events.length; i++) {
       let event = events[i]
       if (moment(fecha).isSame(event.start)) {
         return Swal.fire('Error al cambiar los datos', 'Ya existe un evento en esa fecha', 'error')
       }
     }
-    dispatch(addEvent(cart, id))
-    setInput({
-      fecha_evento: '',
-      hora_evento: '',
-    })
-    return Swal.fire('Fecha agendada correctamente', '', 'success')
-  }
-  useEffect(() => {
-    dispatch(getAllEvents(provID, service.id))
-  }, [dispatch])
-
-  const handleAddToCart = (service, e, id, i) => {
-    e.preventDefault()
-    let fecha = moment(input.fecha_evento + ' ' + input.hora_evento).format('YYYY-MM-DD HH:mm')
-    const evento = Object.assign({ start: fecha }, service)
     dispatch(setEventos(evento))
+    if (error) {
+      dispatch(setError())
+      return Swal.fire('Error al agendar la fecha', 'Horario no disponible', 'error')
+    }
     let boton = document.getElementById(id)
     boton.disabled = true
     boton.innerText = '✓'
@@ -155,21 +142,11 @@ function Calendar({ isModal, provID, service }) {
             locale='es'
             events={events}
             initialView='dayGridMonth'
-            eventAdd={handleAddEvent}
           />
         </div>
         <div className='ms-4'>
           <h4>Elije la fecha y hora a la que quieres agendar tu servicio</h4>
           {allForms}
-          {eventosAgendados.length === count ? (
-            <div className='form-group'>
-              <button type='submit' onClick={(e) => handleAddEvent(service, userId, e)} className='btn btn-outline-success mt-3'>
-                Agregar evento
-              </button>
-            </div>
-          ) : (
-            <h5>Por favor agende todos los eventos correspondientes</h5>
-          )}
         </div>
       </div>
     )

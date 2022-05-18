@@ -15,7 +15,7 @@ function CartServices({ id, provName, provID, nombreServ, precio, count, remote,
   const [fullscreen, setFullscreen] = useState(true)
 
   const handleCloseCalendar = () => setShowCalendar(false)
-  const handleShowCalendar = () => {
+  const handleShowCalendar = (e) => {
     setShowCalendar(true)
     setFullscreen(true)
   }
@@ -34,9 +34,14 @@ function CartServices({ id, provName, provID, nombreServ, precio, count, remote,
                   <h5>Agendar evento</h5>
                 </Modal.Title>
               </Modal.Header>
-              <Modal.Body style={{ width: '100%' }}>
+              <Modal.Body className='d-flex justify-content-center align-items-center flex-row'>
                 <Calendar isModal={true} provID={provID} service={servicio} />
               </Modal.Body>
+              <Modal.Footer>
+                <Button variant='primary' onClick={handleCloseCalendar}>
+                  Continuar
+                </Button>
+              </Modal.Footer>
             </Modal>
           </div>
         </td>
