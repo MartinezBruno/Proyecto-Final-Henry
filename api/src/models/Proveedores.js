@@ -31,6 +31,7 @@ module.exports = (sequelize) => {
     FECHA_NACIMIENTO: {
       type: DataTypes.STRING,
       allowNull: false,
+      defaultValue: 'Sin definir',
     },
     CALIFICACION: {
       type: DataTypes.ARRAY(DataTypes.FLOAT),
@@ -48,10 +49,10 @@ module.exports = (sequelize) => {
       allowNull: false,
       defaultValue: 'SIN VERIFICAR',
     },
-  
-   BANNED:{
-     type: DataTypes.STRING,
-     defaultValue: 'No'
-   }
+
+    BANNED: {
+      type: DataTypes.STRING,
+      defaultValue: 'No',
+    },
   })
 }
