@@ -11,7 +11,7 @@ const autofillProveedores = require('./src/routes/automatic-post')
 // Syncing all the models at once.
 conn
 
-  .sync({ force: false })
+  .sync({ force: true })
 
   .then(() => {
     server.listen(8080, () => {
