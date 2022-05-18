@@ -175,6 +175,7 @@ const getCompras= async (req,res) => {
 let compras = await Compra.findAll()
 let proveedoresServicios = [] 
 let proveedores = []
+let servicios = []
 let comprasSend = []
 for(let i=0 ; i<compras.length ; i++) {
   
@@ -191,12 +192,15 @@ for(let i=0 ; i<compras.length ; i++) {
 
   for(let j= 0 ; j<proveedoresServicios.length; j++){
         let proveedor = await Proveedor.findOne({where: {id: proveedoresServicios[i].ProveedorId} })
+        let servicio = await Servicio.findOne({where:{id:proveedoresServicios[i].ServicioId}})
         // console.log(proveedor)
         proveedores.push(proveedor)
+        servicios.push(servicio)
       }
       
       let comprasDef = {
         id: compras[i].id,
+        servicio: servicios[i].NOMBRE_SERVICIO,
         nombreUsuario: DataUsuario.nombre,
         emailUsuario: DataUsuario.email,
         imagenUsuario: DataUsuario.imagen,
