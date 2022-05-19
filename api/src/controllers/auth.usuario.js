@@ -65,7 +65,7 @@ exports.signup = async (req, res) => {
     const options = {
       user: 'no-reply@weattend.online',
       mailOptions: {
-        from: "'Attend' <no-reply@weattend.online>",
+        from: "'Attend' <no-reply@weattend.com.ar>",
         to: `${email}`,
         subject: '¡Bienvenido a Attend!',
         html: templateObtained,
@@ -134,9 +134,9 @@ exports.confirm = async (req, res) => {
 
     // Configurar el email
     const options = {
-      user: 'no-reply@weattend.online',
+      user: 'no-reply@weattend.com.ar',
       mailOptions: {
-        from: "'Attend' <no-reply@weattend.online>",
+        from: "'Attend' <no-reply@weattend.com.ar>",
         to: `${email}`,
         subject: '¡Bienvenido a Attend!',
         html: template,
@@ -208,7 +208,7 @@ exports.signin = async (req, res) => {
       accessToken: token,
       refreshToken: refreshToken,
       message: '¡Bienvenido!',
-      banned: user.BANNED
+      banned: user.BANNED,
     })
   } catch (error) {
     return res.status(500).send({ message: error.message })

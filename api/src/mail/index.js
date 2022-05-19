@@ -16,9 +16,9 @@ function sendMail(options) {
   console.log(options)
   //Creamos el objeto de transporte
   const transporter = nodemailer.createTransport({
-    host: 'mail.weattend.online',
-    port: '587',
-    secure: false,
+    host: 'smtp.zoho.com',
+    port: 465,
+    secure: true,
     auth: {
       user: options.user,
       pass: 'grupo08Henry',

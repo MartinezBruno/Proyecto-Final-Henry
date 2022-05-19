@@ -1,9 +1,8 @@
 const mails = [
-  'administrador@weattend.online',
-  'no-reply@weattend.online',
-  'support@weattend.online',
-  'purchases@weattend.online',
-  'information@weattend.online',
+  'administrador@weattend.com.ar',
+  'no-reply@weattend.com.ar',
+  'support@weattend.com.ar',
+  'info@weattend.com.ar',
 ]
 
 const password = 'grupo08Henry'

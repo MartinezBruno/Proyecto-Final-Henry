@@ -1,5 +1,6 @@
 const {
-  compraServicio,
+  compraSuccess,
+  putUser,
   confirmEmail,
   information,
   registroAdmin,
@@ -9,7 +10,7 @@ const {
   emergenciaEmail,
 } = require('../mail/views')
 
-const getTemplate = ({ nombre, token, template }) => {
+const getTemplate = ({ precios, servicios, nombre, token, template }) => {
   switch (template) {
     case 'confirmEmail':
       return confirmEmail(nombre, token)
@@ -23,8 +24,11 @@ const getTemplate = ({ nombre, token, template }) => {
     case 'registroAdmin':
       return registroAdmin
 
-    case 'compraServicio':
-      return compraServicio
+    case 'compraSuccess':
+      return compraSuccess(nombre, precios, servicios)
+
+    case 'putUser':
+      return putUser(nombre)
 
     case 'ventaServicio':
       return ventaServicio
