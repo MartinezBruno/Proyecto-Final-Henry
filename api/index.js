@@ -10,10 +10,10 @@ const autofillProveedores = require('./src/routes/automatic-post')
 
 // Syncing all the models at once.
 conn
-  .sync({ force: false })
+  .sync({ force: true })
   .then(() => {
-    server.listen(8080, () => {
-      console.log(`%s listening at 8080`) // eslint-disable-line no-console
+    server.listen(process.env.DB_PORT, () => {
+      console.log(`%s listening at ${process.env.DB_PORT}`) // eslint-disable-line no-console
     })
   })
   .then(() => paisesDb())
