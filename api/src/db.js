@@ -6,7 +6,7 @@ const { PGUSER, PGHOST, PGDATABASE, PGPASSWORD, PGPORT } = process.env
 
 const sequelize = new Sequelize({
   username: 'root',
-  host: '127:0.0.1',
+  host: '127.0.0.1',
   database: 'attend-database',
   password: 'root',
   port: 5432,
