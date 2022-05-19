@@ -388,6 +388,12 @@ const createService = async (req,res) =>{
   return res.status(200).send('Servicio Creado')
   }
 
+  const deleteAyuda = async (req,res) => {
+    let {ayudaId} = req.body
+    
+    await Ayuda.destroy({where:{id: ayudaId}})
+    return res.status(200).send('Ayuda finalizada')
+  }
 module.exports = {
   getUsers,
   getProviders,
@@ -401,5 +407,6 @@ module.exports = {
   getAyudas,
   deleteUser,
   deleteProvider,
-  createService
+  createService,
+  deleteAyuda
 }
