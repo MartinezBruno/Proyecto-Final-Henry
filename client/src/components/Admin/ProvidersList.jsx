@@ -21,25 +21,57 @@ export default function ProvidersList() {
   }, [])
 
   const giveAdmin = (e) => {
-    console.log(e.target.value)
-    api
-      .post('/admin/setAdmin', { ProveedorId: e.target.value })
-      .then(() => Swal.fire('Proveedor ascendido a Administrador correctamente', '', 'success').then(() => window.location.reload()))
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'Este proveedor sera ascendido a Administrador!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '¡Sí, Ascender!',
+    }).then((result) => {
+      if(result.value){
+        api.post('/admin/setAdmin', { ProveedorId: e.target.value }).then(() => window.location.reload()).catch((error) => console.log(error))
+      }
+    })
+
+    // console.log(e.target.value)
+    // api
+    //   .post('/admin/setAdmin', { ProveedorId: e.target.value })
+    //   .then(() => Swal.fire('Proveedor ascendido a Administrador correctamente', '', 'success').then(() => window.location.reload()))
   }
 
   const giveBan = (e) => {
     console.log(e.target.value)
     api
       .put('/admin/ban', { ProveedorId: e.target.value })
-      .then(() => Swal.fire('Usuario Baneado correctamente', '', 'success').then(() => window.location.reload()))
+      .then(() => Swal.fire('Proveedor Baneado correctamente', '', 'success').then(() => window.location.reload()))
   }
 
   const unBan = (e) => {
     console.log(e.target.value)
     api
       .put('/admin/unban', { ProveedorId: e.target.value })
-      .then(() => Swal.fire('Usuario Desbaneado correctamente', '', 'success').then(() => window.location.reload()))
+      .then(() => Swal.fire('Proveedor Desbaneado correctamente', '', 'success').then(() => window.location.reload()))
   }
+
+  const ProviderDelete = (e) => {
+    console.log(e.target.value)
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: '¡El Proveedor Eliminado ya no se podra recuperar!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '¡Sí, Borrar!',
+    }).then((result) => {
+      if(result.value){
+        api.delete(`/admin/deleteProvider/${e.target.value}`).then(() => window.location.reload())
+      }
+    })
+  }
+
   if (role === 'ADMIN') {
     return (
       <div className='col-md-10' style={{ margin: 'auto' }}>
@@ -52,6 +84,7 @@ export default function ProvidersList() {
               <th scope='col'>EMAIL</th>
               <th scope='col'>DAR ADMIN</th>
               <th scope='col'>BANEADO</th>
+              <th scope='col'>BORRAR</th>
             </tr>
           </thead>
           <tbody>
@@ -94,6 +127,16 @@ export default function ProvidersList() {
                       </button>
                     </td>
                   )}
+                  <td>
+                    <button
+                      value={prov.id}
+                      onClick={(e) => ProviderDelete(e)}
+                      className='btn'
+                      style={{ padding: '5px', backgroundColor: 'red', color: 'white' }}>
+                      {' '}
+                      Eliminar
+                    </button>
+                    </td>
                 </tr>
               )
             })}
@@ -101,7 +144,7 @@ export default function ProvidersList() {
         </table>
       </div>
     )
-  }else{
+  } else {
     return <AdminError />
   }
 }

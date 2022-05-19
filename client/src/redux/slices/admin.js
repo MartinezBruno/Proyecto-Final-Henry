@@ -7,7 +7,7 @@ export const adminSlice = createSlice({
     allUsers: [],
     allProviders: [],
     allBuys: [],
-    admin: false,
+    ayudas: [],
   },
   reducers: {
     SetAllUsers: (state, action) => {
@@ -19,12 +19,22 @@ export const adminSlice = createSlice({
     SetAllBuys: (state, action) => {
       state.allBuys = action.payload
     },
+    SetAyudas: (state, action) => {
+      state.ayudas = action.payload
+    }
   },
 })
 
-export const { SetAllUsers, SetAllProviders, SetAllBuys } = adminSlice.actions
+export const { SetAllUsers, SetAllProviders, SetAllBuys, SetAyudas } = adminSlice.actions
 
 export default adminSlice.reducer
+
+export function getAyudas(){
+  return async function(dispatch){
+    let info = await api.get('/admin/ayudas')
+    dispatch(SetAyudas(info.data))
+  }
+}
 
 export function setAllUsers() {
   return async function (dispatch) {

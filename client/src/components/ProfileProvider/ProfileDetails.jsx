@@ -29,14 +29,14 @@ export default function ProfileDetails() {
 
   // localStorage('cartList', JSON.stringify(services))
   const handleOnDelete = () => {
-    console.log(ProviderID)
+    // console.log(ProviderID)
     dispatch(deleteFromFavorites(userId, ProviderID))
     setAdded(true)
     // window.location.reload()
   }
 
   const handleOnAdd = () => {
-    console.log(ProviderID)
+    // console.log(ProviderID)
     dispatch(addToFavorites(userId, ProviderID))
     setAdded(false)
     // window.location.reload()
@@ -233,6 +233,15 @@ export default function ProfileDetails() {
                   {/* INICIA MAPEO DE FECHA DE REGISTRO */}
                   <span className='text-secondary'>{serviceProvider[0]?.serviciosCompletados} </span>
                   {/* CIERRA MAPEO DE FECHA DE REGISTRO */}
+                </li>
+                <li className='list-group-item d-flex justify-content-between align-items-center flex-wrap'>
+                  <h6>
+                    <i className='fa fa-angle-right' aria-hidden='true'></i> Disponibilidad Horaria:
+                  </h6>
+                  <span>
+                    {uniqueprovider.hora_inicio === 'Sin definir' ? '08:00' : uniqueprovider.hora_inicio} -{' '}
+                    {uniqueprovider.hora_final === 'Sin definir' ? '18:00' : uniqueprovider.hora_final}
+                  </span>
                 </li>
               </ul>
             </div>

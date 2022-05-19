@@ -37,8 +37,8 @@ export default function FloatCartButton() {
         title: '<strong>Debes estar <u>Logueado</u> para poder comprar</strong>',
         icon: 'warning',
         html:
-          '<a href="http://localhost:3000/login">Inicia sesión</a> para continuar con su compra. ' +
-          'Si no tienes una cuenta, <a href="http://localhost:3000/register">Regístrate</a> de forma rápida y sencilla.',
+          '<a href="http://weattend.com.ar/login">Inicia sesión</a> para continuar con su compra. ' +
+          'Si no tienes una cuenta, <a href="http://weattend.com.ar/register">Regístrate</a> de forma rápida y sencilla.',
         showCloseButton: true,
         // showCancelButton: true,
         focusConfirm: false,

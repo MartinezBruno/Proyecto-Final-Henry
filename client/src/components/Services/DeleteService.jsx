@@ -23,7 +23,7 @@ function DeleteService() {
 
   const handleForm = (e) => {
     if (e.target.name === 'NOMBRE_SERVICIO') {
-      console.log(e.target.value)
+      // console.log(e.target.value)
       setIdServ({ id: e.target.value })
     }
   }

@@ -26,8 +26,20 @@ export default function UsersList() {
 
   const GiveAdmin = (e) => {
     console.log(e.target.value)
-    api.post('/admin/setAdmin', { UsuarioId: e.target.value }).then(() => Swal.fire('Proveedor ascendido a Administrador correctamente', '', 'success'))
-    window.location.reload()
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: '¡Tu proveedor sera ascendido a Administrador!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '¡Sí, cambiar!',
+    }).then((result) => {
+      if (result.value) {
+        api.post('/admin/setAdmin', { UsuarioId: e.target.value }).then(() => window.location.reload())
+      }
+    })
+    // api.post('/admin/setAdmin', { UsuarioId: e.target.value }).then(() => Swal.fire('Proveedor ascendido a Administrador correctamente', '', 'success')).then(() => window.location.reload())
   }
 
   const giveBan = (e) => {
@@ -44,6 +56,23 @@ export default function UsersList() {
       .then(() => Swal.fire('Usuario Desbaneado correctamente', '', 'success').then(() => window.location.reload()))
   }
 
+  const UserDelete = (e) => {
+    console.log(e.target.value)
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: '¡El usuario Eliminado ya no se podra recuperar!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '¡Sí, Borrar!',
+    }).then((result) => {
+      if(result.value){
+        api.delete(`/admin/deleteUser/${e.target.value}`).then(() => window.location.reload())
+      }
+    })
+  }
+
   if (role === 'ADMIN') {
     return (
       <div className='col-md-10' style={{ margin: 'auto' }}>
@@ -54,8 +83,9 @@ export default function UsersList() {
               <th scope='col'>ID</th>
               <th scope='col'>NOMBRE</th>
               <th scope='col'>EMAIL</th>
-              <th scope='col'>PERFIL</th>
-              <th scope='col'> </th>
+              <th scope='col'>DAR ADMIN</th>
+              <th scope='col'>BANEADO</th>
+              <th scope='col'>BORRAR</th>
             </tr>
           </thead>
           <tbody>
@@ -91,6 +121,12 @@ export default function UsersList() {
                       </button>
                     </td>
                   )}
+                  <td>
+                    <button value={user.id} onClick={(e) => UserDelete(e)} className='btn' style={{ padding: '5px', backgroundColor: 'red', color: 'white' }}>
+                      {' '}
+                      Eliminar
+                    </button>
+                  </td>
                 </tr>
               )
             })}
@@ -98,7 +134,7 @@ export default function UsersList() {
         </table>
       </div>
     )
-  }else{
+  } else {
     return <AdminError />
   }
 }

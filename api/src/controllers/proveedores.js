@@ -14,6 +14,7 @@ const {
   DuracionServicio,
   Ayuda
 } = require('../db')
+var bcrypt = require('bcryptjs')
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 
@@ -110,6 +111,8 @@ const allProvs = async () => {
           descripcion: prov.descripcion,
           duracionServicio: prov.duracion,
         },
+        hora_inicio: prov.servicio.HORA_INICIO ? prov.proveedor.HORA_INICIO : 'Sin definir',
+        hora_final: prov.servicio.HORA_FINAL ? prov.proveedor.HORA_FINAL : 'Sin definir',
       }
     }
     return null
@@ -255,6 +258,8 @@ const getProvByID = async (req, res, next) => {
           duracionServicio: servicio.duracionServicio.DURACION,
         }
       }),
+      hora_inicio: proveedor.HORA_INICIO ? proveedor.HORA_INICIO : 'Sin definir',
+      hora_final: proveedor.HORA_FINAL ? proveedor.HORA_FINAL : 'Sin definir',
     }
     return res.status(200).send(proveedorAMostrar)
   } catch (error) {
@@ -1152,7 +1157,7 @@ const filtroProveedor = async (req, res, next) => {
 
 const putProvider = async (req, res, next) => {
   const { id } = req.params
-  const { nombre_apellido_proveedor, email, celular, fecha_nacimiento } = req.body
+  const { nombre_apellido_proveedor, email, celular, fecha_nacimiento, hora_inicio, hora_final } = req.body
   try {
     const proveedor = await Proveedor.findByPk(id)
     proveedor === null
@@ -1163,6 +1168,8 @@ const putProvider = async (req, res, next) => {
             EMAIL: email,
             CELULAR: celular,
             FECHA_NACIMIENTO: fecha_nacimiento,
+            HORA_INICIO: hora_inicio,
+            HORA_FINAL: hora_final,
           },
           { where: { id: id } }
         )
@@ -1178,7 +1185,7 @@ const createAyuda = async (req,res) => {
   let {proveedorId, asunto} = req.body
     
   let prov = await Proveedor.findByPk(proveedorId)
-   console.log(prov)
+  //  console.log(prov)
    
   let ayudaCreate = await Ayuda.create({
     ASUNTO: asunto
@@ -1186,6 +1193,37 @@ const createAyuda = async (req,res) => {
 
  ayudaCreate.setProveedor(prov.id)
 
+ return res.status(200).send("Ayuda enviada Exitosamente")
+}
+
+const changePassword = async (req, res) => {
+  const { id } = req.params
+  const { newPassword, oldPassword } = req.body
+  try {
+    const providerEncontrado = await Proveedor.findOne({
+      where: { id: id },
+    })
+
+    if (providerEncontrado === null) return res.status(404).send({ message: 'No se encontró un usuario con ese id' })
+
+    const passwordIsValid = bcrypt.compareSync(oldPassword, providerEncontrado.PASSWORD)
+    if (!passwordIsValid) {
+      return res.status(401).send({
+        message: '¡Contraseña incorrecta!',
+      })
+    }
+
+    await Proveedor.update(
+      {
+        PASSWORD: bcrypt.hashSync(newPassword, 8),
+      },
+      { where: { id: id } }
+    )
+    return res.status(204).send({ message: 'Contraseña actualizada correctamente' })
+  } catch (error) {
+    console.error(error)
+    return res.status(500).send({ message: 'Error al actualizar contraseña' })
+  }
 }
 
 module.exports = {
@@ -1197,5 +1235,6 @@ module.exports = {
   filtroPorProvincia,
   filtroProveedor,
   putProvider,
-  createAyuda
+  createAyuda,
+  changePassword,
 }

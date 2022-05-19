@@ -13,9 +13,9 @@ const {
   Favorito,
   Usuario_Favorito,
   Emergencia,
-  Ayuda
+  Ayuda,
 } = require('../db')
-const { emergencia } = require('./emergencia')
+var bcrypt = require('bcryptjs')
 
 const getUsers = async (req, res) => {
   try {
@@ -276,6 +276,36 @@ const putUser = async (req, res, next) => {
   }
 }
 
+const changePassword = async (req, res) => {
+  const { id } = req.params
+  const { newPassword, oldPassword } = req.body
+  try {
+    const usuarioEncontrado = await Usuario.findOne({
+      where: { id: id },
+    })
+
+    if (usuarioEncontrado === null) return res.status(404).send({ message: 'No se encontró un usuario con ese id' })
+
+    const passwordIsValid = bcrypt.compareSync(oldPassword, usuarioEncontrado.PASSWORD)
+    if (!passwordIsValid) {
+      return res.status(401).send({
+        message: '¡Contraseña incorrecta!',
+      })
+    }
+
+    await Usuario.update(
+      {
+        PASSWORD: bcrypt.hashSync(newPassword, 8),
+      },
+      { where: { id: id } }
+    )
+    return res.status(204).send({ message: 'Contraseña actualizada correctamente' })
+  } catch (error) {
+    console.error(error)
+    return res.status(500).send({ message: 'Error al actualizar contraseña' })
+  }
+}
+
 const adminBoard = (req, res) => {
   res.status(200).send('Admin Content.')
 }
@@ -339,33 +369,37 @@ const buyReview = async (req, res) => {
 
 const compraSuccess = async (req, res) => {
   let { cart, id } = req.body
+  console.log('this is cart', cart)
   try {
     let idProveedor = cart?.map((compra) => compra.provID)
     let idUsuario = id
     let idServicio = cart?.map((compra) => compra.id)
 
     for (let i = 0; i < idProveedor.length; i++) {
+      console.log(idProveedor[i])
+      console.log(idServicio[i])
       let provServ = await Proveedor_Servicio.findOne({
         where: { ProveedorId: idProveedor[i], ServicioId: idServicio[i] },
       })
+      // console.log(provServ)
 
       let usuario = await Usuario.findOne({ where: { id: idUsuario } })
+      // console.log('this is the user', usuario)
 
       let compra = await Compra.create()
 
       compra.setUsuario(usuario)
       compra.setProveedor_Servicio(provServ)
-
     }
-    
+
     let emergencia = await Emergencia.findAll({
-      where: {UsuarioId: idUsuario}
+      where: { UsuarioId: idUsuario },
     })
-    if(emergencia.length > 0){
-       await Emergencia.update({ COMPRA_SUCCES: 'Si' }, { where: { UsuarioId: idUsuario } })
+    if (emergencia.length > 0) {
+      await Emergencia.update({ COMPRA_SUCCES: 'Si' }, { where: { UsuarioId: idUsuario } })
     }
 
-  return res.status(200).send({ message: 'Compra guardada en la DB' })
+    return res.status(200).send({ message: 'Compra guardada en la DB' })
   } catch (error) {
     console.error(error)
     return res.status(500).send({ message: 'Error al guardar compra' })
@@ -382,24 +416,24 @@ const misCompras = async (req, res) => {
     })
     for (let i = 0; i < misCompras.length; i++) {
       let ProvServ = await Proveedor_Servicio.findOne({ where: { id: misCompras[i].ProveedorServicioId } })
-      if(ProvServ){
-       console.log(ProvServ.ServicioId, ProvServ.PrecioId, ProvServ.ProveedorId)
-       let proveedor = await Proveedor.findOne({ where: { id: ProvServ.ProveedorId } })
-       let servicio = await Servicio.findOne({ where: { id: ProvServ.ServicioId } })
-       let precio = await Precio.findOne({ where: { id: ProvServ.PrecioId } })
-       let descripcion = await Descripcion.findOne({ where: { id: ProvServ.DescripcionId } })
-       
-       arrayCompras.unshift({
-        proveedor: proveedor.NOMBRE_APELLIDO_PROVEEDOR,
-        idProveedor: proveedor.id,
-        idServicio: servicio.id,
-        servicio: servicio.NOMBRE_SERVICIO,
-        precio: precio.PRECIO,
-        descripcion: descripcion.DESCRIPCION,
-        fecha: misCompras[i].createdAt,
-      })
-      } else if (ProvServ === null){
-        arrayCompras.unshift({ message:'El proveedor de esta compra ahora es un admin, comuniquese con el soporte si necesita ayuda'})
+      if (ProvServ) {
+        console.log(ProvServ.ServicioId, ProvServ.PrecioId, ProvServ.ProveedorId)
+        let proveedor = await Proveedor.findOne({ where: { id: ProvServ.ProveedorId } })
+        let servicio = await Servicio.findOne({ where: { id: ProvServ.ServicioId } })
+        let precio = await Precio.findOne({ where: { id: ProvServ.PrecioId } })
+        let descripcion = await Descripcion.findOne({ where: { id: ProvServ.DescripcionId } })
+
+        arrayCompras.unshift({
+          proveedor: proveedor.NOMBRE_APELLIDO_PROVEEDOR,
+          idProveedor: proveedor.id,
+          idServicio: servicio.id,
+          servicio: servicio.NOMBRE_SERVICIO,
+          precio: precio.PRECIO,
+          descripcion: descripcion.DESCRIPCION,
+          fecha: misCompras[i].createdAt,
+        })
+      } else if (ProvServ === null) {
+        arrayCompras.unshift({ message: 'El proveedor de esta compra ahora es un admin, comuniquese con el soporte si necesita ayuda' })
       }
     }
     return res.status(200).send(arrayCompras)
@@ -408,21 +442,18 @@ const misCompras = async (req, res) => {
   }
 }
 
+const createAyuda = async (req, res) => {
+  let { usuarioId, asunto } = req.body
 
-const createAyuda = async (req,res) => {
-  let {usuarioId, asunto} = req.body
-    
   let user = await Usuario.findByPk(usuarioId)
   // console.log(user)
-   
+
   let ayudaCreate = await Ayuda.create({
-    ASUNTO: asunto
+    ASUNTO: asunto,
   })
 
- ayudaCreate.setUsuario(user.id)
-
+  ayudaCreate.setUsuario(user.id)
 }
-
 
 module.exports = {
   getUsers,
@@ -435,8 +466,9 @@ module.exports = {
   adminBoard,
   moderatorBoard,
   putUser,
+  changePassword,
   buyReview,
   compraSuccess,
   misCompras,
-  createAyuda
+  createAyuda,
 }

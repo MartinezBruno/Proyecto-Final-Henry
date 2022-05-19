@@ -1,0 +1,20 @@
+.calendar{
+  margin-top: 1px;
+}
+
+
+@media screen and (max-width: 900px ){
+  .calendar{
+    margin-top: 45rem !important;
+  }
+}
+@media screen and (max-width: 1200px ){
+  .calendar{
+    margin-top: 20rem !important;
+  }
+}
+@media screen and (max-width: 1140px ){
+  .calendar{
+    margin-top: 34rem !important;
+  }
+}
