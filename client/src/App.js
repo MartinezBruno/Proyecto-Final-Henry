@@ -32,6 +32,8 @@ import axios from 'axios'
 import Emergency from './components/Emergency/Emergencies'
 import AdminLogin from './components/Login_Register/AdminLogin'
 import Ayuda from './components/Admin/Ayuda'
+import PanelAdmin from './components/Admin/PanelAdmin'
+import NewService from './components/Admin/NewService'
 
 function App() {
   // Initialize Sentry with the browser tracing integration.
@@ -92,6 +94,8 @@ function App() {
           <Route path='admin/providersList' element={<ProvidersList />} />
           <Route path='admin/salesHistory' element={<SalesHistory />} />
           <Route path='admin/ayudas' element={<Ayuda />} />
+          <Route path='admin/panelAdmin' element={<PanelAdmin />} />
+          <Route path='admin/newService' element={<NewService />} />
         </Route>
       </Routes>
       <Footer />
