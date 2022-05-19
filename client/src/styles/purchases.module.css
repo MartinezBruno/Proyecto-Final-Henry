@@ -38,9 +38,9 @@
       flex-wrap: wrap;
     }
     .biggerOnSmall{
-        min-width: 40%px!important
+        min-width: 130px!important
     }
     .smallerOnSmall{
-        max-width: 30%!important
+        max-width: 90px!important
     }
   }
