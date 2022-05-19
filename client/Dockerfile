@@ -1,19 +1,9 @@
-FROM node:16-alpine AS builder
-
+FROM node:alpine
 WORKDIR /app
-
-COPY package.json package.json
-
-RUN npm install --force
-
-COPY . .
-
-FROM nginx:alpine
-
-WORKDIR /usr/share/nginx/html
-
-RUN rm -rf *
-
-COPY --from=builder /app/dist .
-
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+COPY package.json ./
+COPY package-lock.json ./
+COPY ./ ./
+RUN npm i --force
+EXPOSE 3000
+CMD ["npm", "start"]
+ 
