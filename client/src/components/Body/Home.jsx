@@ -9,6 +9,7 @@ import styles from '../../styles/home.module.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllProviders } from '../../redux/slices/provider'
 import { getFavoritesFromDb } from '../../redux/slices/favorites'
+import Banned from '../Banned'
 
 export default function Home() {
   const dispatch = useDispatch()
@@ -16,6 +17,8 @@ export default function Home() {
   const { isLoggedIn, user } = useSelector((state) => state.auth)
   if (user) {
     var userId = user.id
+    var role = user.Role
+    var banned = user.banned
   }
 
   //PAGINATION VARS
@@ -35,10 +38,12 @@ export default function Home() {
 
   useEffect(() => {
     dispatch(getAllProviders())
-    if (user.Role === 'USUARIO') {
-      dispatch(getFavoritesFromDb(userId))
-    }
+    role && dispatch(getFavoritesFromDb(userId))
   }, [dispatch])
+
+  if (banned === 'Si') {
+    return <Banned />
+  }
 
   return (
     <>

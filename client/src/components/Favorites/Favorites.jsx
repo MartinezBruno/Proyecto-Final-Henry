@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { getFavoritesFromDb } from '../../redux/slices/favorites'
 import { NavLink } from 'react-router-dom'
 import DeleteFavorites from './DeleteFavorites'
+import Banned from '../Banned'
 
 function Favorites() {
   const dispatch = useDispatch()
@@ -11,17 +12,24 @@ function Favorites() {
   const { favorites } = useSelector((state) => state.favorites)
 
   const { user } = useSelector((state) => state.auth)
-  let role = user.Role
-  let userId = user.id
-
+  if (user) {
+    var userId = user.id
+    var role = user.Role
+    var banned = user.banned
+  }
   useEffect(() => {
     dispatch(getFavoritesFromDb(userId))
   }, [dispatch])
+  
+  if (banned === 'Si') {
+    return <Banned />
+  }
+
   return (
     <>
       {role === 'USUARIO' && (
         <>
-          <h1>Favoritos</h1>
+          <h1 style={{ display: 'flex', justifyContent: 'center' }}>Favoritos</h1>
           {favorites.length > 0 ? (
             <div className='d-flex flex-wrap justify-content-center'>
               {favorites.map((favorite) => {
@@ -61,7 +69,7 @@ function Favorites() {
               })}
             </div>
           ) : (
-            <>No hay favoritos</>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>No hay favoritos</div>
           )}
         </>
       )}

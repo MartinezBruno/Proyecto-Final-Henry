@@ -37,8 +37,8 @@ export default function FloatCartButton() {
         title: '<strong>Debes estar <u>Logueado</u> para poder comprar</strong>',
         icon: 'warning',
         html:
-          '<a href="http://localhost:3000/login">Inicia sesión</a> para continuar con su compra. ' +
-          'Si no tienes una cuenta, <a href="http://localhost:3000/register">Regístrate</a> de forma rápida y sencilla.',
+          '<a href="http://weattend.com.ar/login">Inicia sesión</a> para continuar con su compra. ' +
+          'Si no tienes una cuenta, <a href="http://weattend.com.ar/register">Regístrate</a> de forma rápida y sencilla.',
         showCloseButton: true,
         // showCancelButton: true,
         focusConfirm: false,
@@ -122,18 +122,18 @@ export default function FloatCartButton() {
                             variant='secondary'
                             style={{ fontSize: '0.8rem' }}
                             onClick={() => {
-                              dispatch(addToCart(serv))
+                              dispatch(deleteService(services, serv.id, serv.provID))
                             }}>
-                            <i class='fa fa-plus-circle' aria-hidden='true'></i>
+                            {' '}
+                            <i class='fa fa-minus-circle' aria-hidden='true'></i>
                           </Button>
                           <Button
                             variant='secondary'
                             style={{ fontSize: '0.8rem' }}
                             onClick={() => {
-                              dispatch(deleteService(services, serv.id, serv.provID))
+                              dispatch(addToCart(serv))
                             }}>
-                            {' '}
-                            <i class='fa fa-minus-circle' aria-hidden='true'></i>
+                            <i class='fa fa-plus-circle' aria-hidden='true'></i>
                           </Button>
                           <Button
                             variant='danger'

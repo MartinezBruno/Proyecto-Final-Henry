@@ -1,10 +1,26 @@
-const { Proveedor, Servicio, Ciudad, Provincia, Pais, Precio, Proveedor_Servicio, Descripcion, Role, Pregunta, Usuario, Comentario } = require('../db')
+const {
+  Proveedor,
+  Servicio,
+  Ciudad,
+  Provincia,
+  Pais,
+  Precio,
+  Proveedor_Servicio,
+  Descripcion,
+  Role,
+  Pregunta,
+  Usuario,
+  Comentario,
+  DuracionServicio,
+  Ayuda
+} = require('../db')
+var bcrypt = require('bcryptjs')
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 
 const allProvs = async () => {
   let proveedorServ = await Proveedor_Servicio.findAll({
-    attributes: ['ServicioId', 'ProveedorId', 'PrecioId', 'DescripcionId'],
+    attributes: ['ServicioId', 'ProveedorId', 'PrecioId', 'DescripcionId', 'DuracionServicioId'],
     include: [
       {
         model: Precio,
@@ -13,6 +29,10 @@ const allProvs = async () => {
       {
         model: Descripcion,
         attributes: ['DESCRIPCION'],
+      },
+      {
+        model: DuracionServicio,
+        attributes: ['DURACION'],
       },
     ],
   })
@@ -24,6 +44,7 @@ const allProvs = async () => {
       PrecioId: el.PrecioId,
       Precio: el.Precio.PRECIO,
       Descripcion: el.Descripcion.DESCRIPCION,
+      DuracionServicio: el.DuracionServicio.DURACION,
     }
   })
 
@@ -53,6 +74,7 @@ const allProvs = async () => {
       servicio: servicio,
       precio: proveedorServ[i].Precio,
       descripcion: proveedorServ[i].Descripcion,
+      duracion: proveedorServ[i].DuracionServicio,
     })
   }
 
@@ -87,7 +109,10 @@ const allProvs = async () => {
           remote: prov.servicio.REMOTE,
           precio: prov.precio,
           descripcion: prov.descripcion,
+          duracionServicio: prov.duracion,
         },
+        hora_inicio: prov.servicio.HORA_INICIO ? prov.proveedor.HORA_INICIO : 'Sin definir',
+        hora_final: prov.servicio.HORA_FINAL ? prov.proveedor.HORA_FINAL : 'Sin definir',
       }
     }
     return null
@@ -123,6 +148,7 @@ const getProv = async (req, res, next) => {
           let usuario = await Usuario.findOne({ where: { id: preguntas[i].UsuarioId } })
           preguntasAMostrar.unshift({
             id: preguntas[i].id,
+            USUARIO_ID: usuario.id,
             USUARIO: usuario.NOMBRE_APELLIDO_USUARIO,
             PREGUNTA: preguntas[i].PREGUNTA,
             RESPUESTA: preguntas[i].RESPUESTA,
@@ -140,7 +166,7 @@ const getProv = async (req, res, next) => {
         let UsuarioComentario = []
         for (let i = 0; i < Comentarios.length; i++) {
           let usuario = await Usuario.findOne({ where: { id: Comentarios[i].UsuarioId } })
-          UsuarioComentario.unshift({ id: Comentarios[i].id, USUARIO: usuario.NOMBRE_APELLIDO_USUARIO, COMENTARIO: Comentarios[i].COMENTARIO })
+          UsuarioComentario.unshift({ id: Comentarios[i].id, USUARIO: usuario.NOMBRE_APELLIDO_USUARIO,USUARIO_ID: usuario.id, COMENTARIO: Comentarios[i].COMENTARIO })
         }
 
         proveedores = proveedores.map((prov) => {
@@ -174,6 +200,10 @@ const getProvByID = async (req, res, next) => {
           model: Descripcion,
           attributes: ['DESCRIPCION'],
         },
+        {
+          model: DuracionServicio,
+          attributes: ['DURACION'],
+        },
       ],
     })
 
@@ -203,6 +233,7 @@ const getProvByID = async (req, res, next) => {
         servicio: servicio,
         precio: proveedorServ[i].Precio,
         descripcion: proveedorServ[i].Descripcion,
+        duracionServicio: proveedorServ[i].DuracionServicio,
       })
     }
     proveedorAMostrar = {
@@ -216,7 +247,7 @@ const getProvByID = async (req, res, next) => {
       creation_date: proveedor.createdAt,
       ciudad: proveedor.Ciudad ? proveedor.Ciudad.NOMBRE_CIUDAD : 'Sin definir',
       provincia: proveedor.Provincium ? proveedor.Provincium.NOMBRE_PROVINCIA : 'Sin definir',
-      pais: proveedor.Pai.NOMBRE_PAIS,
+      pais: proveedor.Pai ? proveedor.Pai.NOMBRE_PAIS : 'Sin definir',
       servicios: servicios.map((servicio) => {
         return {
           id: servicio.servicio.id,
@@ -224,8 +255,11 @@ const getProvByID = async (req, res, next) => {
           remote: servicio.servicio.REMOTE,
           precio: servicio.precio.PRECIO,
           descripcion: servicio.descripcion.DESCRIPCION,
+          duracionServicio: servicio.duracionServicio.DURACION,
         }
       }),
+      hora_inicio: proveedor.HORA_INICIO ? proveedor.HORA_INICIO : 'Sin definir',
+      hora_final: proveedor.HORA_FINAL ? proveedor.HORA_FINAL : 'Sin definir',
     }
     return res.status(200).send(proveedorAMostrar)
   } catch (error) {
@@ -243,6 +277,7 @@ const deleteServicio_Prov = async (req, res) => {
 
     let precio = precioDisp.PrecioId
     let descripcionDisp = precioDisp.DescripcionId
+    let duracionDisp = precioDisp.DuracionServicioId
 
     await Descripcion.destroy({
       where: [{ id: descripcionDisp }],
@@ -250,6 +285,10 @@ const deleteServicio_Prov = async (req, res) => {
 
     await Precio.destroy({
       where: [{ id: precio }],
+    })
+
+    await DuracionServicio.destroy({
+      where: [{ id: duracionDisp }],
     })
 
     await Proveedor_Servicio.destroy({
@@ -270,6 +309,7 @@ const deleteServicio_Prov = async (req, res) => {
         REMOTE: true,
         PRECIO: NaN,
         DESCRIPCION: '',
+        DURACION: '',
       }
 
       let serviciosDisp = await Servicio.findOne({
@@ -293,9 +333,13 @@ const deleteServicio_Prov = async (req, res) => {
       let d = await Descripcion.create({
         DESCRIPCION: servicio.DESCRIPCION,
       })
+      let dur = await DuracionServicio.create({
+        DURACION: servicio.DURACION,
+      })
 
       await proveedor_servicio.setPrecio(p)
       await proveedor_servicio.setDescripcion(d)
+      await proveedor_servicio.setDuracionServicio(dur)
     }
 
     return res.status(204).send({ msg: 'Servicio eliminado' })
@@ -320,6 +364,7 @@ const addServicio_Prov = async (req, res, next) => {
 
     let arrayPrecios = servicios.map((servicio) => servicio.PRECIO)
     let arrayDescripcion = servicios.map((servicio) => servicio.DESCRIPCION)
+    let arrayDuration = servicios.map((servicio) => servicio.DURACION)
 
     let serviciosDisp = await Servicio.findAll({
       where: {
@@ -367,6 +412,26 @@ const addServicio_Prov = async (req, res, next) => {
         },
       })
       proveedor_servicio.setDescripcion(d)
+    }
+
+    for (let i = 0; i < arrayDuration.length; i++) {
+      let dur = await DuracionServicio.create({
+        DURACION: arrayDuration[i],
+      })
+      let proovedor = await Proveedor.findOne({ where: { id: id } })
+      let servicio = await Servicio.findOne({
+        where: {
+          NOMBRE_SERVICIO: arrayServicios[i].NOMBRE_SERVICIO,
+          REMOTE: arrayServicios[i].REMOTE,
+        },
+      })
+      let proveedor_servicio = await Proveedor_Servicio.findOne({
+        where: {
+          ProveedorId: proovedor.id,
+          ServicioId: servicio.id,
+        },
+      })
+      proveedor_servicio.setDuracionServicio(dur)
     }
     return res.status(204).send({ message: 'Servicios agregados' })
   } catch (error) {
@@ -1090,6 +1155,77 @@ const filtroProveedor = async (req, res, next) => {
   }
 }
 
+const putProvider = async (req, res, next) => {
+  const { id } = req.params
+  const { nombre_apellido_proveedor, email, celular, fecha_nacimiento, hora_inicio, hora_final } = req.body
+  try {
+    const proveedor = await Proveedor.findByPk(id)
+    proveedor === null
+      ? res.status(404).send('No se encontró el proveedor')
+      : await Proveedor.update(
+          {
+            NOMBRE_APELLIDO_PROVEEDOR: nombre_apellido_proveedor,
+            EMAIL: email,
+            CELULAR: celular,
+            FECHA_NACIMIENTO: fecha_nacimiento,
+            HORA_INICIO: hora_inicio,
+            HORA_FINAL: hora_final,
+          },
+          { where: { id: id } }
+        )
+    return res.status(204).send({ message: 'Proveedor actualizado' })
+  } catch (error) {
+    console.error(error)
+    return res.status(500).send(error)
+  }
+}
+
+
+const createAyuda = async (req,res) => {
+  let {proveedorId, asunto} = req.body
+    
+  let prov = await Proveedor.findByPk(proveedorId)
+  //  console.log(prov)
+   
+  let ayudaCreate = await Ayuda.create({
+    ASUNTO: asunto
+  })
+
+ ayudaCreate.setProveedor(prov.id)
+
+ return res.status(200).send("Ayuda enviada Exitosamente")
+}
+
+const changePassword = async (req, res) => {
+  const { id } = req.params
+  const { newPassword, oldPassword } = req.body
+  try {
+    const providerEncontrado = await Proveedor.findOne({
+      where: { id: id },
+    })
+
+    if (providerEncontrado === null) return res.status(404).send({ message: 'No se encontró un usuario con ese id' })
+
+    const passwordIsValid = bcrypt.compareSync(oldPassword, providerEncontrado.PASSWORD)
+    if (!passwordIsValid) {
+      return res.status(401).send({
+        message: '¡Contraseña incorrecta!',
+      })
+    }
+
+    await Proveedor.update(
+      {
+        PASSWORD: bcrypt.hashSync(newPassword, 8),
+      },
+      { where: { id: id } }
+    )
+    return res.status(204).send({ message: 'Contraseña actualizada correctamente' })
+  } catch (error) {
+    console.error(error)
+    return res.status(500).send({ message: 'Error al actualizar contraseña' })
+  }
+}
+
 module.exports = {
   getProv,
   getProvByID,
@@ -1098,4 +1234,7 @@ module.exports = {
   filtroPorProfesion,
   filtroPorProvincia,
   filtroProveedor,
+  putProvider,
+  createAyuda,
+  changePassword,
 }

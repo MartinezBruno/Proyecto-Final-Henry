@@ -29,14 +29,14 @@ export default function ProfileDetails() {
 
   // localStorage('cartList', JSON.stringify(services))
   const handleOnDelete = () => {
-    console.log(ProviderID)
+    // console.log(ProviderID)
     dispatch(deleteFromFavorites(userId, ProviderID))
     setAdded(true)
     // window.location.reload()
   }
 
   const handleOnAdd = () => {
-    console.log(ProviderID)
+    // console.log(ProviderID)
     dispatch(addToFavorites(userId, ProviderID))
     setAdded(false)
     // window.location.reload()
@@ -67,13 +67,12 @@ export default function ProfileDetails() {
                     <button type='submit' className='btn-close' aria-label='Close' style={{ marginLeft: '-350px' }}></button>
                   </NavLink>
                   <img
-                    src={uniqueprovider.imagen}
-                    alt='Admin'
-                    className='rounded-circle'
-                    width='150'
-                    height='150'
-                    onError={(e) => (e.target.src = 'https://www.softzone.es/app/uploads/2018/04/guest.png?x=480&quality=20')}
-                  />
+                      src={`http://localhost:3001/profiles/${uniqueprovider.imagen}`}
+                      alt={uniqueprovider.nombre_apellido_usuario} 
+                      className='rounded-circle'
+                      width='150'
+                      onError={(e) => (e.target.src = 'https://www.softzone.es/app/uploads-softzone.es/2018/04/guest.png?x=480&quality=20')}
+                    />
                   <div className='mt-3'>
                     {/* MAPEO nombre:*/}
                     <h4>{uniqueprovider.nombre_apellido_proveedor}</h4>
@@ -234,6 +233,15 @@ export default function ProfileDetails() {
                   {/* INICIA MAPEO DE FECHA DE REGISTRO */}
                   <span className='text-secondary'>{serviceProvider[0]?.serviciosCompletados} </span>
                   {/* CIERRA MAPEO DE FECHA DE REGISTRO */}
+                </li>
+                <li className='list-group-item d-flex justify-content-between align-items-center flex-wrap'>
+                  <h6>
+                    <i className='fa fa-angle-right' aria-hidden='true'></i> Disponibilidad Horaria:
+                  </h6>
+                  <span>
+                    {uniqueprovider.hora_inicio === 'Sin definir' ? '08:00' : uniqueprovider.hora_inicio} -{' '}
+                    {uniqueprovider.hora_final === 'Sin definir' ? '18:00' : uniqueprovider.hora_final}
+                  </span>
                 </li>
               </ul>
             </div>

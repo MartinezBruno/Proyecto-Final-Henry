@@ -2,11 +2,23 @@ require('dotenv').config()
 const { Sequelize } = require('sequelize')
 const fs = require('fs')
 const path = require('path')
-const { DB_USER, DB_PASSWORD, DB_HOST, DB_NAME } = process.env
+// const { DB_USER, DB_PASSWORD, DB_HOST, DB_NAME } = process.env
 
-const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`, {
+const sequelize = new Sequelize({
+  database: 'defaultdb',
+  username: 'doadmin',
+  password: 'AVNS_ANFr5VaHiMZeExE',
+  host: 'db-postgresql-nyc1-97441-do-user-11470878-0.b.db.ondigitalocean.com',
+  port: 25060,
+  dialect: 'postgres',
   logging: false, // set to console.log to see the raw SQL queries
   native: false, // lets Sequelize know we can use pg-native for ~30% more speed
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false, // <<<<<<< YOU NEED THIS
+    },
+  },
 })
 
 const basename = path.basename(__filename)
@@ -47,6 +59,11 @@ const {
   Compra,
   Chat,
   Favorito,
+  Evento,
+  CompraVerify,
+  DuracionServicio,
+  Emergencia,
+  Ayuda
 } = sequelize.models
 
 // Aca vendrian las relaciones
@@ -74,11 +91,12 @@ Pais.hasMany(Usuario)
 Pais.hasMany(Admin)
 Servicio.belongsToMany(Proveedor, { through: Proveedor_Servicio })
 Proveedor.belongsToMany(Servicio, { through: Proveedor_Servicio })
-Proveedor.belongsToMany(Usuario, { through: 'Usuario_Provedoor' })
 Proveedor.belongsToMany(Admin, { through: 'Admin_Provedoor' })
 Proveedor.belongsTo(Pais)
 Proveedor.belongsTo(Provincia)
 Proveedor.belongsTo(Ciudad)
+Proveedor_Servicio.belongsTo(DuracionServicio)
+DuracionServicio.hasOne(Proveedor_Servicio)
 Proveedor_Servicio.belongsTo(Precio)
 Precio.hasOne(Proveedor_Servicio)
 Proveedor_Servicio.belongsTo(Descripcion)
@@ -137,6 +155,27 @@ Proveedor.hasOne(Chat)
 
 Favorito.belongsToMany(Usuario, { through: 'Usuario_Favorito' })
 Usuario.belongsToMany(Favorito, { through: 'Usuario_Favorito' })
+
+CompraVerify.belongsTo(Evento)
+Evento.hasOne(CompraVerify)
+CompraVerify.belongsTo(Usuario)
+Usuario.hasMany(CompraVerify)
+CompraVerify.belongsTo(Proveedor_Servicio)
+Proveedor_Servicio.hasMany(CompraVerify)
+Usuario.hasOne(Emergencia)
+Emergencia.belongsTo(Usuario)
+Proveedor.hasOne(Emergencia)
+Emergencia.belongsTo(Proveedor)
+Servicio.hasOne(Emergencia)
+Emergencia.belongsTo(Servicio)
+Emergencia.belongsTo(Proveedor_Servicio)
+Proveedor_Servicio.hasOne(Emergencia)
+
+Proveedor.hasMany(Ayuda)
+Ayuda.belongsTo(Proveedor)
+Usuario.hasMany(Ayuda)
+Ayuda.belongsTo(Usuario)
+
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');

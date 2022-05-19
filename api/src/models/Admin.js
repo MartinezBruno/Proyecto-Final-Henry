@@ -32,17 +32,28 @@ module.exports = (sequelize) => {
     CALIFICACION: {
       type: DataTypes.ARRAY(DataTypes.FLOAT),
       allowNull: false,
-      defaultValue: [],
+      defaultValue: [], 
     },
 
     CELULAR: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
     },
 
     FAVORITOS: {
       type: DataTypes.ARRAY(DataTypes.UUID),
       allowNull: false,
       defaultValue: [],
+    },
+
+    CODE: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+
+    STATUSCODE: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: 'SIN VERIFICAR',
     },
   })
 }

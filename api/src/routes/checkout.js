@@ -16,4 +16,5 @@ router.post('/payment', (req, res, next) => {
   PaymentInstance.getPaymentLink(req, res, next)
 })
 
+
 module.exports = router

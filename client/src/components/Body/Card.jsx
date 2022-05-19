@@ -20,9 +20,9 @@ export default function Card({ nombre, imagen, idProv, idServ, servicio, descrip
         title: '<strong>Debes estar <u>Logueado</u> para poder ver mas información</strong>',
         icon: 'warning',
         html:
-          '<a href="http://localhost:3000/login">Inicia sesión</a> para continuar con su compra. ' +
+          '<a href="http://weattend.com.ar/login">Inicia sesión</a> para continuar con su compra. ' +
           '<br/>' +
-          'Si no tienes una cuenta, <a href="http://localhost:3000/register">Regístrate</a> de forma rápida y sencilla.',
+          'Si no tienes una cuenta, <a href="http://weattend.com.ar/register">Regístrate</a> de forma rápida y sencilla.',
         showCloseButton: true,
         // showCancelButton: true,
         focusConfirm: false,
@@ -42,10 +42,10 @@ export default function Card({ nombre, imagen, idProv, idServ, servicio, descrip
       <div className={`${styles.profileCard4} text-center`}>
         {/* <img src={imagen} alt={nombre} onError={(e) => e.target.src=file} className='img img-responsive' /> */}
         <img
-          src={imagen}
+          src={`http://localhost:3001/profiles/${imagen}`}
           alt={nombre}
-          onError={(e) => (e.target.src = 'https://www.softzone.es/app/uploads/2018/04/guest.png?x=480&quality=20')}
-          className='img img-responsive'
+          onError={(e) => (e.target.src = 'https://www.softzone.es/app/uploads-softzone.es/2018/04/guest.png?x=480&quality=20')}
+          className='img img-responsiv'
         />
 
         <div className={styles.profileContent}>

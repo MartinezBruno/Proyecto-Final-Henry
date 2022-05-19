@@ -6,7 +6,7 @@ import { getUser } from '../../redux/slices/user'
 
 export default function ProfileShowInfo(props) {
   function handleSave() {
-    props.changeForm(false)
+    props.changeForm(true)
   }
 
   const dispatch = useDispatch()
@@ -57,13 +57,13 @@ export default function ProfileShowInfo(props) {
             <div className='col-sm-9 text-secondary'>{`${UniqueUser.pais}, ${UniqueUser.provincia}, ${UniqueUser.ciudad}`}</div>
           </div> 
           <hr /> */}
-          {/* <div className='row'>
+          <div className='row'>
             <div className='col-sm-12'>
-              <button className='btn btn-dark ' onClick={() => props.changeForm(true)}>
+              <button className='btn btn-dark' onClick={handleSave}>
                 EDITAR
               </button>
             </div>
-          </div> */}
+          </div>
         </div>
       </div>
     </>

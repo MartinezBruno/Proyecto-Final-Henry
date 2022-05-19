@@ -2,11 +2,14 @@ import React from 'react'
 import styles from '../../styles/profile.module.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
+import ChangePassword from '../ChangePassword'
 import { getUniqueProvider } from '../../redux/slices/provider'
+import EditarDisponibilidad from './EditarDisponibilidad'
+import EventosProvider from './EventosProvider'
 
 export default function ProfileShowInfo(props) {
   function handleSave() {
-    props.changeForm(false)
+    props.changeForm(true)
   }
 
   const dispatch = useDispatch()
@@ -59,9 +62,12 @@ export default function ProfileShowInfo(props) {
           <hr /> */}
           <div className='row'>
             <div className='col-sm-12'>
-              {/* <button className='btn btn-dark ' onClick={() => props.changeForm(true)}>
+              <button type='submit' className='btn btn-dark' onClick={handleSave}>
                 EDITAR
-              </button> */}
+              </button>
+              <ChangePassword />
+              <EditarDisponibilidad />
+              <EventosProvider />
             </div>
           </div>
         </div>
