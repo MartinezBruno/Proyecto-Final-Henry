@@ -14,7 +14,7 @@ function confirmEmail(nombre, token) {
             <h2>Hola ${nombre}</h2>
             <p>Para confirmar tu cuenta, ingresa al siguiente enlace</p>
             <a
-                href="http://localhost:${process.env.DB_PORT}/api/auth/usuario/confirm/${token}"
+                href="http://weattend.com.ar/api/auth/usuario/confirm/${token}"
                 target="_blank"
             >Confirmar Cuenta</a>
         </div>
