@@ -23,7 +23,7 @@ export default function NavBar() {
   const { user } = useSelector((state) => state.auth)
   if (user) {
     var role = user.Role
-    var banned = user.BANNED
+    var banned = user.banned
   }
 
   const { isLoggedIn } = useSelector((state) => state.auth)

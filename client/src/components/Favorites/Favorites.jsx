@@ -15,7 +15,7 @@ function Favorites() {
   if (user) {
     var userId = user.id
     var role = user.Role
-    var banned = user.BANNED
+    var banned = user.banned
   }
   useEffect(() => {
     dispatch(getFavoritesFromDb(userId))

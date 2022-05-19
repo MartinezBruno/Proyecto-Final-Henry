@@ -7,7 +7,7 @@ import Banned from '../Banned'
 export default function About() {
   const { user } = useSelector((state) => state.auth)
   if (user) {
-    var banned = user.BANNED
+    var banned = user.banned
   }
   if (banned === 'Si') {
     return <Banned />
