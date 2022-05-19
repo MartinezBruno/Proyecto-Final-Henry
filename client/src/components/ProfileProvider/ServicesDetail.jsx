@@ -11,6 +11,7 @@ import styles from '../../styles/profile.module.css'
 import { NavLink } from 'react-router-dom'
 import { useState } from 'react'
 import { setMessage } from '../../redux/slices/message'
+import Banned from '../Banned'
 var moment = require('moment')
 moment.locale('es-us')
 
@@ -24,7 +25,9 @@ export default function ProfileDetails() {
   const { user, isLoggedIn } = useSelector((state) => state.auth)
   const [showQuestions, setShowQuestions] = useState(false)
   const [order, setOrder] = useState('ordenado')
-
+  if (user) {
+    var banned = user.BANNED
+  }
   const handleCloseQuestions = () => setShowQuestions(false)
   const handleshowQuestions = (e) => {
     // console.log(e.target.value)
@@ -36,6 +39,9 @@ export default function ProfileDetails() {
     dispatch(getServiceProvider(idProv, idServ))
   }, [dispatch, idProv, idServ])
 
+  if (banned === 'Si') {
+    return <Banned />
+  }
   return (
     <>
       {isLoggedIn ? (

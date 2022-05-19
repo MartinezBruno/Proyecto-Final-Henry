@@ -14,7 +14,6 @@ function ProfileProveedor() {
   const dispatch = useDispatch()
   const { user } = useSelector((state) => state.auth)
   const { uniqueprovider } = useSelector((state) => state.provider)
-  console.log(uniqueprovider)
 
   useEffect(() => {
     dispatch(getUniqueProvider(user.id))

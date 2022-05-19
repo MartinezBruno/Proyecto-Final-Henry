@@ -14,16 +14,17 @@ import { logout } from '../../redux/slices/auth'
 import { getUniqueProvider } from '../../redux/slices/provider'
 import Dropdown from 'react-bootstrap/Dropdown'
 import NavDropdown from 'react-bootstrap/NavDropdown'
+import Banned from '../Banned'
 
 export default function NavBar() {
   const location = useLocation()
   console.log(location)
   const [showRegister, setShowRegister] = useState(false)
   const [showLogin, setShowLogin] = useState(false)
-  let role
   const { user } = useSelector((state) => state.auth)
   if (user) {
-    role = user.Role
+    var role = user.Role
+    var banned = user.BANNED
   }
 
   const { isLoggedIn } = useSelector((state) => state.auth)
@@ -38,14 +39,19 @@ export default function NavBar() {
   function handleLogout(e) {
     dispatch(logout())
   }
+  if (banned === 'Si') {
+    return <Banned />
+  }
 
   return (
     <>
       {/* ////////////////////////////////////////////////////////////////////////////////////////////////////////////////EMPIEZA NAVBAR DE ALGUIEN  NO LOGUEADO */}
       {!isLoggedIn && (
         <div className={`d-flex container justify-content-center ${styles.navMain} ${styles.wrapOnSmall}`}>
-                    <div className={`${styles.logoWrap} ${styles.showOnSmall} `}>
-          <Link to='/' className={`${styles.showOnSmall}`}><img className={`${styles.logoImg} ${styles.showOnSmall}`} src={location.pathname ==='/' ? logoLight : logo} alt='logo' /></Link>
+          <div className={`${styles.logoWrap} ${styles.showOnSmall} `}>
+            <Link to='/' className={`${styles.showOnSmall}`}>
+              <img className={`${styles.logoImg} ${styles.showOnSmall}`} src={location.pathname === '/' ? logoLight : logo} alt='logo' />
+            </Link>
           </div>
           <div className={`${styles.searchbarContainer} `}>
             <NavLink to='/'>
@@ -120,7 +126,9 @@ export default function NavBar() {
       {isLoggedIn && (
         <div className={`d-flex container justify-content-center align-items-center ${styles.wrapOnSmall}`} style={{ backgroundColor: 'transparent' }}>
           <div className={`${styles.logoWrap} ${styles.showOnSmall} `}>
-          <Link to='/' className={`${styles.showOnSmall}`}><img className={`${styles.logoImg} ${styles.showOnSmall}`} src={location.pathname ==='/' ? logoLight : logo} alt='logo' /></Link>
+            <Link to='/' className={`${styles.showOnSmall}`}>
+              <img className={`${styles.logoImg} ${styles.showOnSmall}`} src={location.pathname === '/' ? logoLight : logo} alt='logo' />
+            </Link>
           </div>
           <div className={`${styles.searchbarContainer} `}>
             <NavLink to='/'>
@@ -134,7 +142,6 @@ export default function NavBar() {
               <NavLink to='/about' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
                 NOSOTROS
               </NavLink>
-
             </div>
 
             <div className='d-flex align-items-center justify-content-center text-center' style={{ flexDirection: 'row' }}>
@@ -147,30 +154,30 @@ export default function NavBar() {
                 }>
                 <NavDropdown.Item>
                   <NavLink to='/profile' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
-                  <i class="fa fa-address-card" aria-hidden="true"></i> Ver mi perfil
+                    <i class='fa fa-address-card' aria-hidden='true'></i> Ver mi perfil
                   </NavLink>
                 </NavDropdown.Item>
                 <NavDropdown.Item>
                   <NavLink to='/home/chat' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
-                  <i class="fa fa-commenting" aria-hidden="true"></i> Mis chats
+                    <i class='fa fa-commenting' aria-hidden='true'></i> Mis chats
                   </NavLink>
                 </NavDropdown.Item>
                 {role === 'USUARIO' && (
                   <>
                     <NavDropdown.Item>
                       <NavLink to='/purchases' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
-                      <i class="fa fa-shopping-cart" aria-hidden="true"></i> Mis compras
+                        <i class='fa fa-shopping-cart' aria-hidden='true'></i> Mis compras
                       </NavLink>
                     </NavDropdown.Item>
                     <NavDropdown.Item>
                       {' '}
                       <NavLink to='/profile/favorites' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
-                      <i class="fa fa-star" aria-hidden="true"></i> Mis favoritos
+                        <i class='fa fa-star' aria-hidden='true'></i> Mis favoritos
                       </NavLink>
                     </NavDropdown.Item>
                   </>
                 )}
-                <Dropdown.Divider className={`${styles.showOnSmall}`}/>
+                <Dropdown.Divider className={`${styles.showOnSmall}`} />
                 <Dropdown.Item href='/' onClick={() => handleLogout()} className={`${styles.showOnSmall}`}>
                   <i className='fa fa-sign-out' aria-hidden='true'></i> Cerrar sesión
                 </Dropdown.Item>
