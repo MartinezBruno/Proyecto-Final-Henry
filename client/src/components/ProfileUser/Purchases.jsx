@@ -10,6 +10,7 @@ import Moment from 'react-moment'
 import { NavLink } from 'react-router-dom'
 import { getServiceProvider, getUniqueProvider } from '../../redux/slices/provider'
 import { setIdNewProvider } from '../../redux/slices/chat'
+import styles from '../../styles/purchases.module.css'
 
 export default function Purchases() {
   let dispatch = useDispatch()
@@ -81,26 +82,26 @@ export default function Purchases() {
   if (isLoggedIn) {
     return (
       <>
-        <div className='container mt-3'>
-          <div className='row align-items-center justify-content-center text-center'>
-            <div className='col' style={{maxWidth:'650px'}}>
+        <div className='container'>
+          <div className='d-flex column align-items-center justify-content-center text-center' style={{ flexDirection: 'column' }}>
+           
               <h3>Listado de tus compras.</h3>
               <hr />
-              <table className='table'>
+              <table className={`table ${styles.tableDetails}`}>
                 <thead className='table-dark'>
                   <tr style={{ border: 'none' }}>
-                    <th scope='col'>SERVICIO</th>
-                    <th scope='col'>COSTO</th>
-                    <th scope='col'>FECHA</th>
-                    <th scope='col'> </th>
+                    <th scope='col' className={styles.biggerOnSmall}>SERVICIO</th>
+                    <th scope='col' className={styles.hideOnSmall}>COSTO</th>
+                    <th scope='col' className={styles.smallerOnSmall}>FECHA</th>
+                    <th scope='col' className={styles.smallerOnSmall}> </th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className={styles.tableContent}>
                   {purchases?.map((el, index) => {
                     return (
                       <tr key={el.idServicio}>
                         <td>
-                          <div>
+                        <div className={styles.flexCenter}>
                             <span>
                               <b>{el.servicio}</b>
                             </span>
@@ -108,21 +109,27 @@ export default function Purchases() {
                           </div>
                         </td>
 
-                        <td>
+                        <td className={styles.hideOnSmall}>
+                        <div className={styles.flexCenter}>
                           <p>$ {el.precio}</p>
+                          </div>
                         </td>
 
                         <td>
+                          <div className={styles.flexCenter}>
                           <p>
                             <Moment format='DD/MM/YYYY'>{el.fecha}</Moment>
                           </p>
+                          </div>
                         </td>
 
                         <td>
                           {/* <Button variant="secondary" onClick={()=>calificarProveedor(usuarioId, 'ProviderID', 'Servicio')}>Calificar y comentar</Button> */}
+                          <div className={`${styles.flexCenter}`}>
                           <Button
                             key={index}
                             variant='secondary'
+                            className={styles.buttonOption}
                             onClick={() => {
                               dispatch(getServiceProvider(el.idProveedor, el.idServicio))
                               handleShow()
@@ -133,13 +140,14 @@ export default function Purchases() {
                             <Button
                               key={index}
                               variant='primary'
-                              style={{ marginLeft: '10px' }}
+                              className={styles.buttonOption}
                               onClick={() => {
                                 newChat(el.idProveedor)
                               }}>
                               Ir al Chat
                             </Button>
                           </NavLink>
+                          </div>
 
                           <Modal show={show} onHide={handleClose}>
                             <Modal.Header closeButton>
@@ -187,7 +195,7 @@ export default function Purchases() {
                   })}
                 </tbody>
               </table>
-            </div>
+           
           </div>
         </div>
       </>

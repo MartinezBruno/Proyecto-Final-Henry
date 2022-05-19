@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { cleanActualChat, cleanNewProvider, getUserChatHistory, newUserMessage, refreshChat, setClickChat } from '../../redux/slices/chat'
 import { getUniqueProvider } from '../../redux/slices/provider'
 import api from '../../services/api'
+import Accordion from 'react-bootstrap/Accordion'
 import './chat.css'
 
 export default function UserChat() {
@@ -66,10 +67,58 @@ export default function UserChat() {
 
   return (
     <div className='container'>
-      <div className='ScrollDownButton'>
-      </div>
+      <div className='ScrollDownButton'></div>
       <div className='row clearfix'>
         <div className='col-lg-12'>
+          <div className='showOnSmall text-center'>
+            {/* ACA EMPIEZA EL MAPEO DE CHAT EN PEQUEÑO */}
+            <Accordion defaultActiveKey='0'>
+              <Accordion.Item eventKey='0'>
+                <Accordion.Header>MIS CHATS ACTIVOS</Accordion.Header>
+                <Accordion.Body>
+                  <ul className='list-unstyled chat-list mt-2 mb-0'>
+
+
+                  {chatHistory.length > 0 ? (
+                  chatHistory?.map((p) => (
+                    <a href='#ScrollDown' style={{textDecoration:'none', color: 'black'}}>
+                      <li className='clearfix miniChat' value={p.id} onClick={() => handleChat(idUsuario, p.id)}>
+                        <img
+                          src={p.IMAGEN}
+                          alt='nt'
+                          style={{ width: '45px', height: '45px', borderRadius:'50%'}}
+                          onError={(e) =>
+                            (e.target.src =
+                              'https://images-ext-2.discordapp.net/external/sDPHKeBTrgE7mhtTqdkBNgRWuod6SCz-ugAtCHW5FTE/%3Fx%3D480%26quality%3D20/https/www.softzone.es/app/uploads/2018/04/guest.png')
+                          }
+                        />
+                        <div className='about'>
+                          <div className='name' style={{ fontWeight: 'bold', fontSize: '16px' }}>
+                            {p.NOMBRE_APELLIDO_PROVEEDOR}
+                          </div>
+                          <div className='status'>
+                            {' '}
+                            <p style={{fontSize:'11px', marginTop:'0px'}}><i>Proveedor de Servicio</i></p>
+                          </div>
+                        </div>
+                      </li>
+                    </a>
+                  ))
+                ) : (
+                  <p style={{ display: 'flex', justifyContent: 'center', textAlign: 'center', fontSize: '18px' }}>
+                    {' '}
+                    ¡No tienes chats abiertos! Compra algún Servicio para poder interactuar con tu proveedor{' '}
+                  </p>
+                )}
+
+
+                  </ul>
+                </Accordion.Body>
+              </Accordion.Item>
+            </Accordion>
+          </div>
+          {/* ACA ACABA EL MAPEO DE CHAT EN PEQUEÑO */}
+
           <div className='card chat-app'>
             <div id='plist' className='people-list' style={{ height: '79vh', border: '1px solid lightgray', borderRight: '2px solid lightgray' }}>
               <h4 style={{ display: 'flex', justifyContent: 'center' }}>Chats Abiertos</h4>
@@ -110,7 +159,7 @@ export default function UserChat() {
             </div>
 
             <div className='chat'>
-                <div className='sticky-top chat-header clearfix' style={{backgroundColor: 'white', zIndex: '1', borderBottom: '2px solid lightgray' }}>
+              <div className='sticky-top chat-header clearfix' style={{ backgroundColor: 'white', zIndex: '1', borderBottom: '2px solid lightgray' }}>
                 <div className='row '>
                   <div className='col-lg-6 '>
                     {actualChat.id || idProvider ? (
@@ -184,7 +233,7 @@ export default function UserChat() {
                 <div id='ScrollDown'></div>
               </div>
             </div>
-            <div className='chat-message clearfix' >
+            <div className='chat-message clearfix'>
               {idNewProvider || actualChat.length !== 0 ? (
                 <div className='input-group mb-0'>
                   <div className='input-group-prepend '></div>
