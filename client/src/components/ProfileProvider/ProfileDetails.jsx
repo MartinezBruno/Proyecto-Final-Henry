@@ -29,14 +29,14 @@ export default function ProfileDetails() {
 
   // localStorage('cartList', JSON.stringify(services))
   const handleOnDelete = () => {
-    console.log(ProviderID)
+    // console.log(ProviderID)
     dispatch(deleteFromFavorites(userId, ProviderID))
     setAdded(true)
     // window.location.reload()
   }
 
   const handleOnAdd = () => {
-    console.log(ProviderID)
+    // console.log(ProviderID)
     dispatch(addToFavorites(userId, ProviderID))
     setAdded(false)
     // window.location.reload()

@@ -23,7 +23,7 @@ function CartServices({ id, provName, provID, nombreServ, precio, count, remote,
     // console.log(moment().hour(18).minutes(0).format('HH:mm'))
     // console.log(moment().hour(9).minutes(0).format('HH:mm'))
     dispatch(getUniqueProvider(provID))
-    console.log(uniqueprovider)
+    // console.log(uniqueprovider)
 
     setShowCalendar(true)
     setFullscreen(true)

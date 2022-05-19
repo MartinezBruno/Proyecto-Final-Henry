@@ -83,7 +83,7 @@ function ChangePassword() {
   }
   return (
     <>
-      <button type='button' className='btn btn-outline-warning mx-4' onClick={handleShow}>
+      <button type='button' className='btn btn-warning mx-4' onClick={handleShow}>
         Cambiar contraseña
       </button>
       <Modal show={show} onHide={handleClose}>

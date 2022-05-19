@@ -2,6 +2,7 @@ const axios = require('axios')
 
 class PaymentService {
   async createPayment(servicios) {
+    console.log(servicios)
     const url = 'https://api.mercadopago.com/checkout/preferences'
     const body = {
       items: servicios?.map((servicio) => {
@@ -17,9 +18,9 @@ class PaymentService {
       expiration_date_from: new Date().toISOString(),
       expiration_date_to: new Date('December 31, 2023').toISOString(),
       back_urls: {
-        failure: 'http://localhost:3000/home/PaymentFailed',
+        failure: 'http://weattend.com.ar/home/PaymentFailed',
         pending: '/pending',
-        success: 'http://localhost:3000/home/PaymentSuccess',
+        success: 'http://weattend.com.ar/home/PaymentSuccess',
       },
       order: {
         type: 'mercadopago',

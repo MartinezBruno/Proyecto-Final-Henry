@@ -14,15 +14,16 @@ import { logout } from '../../redux/slices/auth'
 import { getUniqueProvider } from '../../redux/slices/provider'
 import Dropdown from 'react-bootstrap/Dropdown'
 import NavDropdown from 'react-bootstrap/NavDropdown'
+import Banned from '../Banned'
 
 export default function NavBar() {
   const location = useLocation()
   const [showRegister, setShowRegister] = useState(false)
   const [showLogin, setShowLogin] = useState(false)
-  let role
   const { user } = useSelector((state) => state.auth)
   if (user) {
-    role = user.Role
+    var role = user.Role
+    var banned = user.banned
   }
 
   const { isLoggedIn } = useSelector((state) => state.auth)
@@ -36,6 +37,9 @@ export default function NavBar() {
 
   function handleLogout(e) {
     dispatch(logout())
+  }
+  if (banned === 'Si') {
+    return <Banned />
   }
 
   return (

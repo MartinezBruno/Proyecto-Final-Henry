@@ -1,8 +1,17 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import styles from '../../styles/about.module.css'
 import logo from '../img-logo/Logo2_Definitivo.png'
+import Banned from '../Banned'
 
 export default function About() {
+  const { user } = useSelector((state) => state.auth)
+  if (user) {
+    var banned = user.banned
+  }
+  if (banned === 'Si') {
+    return <Banned />
+  }
   return (
     <>
       <div className={`container-fluid`}>
@@ -17,22 +26,15 @@ export default function About() {
           }}>
           <div className='row g-0'>
             <div className='col-md-4'>
-              <img
-                src={logo}
-                className='img-fluid rounded-start'
-                style={{ width: '300px', backgroundColor: '' }}
-                alt='...'
-              />
+              <img src={logo} className='img-fluid rounded-start' style={{ width: '300px', backgroundColor: '' }} alt='...' />
             </div>
             <div className='col-md-8'>
               <div className='card-body'>
                 <h5 className='card-title'>¿ Como nacio ATTEND ?</h5>
                 <p className='card-text'>
-                  La creación de la plataforma surgió en base a la constante
-                  necesidad, de simplificar las tareas del día a día y hacerlas
-                  mas fáciles de solucionar, siendo así, damos la posibilidad de
-                  realizar búsquedas de proveedores de servicios de confianza
-                  para garantizarle facilidad al usuario
+                  La creación de la plataforma surgió en base a la constante necesidad, de simplificar las tareas del día a día y hacerlas mas fáciles de
+                  solucionar, siendo así, damos la posibilidad de realizar búsquedas de proveedores de servicios de confianza para garantizarle facilidad al
+                  usuario
                 </p>
                 {/* <p className="card-text">
                 <small className="text-muted"></small>
@@ -66,13 +68,11 @@ export default function About() {
             />
             <div className='card-body'>
               <h5>
-                Se trata del tiempo{' '}
-                <i className='fa fa-clock-o' aria-hidden='true'></i>
+                Se trata del tiempo <i className='fa fa-clock-o' aria-hidden='true'></i>
               </h5>
               <p className='card-text'>
-                El tiempo es nuestro recurso más preciado, y no renovable. Al
-                ayudar a las personas a conectar de manera rapida con una
-                solucion a su problema, les estamos dando tiempo.
+                El tiempo es nuestro recurso más preciado, y no renovable. Al ayudar a las personas a conectar de manera rapida con una solucion a su problema,
+                les estamos dando tiempo.
               </p>
             </div>
           </div>
@@ -94,14 +94,12 @@ export default function About() {
             />
             <div className='card-body'>
               <h5>
-                Se trata de Ayuda{' '}
-                <i className='fa fa-handshake-o' aria-hidden='true'></i>
+                Se trata de Ayuda <i className='fa fa-handshake-o' aria-hidden='true'></i>
               </h5>
               <p className='card-text'>
                 {/* Todos necesitamos ayuda para resolver nuestros problemas o necesidades,  */}
-                Todos necesitamos una mano, ya sea para estudiar, o porque algun
-                elemento de la casa se descompuso. Estamos haciendo que la ayuda
-                de confianza, sea accesible para más personas.
+                Todos necesitamos una mano, ya sea para estudiar, o porque algun elemento de la casa se descompuso. Estamos haciendo que la ayuda de confianza,
+                sea accesible para más personas.
               </p>
             </div>
           </div>
@@ -122,13 +120,11 @@ export default function About() {
             />
             <div className='card-body'>
               <h5>
-                Se trata de Conectividad{' '}
-                <i className='fa fa-users' aria-hidden='true'></i>
+                Se trata de Conectividad <i className='fa fa-users' aria-hidden='true'></i>
               </h5>
               <p className='card-text'>
-                Buscamos ser una plataforma en la cual, siempre tengas a
-                disposicion a una persona que este para ayudarte y brindarte su
-                servicio, de la mejor manera posible.
+                Buscamos ser una plataforma en la cual, siempre tengas a disposicion a una persona que este para ayudarte y brindarte su servicio, de la mejor
+                manera posible.
               </p>
             </div>
           </div>

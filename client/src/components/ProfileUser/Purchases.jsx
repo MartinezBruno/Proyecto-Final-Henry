@@ -56,7 +56,7 @@ export default function Purchases() {
 
   function handleSubmit() {
     // dispatch(chargePurchases(usuarioId))
-    console.log(input)
+    // console.log(input)
     api
       .put('/usuario/calificacion', input)
       .then((res) => {
@@ -72,7 +72,7 @@ export default function Purchases() {
   }
 
   function newChat(e) {
-    console.log(e)
+    // console.log(e)
     dispatch(getUniqueProvider(e))
     dispatch(setIdNewProvider(e))
   }

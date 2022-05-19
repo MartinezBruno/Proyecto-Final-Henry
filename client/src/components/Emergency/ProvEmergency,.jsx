@@ -27,7 +27,7 @@ export default function ProvEmergency(props) {
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log(idUser, idProv, idServ)
+        // console.log(idUser, idProv, idServ)
         api
           .put('/emergencia', { UsuarioId: idUser, ProveedorId: idProv, ServicioId: idServ })
           .then((res) => {

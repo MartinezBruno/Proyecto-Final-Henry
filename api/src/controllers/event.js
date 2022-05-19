@@ -70,6 +70,7 @@ const getProveedorEvents = async (req, res) => {
 
 const createEvent = async (req, res) => {
   const { cart, id } = req.body
+  if (!cart || !id) return res.status(400).send({ message: 'Faltan datos' })
   try {
     let idProveedor = cart?.map((compra) => compra.provID)
     let idUsuario = id
