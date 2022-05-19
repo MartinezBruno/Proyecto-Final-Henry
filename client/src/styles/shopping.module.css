@@ -1,0 +1,12 @@
+@media screen and (max-width: 770px) {
+
+    .hideOnSmall{
+      display:none!important;
+    }
+    .showOnSmall{
+      display: inherit!important;
+    }
+    .wrapOnSmall{
+      flex-wrap: wrap;
+    }
+  }

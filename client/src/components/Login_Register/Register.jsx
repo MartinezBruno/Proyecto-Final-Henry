@@ -14,6 +14,7 @@ import api from '../../services/api'
 import Swal from 'sweetalert2'
 import 'animate.css'
 import ReCAPTCHA from 'react-google-recaptcha'
+import FacebookLogin from 'react-facebook-login'
 
 export default function Register({ isModal }) {
   const { allProviders } = useSelector((state) => state.provider)
@@ -32,7 +33,63 @@ export default function Register({ isModal }) {
 
   function onRecaptcha(e) {
     e.preventDefault(e)
-    captcha.current.getValue()
+    console.log('PASO CAPTCHA')
+    // captcha.current.getValue()
+  }
+
+  function responseFacebook(e){
+    let userName= e.name.split(' ')
+
+    let userRegister = { 
+      nombre: userName[0],
+      apellido: userName[1],
+      password: e.id, ///VERIFICAR
+      email: e.email,
+      imagen: e.picture.data.url,
+      // fecha_nacimiento: "30-11-1960",
+      // pais: "Argentina",
+      // provincia: "Provincia de Buenos Aires",
+      // ciudad: "Partido de La Plata",
+      // celular: 2841282
+    }
+  api
+    .post('/auth/usuario/signup', userRegister)
+    .then((r) => {
+      Swal.fire('¡Registrado con exito!', '', 'success')
+    })
+    .catch((err) => {
+      Swal.fire('¡Ha ocurrido un error, intentalo nuevamente!', '', 'error')
+    })
+
+  }
+
+  function responseFacebookProv(e){
+    let userName= e.name.split(' ')
+
+    let provRegister = { 
+      nombre: userName[0],
+      apellido: userName[1],
+      password: e.id, ///VERIFICAR
+      email: e.email,
+      imagen: e.picture.data.url,
+      // fecha_nacimiento: "30-11-1960",
+      // pais: "Argentina",
+      // provincia: "Provincia de Buenos Aires",
+      // ciudad: "Partido de La Plata",
+      // celular: 2841282
+    }
+  api
+    .post('/auth/proveedor/signup', provRegister)
+    .then((r) => {
+      Swal.fire('¡Registrado con exito!', '', 'success')
+    })
+    .catch((err) => {
+      Swal.fire('¡Ha ocurrido un error, intentalo nuevamente!', '', 'error')
+    })
+
+  }
+  function facebookClicked(e){
+    console.log('clicked:', e)
   }
 
   // Estado auxiliar para selects del pais/provincia/ciudad
@@ -608,33 +665,52 @@ export default function Register({ isModal }) {
     }
   }
 
-   // Cargar imagen de tipo File
-   const [file, setFile] = useState()
-   const [format, setFormat] = useState('')
- 
-   const saveFile = (e) => {
-     setFile(e.target.files[0])
-     var formatImage = e.target.files[0]?.name.split('.')
-     setFormat(formatImage[formatImage.length-1])
-   }
- 
-   const uploadFile = async (e) => {
-     const code = uuidv4()
-     console.log(code)
-     const formData = new FormData()
-     formData.append('file', file)
-     formData.append('format', format)
-     try {
-       const res = await api.post(`/upload/profile/${code}.${format}`, formData)
-       console.log(res)
-       setInput({
-         ...input,
-         [e.target.name] : code+"."+format
-        })
-     } catch (ex) {
-       console.log(ex)
-     }
-   }
+  // Cargar imagen de tipo File
+  const [file, setFile] = useState()
+  const [format, setFormat] = useState('')
+
+  const saveFile = (e) => {
+    setFile(e.target.files[0])
+    var formatImage = e.target.files[0]?.name.split('.')
+    setFormat(formatImage[formatImage?.length - 1])
+  }
+
+  const uploadUserFile = async (e) => {
+    const code = uuidv4()
+    // console.log(code)
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('format', format)
+    try {
+      const res = await api.post(`/upload/profile/${code}.${format}`, formData)
+      console.log(res)
+      setInput({
+        ...input,
+        [e.target.name]: code + '.' + format,
+      })
+      Swal.fire('Imagen cargada con Exito', '', 'success')
+    } catch (ex) {
+      console.log(ex)
+    }
+  }
+  const uploadProviderFile = async (e) => {
+    const code = uuidv4()
+    console.log(code)
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('format', format)
+    try {
+      const res = await api.post(`/upload/profile/${code}.${format}`, formData)
+      console.log(res)
+      setInputProvider({
+        ...inputProvider,
+        [e.target.name]: code + '.' + format,
+      })
+      Swal.fire('Imagen cargada con Exito', '', 'success')
+    } catch (ex) {
+      console.log(ex)
+    }
+  }
 
   function finalCheck(e) {
     let errorsCounter = 0
@@ -760,8 +836,7 @@ export default function Register({ isModal }) {
                         <i className='fa fa-user' style={{ left: '15px' }}></i>{' '}
                         <input
                           type='text'
-                          className={styles.formControl}
-                          style={{ width: '12rem' }}
+                          className={`${styles.formControl} ${styles.halfInput}`}
                           name='nombre'
                           placeholder='Nombre'
                           value={input.nombre}
@@ -773,8 +848,7 @@ export default function Register({ isModal }) {
                         <i className='fa fa-address-card' style={{ left: '13px' }}></i>
                         <input
                           type='text'
-                          className={styles.formControl}
-                          style={{ width: '12rem' }}
+                          className={`${styles.formControl} ${styles.halfInput}`}
                           name='apellido'
                           placeholder='Apellido'
                           value={input.apellido}
@@ -821,7 +895,7 @@ export default function Register({ isModal }) {
                       <i className='fa fa-camera' aria-hidden='true'></i>{' '}
                       <input
                         type='file'
-                        accept="image/x-png,image/jpeg"
+                        accept='image/x-png,image/jpeg'
                         className={styles.formControl}
                         name='imagen'
                         placeholder='Imagen'
@@ -829,7 +903,9 @@ export default function Register({ isModal }) {
                           saveFile(e)
                         }}
                       />{' '}
-                      <button name='imagen' onClick={(e) => uploadFile(e)}>Upload</button>
+                      <button name='imagen' onClick={(e) => uploadUserFile(e)}>
+                        Upload
+                      </button>
                     </div>
                     {errors.imagen && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errors.imagen}</p>}
 
@@ -860,90 +936,86 @@ export default function Register({ isModal }) {
                     </div>
                     {errors.fecha_nacimiento && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errors.fecha_nacimiento}</p>}
 
-                    <div className={styles.halfInputContainer}>
+                    <div className={styles.formInput}>
+                      {' '}
+                      <i className='fa fa-globe' aria-hidden='true'></i>{' '}
+                      <select
+                        className={styles.formControl}
+                        name='pais'
+                        onChange={(e) => {
+                          handleChangeUser(e)
+                        }}>
+                        <option selected disabled hidden>
+                          Selecciona país
+                        </option>
+
+                        {countries.length > 0
+                          ? countries?.map((el, i) => {
+                              return (
+                                <option key={i} id={el.code} value={el.name}>
+                                  {el.name}
+                                </option>
+                              )
+                            })
+                          : 'Cargando...'}
+                      </select>
+                    </div>
+
+                    {input.pais ? (
                       <div className={styles.formInput}>
-                        {' '}
-                        <i className='fa fa-globe' aria-hidden='true' style={{ left: '15px' }}></i>{' '}
-                        <select
-                          className={styles.formControl}
-                          style={{ width: '12rem' }}
-                          name='pais'
-                          onChange={(e) => {
-                            handleChangeUser(e)
-                          }}>
+                        <i className='fa fa-map-marker' aria-hidden='true'></i>{' '}
+                        <select className={styles.formControl} name='provincia' onChange={(e) => handleChangeUser(e)}>
                           <option selected disabled hidden>
-                            Selecciona país
+                            Selecciona una provincia
                           </option>
 
-                          {countries.length > 0
-                            ? countries?.map((el, i) => {
-                                return (
-                                  <option key={i} id={el.code} value={el.name}>
-                                    {el.name}
-                                  </option>
-                                )
-                              })
-                            : 'Cargando...'}
+                          {provinces.length > 0 ? (
+                            provinces?.map((el, i) => {
+                              return (
+                                <option key={i} value={el.NOMBRE_PROVINCIA}>
+                                  {el.NOMBRE_PROVINCIA}
+                                </option>
+                              )
+                            })
+                          ) : (
+                            <option>Cargando...</option>
+                          )}
                         </select>
                       </div>
+                    ) : null}
 
-                      {input.pais ? (
-                        <div className={styles.formInput}>
-                          <i className='fa fa-map-marker' aria-hidden='true' style={{ left: '15px' }}></i>{' '}
-                          <select className={styles.formControl} style={{ width: '12rem' }} name='provincia' onChange={(e) => handleChangeUser(e)}>
-                            <option selected disabled hidden>
-                              Selecciona provincia
-                            </option>
-
-                            {provinces.length > 0 ? (
-                              provinces?.map((el, i) => {
-                                return (
-                                  <option key={i} value={el.NOMBRE_PROVINCIA}>
-                                    {el.NOMBRE_PROVINCIA}
-                                  </option>
-                                )
-                              })
-                            ) : (
-                              <option>Cargando...</option>
-                            )}
-                          </select>
-                        </div>
-                      ) : null}
-
-                      {input.provincia && input.pais !== 'Uruguay' ? (
-                        <div className={styles.formInput}>
+                    {input.provincia && input.pais !== 'Uruguay' ? (
+                      <div className={styles.formInput}>
+                        {' '}
+                        <i className='fa fa-building' aria-hidden='true'>
                           {' '}
-                          <i className='fa fa-building' aria-hidden='true' style={{ left: '15px' }}>
-                            {' '}
-                          </i>{' '}
-                          <select
-                            type='text'
-                            className={styles.formControl}
-                            style={{ width: '12rem' }}
-                            name='ciudad'
-                            placeholder='Ciudad'
-                            value={input.ciudad}
-                            onChange={(e) => handleChangeUser(e)}>
-                            <option selected disabled hidden>
-                              Selecciona ciudad
-                            </option>
-                            {cities?.length > 0 ? (
-                              cities?.map((el, i) => {
-                                return (
-                                  <option key={i} value={el.NOMBRE_CIUDAD}>
-                                    {el.NOMBRE_CIUDAD}
-                                  </option>
-                                )
-                              })
-                            ) : (
-                              <option>Cargando...</option>
-                            )}
-                          </select>
-                        </div>
-                      ) : null}
+                        </i>{' '}
+                        <select
+                          type='text'
+                          className={styles.formControl}
+                          name='ciudad'
+                          placeholder='Ciudad'
+                          value={input.ciudad}
+                          onChange={(e) => handleChangeUser(e)}>
+                          <option selected disabled hidden>
+                            Selecciona una ciudad
+                          </option>
+                          {cities?.length > 0 ? (
+                            cities?.map((el, i) => {
+                              return (
+                                <option key={i} value={el.NOMBRE_CIUDAD}>
+                                  {el.NOMBRE_CIUDAD}
+                                </option>
+                              )
+                            })
+                          ) : (
+                            <option>Cargando...</option>
+                          )}
+                        </select>
+                      </div>
+                    ) : null}
 
-                      {input.pais === 'Uruguay' && cities?.length > 0 && !cities.map((el) => el.NOMBRE_CIUDAD).includes(input.ciudad) ? isUruguay() : null}
-                    </div>
+                    {input.pais === 'Uruguay' && cities?.length > 0 && !cities.map((el) => el.NOMBRE_CIUDAD).includes(input.ciudad) ? isUruguay() : null}
 
                     <div className={styles.formInput}></div>
                     <div className='form-check d-flex justify-content-center'>
@@ -955,30 +1027,41 @@ export default function Register({ isModal }) {
                       </label>{' '}
                     </div>
                     {/* <button className={`btn btn-success mt-4 ${styles.signup} ${termsAccepted}`} onClick={(e) => handleSubmitUser(e)}> */}
-                    <div className='recaptcha'>
-                      <ReCAPTCHA ref={captcha} sitekey='6Le5jukfAAAAAD7b-AKYrJS1A8bT_VqYBbXPwLcX' onChange={onRecaptcha} />
-                    </div>
+                    {/* <div className={styles.recaptcha}>
+                      <ReCAPTCHA ref={captcha} sitekey='6LdFXPofAAAAAEPQJIgFt3-_imqhXY6RDnBA10_7' onChange={onRecaptcha} callback= {onRecaptcha}/>
+                    </div> */}
                     <button className={`btn btn-success mt-4 ${styles.signup} ${termsAccepted}`} onClick={(e) => finalCheck(e)}>
                       Confirmar registro
                     </button>
                   </div>
 
-                  {/* <div className='text-center mt-3'>
+                  <div className='text-center mt-3'>
                     {' '}
                     <span>O registrate usando:</span>{' '}
                   </div>
                   <div className='d-flex justify-content-center mt-4'>
                     {' '}
-                    <span className={styles.social}>
+                    {/* <span className={styles.social}>
                       <i className='fa fa-google'></i>
-                    </span>{' '}
+                    // </span>{' '} */}
+                    {/* //{' '}
                     <span className={styles.social}>
-                      <i className='fa fa-facebook'></i>
-                    </span>{' '}
-                    <span className={styles.social}>
+                      // <i className='fa fa-facebook'></i>
+                      //{' '}
+                    </span>{' '} */}
+                    {/* <span className={styles.social}>
                       <i className='fa fa-linkedin'></i>
-                    </span>{' '}
-                  </div> */}
+                    </span>{' '} */}
+                    <FacebookLogin
+                      appId='422066786032438'
+                      autoLoad={false}
+                      fields='name,email,picture,birthday'
+                      onClick={facebookClicked}
+                      callback={responseFacebook}
+                      cssClass={styles.social}
+                      textButton={<i className='fa fa-facebook'></i>}
+                    />
+                  </div>
                   <div className='text-center mt-4'>
                     {' '}
                     <span>¿Ya estás registrado?</span>{' '}
@@ -988,7 +1071,7 @@ export default function Register({ isModal }) {
                   </div>
                 </Tab>
 
-                <Tab eventKey='Proveedor' title='Registrar proovedor'>
+                <Tab eventKey='Proveedor' title='Registrar proveedor'>
                   <div className='text-center mt-3'>
                     <div className={styles.halfInputContainer}>
                       <div className={styles.formInput}>
@@ -996,8 +1079,7 @@ export default function Register({ isModal }) {
                         <i className='fa fa-user' style={{ left: '15px' }}></i>{' '}
                         <input
                           type='text'
-                          className={styles.formControl}
-                          style={{ width: '12rem' }}
+                          className={`${styles.formControl} ${styles.halfInput}`}
                           name='nombre'
                           placeholder='Nombre'
                           value={inputProvider.nombre}
@@ -1009,8 +1091,7 @@ export default function Register({ isModal }) {
                         <i className='fa fa-address-card' style={{ left: '13px' }}></i>
                         <input
                           type='text'
-                          className={styles.formControl}
-                          style={{ width: '12rem' }}
+                          className={`${styles.formControl} ${styles.halfInput}`}
                           name='apellido'
                           placeholder='Apellido'
                           value={inputProvider.apellido}
@@ -1024,7 +1105,7 @@ export default function Register({ isModal }) {
                     {errorsProvider.nombre && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.nombre}</p>}
                     {errorsProvider.apellido && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.apellido}</p>}
 
-                    <div className={styles.formInput}>
+                    <div className={styles.formInputPage}>
                       {' '}
                       <i className='fa fa-envelope'></i>{' '}
                       <input
@@ -1038,7 +1119,7 @@ export default function Register({ isModal }) {
                     </div>
                     {errorsProvider.email && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.email}</p>}
 
-                    <div className={styles.formInput}>
+                    <div className={styles.formInputPage}>
                       {' '}
                       <i className='fa fa-lock'></i>{' '}
                       <input
@@ -1052,21 +1133,26 @@ export default function Register({ isModal }) {
                     </div>
                     {errorsProvider.password && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.password}</p>}
 
-                    <div className={styles.formInput}>
+                    <div className={styles.formInputPage}>
                       {' '}
                       <i className='fa fa-camera' aria-hidden='true'></i>{' '}
                       <input
-                        type='text'
+                        type='file'
+                        accept='image/x-png,image/jpeg'
                         className={styles.formControl}
                         name='imagen'
                         placeholder='Imagen'
-                        value={inputProvider.imagen}
-                        onChange={(e) => handleChangeProvider(e)}
+                        onChange={(e) => {
+                          saveFile(e)
+                        }}
                       />{' '}
+                      <button name='imagen' onClick={(e) => uploadProviderFile(e)}>
+                        Upload
+                      </button>
                     </div>
                     {errorsProvider.imagen && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.imagen}</p>}
 
-                    <div className={styles.formInput}>
+                    <div className={styles.formInputPage}>
                       {' '}
                       <i className='fa fa-mobile' aria-hidden='true'></i>{' '}
                       <input
@@ -1080,7 +1166,7 @@ export default function Register({ isModal }) {
                     </div>
                     {errorsProvider.celular && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.celular}</p>}
 
-                    <div className={styles.formInput}>
+                    <div className={styles.formInputPage}>
                       <label htmlFor='date'>Fecha nacimiento:</label>
                       <input
                         type='date'
@@ -1095,92 +1181,88 @@ export default function Register({ isModal }) {
                       <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.fecha_nacimiento}</p>
                     )}
 
-                    <div className={styles.halfInputContainer}>
+                    <div className={styles.formInput}>
+                      {' '}
+                      <i className='fa fa-globe' aria-hidden='true'></i>{' '}
+                      <select
+                        className={styles.formControl}
+                        name='pais'
+                        onChange={(e) => {
+                          handleChangeProvider(e)
+                        }}>
+                        <option selected disabled hidden>
+                          Selecciona país
+                        </option>
+
+                        {countries.length > 0
+                          ? countries?.map((el, i) => {
+                              return (
+                                <option key={i} id={el.code} value={el.name}>
+                                  {el.name}
+                                </option>
+                              )
+                            })
+                          : 'Cargando...'}
+                      </select>
+                    </div>
+
+                    {inputProvider.pais ? (
                       <div className={styles.formInput}>
-                        {' '}
-                        <i className='fa fa-globe' aria-hidden='true' style={{ left: '15px' }}></i>{' '}
-                        <select
-                          className={styles.formControl}
-                          style={{ width: '12rem' }}
-                          name='pais'
-                          onChange={(e) => {
-                            handleChangeProvider(e)
-                          }}>
+                        <i className='fa fa-map-marker' aria-hidden='true'></i>{' '}
+                        <select className={styles.formControl} name='provincia' onChange={(e) => handleChangeProvider(e)}>
                           <option selected disabled hidden>
-                            Selecciona país
+                            Selecciona una provincia
                           </option>
 
-                          {countries.length > 0
-                            ? countries?.map((el, i) => {
-                                return (
-                                  <option key={i} id={el.code} value={el.name}>
-                                    {el.name}
-                                  </option>
-                                )
-                              })
-                            : 'Cargando...'}
+                          {provinces.length > 0 ? (
+                            provinces?.map((el, i) => {
+                              return (
+                                <option key={i} value={el.NOMBRE_PROVINCIA}>
+                                  {el.NOMBRE_PROVINCIA}
+                                </option>
+                              )
+                            })
+                          ) : (
+                            <option>Cargando...</option>
+                          )}
                         </select>
                       </div>
+                    ) : null}
 
-                      {inputProvider.pais ? (
-                        <div className={styles.formInput}>
-                          <i className='fa fa-map-marker' aria-hidden='true' style={{ left: '15px' }}></i>{' '}
-                          <select className={styles.formControl} style={{ width: '12rem' }} name='provincia' onChange={(e) => handleChangeProvider(e)}>
-                            <option selected disabled hidden>
-                              Selecciona provincia
-                            </option>
-
-                            {provinces.length > 0 ? (
-                              provinces?.map((el, i) => {
-                                return (
-                                  <option key={i} value={el.NOMBRE_PROVINCIA}>
-                                    {el.NOMBRE_PROVINCIA}
-                                  </option>
-                                )
-                              })
-                            ) : (
-                              <option>Cargando...</option>
-                            )}
-                          </select>
-                        </div>
-                      ) : null}
-
-                      {inputProvider.provincia && inputProvider.pais !== 'Uruguay' ? (
-                        <div className={styles.formInput}>
+                    {inputProvider.provincia && inputProvider.pais !== 'Uruguay' ? (
+                      <div className={styles.formInput}>
+                        {' '}
+                        <i className='fa fa-building' aria-hidden='true'>
                           {' '}
-                          <i className='fa fa-building' aria-hidden='true' style={{ left: '15px' }}>
-                            {' '}
-                          </i>{' '}
-                          <select
-                            type='text'
-                            className={styles.formControl}
-                            style={{ width: '12rem' }}
-                            name='ciudad'
-                            placeholder='Ciudad'
-                            value={inputProvider.ciudad}
-                            onChange={(e) => handleChangeProvider(e)}>
-                            <option selected disabled hidden>
-                              Selecciona ciudad
-                            </option>
-                            {cities?.length > 0 ? (
-                              cities?.map((el, i) => {
-                                return (
-                                  <option key={i} value={el.NOMBRE_CIUDAD}>
-                                    {el.NOMBRE_CIUDAD}
-                                  </option>
-                                )
-                              })
-                            ) : (
-                              <option>Cargando...</option>
-                            )}
-                          </select>
-                        </div>
-                      ) : null}
+                        </i>{' '}
+                        <select
+                          type='text'
+                          className={styles.formControl}
+                          name='ciudad'
+                          placeholder='Ciudad'
+                          value={inputProvider.ciudad}
+                          onChange={(e) => handleChangeProvider(e)}>
+                          <option selected disabled hidden>
+                            Selecciona una ciudad
+                          </option>
+                          {cities?.length > 0 ? (
+                            cities?.map((el, i) => {
+                              return (
+                                <option key={i} value={el.NOMBRE_CIUDAD}>
+                                  {el.NOMBRE_CIUDAD}
+                                </option>
+                              )
+                            })
+                          ) : (
+                            <option>Cargando...</option>
+                          )}
+                        </select>
+                      </div>
+                    ) : null}
 
-                      {inputProvider.pais === 'Uruguay' && cities?.length > 0 && !cities.map((el) => el.NOMBRE_CIUDAD).includes(inputProvider.ciudad)
-                        ? isUruguayProvider()
-                        : null}
-                    </div>
+                    {inputProvider.pais === 'Uruguay' && cities?.length > 0 && !cities.map((el) => el.NOMBRE_CIUDAD).includes(inputProvider.ciudad)
+                      ? isUruguayProvider()
+                      : null}
 
                     <div className={styles.formInput}></div>
                     <div className='form-check d-flex justify-content-center'>
@@ -1198,21 +1280,21 @@ export default function Register({ isModal }) {
                       </label>{' '}
                     </div>
                     {/* <button className={`btn btn-success mt-4 ${styles.signup} ${termsAcceptedProvider}`} onClick={(e) => handleSubmitUser(e)}> */}
-                    <div className='recaptcha'>
+                    {/* <div className='recaptcha'>
                       <ReCAPTCHA ref={captcha} sitekey='6Le5jukfAAAAAD7b-AKYrJS1A8bT_VqYBbXPwLcX' onChange={onRecaptcha} />
-                    </div>
+                    </div> */}
                     <button className={`btn btn-success mt-4 ${styles.signup} ${termsAcceptedProvider}`} onClick={(e) => finalCheckProvider(e)}>
                       Confirmar registro
                     </button>
                   </div>
 
-                  {/* <div className='text-center mt-3'>
+                  <div className='text-center mt-3'>
                     {' '}
                     <span>O registrate usando:</span>{' '}
                   </div>
                   <div className='d-flex justify-content-center mt-4'>
                     {' '}
-                    <span className={styles.social}>
+                    {/* <span className={styles.social}>
                       <i className='fa fa-google'></i>
                     </span>{' '}
                     <span className={styles.social}>
@@ -1220,8 +1302,17 @@ export default function Register({ isModal }) {
                     </span>{' '}
                     <span className={styles.social}>
                       <i className='fa fa-linkedin'></i>
-                    </span>{' '}
-                  </div>*/}
+                    </span>{' '} */}
+                     <FacebookLogin
+                      appId='422066786032438'
+                      autoLoad={false}
+                      fields='name,email,picture,birthday'
+                      onClick={facebookClicked}
+                      callback={responseFacebookProv}
+                      cssClass={styles.social}
+                      textButton={<i className='fa fa-facebook'></i>}
+                    />
+                  </div>
                   <div className='text-center mt-4'>
                     {' '}
                     <span>¿Ya estás registrado?</span>{' '}
@@ -1241,7 +1332,7 @@ export default function Register({ isModal }) {
       <>
         <div className='d-flex container align-items-center justify-content-center' style={{ marginTop: '1rem' }}>
           <div
-            className='col-6'
+            className={styles.registerContainer}
             style={{ borderRadius: '10px', border: '1px solid DarkGray', background: 'white', boxShadow: '0 0 5px 1px rgba(0, 0, 0, 0.4)' }}>
             <Col md={12}>
               <div className={`${styles.card} ${styles.myTabs}`} style={{ padding: '3rem' }}>
@@ -1266,8 +1357,7 @@ export default function Register({ isModal }) {
                           <i className='fa fa-user' style={{ left: '15px' }}></i>{' '}
                           <input
                             type='text'
-                            className={styles.formControl}
-                            style={{ width: '12rem' }}
+                            className={`${styles.formControl} ${styles.halfInput}`}
                             name='nombre'
                             placeholder='Nombre'
                             value={input.nombre}
@@ -1279,8 +1369,7 @@ export default function Register({ isModal }) {
                           <i className='fa fa-address-card' style={{ left: '13px' }}></i>
                           <input
                             type='text'
-                            className={styles.formControl}
-                            style={{ width: '12rem' }}
+                            className={`${styles.formControl} ${styles.halfInput}`}
                             name='apellido'
                             placeholder='Apellido'
                             value={input.apellido}
@@ -1322,17 +1411,22 @@ export default function Register({ isModal }) {
                       </div>
                       {errors.password && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errors.password}</p>}
 
-                      <div className={styles.formInputPage}>
+                      <div className={styles.formInput}>
                         {' '}
                         <i className='fa fa-camera' aria-hidden='true'></i>{' '}
                         <input
-                          type='text'
+                          type='file'
+                          accept='image/x-png,image/jpeg'
                           className={styles.formControl}
                           name='imagen'
                           placeholder='Imagen'
-                          value={input.imagen}
-                          onChange={(e) => handleChangeUser(e)}
+                          onChange={(e) => {
+                            saveFile(e)
+                          }}
                         />{' '}
+                        <button name='imagen' onClick={(e) => uploadUserFile(e)}>
+                          Upload
+                        </button>
                       </div>
                       {errors.imagen && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errors.imagen}</p>}
 
@@ -1363,90 +1457,86 @@ export default function Register({ isModal }) {
                       </div>
                       {errors.fecha_nacimiento && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errors.fecha_nacimiento}</p>}
 
-                      <div className={styles.halfInputContainer}>
+                      <div className={styles.formInput}>
+                        {' '}
+                        <i className='fa fa-globe' aria-hidden='true'></i>{' '}
+                        <select
+                          className={styles.formControl}
+                          name='pais'
+                          onChange={(e) => {
+                            handleChangeUser(e)
+                          }}>
+                          <option selected disabled hidden>
+                            Selecciona país
+                          </option>
+
+                          {countries.length > 0
+                            ? countries?.map((el, i) => {
+                                return (
+                                  <option key={i} id={el.code} value={el.name}>
+                                    {el.name}
+                                  </option>
+                                )
+                              })
+                            : 'Cargando...'}
+                        </select>
+                      </div>
+
+                      {input.pais ? (
                         <div className={styles.formInput}>
-                          {' '}
-                          <i className='fa fa-globe' aria-hidden='true' style={{ left: '15px' }}></i>{' '}
-                          <select
-                            className={styles.formControl}
-                            style={{ width: '12rem' }}
-                            name='pais'
-                            onChange={(e) => {
-                              handleChangeUser(e)
-                            }}>
+                          <i className='fa fa-map-marker' aria-hidden='true'></i>{' '}
+                          <select className={styles.formControl} name='provincia' onChange={(e) => handleChangeUser(e)}>
                             <option selected disabled hidden>
-                              Selecciona país
+                              Provincia
                             </option>
 
-                            {countries.length > 0
-                              ? countries?.map((el, i) => {
-                                  return (
-                                    <option key={i} id={el.code} value={el.name}>
-                                      {el.name}
-                                    </option>
-                                  )
-                                })
-                              : 'Cargando...'}
+                            {provinces.length > 0 ? (
+                              provinces?.map((el, i) => {
+                                return (
+                                  <option key={i} value={el.NOMBRE_PROVINCIA}>
+                                    {el.NOMBRE_PROVINCIA}
+                                  </option>
+                                )
+                              })
+                            ) : (
+                              <option>Cargando...</option>
+                            )}
                           </select>
                         </div>
+                      ) : null}
 
-                        {input.pais ? (
-                          <div className={styles.formInput}>
-                            <i className='fa fa-map-marker' aria-hidden='true' style={{ left: '15px' }}></i>{' '}
-                            <select className={styles.formControl} style={{ width: '12rem' }} name='provincia' onChange={(e) => handleChangeUser(e)}>
-                              <option selected disabled hidden>
-                                Selecciona provincia
-                              </option>
-
-                              {provinces.length > 0 ? (
-                                provinces?.map((el, i) => {
-                                  return (
-                                    <option key={i} value={el.NOMBRE_PROVINCIA}>
-                                      {el.NOMBRE_PROVINCIA}
-                                    </option>
-                                  )
-                                })
-                              ) : (
-                                <option>Cargando...</option>
-                              )}
-                            </select>
-                          </div>
-                        ) : null}
-
-                        {input.provincia && input.pais !== 'Uruguay' ? (
-                          <div className={styles.formInput}>
+                      {input.provincia && input.pais !== 'Uruguay' ? (
+                        <div className={styles.formInput}>
+                          {' '}
+                          <i className='fa fa-building' aria-hidden='true'>
                             {' '}
-                            <i className='fa fa-building' aria-hidden='true' style={{ left: '15px' }}>
-                              {' '}
-                            </i>{' '}
-                            <select
-                              type='text'
-                              className={styles.formControl}
-                              style={{ width: '12rem' }}
-                              name='ciudad'
-                              placeholder='Ciudad'
-                              value={input.ciudad}
-                              onChange={(e) => handleChangeUser(e)}>
-                              <option selected disabled hidden>
-                                Selecciona ciudad
-                              </option>
-                              {cities?.length > 0 ? (
-                                cities?.map((el, i) => {
-                                  return (
-                                    <option key={i} value={el.NOMBRE_CIUDAD}>
-                                      {el.NOMBRE_CIUDAD}
-                                    </option>
-                                  )
-                                })
-                              ) : (
-                                <option>Cargando...</option>
-                              )}
-                            </select>
-                          </div>
-                        ) : null}
+                          </i>{' '}
+                          <select
+                            type='text'
+                            className={styles.formControl}
+                            name='ciudad'
+                            placeholder='Ciudad'
+                            value={input.ciudad}
+                            onChange={(e) => handleChangeUser(e)}>
+                            <option selected disabled hidden>
+                              Ciudad
+                            </option>
+                            {cities?.length > 0 ? (
+                              cities?.map((el, i) => {
+                                return (
+                                  <option key={i} value={el.NOMBRE_CIUDAD}>
+                                    {el.NOMBRE_CIUDAD}
+                                  </option>
+                                )
+                              })
+                            ) : (
+                              <option>Cargando...</option>
+                            )}
+                          </select>
+                        </div>
+                      ) : null}
 
-                        {input.pais === 'Uruguay' && cities?.length > 0 && !cities.map((el) => el.NOMBRE_CIUDAD).includes(input.ciudad) ? isUruguay() : null}
-                      </div>
+                      {input.pais === 'Uruguay' && cities?.length > 0 && !cities.map((el) => el.NOMBRE_CIUDAD).includes(input.ciudad) ? isUruguay() : null}
 
                       <div className={styles.formInput}></div>
                       <div className='form-check d-flex justify-content-center'>
@@ -1458,21 +1548,21 @@ export default function Register({ isModal }) {
                         </label>{' '}
                       </div>
                       {/* <button className={`btn btn-success mt-4 ${styles.signup} ${termsAccepted}`} onClick={(e) => handleSubmitUser(e)}> */}
-                      <div className='recaptcha'>
+                      {/* <div className='recaptcha'>
                         <ReCAPTCHA ref={captcha} sitekey='6Le5jukfAAAAAD7b-AKYrJS1A8bT_VqYBbXPwLcX' onChange={onRecaptcha} />
-                      </div>
+                      </div> */}
                       <button className={`btn btn-success mt-4 ${styles.signup} ${termsAccepted}`} onClick={(e) => finalCheck(e)}>
                         Confirmar registro
                       </button>
                     </div>
 
-                    {/* <div className='text-center mt-3'>
+                    <div className='text-center mt-3'>
                       {' '}
                       <span>O registrate usando:</span>{' '}
                     </div>
                     <div className='d-flex justify-content-center mt-4'>
                       {' '}
-                      <span className={styles.social}>
+                      {/* <span className={styles.social}>
                         <i className='fa fa-google'></i>
                       </span>{' '}
                       <span className={styles.social}>
@@ -1480,8 +1570,17 @@ export default function Register({ isModal }) {
                       </span>{' '}
                       <span className={styles.social}>
                         <i className='fa fa-linkedin'></i>
-                      </span>{' '}
-                    </div> */}
+                      </span>{' '} */}
+                       <FacebookLogin
+                      appId='422066786032438'
+                      autoLoad={false}
+                      fields='name,email,picture,birthday'
+                      onClick={facebookClicked}
+                      callback={responseFacebook}
+                      cssClass={styles.social}
+                      textButton={<i className='fa fa-facebook'></i>}
+                    />
+                    </div>
                     <div className='text-center mt-4'>
                       {' '}
                       <span>¿Ya estás registrado?</span>{' '}
@@ -1491,7 +1590,7 @@ export default function Register({ isModal }) {
                     </div>
                   </Tab>
 
-                  <Tab eventKey='Proveedor' title='Registrar proovedor'>
+                  <Tab eventKey='Proveedor' title='Registrar proveedor'>
                     <div className='text-center mt-3'>
                       <div className={styles.halfInputContainer}>
                         <div className={styles.formInput}>
@@ -1499,8 +1598,7 @@ export default function Register({ isModal }) {
                           <i className='fa fa-user' style={{ left: '15px' }}></i>{' '}
                           <input
                             type='text'
-                            className={styles.formControl}
-                            style={{ width: '12rem' }}
+                            className={`${styles.formControl} ${styles.halfInput}`}
                             name='nombre'
                             placeholder='Nombre'
                             value={inputProvider.nombre}
@@ -1512,8 +1610,7 @@ export default function Register({ isModal }) {
                           <i className='fa fa-address-card' style={{ left: '13px' }}></i>
                           <input
                             type='text'
-                            className={styles.formControl}
-                            style={{ width: '12rem' }}
+                            className={`${styles.formControl} ${styles.halfInput}`}
                             name='apellido'
                             placeholder='Apellido'
                             value={inputProvider.apellido}
@@ -1527,9 +1624,9 @@ export default function Register({ isModal }) {
                       {errorsProvider.nombre && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.nombre}</p>}
                       {errorsProvider.apellido && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.apellido}</p>}
 
-                      <div className={styles.formInput}>
+                      <div className={styles.formInputPage}>
                         {' '}
-                        <i className='fa fa-envelope'></i>{' '}
+                        <i className='fa fa-envelope' style={{ left: '5rem!important' }}></i>{' '}
                         <input
                           type='text'
                           className={styles.formControl}
@@ -1541,7 +1638,7 @@ export default function Register({ isModal }) {
                       </div>
                       {errorsProvider.email && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.email}</p>}
 
-                      <div className={styles.formInput}>
+                      <div className={styles.formInputPage}>
                         {' '}
                         <i className='fa fa-lock'></i>{' '}
                         <input
@@ -1555,21 +1652,26 @@ export default function Register({ isModal }) {
                       </div>
                       {errorsProvider.password && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.password}</p>}
 
-                      <div className={styles.formInput}>
+                      <div className={styles.formInputPage}>
                         {' '}
                         <i className='fa fa-camera' aria-hidden='true'></i>{' '}
                         <input
-                          type='text'
+                          type='file'
+                          accept='image/x-png,image/jpeg'
                           className={styles.formControl}
                           name='imagen'
                           placeholder='Imagen'
-                          value={inputProvider.imagen}
-                          onChange={(e) => handleChangeProvider(e)}
+                          onChange={(e) => {
+                            saveFile(e)
+                          }}
                         />{' '}
+                        <button name='imagen' onClick={(e) => uploadProviderFile(e)}>
+                          Upload
+                        </button>
                       </div>
                       {errorsProvider.imagen && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.imagen}</p>}
 
-                      <div className={styles.formInput}>
+                      <div className={styles.formInputPage}>
                         {' '}
                         <i className='fa fa-mobile' aria-hidden='true'></i>{' '}
                         <input
@@ -1583,7 +1685,7 @@ export default function Register({ isModal }) {
                       </div>
                       {errorsProvider.celular && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.celular}</p>}
 
-                      <div className={styles.formInput}>
+                      <div className={styles.formInputPage}>
                         <label htmlFor='date'>Fecha nacimiento:</label>
                         <input
                           type='date'
@@ -1598,92 +1700,88 @@ export default function Register({ isModal }) {
                         <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.fecha_nacimiento}</p>
                       )}
 
-                      <div className={styles.halfInputContainer}>
+                      <div className={styles.formInput}>
+                        {' '}
+                        <i className='fa fa-globe' aria-hidden='true'></i>{' '}
+                        <select
+                          className={styles.formControl}
+                          name='pais'
+                          onChange={(e) => {
+                            handleChangeProvider(e)
+                          }}>
+                          <option selected disabled hidden>
+                            Selecciona país
+                          </option>
+
+                          {countries.length > 0
+                            ? countries?.map((el, i) => {
+                                return (
+                                  <option key={i} id={el.code} value={el.name}>
+                                    {el.name}
+                                  </option>
+                                )
+                              })
+                            : 'Cargando...'}
+                        </select>
+                      </div>
+
+                      {inputProvider.pais ? (
                         <div className={styles.formInput}>
-                          {' '}
-                          <i className='fa fa-globe' aria-hidden='true' style={{ left: '15px' }}></i>{' '}
-                          <select
-                            className={styles.formControl}
-                            style={{ width: '12rem' }}
-                            name='pais'
-                            onChange={(e) => {
-                              handleChangeProvider(e)
-                            }}>
+                          <i className='fa fa-map-marker' aria-hidden='true'></i>{' '}
+                          <select className={styles.formControl} name='provincia' onChange={(e) => handleChangeProvider(e)}>
                             <option selected disabled hidden>
-                              Selecciona país
+                              Provincia
                             </option>
 
-                            {countries.length > 0
-                              ? countries?.map((el, i) => {
-                                  return (
-                                    <option key={i} id={el.code} value={el.name}>
-                                      {el.name}
-                                    </option>
-                                  )
-                                })
-                              : 'Cargando...'}
+                            {provinces.length > 0 ? (
+                              provinces?.map((el, i) => {
+                                return (
+                                  <option key={i} value={el.NOMBRE_PROVINCIA}>
+                                    {el.NOMBRE_PROVINCIA}
+                                  </option>
+                                )
+                              })
+                            ) : (
+                              <option>Cargando...</option>
+                            )}
                           </select>
                         </div>
+                      ) : null}
 
-                        {inputProvider.pais ? (
-                          <div className={styles.formInput}>
-                            <i className='fa fa-map-marker' aria-hidden='true' style={{ left: '15px' }}></i>{' '}
-                            <select className={styles.formControl} style={{ width: '12rem' }} name='provincia' onChange={(e) => handleChangeProvider(e)}>
-                              <option selected disabled hidden>
-                                Selecciona provincia
-                              </option>
-
-                              {provinces.length > 0 ? (
-                                provinces?.map((el, i) => {
-                                  return (
-                                    <option key={i} value={el.NOMBRE_PROVINCIA}>
-                                      {el.NOMBRE_PROVINCIA}
-                                    </option>
-                                  )
-                                })
-                              ) : (
-                                <option>Cargando...</option>
-                              )}
-                            </select>
-                          </div>
-                        ) : null}
-
-                        {inputProvider.provincia && inputProvider.pais !== 'Uruguay' ? (
-                          <div className={styles.formInput}>
+                      {inputProvider.provincia && inputProvider.pais !== 'Uruguay' ? (
+                        <div className={styles.formInput}>
+                          {' '}
+                          <i className='fa fa-building' aria-hidden='true'>
                             {' '}
-                            <i className='fa fa-building' aria-hidden='true' style={{ left: '15px' }}>
-                              {' '}
-                            </i>{' '}
-                            <select
-                              type='text'
-                              className={styles.formControl}
-                              style={{ width: '12rem' }}
-                              name='ciudad'
-                              placeholder='Ciudad'
-                              value={inputProvider.ciudad}
-                              onChange={(e) => handleChangeProvider(e)}>
-                              <option selected disabled hidden>
-                                Selecciona ciudad
-                              </option>
-                              {cities?.length > 0 ? (
-                                cities?.map((el, i) => {
-                                  return (
-                                    <option key={i} value={el.NOMBRE_CIUDAD}>
-                                      {el.NOMBRE_CIUDAD}
-                                    </option>
-                                  )
-                                })
-                              ) : (
-                                <option>Cargando...</option>
-                              )}
-                            </select>
-                          </div>
-                        ) : null}
+                          </i>{' '}
+                          <select
+                            type='text'
+                            className={styles.formControl}
+                            name='ciudad'
+                            placeholder='Ciudad'
+                            value={inputProvider.ciudad}
+                            onChange={(e) => handleChangeProvider(e)}>
+                            <option selected disabled hidden>
+                              Ciudad
+                            </option>
+                            {cities?.length > 0 ? (
+                              cities?.map((el, i) => {
+                                return (
+                                  <option key={i} value={el.NOMBRE_CIUDAD}>
+                                    {el.NOMBRE_CIUDAD}
+                                  </option>
+                                )
+                              })
+                            ) : (
+                              <option>Cargando...</option>
+                            )}
+                          </select>
+                        </div>
+                      ) : null}
 
-                        {inputProvider.pais === 'Uruguay' && cities?.length > 0 && !cities.map((el) => el.NOMBRE_CIUDAD).includes(inputProvider.ciudad)
-                          ? isUruguayProvider()
-                          : null}
-                      </div>
+                      {inputProvider.pais === 'Uruguay' && cities?.length > 0 && !cities.map((el) => el.NOMBRE_CIUDAD).includes(inputProvider.ciudad)
+                        ? isUruguayProvider()
+                        : null}
 
                       <div className={styles.formInput}></div>
                       <div className='form-check d-flex justify-content-center'>
@@ -1701,21 +1799,21 @@ export default function Register({ isModal }) {
                         </label>{' '}
                       </div>
                       {/* <button className={`btn btn-success mt-4 ${styles.signup} ${termsAcceptedProvider}`} onClick={(e) => handleSubmitUser(e)}> */}
-                      <div className='recaptcha'>
+                      {/* <div className='recaptcha'>
                         <ReCAPTCHA ref={captcha} sitekey='6Le5jukfAAAAAD7b-AKYrJS1A8bT_VqYBbXPwLcX' onChange={onRecaptcha} />
-                      </div>
+                      </div> */}
                       <button className={`btn btn-success mt-4 ${styles.signup} ${termsAcceptedProvider}`} onClick={(e) => finalCheckProvider(e)}>
                         Confirmar registro
                       </button>
                     </div>
 
-                    {/* <div className='text-center mt-3'>
+                    <div className='text-center mt-3'>
                       {' '}
                       <span>O registrate usando:</span>{' '}
                     </div>
                     <div className='d-flex justify-content-center mt-4'>
                       {' '}
-                      <span className={styles.social}>
+                      {/* <span className={styles.social}>
                         <i className='fa fa-google'></i>
                       </span>{' '}
                       <span className={styles.social}>
@@ -1723,8 +1821,17 @@ export default function Register({ isModal }) {
                       </span>{' '}
                       <span className={styles.social}>
                         <i className='fa fa-linkedin'></i>
-                      </span>{' '}
-                    </div> */}
+                      </span>{' '} */}
+                       <FacebookLogin
+                      appId='422066786032438'
+                      autoLoad={false}
+                      fields='name,email,picture,birthday'
+                      onClick={facebookClicked}
+                      callback={responseFacebookProv}
+                      cssClass={styles.social}
+                      textButton={<i className='fa fa-facebook'></i>}
+                    />
+                    </div>
                     <div className='text-center mt-4'>
                       {' '}
                       <span>¿Ya estás registrado?</span>{' '}

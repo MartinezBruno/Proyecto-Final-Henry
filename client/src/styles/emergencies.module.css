@@ -1,0 +1,36 @@
+p{
+    margin: 5px;
+}
+.emergencyMainContainer{
+    background-color: white;
+    border-radius: 20px;
+    padding:20px;
+    box-shadow: 0 0 5px 1px rgb(0 0 0 / 40%);
+    width: 400px !important;
+}
+
+.attribute{
+    display:flex;
+    flex-direction: row;
+}
+.emergenciesContainer{
+    display:flex;
+    align-items: center;
+    justify-content: center;;
+    flex-wrap: wrap;
+    /* padding:100px!important; */
+}
+.providerCards{
+    display:flex;
+    justify-content:center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 20px;
+    width: 320px;
+    height:320px;
+    box-shadow: 0 0 5px 1px rgb(0 0 0 / 40%);
+    background-color: white;
+    padding: 20px;
+    margin: 10px;
+
+}

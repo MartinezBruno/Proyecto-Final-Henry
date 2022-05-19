@@ -16,6 +16,7 @@ const {
   adminBoard,
   compraSuccess,
   misCompras,
+  createAyuda,
 } = require('../controllers/usuarios')
 
 // Importar todos los routers;
@@ -54,6 +55,7 @@ router.put('/password/:id', changePassword)
 router.post('/compraSuccess', compraSuccess)
 
 router.get('/compraSuccess/misCompras', misCompras)
+router.post('/ayuda', createAyuda)
 
 // router.get('/test/mod', [authJwt.verifyToken, authJwt.isModerator], moderatorBoard)
 
