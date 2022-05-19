@@ -378,6 +378,16 @@ const deleteProvider = async (req, res) => {
   }
 }
 
+const createService = async (req,res) =>{
+  let {nombreServicio, remote} = req.body
+   
+  await Servicio.findOrCreate({
+    where:{NOMBRE_SERVICIO: nombreServicio,
+    REMOTE: remote}
+  })
+  return res.status(200).send('Servicio Creado')
+  }
+
 module.exports = {
   getUsers,
   getProviders,
@@ -390,5 +400,6 @@ module.exports = {
   deletePregunta,
   getAyudas,
   deleteUser,
-  deleteProvider
+  deleteProvider,
+  createService
 }
