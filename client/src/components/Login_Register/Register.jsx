@@ -9,12 +9,12 @@ import { providerRegister, rf, rs, userRegister } from '../../redux/slices/auth'
 import { chargeCities, chargeProvinces } from '../../redux/slices/countriesData'
 import { chargeAllUsers } from '../../redux/slices/user'
 import { getAllProviders } from '../../redux/slices/provider'
+import { v4 as uuidv4 } from 'uuid'
+import api from '../../services/api'
 import Swal from 'sweetalert2'
 import 'animate.css'
 import ReCAPTCHA from 'react-google-recaptcha'
 import FacebookLogin from 'react-facebook-login'
-import api from '../../services/api'
-
 
 export default function Register({ isModal }) {
   const { allProviders } = useSelector((state) => state.provider)
@@ -38,7 +38,6 @@ export default function Register({ isModal }) {
   }
 
   function responseFacebook(e){
-    // console.log('respuesta:', e)
     let userName= e.name.split(' ')
 
     let userRegister = { 
@@ -47,24 +46,46 @@ export default function Register({ isModal }) {
       password: e.id, ///VERIFICAR
       email: e.email,
       imagen: e.picture.data.url,
-      fecha_nacimiento: "30-11-1960",
-      pais: "Argentina",
-      provincia: "Provincia de Buenos Aires",
-      ciudad: "Partido de La Plata",
-      celular: 2841282
-
+      // fecha_nacimiento: "30-11-1960",
+      // pais: "Argentina",
+      // provincia: "Provincia de Buenos Aires",
+      // ciudad: "Partido de La Plata",
+      // celular: 2841282
     }
+  api
+    .post('/auth/usuario/signup', userRegister)
+    .then((r) => {
+      Swal.fire('¡Registrado con exito!', '', 'success')
+    })
+    .catch((err) => {
+      Swal.fire('¡Ha ocurrido un error, intentalo nuevamente!', '', 'error')
+    })
 
-    console.log(userRegister)
+  }
 
-  // api
-  //   .post('/auth/usuario/signup', input)
-  //   .then((r) => {
-  //     Swal.fire('¡Logueado con exito!', '', 'success')
-  //   })
-  //   .catch((err) => {
-  //     Swal.fire('¡Datos incorrectos!', '', 'error')
-  //   })
+  function responseFacebookProv(e){
+    let userName= e.name.split(' ')
+
+    let provRegister = { 
+      nombre: userName[0],
+      apellido: userName[1],
+      password: e.id, ///VERIFICAR
+      email: e.email,
+      imagen: e.picture.data.url,
+      // fecha_nacimiento: "30-11-1960",
+      // pais: "Argentina",
+      // provincia: "Provincia de Buenos Aires",
+      // ciudad: "Partido de La Plata",
+      // celular: 2841282
+    }
+  api
+    .post('/auth/proveedor/signup', provRegister)
+    .then((r) => {
+      Swal.fire('¡Registrado con exito!', '', 'success')
+    })
+    .catch((err) => {
+      Swal.fire('¡Ha ocurrido un error, intentalo nuevamente!', '', 'error')
+    })
 
   }
   function facebookClicked(e){
@@ -644,6 +665,53 @@ export default function Register({ isModal }) {
     }
   }
 
+  // Cargar imagen de tipo File
+  const [file, setFile] = useState()
+  const [format, setFormat] = useState('')
+
+  const saveFile = (e) => {
+    setFile(e.target.files[0])
+    var formatImage = e.target.files[0]?.name.split('.')
+    setFormat(formatImage[formatImage?.length - 1])
+  }
+
+  const uploadUserFile = async (e) => {
+    const code = uuidv4()
+    // console.log(code)
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('format', format)
+    try {
+      const res = await api.post(`/upload/profile/${code}.${format}`, formData)
+      console.log(res)
+      setInput({
+        ...input,
+        [e.target.name]: code + '.' + format,
+      })
+      Swal.fire('Imagen cargada con Exito', '', 'success')
+    } catch (ex) {
+      console.log(ex)
+    }
+  }
+  const uploadProviderFile = async (e) => {
+    const code = uuidv4()
+    console.log(code)
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('format', format)
+    try {
+      const res = await api.post(`/upload/profile/${code}.${format}`, formData)
+      console.log(res)
+      setInputProvider({
+        ...inputProvider,
+        [e.target.name]: code + '.' + format,
+      })
+      Swal.fire('Imagen cargada con Exito', '', 'success')
+    } catch (ex) {
+      console.log(ex)
+    }
+  }
+
   function finalCheck(e) {
     let errorsCounter = 0
     let dataEmpty = 0
@@ -826,13 +894,18 @@ export default function Register({ isModal }) {
                       {' '}
                       <i className='fa fa-camera' aria-hidden='true'></i>{' '}
                       <input
-                        type='text'
+                        type='file'
+                        accept='image/x-png,image/jpeg'
                         className={styles.formControl}
                         name='imagen'
                         placeholder='Imagen'
-                        value={input.imagen}
-                        onChange={(e) => handleChangeUser(e)}
+                        onChange={(e) => {
+                          saveFile(e)
+                        }}
                       />{' '}
+                      <button name='imagen' onClick={(e) => uploadUserFile(e)}>
+                        Upload
+                      </button>
                     </div>
                     {errors.imagen && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errors.imagen}</p>}
 
@@ -971,20 +1044,22 @@ export default function Register({ isModal }) {
                     {/* <span className={styles.social}>
                       <i className='fa fa-google'></i>
                     // </span>{' '} */}
-                    //{' '}
+                    {/* //{' '}
                     <span className={styles.social}>
                       // <i className='fa fa-facebook'></i>
                       //{' '}
-                    </span>{' '}
+                    </span>{' '} */}
                     {/* <span className={styles.social}>
                       <i className='fa fa-linkedin'></i>
                     </span>{' '} */}
                     <FacebookLogin
                       appId='422066786032438'
                       autoLoad={false}
-                      fields='name,email,picture'
+                      fields='name,email,picture,birthday'
                       onClick={facebookClicked}
                       callback={responseFacebook}
+                      cssClass={styles.social}
+                      textButton={<i className='fa fa-facebook'></i>}
                     />
                   </div>
                   <div className='text-center mt-4'>
@@ -1062,13 +1137,18 @@ export default function Register({ isModal }) {
                       {' '}
                       <i className='fa fa-camera' aria-hidden='true'></i>{' '}
                       <input
-                        type='text'
+                        type='file'
+                        accept='image/x-png,image/jpeg'
                         className={styles.formControl}
                         name='imagen'
                         placeholder='Imagen'
-                        value={inputProvider.imagen}
-                        onChange={(e) => handleChangeProvider(e)}
+                        onChange={(e) => {
+                          saveFile(e)
+                        }}
                       />{' '}
+                      <button name='imagen' onClick={(e) => uploadProviderFile(e)}>
+                        Upload
+                      </button>
                     </div>
                     {errorsProvider.imagen && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.imagen}</p>}
 
@@ -1208,13 +1288,13 @@ export default function Register({ isModal }) {
                     </button>
                   </div>
 
-                  {/* <div className='text-center mt-3'>
+                  <div className='text-center mt-3'>
                     {' '}
                     <span>O registrate usando:</span>{' '}
                   </div>
                   <div className='d-flex justify-content-center mt-4'>
                     {' '}
-                    <span className={styles.social}>
+                    {/* <span className={styles.social}>
                       <i className='fa fa-google'></i>
                     </span>{' '}
                     <span className={styles.social}>
@@ -1222,8 +1302,17 @@ export default function Register({ isModal }) {
                     </span>{' '}
                     <span className={styles.social}>
                       <i className='fa fa-linkedin'></i>
-                    </span>{' '}
-                  </div>*/}
+                    </span>{' '} */}
+                     <FacebookLogin
+                      appId='422066786032438'
+                      autoLoad={false}
+                      fields='name,email,picture,birthday'
+                      onClick={facebookClicked}
+                      callback={responseFacebookProv}
+                      cssClass={styles.social}
+                      textButton={<i className='fa fa-facebook'></i>}
+                    />
+                  </div>
                   <div className='text-center mt-4'>
                     {' '}
                     <span>¿Ya estás registrado?</span>{' '}
@@ -1322,17 +1411,22 @@ export default function Register({ isModal }) {
                       </div>
                       {errors.password && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errors.password}</p>}
 
-                      <div className={styles.formInputPage}>
+                      <div className={styles.formInput}>
                         {' '}
                         <i className='fa fa-camera' aria-hidden='true'></i>{' '}
                         <input
-                          type='text'
+                          type='file'
+                          accept='image/x-png,image/jpeg'
                           className={styles.formControl}
                           name='imagen'
                           placeholder='Imagen'
-                          value={input.imagen}
-                          onChange={(e) => handleChangeUser(e)}
+                          onChange={(e) => {
+                            saveFile(e)
+                          }}
                         />{' '}
+                        <button name='imagen' onClick={(e) => uploadUserFile(e)}>
+                          Upload
+                        </button>
                       </div>
                       {errors.imagen && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errors.imagen}</p>}
 
@@ -1462,13 +1556,13 @@ export default function Register({ isModal }) {
                       </button>
                     </div>
 
-                    {/* <div className='text-center mt-3'>
+                    <div className='text-center mt-3'>
                       {' '}
                       <span>O registrate usando:</span>{' '}
                     </div>
                     <div className='d-flex justify-content-center mt-4'>
                       {' '}
-                      <span className={styles.social}>
+                      {/* <span className={styles.social}>
                         <i className='fa fa-google'></i>
                       </span>{' '}
                       <span className={styles.social}>
@@ -1476,8 +1570,17 @@ export default function Register({ isModal }) {
                       </span>{' '}
                       <span className={styles.social}>
                         <i className='fa fa-linkedin'></i>
-                      </span>{' '}
-                    </div> */}
+                      </span>{' '} */}
+                       <FacebookLogin
+                      appId='422066786032438'
+                      autoLoad={false}
+                      fields='name,email,picture,birthday'
+                      onClick={facebookClicked}
+                      callback={responseFacebook}
+                      cssClass={styles.social}
+                      textButton={<i className='fa fa-facebook'></i>}
+                    />
+                    </div>
                     <div className='text-center mt-4'>
                       {' '}
                       <span>¿Ya estás registrado?</span>{' '}
@@ -1553,13 +1656,18 @@ export default function Register({ isModal }) {
                         {' '}
                         <i className='fa fa-camera' aria-hidden='true'></i>{' '}
                         <input
-                          type='text'
+                          type='file'
+                          accept='image/x-png,image/jpeg'
                           className={styles.formControl}
                           name='imagen'
                           placeholder='Imagen'
-                          value={inputProvider.imagen}
-                          onChange={(e) => handleChangeProvider(e)}
+                          onChange={(e) => {
+                            saveFile(e)
+                          }}
                         />{' '}
+                        <button name='imagen' onClick={(e) => uploadProviderFile(e)}>
+                          Upload
+                        </button>
                       </div>
                       {errorsProvider.imagen && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.imagen}</p>}
 
@@ -1699,13 +1807,13 @@ export default function Register({ isModal }) {
                       </button>
                     </div>
 
-                    {/* <div className='text-center mt-3'>
+                    <div className='text-center mt-3'>
                       {' '}
                       <span>O registrate usando:</span>{' '}
                     </div>
                     <div className='d-flex justify-content-center mt-4'>
                       {' '}
-                      <span className={styles.social}>
+                      {/* <span className={styles.social}>
                         <i className='fa fa-google'></i>
                       </span>{' '}
                       <span className={styles.social}>
@@ -1713,8 +1821,17 @@ export default function Register({ isModal }) {
                       </span>{' '}
                       <span className={styles.social}>
                         <i className='fa fa-linkedin'></i>
-                      </span>{' '}
-                    </div> */}
+                      </span>{' '} */}
+                       <FacebookLogin
+                      appId='422066786032438'
+                      autoLoad={false}
+                      fields='name,email,picture,birthday'
+                      onClick={facebookClicked}
+                      callback={responseFacebookProv}
+                      cssClass={styles.social}
+                      textButton={<i className='fa fa-facebook'></i>}
+                    />
+                    </div>
                     <div className='text-center mt-4'>
                       {' '}
                       <span>¿Ya estás registrado?</span>{' '}

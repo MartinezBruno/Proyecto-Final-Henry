@@ -7,15 +7,11 @@ import ProviderChat from "./ProviderChat"
 
 export default function Chat() {
   const { user } = useSelector((state) => state.auth)
-  console.log(user)
-
-  const dispatch = useDispatch()
-  const idUsuario = user.id
+  // console.log(user)
 
   if(user.Role === "USUARIO"){
     return <UserChat />
   }else{
     return <ProviderChat />
   }
-  // return <UserChat />
 }

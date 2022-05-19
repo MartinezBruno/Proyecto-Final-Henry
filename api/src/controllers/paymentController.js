@@ -3,7 +3,9 @@ class PaymentController {
     this.subscriptionService = subscriptionService
   }
   async getPaymentLink(req, res) {
-    const { services } = req.body
+    // const { services } = req.body
+    const services = req.body
+    console.log(services)
     try {
       const payment = await this.subscriptionService.createPayment(services)
       return res.json(payment)

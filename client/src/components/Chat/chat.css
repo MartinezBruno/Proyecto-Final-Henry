@@ -3,7 +3,6 @@ body {
 }
 
 .ScrollDownButton {
-  /* background-color: rgba(128, 128, 128, 0.464); */
   position: fixed;
   top: 200px;
   right: 850px;
@@ -18,7 +17,7 @@ body {
 
 .col-lg-12 .card {
   background: #fff;
-  margin-top: 20px;
+  margin-top: 30px;
   margin-bottom: -25px;
   transition: 0.5s;
   position: relative;
@@ -40,6 +39,9 @@ body {
   margin-left: 280px;
   border-left: 1px solid #eaeaea;
   height: 100vh;
+}
+
+.chat {
   overflow: hidden;
   overflow-y: scroll;
 }
@@ -99,7 +101,11 @@ body {
 .chat .chat-header {
   padding: 15px 20px;
   border-bottom: 2px solid #f4f7f6;
-  width: 990px;
+}
+
+.chat-header {
+  /* position: fixed; */
+  width: 100%;
 }
 
 .chat .chat-header img {
@@ -117,6 +123,7 @@ body {
 .chat .chat-history {
   padding: 20px;
   border-bottom: 2px solid #fff;
+  margin-top: 20px;
 }
 
 .chat .chat-history ul {
@@ -149,4 +156,21 @@ body {
 
 .float-right {
   float: right;
+}
+
+.chat-message {
+  margin-left: 281px;
+}
+@media screen and (max-width: 600px) {
+  .people-list  {
+    display:none!important
+  }
+
+  .chat-app .chat {
+    margin-left: 0px;
+  }
+  
+  .chat-message {
+    margin-left: 0px;
+  }
 }

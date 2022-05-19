@@ -64,7 +64,7 @@ export function setIdNewProvider(id){
 }
 
 export function getUserChatHistory(idUsuario){
-    console.log(idUsuario)
+    // console.log(idUsuario)
     return async function(dispatch){
         let info = await api.get(`/chat/allChats?idUsuario=${idUsuario}`)
         dispatch(GetChatHistory(info.data))

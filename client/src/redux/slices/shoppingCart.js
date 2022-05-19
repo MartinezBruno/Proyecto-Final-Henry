@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import api from '../../services/api'
-// import axios from 'axios';
+import axios from 'axios'
 
 export const cartSlice = createSlice({
   name: 'shoppingCart', //Nombre del slice
@@ -88,8 +88,8 @@ export const updateStateFromStorage = (state) => {
 }
 
 export const payServices = (services) => async () => {
-  let infoData = (await api.post('/checkout/payment', services)).data
-  console.log(infoData)
+  let infoData = (await axios.post('http://localhost:3001/api/checkout/payment', services)).data
+  
   return infoData
 }
 
@@ -101,7 +101,6 @@ export const clearCart = () => {
 
 export const setAcumServices = (services) => {
   let individualServices = {}
-
   services?.forEach((el) => {
     if (individualServices[[`${el.id}_${el.provID}`]]) {
       individualServices[`${el.id}_${el.provID}`].count++
@@ -111,6 +110,7 @@ export const setAcumServices = (services) => {
         nombre: el.nombre,
         remote: el.remote,
         precio: el.precio,
+        duracion: el.duracionServicio,
         descripcion: el.descripcion,
         provID: el.provID,
         provName: el.provName,

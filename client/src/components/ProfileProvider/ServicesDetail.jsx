@@ -3,6 +3,8 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { getServiceProvider, RefreshService } from '../../redux/slices/provider'
+import api from '../../services/api'
+import Swal from 'sweetalert2'
 import { Button, Modal } from 'react-bootstrap'
 import Questions from '../Questions'
 import { addToCart, updateStateFromStorage } from '../../redux/slices/shoppingCart'
@@ -11,6 +13,7 @@ import styles from '../../styles/profile.module.css'
 import { NavLink } from 'react-router-dom'
 import { useState } from 'react'
 import { setMessage } from '../../redux/slices/message'
+import Banned from '../Banned'
 var moment = require('moment')
 moment.locale('es-us')
 
@@ -24,7 +27,9 @@ export default function ProfileDetails() {
   const { user, isLoggedIn } = useSelector((state) => state.auth)
   const [showQuestions, setShowQuestions] = useState(false)
   const [order, setOrder] = useState('ordenado')
-
+  if (user) {
+    var banned = user.BANNED
+  }
   const handleCloseQuestions = () => setShowQuestions(false)
   const handleshowQuestions = (e) => {
     // console.log(e.target.value)
@@ -32,10 +37,22 @@ export default function ProfileDetails() {
     setShowQuestions(true)
   }
 
+  const handleDeleteQuestion = (e) => {
+    // console.log(e.target.value)
+    api.delete(`/admin/pregunta/${e.target.value}`).then(() => Swal.fire('Pregunta eliminada Correctamente', '', 'success')).then(window.location.reload())
+  }
+  const handleDeleteComentario = (e) => {
+    // console.log(e.target.value)
+    api.delete(`/admin/comentarios/${e.target.value}`).then(() => Swal.fire('Comentario eliminado Correctamente', '', 'success')).then(window.location.reload())
+  }
+
   useEffect(() => {
     dispatch(getServiceProvider(idProv, idServ))
   }, [dispatch, idProv, idServ])
 
+  if (banned === 'Si') {
+    return <Banned />
+  }
   return (
     <>
       {isLoggedIn ? (
@@ -52,12 +69,11 @@ export default function ProfileDetails() {
                           <button type='submit' className='btn-close' aria-label='Close' style={{ marginLeft: '-350px' }}></button>
                         </NavLink>
                         <img
-                          src={serviceProvider[0]?.imagen}
-                          alt='Admin'
+                          src={`http://localhost:3001/profiles/${serviceProvider[0]?.imagen}`}
+                          alt={'NI'}
                           className='rounded-circle'
                           width='150'
-                          height='150'
-                          onError={(e) => (e.target.src = 'https://www.softzone.es/app/uploads/2018/04/guest.png?x=480&quality=20')}
+                          onError={(e) => (e.target.src = 'https://www.softzone.es/app/uploads-softzone.es/2018/04/guest.png?x=480&quality=20')}
                         />
                         <div className='mt-3'>
                           {/* MAPEO nombre:*/}
@@ -278,10 +294,22 @@ export default function ProfileDetails() {
                               <span
                                 className='list-group-item list-group-item-action list-group-item-light'
                                 style={{ marginBottom: '10px', border: '1px solid lightgray' }}>
-                                <div class='d-grid gap-2 d-md-flex justify-content-md-end'>
+                                <div className='d-grid gap-2 d-md-flex justify-content-md-end'>
+                                  {user.Role === 'ADMIN' ? (
+                                    <button
+                                      type='button'
+                                      className='btn-close position-absolute top-0 end-0'
+                                      aria-label='Close'
+                                      value={preg.id}
+                                      onClick={(e) => handleDeleteQuestion(e)}
+                                      style={{ margin: '10px' }}></button>
+                                  ) : (
+                                    ''
+                                  )}
+
                                   {user.Role === 'PROVEEDOR' && user.id === idProv && (
                                     <button
-                                      class='btn btn-primary'
+                                      className='btn btn-primary'
                                       type='button'
                                       value={preg.id}
                                       style={{ marginBottom: '-50px', height: '35px', textAlignLast: 'center' }}
@@ -310,10 +338,10 @@ export default function ProfileDetails() {
                       <div className='row'>
                         <div className='col-sm-12'>{/* <button className="btn btn-dark">EDITAR</button> */}</div>
                       </div>
-                      <div class='d-grid gap-2 col-6 mx-auto'>
+                      <div className='d-grid gap-2 col-6 mx-auto'>
                         {user.Role === 'USUARIO' && (
                           <button
-                            class='btn btn-primary '
+                            className='btn btn-primary '
                             type='button'
                             style={{ margin: 'auto', marginTop: '20px', width: '210px' }}
                             onClick={handleshowQuestions}>
@@ -356,6 +384,19 @@ export default function ProfileDetails() {
                               <span
                                 className='list-group-item list-group-item-action list-group-item-light '
                                 style={{ marginBottom: '10px', border: '1px solid lightgray' }}>
+                                <div style={{ backgrondColor: 'red' }}>
+                                  {user.Role === 'ADMIN' ? (
+                                    <button
+                                      type='button'
+                                      className='btn-close position-absolute top-0 end-0'
+                                      aria-label='Close'
+                                      value={com.id}
+                                      onClick={(e) => handleDeleteComentario(e)}
+                                      style={{ margin: '10px' }}></button>
+                                  ) : (
+                                    ''
+                                  )}
+                                </div>
                                 <b style={{}}>
                                   {}
                                   {com.USUARIO}:
@@ -374,7 +415,6 @@ export default function ProfileDetails() {
                         )}
                       </div>
                       <div className='row'>
-                        <div className='col-sm-12'>{/* <button className="btn btn-dark">EDITAR</button> */}</div>
                       </div>
                     </div>
                   </div>
@@ -399,7 +439,7 @@ export default function ProfileDetails() {
                 <br /> ¡Muchas Gracias!
               </h2>
               <NavLink to={'/login'}>
-                <button type='button' class='btn btn-success' style={{ marginTop: '30px' }}>
+                <button type='button' className='btn btn-success' style={{ marginTop: '30px' }}>
                   Iniciar Sesión
                 </button>
               </NavLink>

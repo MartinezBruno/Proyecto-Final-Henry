@@ -52,8 +52,8 @@ export function userRegister(input) {
       const message = (error.data && error.data.message) || error.response.data.message || error.message || error.toString()
       dispatch(Register_Fail(false))
       dispatch(SetMessage(message))
-      console.log(error)
-      console.log(message)
+      // console.log(error)
+      // console.log(message)
     }
   }
 }
@@ -65,7 +65,7 @@ export function providerRegister(input) {
       return info
     } catch (error) {
       dispatch(Register_Fail())
-      console.log(error)
+      // console.log(error)
       return error
     }
   }
@@ -79,7 +79,7 @@ export function userLogin(usuario, contraseña) {
     } catch (error) {
       const message = (error.data && error.data.message) || error.message || error.toString()
       dispatch(Login_Fail())
-      console.log(Login_Fail())
+      // console.log(Login_Fail())
       dispatch(SetMessage(message))
     }
   }
@@ -91,7 +91,18 @@ export function providerLogin(usuario, contraseña) {
       if (info) dispatch(Login_Success({ user: info }))
     } catch (error) {
       dispatch(Login_Fail())
-      console.log(error)
+      // console.log(error)
+    }
+  }
+}
+export function adminLogin(usuario, contraseña) {
+  return async function (dispatch) {
+    try {
+      var info = await AuthService.adminLogin(usuario, contraseña)
+      if (info) dispatch(Login_Success({ user: info }))
+    } catch (error) {
+      dispatch(Login_Fail())
+      // console.log(error)
     }
   }
 }
@@ -115,7 +126,7 @@ export function putUser(id, payload) {
       await api.put(`/usuario/${id}`, payload)
       dispatch(Put_User())
     } catch (error) {
-      console.log(error)
+      // console.log(error)
     }
   }
 }
