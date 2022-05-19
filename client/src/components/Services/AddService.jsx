@@ -15,6 +15,7 @@ const validation = (input) => {
   if (input.DESCRIPCION === '') errors.description = 'La descripción del servicio es requerido'
   if (input.PRECIO === '') errors.price = 'El precio del servicio es requerido'
   if (input.REMOTE === null) errors.remote = 'Es requerido que indique si el servicio es remoto o local'
+  if (input.DURACION === '') errors.duration = 'La duración del servicio es requerido'
   return errors
 }
 
@@ -39,6 +40,7 @@ export default function AddService(props) {
     REMOTE: null,
     PRECIO: '',
     DESCRIPCION: '',
+    DURACION: '',
   })
 
   useEffect(() => {
@@ -139,6 +141,14 @@ export default function AddService(props) {
                 <Form.Control type='number' name='PRECIO' onChange={(e) => handleForm(e)} />
               </InputGroup>
               {errors.price && <Form.Text className='text-danger'>{errors.price}</Form.Text>}
+            </Form.Group>
+            <Form.Group className='mb-3' controlId='formBasicPassword'>
+              <Form.Label>Duración</Form.Label>
+              <InputGroup className='mb-3'>
+                <InputGroup.Text>Horas</InputGroup.Text>
+                <Form.Control type='number' name='DURACION' onChange={(e) => handleForm(e)} />
+              </InputGroup>
+              {errors.duration && <Form.Text className='text-danger'>{errors.duration}</Form.Text>}
             </Form.Group>
             <Form.Group className='mb-3' controlId='exampleForm.ControlTextarea1'>
               <Form.Label>Ingresa una descripción breve del servicio:</Form.Label>

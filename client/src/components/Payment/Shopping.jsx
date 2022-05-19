@@ -18,16 +18,10 @@ export default function Shopping() {
 
   let dispatch = useDispatch()
 
-  // const handleOnClick = async (services) => {}
-  const handleAddEvent = (service, id, e, services) => {
-    e.preventDefault()
-    dispatch(addEvent(service, id))
-    setTimeout(async () => {
-      console.log(services)
-      let url = await dispatch(payServices(services))
-      window.location.href = `${url.init_point}`
-    }, 2000)
-    return Swal.fire('Fechas agendada correctamente', 'Redirigiendo a MercadoPago, por favor aguarde', 'success')
+  const handleOnClick = async (services) => {
+    localStorage.setItem('events', JSON.stringify(eventosAgendados))
+    let url = await dispatch(payServices(services))
+    window.location.href = `${url.init_point}`
   }
 
   return (
@@ -91,10 +85,10 @@ export default function Shopping() {
                 Seguir buscando
               </Button>
             </Link>
-            {agendados ? null : services?.length === eventosAgendados?.length ? (
-              <button variant='success' onClick={(e) => handleAddEvent(eventosAgendados, userId, e, services)}>
-                <i className='fa fa-lock' aria-hidden='true'></i> Agregar evento
-              </button>
+            {agendados ? null : services?.length === eventosAgendados?.length && services.length > 0 ? (
+              <Button variant='success' onClick={(e) => handleOnClick(services)}>
+                <i className='fa fa-lock' aria-hidden='true'></i> Pagar Ahora
+              </Button>
             ) : (
               <h3>Aun faltan agendar {services?.length - eventosAgendados?.length} servicios</h3>
             )}

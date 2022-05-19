@@ -15,7 +15,7 @@ const {
   Emergencia,
   Ayuda
 } = require('../db')
-const { emergencia } = require('./emergencia')
+var bcrypt = require('bcryptjs')
 
 const getUsers = async (req, res) => {
   try {
@@ -276,6 +276,36 @@ const putUser = async (req, res, next) => {
   }
 }
 
+const changePassword = async (req, res) => {
+  const { id } = req.params
+  const { newPassword, oldPassword } = req.body
+  try {
+    const usuarioEncontrado = await Usuario.findOne({
+      where: { id: id },
+    })
+
+    if (usuarioEncontrado === null) return res.status(404).send({ message: 'No se encontró un usuario con ese id' })
+
+    const passwordIsValid = bcrypt.compareSync(oldPassword, usuarioEncontrado.PASSWORD)
+    if (!passwordIsValid) {
+      return res.status(401).send({
+        message: '¡Contraseña incorrecta!',
+      })
+    }
+
+    await Usuario.update(
+      {
+        PASSWORD: bcrypt.hashSync(newPassword, 8),
+      },
+      { where: { id: id } }
+    )
+    return res.status(204).send({ message: 'Contraseña actualizada correctamente' })
+  } catch (error) {
+    console.error(error)
+    return res.status(500).send({ message: 'Error al actualizar contraseña' })
+  }
+}
+
 const adminBoard = (req, res) => {
   res.status(200).send('Admin Content.')
 }
@@ -355,17 +385,16 @@ const compraSuccess = async (req, res) => {
 
       compra.setUsuario(usuario)
       compra.setProveedor_Servicio(provServ)
-
     }
-    
+
     let emergencia = await Emergencia.findAll({
-      where: {UsuarioId: idUsuario}
+      where: { UsuarioId: idUsuario },
     })
-    if(emergencia.length > 0){
-       await Emergencia.update({ COMPRA_SUCCES: 'Si' }, { where: { UsuarioId: idUsuario } })
+    if (emergencia.length > 0) {
+      await Emergencia.update({ COMPRA_SUCCES: 'Si' }, { where: { UsuarioId: idUsuario } })
     }
 
-  return res.status(200).send({ message: 'Compra guardada en la DB' })
+    return res.status(200).send({ message: 'Compra guardada en la DB' })
   } catch (error) {
     console.error(error)
     return res.status(500).send({ message: 'Error al guardar compra' })
@@ -435,6 +464,7 @@ module.exports = {
   adminBoard,
   moderatorBoard,
   putUser,
+  changePassword,
   buyReview,
   compraSuccess,
   misCompras,

@@ -10,7 +10,7 @@ const { getTemplate } = require('./email')
 
 exports.signup = async (req, res) => {
   // Guardar usuario en la base de datos
-  let { nombre, apellido, password, email, imagen, fecha_nacimiento, pais, provincia, servicios, ciudad, celular } = req.body
+  let { nombre, apellido, password, email, imagen, fecha_nacimiento, pais, provincia, servicios, ciudad, celular, hora_inicio, hora_final } = req.body
 
   try {
     servicios?.length === 0 || servicios == null
@@ -70,6 +70,8 @@ exports.signup = async (req, res) => {
       CALIFICACION: [],
       CELULAR: celular,
       CODE: code,
+      HORA_INICIO: hora_inicio,
+      HORA_FINAL: hora_final,
     })
     let role = await Role.findOne({
       where: { id: 2 },

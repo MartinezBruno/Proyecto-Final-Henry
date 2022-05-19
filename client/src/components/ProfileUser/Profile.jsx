@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import ProfileEditInfoUser from './ProfileEditInfo'
 import ProfileShowInfoUser from './ProfileShowInfo'
 import ComprasUsuario from '../Payment/ComprasUsuario'
+import ChangePassword from '../ChangePassword'
 
 function ProfileUser() {
   const [isEditing, setEditing] = useState(false)
@@ -29,7 +30,7 @@ function ProfileUser() {
                   <div className='d-flex flex-column align-items-center text-center'>
                     <img
                       src={`http://localhost:3001/profiles/${UniqueUser.imagen}`}
-                      alt={UniqueUser.nombre_apellido_usuario} 
+                      alt={UniqueUser.nombre_apellido_usuario}
                       className='rounded-circle'
                       width='150'
                       onError={(e) => (e.target.src = 'https://www.softzone.es/app/uploads-softzone.es/2018/04/guest.png?x=480&quality=20')}
@@ -38,6 +39,9 @@ function ProfileUser() {
                       <h4>{UniqueUser.nombre_apellido_usuario}</h4>
                       <p className='text-muted font-size-sm'>{user.Role}</p>
                       <p className='text-muted font-size-sm'>{UniqueUser.pais + ', ' + UniqueUser.provincia}</p>
+                      <br />
+                      <p>¿Quieres cambiar tu contraseña?</p>
+                      <ChangePassword />
                       {/* <button className="btn btn-primary" style={{margin: '7px'}}>Follow</button>
                   <button className="btn btn-outline-primary">Mensaje</button> */}
                     </div>

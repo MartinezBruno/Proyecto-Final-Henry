@@ -3,14 +3,15 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import { clearServices } from '../../redux/slices/shoppingCart'
+import { addEvent } from '../../redux/slices/events'
 import api from '../../services/api'
 
 export default function SuccessfulPayment() {
   // const { services } = useSelector(state => state.shoppingCart)
   const dispatch = useDispatch()
-
   useEffect(() => {
     let shoppingCart = JSON.parse(localStorage.getItem('cartList'))
+    let eventosAgendados = JSON.parse(localStorage.getItem('events'))
     let user = JSON.parse(sessionStorage.getItem('user'))
 
     let dataParaMandar = shoppingCart.map((el) => {
@@ -22,6 +23,7 @@ export default function SuccessfulPayment() {
     console.log(dataFormateada)
 
     api.post('/usuario/compraSuccess', dataFormateada)
+    dispatch(addEvent(eventosAgendados, user.id))
     localStorage.clear()
     dispatch(clearServices())
   }, [dispatch])

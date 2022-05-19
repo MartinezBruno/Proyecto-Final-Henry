@@ -14,6 +14,7 @@ function ProfileProveedor() {
   const dispatch = useDispatch()
   const { user } = useSelector((state) => state.auth)
   const { uniqueprovider } = useSelector((state) => state.provider)
+  console.log(uniqueprovider)
 
   useEffect(() => {
     dispatch(getUniqueProvider(user.id))
@@ -39,6 +40,12 @@ function ProfileProveedor() {
                       <h4>{uniqueprovider?.nombre_apellido_proveedor}</h4>
                       <p className='text-muted font-size-sm'>{user.Role}</p>
                       <p className='text-muted font-size-sm'>{uniqueprovider?.pais + ', ' + uniqueprovider?.provincia}</p>
+                      <br />
+                      <h4>
+                        Disponibilidad horaria: <span>{uniqueprovider.hora_inicio === 'Sin definir' ? '08:00' : uniqueprovider.hora_inicio}</span>-
+                        <span>{uniqueprovider.hora_final === 'Sin definir' ? '18:00' : uniqueprovider.hora_final}</span>
+                      </h4>
+
                       {/* <button className="btn btn-primary" style={{margin: '7px'}}>Follow</button>
                   <button className="btn btn-outline-primary">Mensaje</button> */}
                     </div>
@@ -83,8 +90,12 @@ function ProfileProveedor() {
                 </tbody>
               </table>
               <div className={`d-flex justify-content-center`}>
-                <AddService />
-                <DeleteService />
+                <div className='mx-3'>
+                  <AddService />
+                </div>
+                <div className='mx-3'>
+                  <DeleteService />
+                </div>
               </div>
             </div>
           </div>
