@@ -134,7 +134,7 @@ export default function NavBar() {
               <img className={`${styles.logoImg} ${styles.hideOnSmall}`} src={logo} alt='logo' />
             </NavLink>
 
-            <div className='d-flex container justify-content-center align-items-center text-center'>
+            <div className='d-flex container justify-content-around align-items-center text-center'>
               <NavLink to='/home' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
                 INICIO
               </NavLink>
@@ -148,51 +148,63 @@ export default function NavBar() {
                 ''
               )}
               {role === 'ADMIN' ? (
-                 <div className='d-flex align-items-center justify-content-center text-center'>
-                  <NavLink to='/admin/usersList' className={`${styles.hideOnSmall}`} style={{margin:"0px 10px"}}>
+                <>
+                  {/* <NavLink to='/admin/usersList' className={`${styles.hideOnSmall}`} style={{margin:"0px 10px"}}>
                     USUARIOS
-                  </NavLink>
-
-                  <NavLink to='/admin/providersList' className={`${styles.hideOnSmall}`} style={{margin:"0px 10px"}}>
+                    </NavLink>
+                    
+                    <NavLink to='/admin/providersList' className={`${styles.hideOnSmall}`} style={{margin:"0px 10px"}}>
                     PROVEEDORES
                   </NavLink>
-
+                  
                   <NavLink to='/admin/salesHistory' className={`${styles.hideOnSmall}`} style={{margin:"0px 10px"}}>
-                    COMPRAS
+                  COMPRAS
+                  </NavLink>
+                  
+                  <NavLink to='/admin/ayudas' className={`${styles.hideOnSmall}`} style={{margin:"0px 10px"}}>
+                  AYUDAS
+                </NavLink> */}
+                  <NavLink to='/admin/panelAdmin' className={`${styles.hideOnSmall}`} style={{margin:"0px 10px"}}>
+                    PANEL
                   </NavLink>
                   
                   <NavLink to='/' onClick={() => handleLogout()} className={`${styles.hideOnSmall}`} style={{margin:"0px 10px"}}>
                     <i className='fa fa-sign-out' aria-hidden='true'></i> Cerrar sesión
                   </NavLink>
-                </div>
+              </>
               ) : (
                 ''
               )}
             </div>
 
-            <div className='d-flex align-items-center justify-content-center text-center' style={{ flexDirection: 'row' }}>
+<div className='d-flex align-items-center justify-content-center text-center' style={{ flexDirection: 'row' }}>
               {role === 'ADMIN' ? (
                 <NavDropdown
-                  id='nav-dropdown-dark'
-                  className={`${styles.showOnSmall}`}
+                id='nav-dropdown-dark'
+                className={`${styles.showOnSmall}`}
                   title={
                     <span>
                       <i className='fa fa-user-circle' aria-hidden='true'></i> Administracion
                     </span>
                   }>
                   <NavDropdown.Item>
+                    <NavLink to='/admin/panelAdmin' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
+                    <i class="fa fa-info-circle" aria-hidden="true"></i> PANEL GENERAL
+                    </NavLink>
+                  </NavDropdown.Item>
+                  <NavDropdown.Item>
                     <NavLink to='/admin/usersList' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
-                      <i class='fa fa-address-card' aria-hidden='true'></i> USUARIOS
+                    <i class="fa fa-users" aria-hidden="true"></i> USUARIOS
                     </NavLink>
                   </NavDropdown.Item>
                   <NavDropdown.Item>
                     <NavLink to='/admin/providersList' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
-                      <i class='fa fa-commenting' aria-hidden='true'></i> PROVEEDORES
+                    <i class="fa fa-globe" aria-hidden="true"></i> PROVEEDORES
                     </NavLink>
                   </NavDropdown.Item>
                   <NavDropdown.Item>
                     <NavLink to='/admin/salesHistory' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
-                      <i class='fa fa-commenting' aria-hidden='true'></i> COMPRAS
+                    <i class="fa fa-shopping-cart" aria-hidden="true"></i> COMPRAS
                     </NavLink>
                   </NavDropdown.Item>
                   <Dropdown.Divider className={`${styles.showOnSmall}`} />
