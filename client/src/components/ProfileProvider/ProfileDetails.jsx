@@ -260,7 +260,7 @@ export default function ProfileDetails() {
                       <th scope='col'>DETALLES SERVICIO</th>
                       {role === 'USUARIO' && (
                         <>
-                          <th scope='col'>COMPRAR</th>
+                          <th scope='col' className={styles.hideOnSmall}>COMPRAR</th>
                         </>
                       )}
 
@@ -297,7 +297,7 @@ export default function ProfileDetails() {
                               <>
                                 <td>
                                   <button
-                                    className='btn btn-success'
+                                    className={`btn btn-success ${styles.hideOnSmall}`}
                                     style={{ padding: '5px' }}
                                     onClick={() => {
                                       dispatch(addToCart({ ...serv, provID: uniqueprovider.id, provName: uniqueprovider.nombre_apellido_proveedor })) //Le mando los datos del servicio y del proveedor
