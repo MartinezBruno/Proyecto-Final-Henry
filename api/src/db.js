@@ -8,7 +8,7 @@ const sequelize = new Sequelize({
   database: 'postgres',
   username: 'postgres',
   password: 'postgres',
-  host: PGHOST,
+  host: '10.245.45.96',
   port: 5432,
   dialect: 'postgres',
   logging: false, // set to console.log to see the raw SQL queries
