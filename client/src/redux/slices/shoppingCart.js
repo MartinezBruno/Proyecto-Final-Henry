@@ -88,9 +88,8 @@ export const updateStateFromStorage = (state) => {
 }
 
 export const payServices = (services) => async () => {
-  console.log('esta es la action', services)
   let infoData = (await axios.post('http://localhost:3001/api/checkout/payment', services)).data
-  console.log(infoData)
+  
   return infoData
 }
 

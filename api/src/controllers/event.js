@@ -22,7 +22,6 @@ const getEvents = async (req, res) => {
   }
 }
 
-
 const getProveedorEvents = async (req, res) => {
   const { proveedor_id } = req.params
   try {
@@ -85,7 +84,7 @@ const createEvent = async (req, res) => {
     for (let i = 0; i < cart.length; i++) {
       let provServ = await Proveedor_Servicio.findOne({ where: { ProveedorId: idProveedor[i], ServicioId: idServicio[i] } })
       let duracion = await DuracionServicio.findOne({ where: { id: provServ.DuracionServicioId } })
-      if (duracion.DURACION === 'Sin definir') arrayDuration.push(24)
+      if (duracion.DURACION === 'Sin definir') arrayDuration.push(8)
       else arrayDuration.push(Number(duracion.DURACION))
     }
 
@@ -146,7 +145,12 @@ const createEvent = async (req, res) => {
             let endEvent = moment(evento.END)
             let startUser = moment(start).format('YYYY-MM-DD HH:mm:ss')
             let endUser = moment(end).format('YYYY-MM-DD HH:mm:ss')
-            if (!(startEvent.isBefore(startUser) && endEvent.isSameOrBefore(startUser)) || (startEvent.isAfter(startUser) && endEvent.isSameOrAfter(endUser))) {
+            if (
+              !(
+                (startEvent.isSameOrBefore(startUser) && endEvent.isSameOrBefore(startUser)) ||
+                (startEvent.isSameOrAfter(endUser) && endEvent.isSameOrAfter(endUser))
+              )
+            ) {
               return res.status(400).send({
                 message: 'Ya existe un evento programado para ' + proveedor.NOMBRE_APELLIDO_PROVEEDOR + ' entre el ' + startUser + ' y ' + endUser,
               })

@@ -54,5 +54,11 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       defaultValue: 'No',
     },
+    HORA_INICIO: {
+      type: DataTypes.STRING,
+    },
+    HORA_FINAL: {
+      type: DataTypes.STRING,
+    },
   })
 }
