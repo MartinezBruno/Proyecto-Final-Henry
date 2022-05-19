@@ -56,3 +56,25 @@ body{
     color: red;
     margin: .1rem 0px
 }
+
+@media screen and (max-width: 770px) {
+    .buttonOption {
+        max-width: 150px!important;
+        margin: 2px;
+      }
+    .hideOnSmall{
+      display:none!important;
+    }
+    .showOnSmall{
+      display: inherit!important;
+    }
+    .wrapOnSmall{
+      flex-wrap: wrap;
+    }
+    .biggerOnSmall{
+        min-width: 130px!important
+    }
+    .smallerOnSmall{
+        max-width: 90px!important
+    }
+  }
