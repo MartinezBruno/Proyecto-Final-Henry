@@ -18,6 +18,11 @@ export default function Ayuda() {
     dispatch(getAyudas())
   }, [])
 
+  const handleDeleteAyuda = (e) => {
+    console.log(e.target.value)
+    api.delete(`/admin/ayuda/${e.target.value}`).then(() => Swal.fire('Caso Cerrado', '', 'success').then(() => window.location.reload()))
+  }
+
   if (role === 'ADMIN') {
     return (
       <div className='col-md-10' style={{ margin: 'auto' }}>
@@ -40,9 +45,7 @@ export default function Ayuda() {
               return (
                 <tr style={{ margin: 'auto' }} key={ayuda.id}>
                   <td> {ayuda.idAyuda} </td>
-                  {
-                    ayuda.idProveedor ? <td>{ayuda.idProveedor}</td> : <td>{ayuda.idUsuario}</td>
-                  }                  
+                  {ayuda.idProveedor ? <td>{ayuda.idProveedor}</td> : <td>{ayuda.idUsuario}</td>}
                   <td>
                     <img
                       src={`http://localhost:3001/profiles/${ayuda.imagen}`}
@@ -55,9 +58,9 @@ export default function Ayuda() {
                   <td>{ayuda.email}</td>
                   <td>{ayuda.asunto}</td>
                   <td>
-                  <button value={user.id} onClick={(e) => (e)} className='btn' style={{ padding: '5px', backgroundColor: 'red', color: 'white' }}>
-                        PENDIENTE
-                      </button>
+                    <button value={ayuda.idAyuda} onClick={(e) => handleDeleteAyuda(e)} className='btn' style={{ padding: '5px', backgroundColor: 'red', color: 'white' }}>
+                      FINALIZAR
+                    </button>
                   </td>
                 </tr>
               )
