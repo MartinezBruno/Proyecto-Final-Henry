@@ -97,7 +97,7 @@ export default function ProvidersList() {
                     {/* <img src={`http://localhost:3001/profiles/${prov.IMAGEN}`} style={{ width: '40px', height: '40px', borderRadius: '50px' }} /> */}
                     {/* <img src={prov.IMAGEN} style={{ width: '40px', height: '40px', borderRadius: '50px' }} /> */}
                     <img
-                      src={`http://localhost:3001/profiles/${prov.IMAGEN}`}
+                      src={`http://www.weattend.com.ar/profiles/${prov.IMAGEN}`}
                       alt={prov.NOMBRE_APELLIDO_PROVEEDOR}
                       style={{ width: '40px', height: '40px', borderRadius: '50px' }}
                       onError={(e) => (e.target.src = 'https://www.softzone.es/app/uploads-softzone.es/2018/04/guest.png?x=480&quality=20')}

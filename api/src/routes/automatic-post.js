@@ -6,7 +6,7 @@ let { arrayProveedores } = require('../dbFill/bulkcreate.js')
 async function autofillProveedores() {
   try {
     arrayProveedores.map(async (proveedor) => {
-      await axios.post('https://api.weattend.com.ar/api/auth/proveedor/signup', proveedor)
+      await axios.post('http://www.weattend.com.ar/api/auth/proveedor/signup', proveedor)
     })
     return console.log('Proovedores subidos a la DB')
   } catch (error) {
