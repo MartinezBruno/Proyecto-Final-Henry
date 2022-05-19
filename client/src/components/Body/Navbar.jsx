@@ -18,7 +18,6 @@ import Banned from '../Banned'
 
 export default function NavBar() {
   const location = useLocation()
-  console.log(location)
   const [showRegister, setShowRegister] = useState(false)
   const [showLogin, setShowLogin] = useState(false)
   const { user } = useSelector((state) => state.auth)
@@ -139,70 +138,124 @@ export default function NavBar() {
               <NavLink to='/home' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
                 INICIO
               </NavLink>
-              <NavLink to='/about' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
-                NOSOTROS
-              </NavLink>
+              {role !== 'ADMIN' ? (
+                <>
+                  <NavLink to='/about' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
+                    NOSOTROS
+                  </NavLink>
+                </>
+              ) : (
+                ''
+              )}
+              {role === 'ADMIN' ? (
+                 <div className='d-flex align-items-center justify-content-center text-center'>
+                  <NavLink to='/admin/usersList' className={`${styles.hideOnSmall}`} style={{margin:"0px 10px"}}>
+                    USUARIOS
+                  </NavLink>
+
+                  <NavLink to='/admin/providersList' className={`${styles.hideOnSmall}`} style={{margin:"0px 10px"}}>
+                    PROVEEDORES
+                  </NavLink>
+
+                  <NavLink to='/admin/salesHistory' className={`${styles.hideOnSmall}`} style={{margin:"0px 10px"}}>
+                    COMPRAS
+                  </NavLink>
+                  
+                  <NavLink to='/' onClick={() => handleLogout()} className={`${styles.hideOnSmall}`} style={{margin:"0px 10px"}}>
+                    <i className='fa fa-sign-out' aria-hidden='true'></i> Cerrar sesión
+                  </NavLink>
+                </div>
+              ) : (
+                ''
+              )}
             </div>
 
             <div className='d-flex align-items-center justify-content-center text-center' style={{ flexDirection: 'row' }}>
-              <NavDropdown
-                id='nav-dropdown-dark'
-                title={
-                  <span>
-                    <i className='fa fa-user-circle' aria-hidden='true'></i> MI PERFIL
-                  </span>
-                }>
-                <NavDropdown.Item>
-                  <NavLink to='/profile' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
-                    <i class='fa fa-address-card' aria-hidden='true'></i> Ver mi perfil
-                  </NavLink>
-                </NavDropdown.Item>
-                <NavDropdown.Item>
-                  <NavLink to='/home/chat' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
-                    <i class='fa fa-commenting' aria-hidden='true'></i> Mis chats
-                  </NavLink>
-                </NavDropdown.Item>
-                {role === 'USUARIO' && (
-                  <>
+              {role === 'ADMIN' ? (
+                <NavDropdown
+                  id='nav-dropdown-dark'
+                  className={`${styles.showOnSmall}`}
+                  title={
+                    <span>
+                      <i className='fa fa-user-circle' aria-hidden='true'></i> Administracion
+                    </span>
+                  }>
+                  <NavDropdown.Item>
+                    <NavLink to='/admin/usersList' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
+                      <i class='fa fa-address-card' aria-hidden='true'></i> USUARIOS
+                    </NavLink>
+                  </NavDropdown.Item>
+                  <NavDropdown.Item>
+                    <NavLink to='/admin/providersList' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
+                      <i class='fa fa-commenting' aria-hidden='true'></i> PROVEEDORES
+                    </NavLink>
+                  </NavDropdown.Item>
+                  <NavDropdown.Item>
+                    <NavLink to='/admin/salesHistory' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
+                      <i class='fa fa-commenting' aria-hidden='true'></i> COMPRAS
+                    </NavLink>
+                  </NavDropdown.Item>
+                  <Dropdown.Divider className={`${styles.showOnSmall}`} />
+                  <Dropdown.Item href='/' onClick={() => handleLogout()} >
+                    <i className='fa fa-sign-out' aria-hidden='true'></i> Cerrar sesión
+                  </Dropdown.Item>
+                </NavDropdown>
+              ) : (
+                ''
+              )}
+              {role !== 'ADMIN' ? (
+                <>
+                  <NavDropdown
+                    id='nav-dropdown-dark'
+                    title={
+                      <span>
+                        <i className='fa fa-user-circle' aria-hidden='true'></i> MI PERFIL
+                      </span>
+                    }>
                     <NavDropdown.Item>
-                      <NavLink to='/purchases' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
-                        <i class='fa fa-shopping-cart' aria-hidden='true'></i> Mis compras
+                      <NavLink to='/profile' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
+                        <i class='fa fa-address-card' aria-hidden='true'></i> Ver mi perfil
                       </NavLink>
                     </NavDropdown.Item>
                     <NavDropdown.Item>
-                      {' '}
-                      <NavLink to='/profile/favorites' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
-                        <i class='fa fa-star' aria-hidden='true'></i> Mis favoritos
+                      <NavLink to='/home/chat' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
+                        <i class='fa fa-commenting' aria-hidden='true'></i> Mis chats
                       </NavLink>
                     </NavDropdown.Item>
-                  </>
-                )}
-                <Dropdown.Divider className={`${styles.showOnSmall}`} />
-                <Dropdown.Item href='/' onClick={() => handleLogout()} className={`${styles.showOnSmall}`}>
-                  <i className='fa fa-sign-out' aria-hidden='true'></i> Cerrar sesión
-                </Dropdown.Item>
-              </NavDropdown>
-
-              <NavLink to={'/'}>
-                <Button
-                  variant='secondary'
-                  onClick={() => handleLogout()}
-                  className={`btn btn-primary ${styles.hideOnSmall}`}
-                  style={{
-                    color: 'black',
-                    backgroundColor: 'lightgray',
-                    borderRadius: '20px',
-                    width: '7rem',
-                    fontSize: '12px',
-                  }}>
-                  <i className='fa fa-sign-out' aria-hidden='true'></i> Cerrar sesión
-                </Button>
-              </NavLink>
+                    {role === 'USUARIO' && (
+                      <>
+                        <NavDropdown.Item>
+                          <NavLink to='/purchases' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
+                            <i class='fa fa-shopping-cart' aria-hidden='true'></i> Mis compras
+                          </NavLink>
+                        </NavDropdown.Item>
+                        <NavDropdown.Item>
+                          {' '}
+                          <NavLink to='/profile/favorites' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
+                            <i class='fa fa-star' aria-hidden='true'></i> Mis favoritos
+                          </NavLink>
+                        </NavDropdown.Item>
+                      </>
+                    )}
+                    <NavDropdown.Item>
+                      <NavLink to='/emergencies' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
+                        <i class='fa fa-bolt' aria-hidden='true'></i> Mis emergencias
+                      </NavLink>
+                    </NavDropdown.Item>
+                    <Dropdown.Divider />
+                    <Dropdown.Item href='/' onClick={() => handleLogout()}>
+                      <i className='fa fa-sign-out' aria-hidden='true'></i> Cerrar sesión
+                    </Dropdown.Item>
+                  </NavDropdown>
+                </>
+              ) : (
+                ''
+              )}
               {/* 
               <a href='#' className='link-success'>
-                <p
-                  style={{
-                    margin: '0px',
+              <p
+              style={{
+                margin: '0px',
                     fontSize: '0.6rem',
                     textDecoration: 'underline',
                   }}
@@ -210,7 +263,6 @@ export default function NavBar() {
                   ¿Ya estás registrado? Inicia sesión
                 </p>
               </a> */}
-
               {/* <Modal show={showRegister} onHide={handleCloseRegister}>
                 <Modal.Header closeButton>
                   <Modal.Title>

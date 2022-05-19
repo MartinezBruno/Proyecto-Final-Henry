@@ -95,6 +95,17 @@ export function providerLogin(usuario, contraseña) {
     }
   }
 }
+export function adminLogin(usuario, contraseña) {
+  return async function (dispatch) {
+    try {
+      var info = await AuthService.adminLogin(usuario, contraseña)
+      if (info) dispatch(Login_Success({ user: info }))
+    } catch (error) {
+      dispatch(Login_Fail())
+      console.log(error)
+    }
+  }
+}
 
 export function logout() {
   return function (dispatch) {

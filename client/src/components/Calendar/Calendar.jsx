@@ -8,6 +8,7 @@ import interactionPlugin from '@fullcalendar/interaction'
 import { addEvent, getAllEvents, setEventos } from '../../redux/slices/events'
 import styles from './Calendar.module.css'
 import moment from 'moment'
+import styles from '../../styles/calendar.module.css'
 
 function Calendar({ isModal, provID, service, horaInicio, horaFinal }) {
   const dispatch = useDispatch()
@@ -32,6 +33,9 @@ function Calendar({ isModal, provID, service, horaInicio, horaFinal }) {
     hora_evento: '',
   })
 
+  function handleVerify(){
+    
+  }
   const handleOnChange = (e) => {
     e.preventDefault()
     handleErrors(e)

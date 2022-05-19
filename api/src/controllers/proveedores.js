@@ -12,6 +12,7 @@ const {
   Usuario,
   Comentario,
   DuracionServicio,
+  Ayuda
 } = require('../db')
 var bcrypt = require('bcryptjs')
 const Sequelize = require('sequelize')
@@ -147,6 +148,7 @@ const getProv = async (req, res, next) => {
           let usuario = await Usuario.findOne({ where: { id: preguntas[i].UsuarioId } })
           preguntasAMostrar.unshift({
             id: preguntas[i].id,
+            USUARIO_ID: usuario.id,
             USUARIO: usuario.NOMBRE_APELLIDO_USUARIO,
             PREGUNTA: preguntas[i].PREGUNTA,
             RESPUESTA: preguntas[i].RESPUESTA,
@@ -164,7 +166,7 @@ const getProv = async (req, res, next) => {
         let UsuarioComentario = []
         for (let i = 0; i < Comentarios.length; i++) {
           let usuario = await Usuario.findOne({ where: { id: Comentarios[i].UsuarioId } })
-          UsuarioComentario.unshift({ id: Comentarios[i].id, USUARIO: usuario.NOMBRE_APELLIDO_USUARIO, COMENTARIO: Comentarios[i].COMENTARIO })
+          UsuarioComentario.unshift({ id: Comentarios[i].id, USUARIO: usuario.NOMBRE_APELLIDO_USUARIO,USUARIO_ID: usuario.id, COMENTARIO: Comentarios[i].COMENTARIO })
         }
 
         proveedores = proveedores.map((prov) => {
@@ -1178,6 +1180,22 @@ const putProvider = async (req, res, next) => {
   }
 }
 
+
+const createAyuda = async (req,res) => {
+  let {proveedorId, asunto} = req.body
+    
+  let prov = await Proveedor.findByPk(proveedorId)
+  //  console.log(prov)
+   
+  let ayudaCreate = await Ayuda.create({
+    ASUNTO: asunto
+  })
+
+ ayudaCreate.setProveedor(prov.id)
+
+ return res.status(200).send("Ayuda enviada Exitosamente")
+}
+
 const changePassword = async (req, res) => {
   const { id } = req.params
   const { newPassword, oldPassword } = req.body
@@ -1217,5 +1235,6 @@ module.exports = {
   filtroPorProvincia,
   filtroProveedor,
   putProvider,
+  createAyuda,
   changePassword,
 }
