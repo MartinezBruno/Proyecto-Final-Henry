@@ -67,9 +67,6 @@ export default function UserChat() {
   return (
     <div className='container'>
       <div className='ScrollDownButton'>
-        {/* <a href='#ScrollDown'>
-          <i class='fa fa-arrow-down' aria-hidden='true'></i>
-        </a> */}
       </div>
       <div className='row clearfix'>
         <div className='col-lg-12'>
@@ -77,39 +74,45 @@ export default function UserChat() {
             <div id='plist' className='people-list' style={{ height: '79vh', border: '1px solid lightgray', borderRight: '2px solid lightgray' }}>
               <h4 style={{ display: 'flex', justifyContent: 'center' }}>Chats Abiertos</h4>
               <hr style={{ height: '2px', marginTop: '20px' }} />
-              <div className='input-group'>{/* <input type='text' className='form-control' placeholder='Buscar...' /> */}</div>
               <ul className='list-unstyled chat-list mt-2 mb-0'>
-                {chatHistory.length > 0 ?  chatHistory?.map((p) => (
-                  <a href='#ScrollDown'>
-                    <li className='clearfix' value={p.id} onClick={() => handleChat(idUsuario, p.id)}>
-                      <img
-                        src={p.IMAGEN}
-                        alt='nt'
-                        style={{ width: '45px', height: '45px' }}
-                        onError={(e) =>
-                          (e.target.src =
-                            'https://images-ext-2.discordapp.net/external/sDPHKeBTrgE7mhtTqdkBNgRWuod6SCz-ugAtCHW5FTE/%3Fx%3D480%26quality%3D20/https/www.softzone.es/app/uploads/2018/04/guest.png')
-                        }
-                      />
-                      <div className='about'>
-                        <div className='name' style={{ fontWeight: 'bold', fontSize: '16px' }}>
-                          {p.NOMBRE_APELLIDO_PROVEEDOR}
+                {chatHistory.length > 0 ? (
+                  chatHistory?.map((p) => (
+                    <a href='#ScrollDown'>
+                      <li className='clearfix' value={p.id} onClick={() => handleChat(idUsuario, p.id)}>
+                        <img
+                          src={p.IMAGEN}
+                          alt='nt'
+                          style={{ width: '45px', height: '45px' }}
+                          onError={(e) =>
+                            (e.target.src =
+                              'https://images-ext-2.discordapp.net/external/sDPHKeBTrgE7mhtTqdkBNgRWuod6SCz-ugAtCHW5FTE/%3Fx%3D480%26quality%3D20/https/www.softzone.es/app/uploads/2018/04/guest.png')
+                          }
+                        />
+                        <div className='about'>
+                          <div className='name' style={{ fontWeight: 'bold', fontSize: '16px' }}>
+                            {p.NOMBRE_APELLIDO_PROVEEDOR}
+                          </div>
+                          <div className='status'>
+                            {' '}
+                            <p>Proveedor de Servicio</p>
+                          </div>
                         </div>
-                        <div className='status'>
-                          {' '}
-                          <p>Proveedor de Servicio</p>
-                        </div>
-                      </div>
-                    </li>
-                  </a>
-                )) : <p style={{display:"flex" , justifyContent:"center", textAlign:"center", fontSize:"18px"}}> ¡No tienes chats abiertos! Compra algún Servicio para poder interactuar con tu proveedor </p>}
+                      </li>
+                    </a>
+                  ))
+                ) : (
+                  <p style={{ display: 'flex', justifyContent: 'center', textAlign: 'center', fontSize: '18px' }}>
+                    {' '}
+                    ¡No tienes chats abiertos! Compra algún Servicio para poder interactuar con tu proveedor{' '}
+                  </p>
+                )}
               </ul>
             </div>
 
             <div className='chat'>
-              <div className='chat-header clearfix' style={{ position: 'fixed', backgroundColor: 'white', zIndex: '1', borderBottom: '2px solid lightgray' }}>
-                <div className='row'>
-                  <div className='col-lg-6'>
+                <div className='sticky-top chat-header clearfix' style={{backgroundColor: 'white', zIndex: '1', borderBottom: '2px solid lightgray' }}>
+                <div className='row '>
+                  <div className='col-lg-6 '>
                     {actualChat.id || idProvider ? (
                       <>
                         <img
@@ -162,7 +165,7 @@ export default function UserChat() {
                   ) : (
                     <>
                       <div className='row chat-empty '>
-                        <img src='https://upload.wikimedia.org/wikipedia/commons/1/1a/Dialogos_2.png' style={{ width: '400px', marginTop: '150px' }} />
+                        <img src='https://upload.wikimedia.org/wikipedia/commons/1/1a/Dialogos_2.png' style={{ width: '400px', marginTop: '70px' }} />
                       </div>
                       {idNewProvider ? (
                         <h4 style={{ display: 'flex', justifyContent: 'center', margin: '50px', textAlign: 'center' }}>
@@ -181,7 +184,7 @@ export default function UserChat() {
                 <div id='ScrollDown'></div>
               </div>
             </div>
-            <div className='chat-message clearfix' style={{ marginLeft: '281px' }}>
+            <div className='chat-message clearfix' >
               {idNewProvider || actualChat.length !== 0 ? (
                 <div className='input-group mb-0'>
                   <div className='input-group-prepend '></div>

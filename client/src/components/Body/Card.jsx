@@ -42,10 +42,10 @@ export default function Card({ nombre, imagen, idProv, idServ, servicio, descrip
       <div className={`${styles.profileCard4} text-center`}>
         {/* <img src={imagen} alt={nombre} onError={(e) => e.target.src=file} className='img img-responsive' /> */}
         <img
-          src={imagen}
+          src={`http://localhost:3001/profiles/${imagen}`}
           alt={nombre}
-          onError={(e) => (e.target.src = 'https://www.softzone.es/app/uploads/2018/04/guest.png?x=480&quality=20')}
-          className='img img-responsive'
+          onError={(e) => (e.target.src = 'https://www.softzone.es/app/uploads-softzone.es/2018/04/guest.png?x=480&quality=20')}
+          className='img img-responsiv'
         />
 
         <div className={styles.profileContent}>

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import AddEmergency from './AddEmergency'
 import styles from '../../styles/emergencies.module.css'
@@ -6,7 +6,7 @@ import Moment from 'react-moment'
 import Swal from 'sweetalert2'
 import api from '../../services/api'
 import { chargeUserEmergency } from '../../redux/slices/emergency'
-import { payServices, addToCart } from '../../redux/slices/shoppingCart'
+import { payServices, addToCart, clearCart } from '../../redux/slices/shoppingCart'
 import { Button } from 'react-bootstrap'
 
 export default function UserEmergency(props) {
@@ -14,7 +14,6 @@ export default function UserEmergency(props) {
   const { user } = useSelector((state) => state.auth)
   const { services } = useSelector((state) => state.auth)
   let dispatch = useDispatch()
-
 
   function handleDelete(idUser) {
     Swal.fire({
@@ -74,8 +73,9 @@ export default function UserEmergency(props) {
     })
   }
   const handlePay = async (objService) => {
+    dispatch(clearCart())
     dispatch(addToCart(objService))
-    let url = await dispatch(payServices({ services: [objService] }))
+    let url = await dispatch(payServices([objService]))
     window.location.href = `${url.init_point}`
   }
 
@@ -106,29 +106,52 @@ export default function UserEmergency(props) {
                   </p>{' '}
                   <p>{userEmergency[0].ESPERA_MAXIMA}</p>
                 </div>
-                {userEmergency[0].ProveedorId === null && <>
-                
-                <p style={{ marginBottom: '0px' }}>
-                  <b>Precio máximo:</b>
-                </p>{' '}
-                <p>$ {userEmergency[0].PRECIO_MAXIMO}</p>
-                </>
-                }
+                {userEmergency[0].ProveedorId === null && (
+                  <>
+                    <p style={{ marginBottom: '0px' }}>
+                      <b>Precio máximo:</b>
+                    </p>{' '}
+                    <p>$ {userEmergency[0].PRECIO_MAXIMO}</p>
+                  </>
+                )}
 
-                {userEmergency[0].ProveedorId !== null && 
-                <>
-                <p style={{ marginBottom: '0px' }}>
-                  <b>Precio del servicio actual:</b>
-                </p>{' '}
-                
-                <p>$ {allProviders.filter(el=> (el.id === userEmergency[0].ProveedorId) && (el.servicio.id === userEmergency[0].ServicioId) )[0]?.servicio.precio}</p>
-                <p><span><b>Nombre proveedor: </b>{allProviders.filter(el=> (el.id === userEmergency[0].ProveedorId) && (el.servicio.id === userEmergency[0].ServicioId) )[0]?.nombre_apellido_proveedor}</span> <br />
-                <b>Ciudad: </b>
-                <span>{' ' + allProviders.filter(el=> (el.id === userEmergency[0].ProveedorId) && (el.servicio.id === userEmergency[0].ServicioId) )[0]?.provincia + ', '} </span>
-                <span>{allProviders.filter(el=> (el.id === userEmergency[0].ProveedorId) && (el.servicio.id === userEmergency[0].ServicioId) )[0]?.ciudad + ', '}  </span>
-                <span>{allProviders.filter(el=> (el.id === userEmergency[0].ProveedorId) && (el.servicio.id === userEmergency[0].ServicioId) )[0]?.pais}</span>
-                </p>
-                </>}
+                {userEmergency[0].ProveedorId !== null && (
+                  <>
+                    <p style={{ marginBottom: '0px' }}>
+                      <b>Precio del servicio actual:</b>
+                    </p>{' '}
+                    <p>
+                      ${' '}
+                      {
+                        allProviders.filter((el) => el.id === userEmergency[0].ProveedorId && el.servicio.id === userEmergency[0].ServicioId)[0]?.servicio
+                          .precio
+                      }
+                    </p>
+                    <p>
+                      <span>
+                        <b>Nombre proveedor: </b>
+                        {
+                          allProviders.filter((el) => el.id === userEmergency[0].ProveedorId && el.servicio.id === userEmergency[0].ServicioId)[0]
+                            ?.nombre_apellido_proveedor
+                        }
+                      </span>{' '}
+                      <br />
+                      <b>Ciudad: </b>
+                      <span>
+                        {' ' +
+                          allProviders.filter((el) => el.id === userEmergency[0].ProveedorId && el.servicio.id === userEmergency[0].ServicioId)[0]?.provincia +
+                          ', '}{' '}
+                      </span>
+                      <span>
+                        {allProviders.filter((el) => el.id === userEmergency[0].ProveedorId && el.servicio.id === userEmergency[0].ServicioId)[0]?.ciudad +
+                          ', '}{' '}
+                      </span>
+                      <span>
+                        {allProviders.filter((el) => el.id === userEmergency[0].ProveedorId && el.servicio.id === userEmergency[0].ServicioId)[0]?.pais}
+                      </span>
+                    </p>
+                  </>
+                )}
                 {userEmergency[0].ProveedorId !== null && (
                   <p className='text-success' style={{ margin: '5px 15px 0px 15px', fontSize: '12px' }}>
                     Un proveedor ha tomado tu emergencia, podrás contactarlo al finalizar tu pago.
@@ -150,10 +173,12 @@ export default function UserEmergency(props) {
                     style={{ margin: '10px 0px 0px 5px' }}
                     onClick={() => {
                       handlePay({
-                        id: 2,
+                        id: dbServices?.length > 0 && dbServices.filter((obj) => obj.id === userEmergency[0].ServicioId)[0]?.id,
                         nombre: dbServices?.length > 0 && dbServices.filter((obj) => obj.id === userEmergency[0].ServicioId)[0]?.nombre,
-                        precio: allProviders.filter(el=> (el.id === userEmergency[0].ProveedorId) && (el.servicio.id === userEmergency[0].ServicioId) )[0]?.servicio.precio,
-                        descripcion: allProviders.filter(el=> (el.id === userEmergency[0].ProveedorId) && (el.servicio.id === userEmergency[0].ServicioId) )[0]?.servicio.descripcion,
+                        precio: allProviders.filter((el) => el.id === userEmergency[0].ProveedorId && el.servicio.id === userEmergency[0].ServicioId)[0]
+                          ?.servicio.precio,
+                        descripcion: allProviders.filter((el) => el.id === userEmergency[0].ProveedorId && el.servicio.id === userEmergency[0].ServicioId)[0]
+                          ?.servicio.descripcion,
                         provID: userEmergency[0].ProveedorId,
                       })
                     }}>
@@ -162,28 +187,23 @@ export default function UserEmergency(props) {
                 )}
                 {userEmergency[0].ProveedorId !== null && userEmergency[0].COMPRA_SUCCES == 'Si' && (
                   <>
-                  <Button
-                    variant='success'
-                    style={{ margin: '10px 0px 0px 5px' }}
-                    onClick={()=>{
-                      window.location.href="./purchases"
-                    }}
-                   >
+                    <Button
+                      variant='success'
+                      style={{ margin: '10px 0px 0px 5px' }}
+                      onClick={() => {
+                        window.location.href = './purchases'
+                      }}>
+                      IR A MIS COMPRAS
+                    </Button>
 
-                    IR A MIS COMPRAS
-                  </Button>
-
-                  <Button
-                    variant='danger'
-                    style={{ margin: '10px 0px 0px 5px' }}
-                    onClick={()=>{
-                      handleDone(user.id)
-                    }}
-                   >
-
-                    Finalizar emergencia
-                  </Button>
-
+                    <Button
+                      variant='danger'
+                      style={{ margin: '10px 0px 0px 5px' }}
+                      onClick={() => {
+                        handleDone(user.id)
+                      }}>
+                      Finalizar emergencia
+                    </Button>
                   </>
                 )}
               </div>

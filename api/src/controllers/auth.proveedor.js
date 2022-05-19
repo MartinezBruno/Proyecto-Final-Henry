@@ -1,6 +1,6 @@
 const Op = require('sequelize').Op
 const config = require('../config/auth.config')
-const { Proveedor, Proveedor_Servicio, Precio, Descripcion, Servicio, Ciudad, Provincia, Pais, Role, RefreshToken } = require('../db')
+const { Proveedor, Proveedor_Servicio, Precio, Descripcion, DuracionServicio, Servicio, Ciudad, Provincia, Pais, Role, RefreshToken } = require('../db')
 var jwt = require('jsonwebtoken')
 var bcrypt = require('bcryptjs')
 const { sendMail } = require('../mail')
@@ -10,7 +10,7 @@ const { getTemplate } = require('./email')
 
 exports.signup = async (req, res) => {
   // Guardar usuario en la base de datos
-  let { nombre, apellido, password, email, imagen, fecha_nacimiento, pais, provincia, servicios, ciudad, celular } = req.body
+  let { nombre, apellido, password, email, imagen, fecha_nacimiento, pais, provincia, servicios, ciudad, celular, hora_inicio, hora_final } = req.body
 
   try {
     servicios?.length === 0 || servicios == null
@@ -20,6 +20,7 @@ exports.signup = async (req, res) => {
             REMOTE: true,
             PRECIO: NaN,
             DESCRIPCION: '',
+            DURACION: '',
           },
         ])
       : servicios
@@ -33,6 +34,7 @@ exports.signup = async (req, res) => {
 
     let arrayPrecios = servicios.map((servicio) => servicio.PRECIO)
     let arrayDescripcion = servicios.map((servicio) => servicio.DESCRIPCION)
+    let arrayDuracion = servicios.map((servicio) => servicio.DURACION)
 
     let serviciosDisp = await Servicio.findAll({
       where: {
@@ -40,17 +42,21 @@ exports.signup = async (req, res) => {
       },
     })
 
-    let paisDisp = await Pais.findOne({
-      where: { NOMBRE_PAIS: pais },
-    })
-
-    let provinciasDisp = await Provincia.findOne({
-      where: { NOMBRE_PROVINCIA: provincia },
-    })
-
-    let ciudadesDisp = await Ciudad.findOne({
-      where: { NOMBRE_CIUDAD: ciudad },
-    })
+    let paisDisp = pais
+      ? await Pais.findOne({
+          where: { NOMBRE_PAIS: pais },
+        })
+      : null
+    let provinciasDisp = provincia
+      ? await Provincia.findOne({
+          where: { NOMBRE_PROVINCIA: provincia },
+        })
+      : null
+    let ciudadesDisp = ciudad
+      ? await Ciudad.findOne({
+          where: { NOMBRE_CIUDAD: ciudad },
+        })
+      : null
 
     // Generar el código
     const code = uuidv4()
@@ -64,15 +70,17 @@ exports.signup = async (req, res) => {
       CALIFICACION: [],
       CELULAR: celular,
       CODE: code,
+      HORA_INICIO: hora_inicio,
+      HORA_FINAL: hora_final,
     })
     let role = await Role.findOne({
       where: { id: 2 },
     })
 
     await newProveedor.addServicios(serviciosDisp)
-    await newProveedor.setPai(paisDisp)
-    await newProveedor.setProvincium(provinciasDisp)
-    await newProveedor.setCiudad(ciudadesDisp)
+    if (paisDisp) await newProveedor.setPai(paisDisp)
+    if (provinciasDisp) await newProveedor.setProvincium(provinciasDisp)
+    if (ciudadesDisp) await newProveedor.setCiudad(ciudadesDisp)
     await newProveedor.setRole(role)
 
     for (let i = 0; i < arrayPrecios.length; i++) {
@@ -113,6 +121,25 @@ exports.signup = async (req, res) => {
         },
       })
       await proveedor_servicio.setDescripcion(d)
+    }
+    for (let i = 0; i < arrayDuracion.length; i++) {
+      let dur = await DuracionServicio.create({
+        DURACION: arrayDuracion[i],
+      })
+      let proovedor = await Proveedor.findOne({ where: { EMAIL: email } })
+      let servicio = await Servicio.findOne({
+        where: {
+          NOMBRE_SERVICIO: arrayServicios[i].NOMBRE_SERVICIO,
+          REMOTE: arrayServicios[i].REMOTE,
+        },
+      })
+      let proveedor_servicio = await Proveedor_Servicio.findOne({
+        where: {
+          ProveedorId: proovedor.id,
+          ServicioId: servicio.id,
+        },
+      })
+      proveedor_servicio.setDuracionServicio(dur)
     }
 
     // MAILING //
@@ -237,13 +264,13 @@ exports.signin = async (req, res) => {
       id: proveedor.id,
       nombreApellido: proveedor.NOMBRE_APELLIDO_PROVEEDOR,
       email: proveedor.EMAIL,
-      celular: proveedor.CELULAR,
+      celular: proveedor.CELULAR ? proveedor.CELULAR : 123456789,
       imagen: proveedor.IMAGEN,
-      fechaNacimiento: proveedor.FECHA_NACIMIENTO,
+      fechaNacimiento: proveedor.FECHA_NACIMIENTO ? proveedor.FECHA_NACIMIENTO : 'Sin definir',
       calificacion: proveedor.CALIFICACION,
       ciudad: proveedor.Ciudad ? proveedor.Ciudad.NOMBRE_CIUDAD : 'Sin definir',
       provincia: proveedor.Provincium ? proveedor.Provincium.NOMBRE_PROVINCIA : 'Sin definir',
-      pais: proveedor.Pai.NOMBRE_PAIS,
+      pais: proveedor.Pai ? proveedor.Pai.NOMBRE_PAIS : 'Sin definir',
       Role: authorities[0],
       accessToken: token,
       refreshToken: refreshToken,
