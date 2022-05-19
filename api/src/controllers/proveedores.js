@@ -1178,7 +1178,7 @@ const createAyuda = async (req,res) => {
   let {proveedorId, asunto} = req.body
     
   let prov = await Proveedor.findByPk(proveedorId)
-   console.log(prov)
+  //  console.log(prov)
    
   let ayudaCreate = await Ayuda.create({
     ASUNTO: asunto
@@ -1186,6 +1186,7 @@ const createAyuda = async (req,res) => {
 
  ayudaCreate.setProveedor(prov.id)
 
+ return res.status(200).send("Ayuda enviada Exitosamente")
 }
 
 module.exports = {

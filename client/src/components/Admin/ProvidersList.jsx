@@ -31,15 +31,23 @@ export default function ProvidersList() {
     console.log(e.target.value)
     api
       .put('/admin/ban', { ProveedorId: e.target.value })
-      .then(() => Swal.fire('Usuario Baneado correctamente', '', 'success').then(() => window.location.reload()))
+      .then(() => Swal.fire('Proveedor Baneado correctamente', '', 'success').then(() => window.location.reload()))
   }
 
   const unBan = (e) => {
     console.log(e.target.value)
     api
       .put('/admin/unban', { ProveedorId: e.target.value })
-      .then(() => Swal.fire('Usuario Desbaneado correctamente', '', 'success').then(() => window.location.reload()))
+      .then(() => Swal.fire('Proveedor Desbaneado correctamente', '', 'success').then(() => window.location.reload()))
   }
+
+  const ProviderDelete = (e) => {
+    console.log(e.target.value)
+    api
+      .delete(`/admin/deleteProvider/${e.target.value}`)
+      .then(() => Swal.fire('Proveedor Eliminado correctamente', '', 'success').then(() => window.location.reload()))
+  }
+
   if (role === 'ADMIN') {
     return (
       <div className='col-md-10' style={{ margin: 'auto' }}>
@@ -52,6 +60,8 @@ export default function ProvidersList() {
               <th scope='col'>EMAIL</th>
               <th scope='col'>DAR ADMIN</th>
               <th scope='col'>BANEADO</th>
+              <th scope='col'>BORRAR</th>
+              <th scope='col'>PAGAR</th>
             </tr>
           </thead>
           <tbody>
@@ -94,6 +104,16 @@ export default function ProvidersList() {
                       </button>
                     </td>
                   )}
+                  <td>
+                    <button
+                      value={prov.id}
+                      onClick={(e) => ProviderDelete(e)}
+                      className='btn'
+                      style={{ padding: '5px', backgroundColor: 'red', color: 'white' }}>
+                      {' '}
+                      Eliminar
+                    </button>
+                    </td>
                 </tr>
               )
             })}
@@ -101,7 +121,7 @@ export default function ProvidersList() {
         </table>
       </div>
     )
-  }else{
+  } else {
     return <AdminError />
   }
 }

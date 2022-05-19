@@ -31,6 +31,7 @@ export default function () {
               <th scope='col'>IMAGEN USUARIO</th>
               <th scope='col'>NOMBRE USUARIO</th>
               <th scope='col'>EMAIL USUARIO</th>
+              <th scope='col'>PAGAR</th>
             </tr>
           </thead>
           <tbody>
@@ -55,6 +56,11 @@ export default function () {
                   </td>
                   {sell.nombreUsuario ? <td>{sell.nombreUsuario}</td> : <td>{sell.usuario}</td>}
                   {sell.emailUsuario ? <td>{sell.emailUsuario}</td> : <td>{sell.usuario}</td>}
+                  <td>
+                    <a href='https://www.mercadopago.com.ar/money-transfer' target="_blank" className='btn' style={{ padding: '5px', backgroundColor: 'green', color: 'white' }}>
+                      PAGAR AL PROVEEDOR
+                    </a>
+                  </td>
                 </tr>
               )
             })}

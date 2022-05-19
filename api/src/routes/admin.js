@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
-const {getUsers, getProviders,ban, hacerAdmin, unBann, getCompras, deleteComent, compraDetail, deletePregunta, getAyudas, deleteUser} = require('../controllers/admin')
+const {getUsers, getProviders,ban, hacerAdmin, unBann, getCompras, deleteComent, compraDetail, deletePregunta, getAyudas, deleteUser, deleteProvider} = require('../controllers/admin')
 
 router.get('/usuarios', getUsers)
 router.get('/proveedores', getProviders)
@@ -13,5 +13,6 @@ router.put('/unban', unBann)
 router.post('/setAdmin', hacerAdmin)
 router.delete('/comentarios/:idComentario', deleteComent)
 router.delete('/pregunta/:idPregunta', deletePregunta)
-router.delete('/delete', deleteUser)
+router.delete('/deleteUser/:idUsuario', deleteUser)
+router.delete('/deleteProvider/:idProveedor', deleteProvider)
 module.exports = router

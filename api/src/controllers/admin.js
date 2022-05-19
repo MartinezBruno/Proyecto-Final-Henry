@@ -161,7 +161,6 @@ const hacerAdmin = async (req, res) => {
   } catch (e) {
     console.log(e)
     return res.status(400).send({ message: 'Error en hacerAdmin' })
-
   }
   return res.status(200).send(comprasSend)
 }
@@ -212,123 +211,120 @@ const getCompras = async (req, res) => {
   let servicios = []
   let comprasSend = []
   let compraUsuariosId = []
-  let compraProveedoresId =[]
+  let compraProveedoresId = []
   let dataUsuarios = []
   let compraNormalId = []
-  let proveedoresServiciosNormal =[]
+  let proveedoresServiciosNormal = []
   let proveedoresNormal = []
   let serviciosNormal = []
-  
+
   for (let i = 0; i < compras.length; i++) {
-    
-    if(compras[i].UsuarioId && compras[i].ProveedorServicioId) {
+    if (compras[i].UsuarioId && compras[i].ProveedorServicioId) {
       compraNormalId.push(compras[i].id)
 
-      let DataUsuario = await Usuario.findOne({ where: { id: compras[i].UsuarioId} })
-         DataUsuario = {
-           nombre: DataUsuario.NOMBRE_APELLIDO_USUARIO,
-           email: DataUsuario.EMAIL,
-           imagen: DataUsuario.IMAGEN,
-         }
-  
-        let ProveedorServicio = await Proveedor_Servicio.findOne({ where: { id: compras[i].ProveedorServicioId } })
-        proveedoresServiciosNormal.push(ProveedorServicio)
-        
-         if (ProveedorServicio) {
-           for (let j = 0; j < proveedoresServiciosNormal.length; j++) {
-             let proveedor = await Proveedor.findOne({ where: { id: proveedoresServiciosNormal[j].ProveedorId } })
-             let servicio = await Servicio.findOne({ where: { id: proveedoresServiciosNormal[j].ServicioId } })
-             // console.log(proveedor)
-             proveedoresNormal.push(proveedor)
-             serviciosNormal.push(servicio)
-           }
-         }
-         
-        for(let y=0 ; y<proveedoresServiciosNormal.length; y++){
-         let comprasDef = {
-           id: compraNormalId[y],
-           servicio: serviciosNormal[y].NOMBRE_SERVICIO,
-           nombreUsuario: DataUsuario.nombre,
-           emailUsuario: DataUsuario.email,
-           imagenUsuario: DataUsuario.imagen,
-           nombreProveedor: proveedoresNormal[y].NOMBRE_APELLIDO_PROVEEDOR,
-           emailProveedor: proveedoresNormal[y].EMAIL,
-           imagenProveedor: proveedoresNormal[y].IMAGEN,
-         }
-         comprasSend.push(comprasDef)
-       }
+      let DataUsuario = await Usuario.findOne({ where: { id: compras[i].UsuarioId } })
+      DataUsuario = {
+        nombre: DataUsuario.NOMBRE_APELLIDO_USUARIO,
+        email: DataUsuario.EMAIL,
+        imagen: DataUsuario.IMAGEN,
       }
-    
+
+      let ProveedorServicio = await Proveedor_Servicio.findOne({ where: { id: compras[i].ProveedorServicioId } })
+      proveedoresServiciosNormal.push(ProveedorServicio)
+
+      if (ProveedorServicio) {
+        for (let j = 0; j < proveedoresServiciosNormal.length; j++) {
+          let proveedor = await Proveedor.findOne({ where: { id: proveedoresServiciosNormal[j].ProveedorId } })
+          let servicio = await Servicio.findOne({ where: { id: proveedoresServiciosNormal[j].ServicioId } })
+          // console.log(proveedor)
+          proveedoresNormal.push(proveedor)
+          serviciosNormal.push(servicio)
+        }
+      }
+
+      for (let y = 0; y < proveedoresServiciosNormal.length; y++) {
+        let comprasDef = {
+          id: compraNormalId[y],
+          servicio: serviciosNormal[y].NOMBRE_SERVICIO,
+          nombreUsuario: DataUsuario.nombre,
+          emailUsuario: DataUsuario.email,
+          imagenUsuario: DataUsuario.imagen,
+          nombreProveedor: proveedoresNormal[y].NOMBRE_APELLIDO_PROVEEDOR,
+          emailProveedor: proveedoresNormal[y].EMAIL,
+          imagenProveedor: proveedoresNormal[y].IMAGEN,
+        }
+        comprasSend.push(comprasDef)
+      }
+    }
+
     if (compras[i].UsuarioId === null && compras[i].ProveedorServicioId !== null) {
       let ProveedorServicio = await Proveedor_Servicio.findOne({ where: { id: compras[i].ProveedorServicioId } })
       proveedoresServicios.push(ProveedorServicio)
       compraProveedoresId.push(compras[i].id)
     } else if (compras[i].ProveedorServicioId === null && compras[i].UsuarioId) {
       let DataUsuario = await Usuario.findOne({ where: { id: compras[i].UsuarioId } })
-          DataUsuario = {
-               nombre: DataUsuario.NOMBRE_APELLIDO_USUARIO,
-             email: DataUsuario.EMAIL,
-             imagen: DataUsuario.IMAGEN,
-            }
-     dataUsuarios.push(DataUsuario)
-     compraUsuariosId.push(compras[i].id)
+      DataUsuario = {
+        nombre: DataUsuario.NOMBRE_APELLIDO_USUARIO,
+        email: DataUsuario.EMAIL,
+        imagen: DataUsuario.IMAGEN,
+      }
+      dataUsuarios.push(DataUsuario)
+      compraUsuariosId.push(compras[i].id)
     }
   }
-    if(proveedoresServicios.length){
-  for (let j = 0; j < proveedoresServicios.length; j++) {
-        let proveedor = await Proveedor.findOne({ where: { id: proveedoresServicios[j].ProveedorId } })
-         proveedores.push(proveedor)
-         let servicio = await Servicio.findOne({ where: { id: proveedoresServicios[j].ServicioId } })
-        //  console.log(servicio)
-         servicios.push(servicio)
-        }
-      }
-        //  console.log(proveedores)
-      // console.log(servicios)
-  if(proveedoresServicios.length){
-
-      for(let x = 0; x<proveedoresServicios.length; x++) {
+  if (proveedoresServicios.length) {
+    for (let j = 0; j < proveedoresServicios.length; j++) {
+      let proveedor = await Proveedor.findOne({ where: { id: proveedoresServicios[j].ProveedorId } })
+      proveedores.push(proveedor)
+      let servicio = await Servicio.findOne({ where: { id: proveedoresServicios[j].ServicioId } })
+      //  console.log(servicio)
+      servicios.push(servicio)
+    }
+  }
+  //  console.log(proveedores)
+  // console.log(servicios)
+  if (proveedoresServicios.length) {
+    for (let x = 0; x < proveedoresServicios.length; x++) {
       comprasSend.push({
-           id: compraProveedoresId[x],
-           servicio: servicios[x].NOMBRE_SERVICIO,
-           remoto: servicios[x].REMOTE,
-           usuario: 'Este usuario ya no existe',
-           nombreProveedor: proveedores[x].NOMBRE_APELLIDO_PROVEEDOR,
-           emailProveedor: proveedores[x].EMAIL,
-           imagenProveedor: proveedores[x].IMAGEN,
-         })
-        }
-      }
+        id: compraProveedoresId[x],
+        servicio: servicios[x].NOMBRE_SERVICIO,
+        remoto: servicios[x].REMOTE,
+        usuario: 'Este usuario ya no existe',
+        nombreProveedor: proveedores[x].NOMBRE_APELLIDO_PROVEEDOR,
+        emailProveedor: proveedores[x].EMAIL,
+        imagenProveedor: proveedores[x].IMAGEN,
+      })
+    }
+  }
 
-  if(dataUsuarios.length){
-   for(let k=0;k<dataUsuarios.length; k++) {
-     comprasSend.push({
-         id: compraUsuariosId[k],
-         nombreUsuario: dataUsuarios[k].nombre,
-         emailUsuario: dataUsuarios[k].email,
-         imagenUsuario: dataUsuarios[k].imagen,
-         proveedor: 'Este proveedor ya no existe',
-     })
-   }
- }
-   
-     
+  if (dataUsuarios.length) {
+    for (let k = 0; k < dataUsuarios.length; k++) {
+      comprasSend.push({
+        id: compraUsuariosId[k],
+        nombreUsuario: dataUsuarios[k].nombre,
+        emailUsuario: dataUsuarios[k].email,
+        imagenUsuario: dataUsuarios[k].imagen,
+        proveedor: 'Este proveedor ya no existe',
+      })
+    }
+  }
+
   return res.status(200).send(comprasSend)
 }
 
 const deleteComent = async (req, res) => {
   let { idComentario } = req.params
 
-  await Comentario.destroy({ where: {id: idComentario} })
+  await Comentario.destroy({ where: { id: idComentario } })
 
   return res.status(200).send('comentario eliminado')
 }
 
 const deletePregunta = async (req, res) => {
   let { idPregunta } = req.params
-  let pregunta = await Pregunta.findOne({ where: {id: idPregunta} })
-   console.log(pregunta)
-  await Pregunta.destroy({ where:{id:idPregunta}})
+  let pregunta = await Pregunta.findOne({ where: { id: idPregunta } })
+  console.log(pregunta)
+  await Pregunta.destroy({ where: { id: idPregunta } })
   return res.status(200).send('pregunta eliminada')
 }
 
@@ -345,6 +341,7 @@ const getAyudas = async (req, res) => {
         asunto: ayudas[i].ASUNTO,
         idUsuario: user.id,
         nombre: user.NOMBRE_APELLIDO_USUARIO,
+        imagen: user.IMAGEN,
         email: user.EMAIL,
       }
       ayudasDef.push(userPush)
@@ -354,8 +351,9 @@ const getAyudas = async (req, res) => {
       let provPush = {
         idAyuda: ayudas[i].id,
         asunto: ayudas[i].ASUNTO,
-        idUsuario: prov.id,
-        nombre: prov.NOMBRE_APELLIDO_USUARIO,
+        idProveedor: prov.id,
+        nombre: prov.NOMBRE_APELLIDO_PROVEEDOR,
+        imagen: prov.IMAGEN,
         email: prov.EMAIL,
       }
       ayudasDef.push(provPush)
@@ -364,17 +362,19 @@ const getAyudas = async (req, res) => {
   return res.status(200).send(ayudasDef)
 }
 
-const deleteUser = async (req,res) => {
-  let {idProveedor, idUsuario} = req.body
-
-  if(idProveedor) {
-    await Proveedor.destroy({where:{id: idProveedor}})
-    return res.status(200).send('proveedor eliminado')
+const deleteUser = async (req, res) => {
+  let { idUsuario } = req.params
+  if (idUsuario) {
+    await Usuario.destroy({ where: { id: idUsuario } })
+    return res.status(200).send('Usuario eliminado')
   }
+}
 
- if (idUsuario){
-   await Usuario.destroy({where:{id:idUsuario}})
-   return res.status(200).send('Usuario eliminado')
+const deleteProvider = async (req, res) => {
+  let { idProveedor } = req.params
+  if (idProveedor) {
+    await Proveedor.destroy({ where: { id: idProveedor } })
+    return res.status(200).send('proveedor eliminado')
   }
 }
 
@@ -389,5 +389,6 @@ module.exports = {
   deleteComent,
   deletePregunta,
   getAyudas,
-  deleteUser
+  deleteUser,
+  deleteProvider
 }

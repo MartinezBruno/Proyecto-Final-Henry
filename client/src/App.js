@@ -31,6 +31,7 @@ import { BrowserTracing } from '@sentry/tracing'
 import axios from 'axios'
 import Emergency from './components/Emergency/Emergencies'
 import AdminLogin from './components/Login_Register/AdminLogin'
+import Ayuda from './components/Admin/Ayuda'
 
 function App() {
   // Initialize Sentry with the browser tracing integration.
@@ -90,6 +91,7 @@ function App() {
           <Route path='admin/usersList' element={<UsersList />} />
           <Route path='admin/providersList' element={<ProvidersList />} />
           <Route path='admin/salesHistory' element={<SalesHistory />} />
+          <Route path='admin/ayudas' element={<Ayuda />} />
         </Route>
       </Routes>
       <Footer />

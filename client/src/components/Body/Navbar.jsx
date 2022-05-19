@@ -177,17 +177,17 @@ export default function NavBar() {
                     </span>
                   }>
                   <NavDropdown.Item>
-                    <NavLink to='/profile' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
+                    <NavLink to='/admin/usersList' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
                       <i class='fa fa-address-card' aria-hidden='true'></i> USUARIOS
                     </NavLink>
                   </NavDropdown.Item>
                   <NavDropdown.Item>
-                    <NavLink to='/home/chat' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
+                    <NavLink to='/admin/providersList' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
                       <i class='fa fa-commenting' aria-hidden='true'></i> PROVEEDORES
                     </NavLink>
                   </NavDropdown.Item>
                   <NavDropdown.Item>
-                    <NavLink to='/home/chat' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
+                    <NavLink to='/admin/salesHistory' className={(isActive) => 'nav-link' + (!isActive ? ' unselected' : '')}>
                       <i class='fa fa-commenting' aria-hidden='true'></i> COMPRAS
                     </NavLink>
                   </NavDropdown.Item>

@@ -44,6 +44,13 @@ export default function UsersList() {
       .then(() => Swal.fire('Usuario Desbaneado correctamente', '', 'success').then(() => window.location.reload()))
   }
 
+  const UserDelete = (e) => {
+    console.log(e.target.value)
+    api
+      .delete(`/admin/deleteUser/${e.target.value}`)
+      .then(() => Swal.fire('Usuario Eliminado correctamente', '', 'success').then(() => window.location.reload()))
+  }
+
   if (role === 'ADMIN') {
     return (
       <div className='col-md-10' style={{ margin: 'auto' }}>
@@ -54,8 +61,9 @@ export default function UsersList() {
               <th scope='col'>ID</th>
               <th scope='col'>NOMBRE</th>
               <th scope='col'>EMAIL</th>
-              <th scope='col'>PERFIL</th>
-              <th scope='col'> </th>
+              <th scope='col'>DAR ADMIN</th>
+              <th scope='col'>BANEADO</th>
+              <th scope='col'>BORRAR</th>
             </tr>
           </thead>
           <tbody>
@@ -91,6 +99,16 @@ export default function UsersList() {
                       </button>
                     </td>
                   )}
+                  <td>
+                    <button
+                      value={user.id}
+                      onClick={(e) => UserDelete(e)}
+                      className='btn'
+                      style={{ padding: '5px', backgroundColor: 'red', color: 'white' }}>
+                      {' '}
+                      Eliminar
+                    </button>
+                  </td>
                 </tr>
               )
             })}
@@ -98,7 +116,7 @@ export default function UsersList() {
         </table>
       </div>
     )
-  }else{
+  } else {
     return <AdminError />
   }
 }
