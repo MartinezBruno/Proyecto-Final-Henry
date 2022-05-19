@@ -5,11 +5,11 @@ const path = require('path')
 const { PGUSER, PGHOST, PGDATABASE, PGPASSWORD, PGPORT } = process.env
 
 const sequelize = new Sequelize({
-  username: keys.pgUser,
-  host: keys.pgHost,
-  database: keys.pgDatabase,
-  password: keys.pgPassword,
-  port: keys.pgPort,
+  username: 'doadmin',
+  host: 'db-postgresql-nyc1-97441-do-user-11470878-0.b.db.ondigitalocean.com',
+  database: 'defaultdb',
+  password: 'AVNS_ANFr5VaHiMZeExE',
+  port: 25060,
   dialect: 'postgres',
   logging: false, // set to console.log to see the raw SQL queries
   native: false, // lets Sequelize know we can use pg-native for ~30% more speed
