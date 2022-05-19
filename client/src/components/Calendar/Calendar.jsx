@@ -8,6 +8,7 @@ import interactionPlugin from '@fullcalendar/interaction'
 import { addEvent, getAllEvents, setEventos } from '../../redux/slices/events'
 import moment from 'moment'
 import styles from '../../styles/calendar.module.css'
+import {Button} from 'react-bootstrap'
 
 function Calendar({ isModal, provID, service }) {
   const dispatch = useDispatch()
@@ -129,15 +130,14 @@ function Calendar({ isModal, provID, service }) {
             </button>
           ) : null}
         </div>
-        <hr />
       </form>
     )
   }
 
   if (isModal) {
     return (
-      <div className={`d-flex flex-row ${styles.columnOnSmall}`}>
-        <div>
+      <div className={`d-flex ${styles.columnOnSmall}`}>
+        <div className={styles.marginOnSmall}>
           <FullCalendar
             plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
             headerToolbar={{
@@ -153,9 +153,6 @@ function Calendar({ isModal, provID, service }) {
         <div className='col text-center' style={{margin:'10px'}}>
           <h4>Elije la fecha y hora a la que quieres agendar tu servicio</h4>
           {allForms}
-          <button type='submit' onClick={(e) => handleVerify(e, error)}>
-            Verficar
-          </button>
         </div>
       </div>
     )

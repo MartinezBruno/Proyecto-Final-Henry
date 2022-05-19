@@ -92,9 +92,9 @@ export default function Shopping() {
               </Button>
             </Link>
             {agendados ? null : services?.length === eventosAgendados?.length ? (
-              <button variant='success' onClick={(e) => handleAddEvent(eventosAgendados, userId, e, services)}>
-                <i className='fa fa-lock' aria-hidden='true'></i> Agregar evento
-              </button>
+              <Button variant='success' onClick={(e) => handleAddEvent(eventosAgendados, userId, e, services)}>
+                <i className='fa fa-lock' aria-hidden='true'></i> Agendar servicio
+              </Button>
             ) : (
               <h3>Aun faltan agendar {services?.length - eventosAgendados?.length} servicios</h3>
             )}

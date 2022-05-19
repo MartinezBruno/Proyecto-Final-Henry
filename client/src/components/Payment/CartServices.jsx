@@ -40,7 +40,7 @@ function CartServices({ id, provName, provID, nombreServ, precio, count, remote,
               </Modal.Body>
               <Modal.Footer>
                 <Button variant='primary' onClick={handleCloseCalendar}>
-                  Continuar
+                  Confirmar
                 </Button>
               </Modal.Footer>
             </Modal>
