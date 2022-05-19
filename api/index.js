@@ -19,13 +19,13 @@ conn
   .then(() => paisesDb())
   .then(() => regionDb())
   .then(() => {
-    // serviciosDb()
-    // initialRoles()
+    serviciosDb()
+    initialRoles()
     // ciudadesDb().then(() => {
     //   autofillProveedores()
     //   console.log('tamo ready')
     // })
-    // ciudadesDb().then(() => console.log('vamo pibe'))
+    ciudadesDb().then(() => console.log('vamo pibe'))
   })
   .catch((err) => console.log(err))
 

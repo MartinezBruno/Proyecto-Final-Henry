@@ -26,8 +26,20 @@ export default function UsersList() {
 
   const GiveAdmin = (e) => {
     console.log(e.target.value)
-    api.post('/admin/setAdmin', { UsuarioId: e.target.value }).then(() => Swal.fire('Proveedor ascendido a Administrador correctamente', '', 'success'))
-    window.location.reload()
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: '¡Tu proveedor sera ascendido a Administrador!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '¡Sí, cambiar!',
+    }).then((result) => {
+      if (result.value) {
+        api.post('/admin/setAdmin', { UsuarioId: e.target.value }).then(() => window.location.reload())
+      }
+    })
+    // api.post('/admin/setAdmin', { UsuarioId: e.target.value }).then(() => Swal.fire('Proveedor ascendido a Administrador correctamente', '', 'success')).then(() => window.location.reload())
   }
 
   const giveBan = (e) => {
@@ -46,9 +58,19 @@ export default function UsersList() {
 
   const UserDelete = (e) => {
     console.log(e.target.value)
-    api
-      .delete(`/admin/deleteUser/${e.target.value}`)
-      .then(() => Swal.fire('Usuario Eliminado correctamente', '', 'success').then(() => window.location.reload()))
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: '¡El usuario Eliminado ya no se podra recuperar!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '¡Sí, Borrar!',
+    }).then((result) => {
+      if(result.value){
+        api.delete(`/admin/deleteUser/${e.target.value}`).then(() => window.location.reload())
+      }
+    })
   }
 
   if (role === 'ADMIN') {
@@ -100,11 +122,7 @@ export default function UsersList() {
                     </td>
                   )}
                   <td>
-                    <button
-                      value={user.id}
-                      onClick={(e) => UserDelete(e)}
-                      className='btn'
-                      style={{ padding: '5px', backgroundColor: 'red', color: 'white' }}>
+                    <button value={user.id} onClick={(e) => UserDelete(e)} className='btn' style={{ padding: '5px', backgroundColor: 'red', color: 'white' }}>
                       {' '}
                       Eliminar
                     </button>

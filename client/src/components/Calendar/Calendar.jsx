@@ -6,7 +6,6 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import { addEvent, getAllEvents, setEventos } from '../../redux/slices/events'
-import styles from './Calendar.module.css'
 import moment from 'moment'
 import styles from '../../styles/calendar.module.css'
 

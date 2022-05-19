@@ -21,10 +21,24 @@ export default function ProvidersList() {
   }, [])
 
   const giveAdmin = (e) => {
-    console.log(e.target.value)
-    api
-      .post('/admin/setAdmin', { ProveedorId: e.target.value })
-      .then(() => Swal.fire('Proveedor ascendido a Administrador correctamente', '', 'success').then(() => window.location.reload()))
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'Este proveedor sera ascendido a Administrador!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '¡Sí, Ascender!',
+    }).then((result) => {
+      if(result.value){
+        api.post('/admin/setAdmin', { ProveedorId: e.target.value }).then(() => window.location.reload()).catch((error) => console.log(error))
+      }
+    })
+
+    // console.log(e.target.value)
+    // api
+    //   .post('/admin/setAdmin', { ProveedorId: e.target.value })
+    //   .then(() => Swal.fire('Proveedor ascendido a Administrador correctamente', '', 'success').then(() => window.location.reload()))
   }
 
   const giveBan = (e) => {
@@ -43,9 +57,19 @@ export default function ProvidersList() {
 
   const ProviderDelete = (e) => {
     console.log(e.target.value)
-    api
-      .delete(`/admin/deleteProvider/${e.target.value}`)
-      .then(() => Swal.fire('Proveedor Eliminado correctamente', '', 'success').then(() => window.location.reload()))
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: '¡El Proveedor Eliminado ya no se podra recuperar!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '¡Sí, Borrar!',
+    }).then((result) => {
+      if(result.value){
+        api.delete(`/admin/deleteProvider/${e.target.value}`).then(() => window.location.reload())
+      }
+    })
   }
 
   if (role === 'ADMIN') {
@@ -61,7 +85,6 @@ export default function ProvidersList() {
               <th scope='col'>DAR ADMIN</th>
               <th scope='col'>BANEADO</th>
               <th scope='col'>BORRAR</th>
-              <th scope='col'>PAGAR</th>
             </tr>
           </thead>
           <tbody>

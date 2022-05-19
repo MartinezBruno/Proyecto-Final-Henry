@@ -389,11 +389,12 @@ const createService = async (req,res) =>{
   }
 
   const deleteAyuda = async (req,res) => {
-    let {ayudaId} = req.body
+    let {ayudaId} = req.params
     
     await Ayuda.destroy({where:{id: ayudaId}})
     return res.status(200).send('Ayuda finalizada')
   }
+
 module.exports = {
   getUsers,
   getProviders,
