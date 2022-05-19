@@ -13,8 +13,9 @@ function Calendar({ isModal, provID, service, horaInicio, horaFinal }) {
   const dispatch = useDispatch()
   const count = service.count
   const duracion = service.duracion === 'Sin definir' ? 8 : service.duracion
-  const HORA_INICIO = horaInicio ? horaInicio : '09:00'
-  const HORA_FINAL = horaFinal ? horaFinal : '18:00'
+  const HORA_INICIO = horaInicio ? horaInicio : '09'
+  const HORA_FINAL = horaFinal ? horaFinal.slice(0, 2) : '18'
+
   let hora_final = Number(HORA_FINAL) - Number(duracion)
 
   let parseInicio = moment(HORA_INICIO, 'HH:mm').format('HH:mm')
@@ -32,9 +33,6 @@ function Calendar({ isModal, provID, service, horaInicio, horaFinal }) {
     hora_evento: '',
   })
 
-  function handleVerify(){
-    
-  }
   const handleOnChange = (e) => {
     e.preventDefault()
     handleErrors(e)
@@ -78,7 +76,7 @@ function Calendar({ isModal, provID, service, horaInicio, horaFinal }) {
       }
     }
     if (e.target.name === 'hora_evento') {
-      console.log(e.target)
+      // console.log(e.target)
       setErrors((prevState) => {
         return { ...prevState, [e.target.name]: '' }
       })
@@ -100,12 +98,12 @@ function Calendar({ isModal, provID, service, horaInicio, horaFinal }) {
     let fechaEnd
     if (service.duracion === 'Sin definir') {
       fechaEnd = moment(fecha).add(8, 'h').format('YYYY-MM-DD HH:mm')
-      console.log(fechaEnd)
+      // console.log(fechaEnd)
     } else {
       fechaEnd = moment(fecha).add(Number(service.duracion), 'h').format('YYYY-MM-DD HH:mm')
     }
     const evento = Object.assign({ start: fecha }, service)
-    console.log(service)
+    // console.log(service)
     if (input.fecha_evento === '' || input.hora_evento === '') {
       return Swal.fire('Error al cambiar los datos', 'Por favor Intentelo nuevamente y asegurece de llenar todos los campos', 'error')
     }

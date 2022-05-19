@@ -38,11 +38,11 @@ export default function ProfileDetails() {
   }
 
   const handleDeleteQuestion = (e) => {
-    console.log(e.target.value)
+    // console.log(e.target.value)
     api.delete(`/admin/pregunta/${e.target.value}`).then(() => Swal.fire('Pregunta eliminada Correctamente', '', 'success')).then(window.location.reload())
   }
   const handleDeleteComentario = (e) => {
-    console.log(e.target.value)
+    // console.log(e.target.value)
     api.delete(`/admin/comentarios/${e.target.value}`).then(() => Swal.fire('Comentario eliminado Correctamente', '', 'success')).then(window.location.reload())
   }
 

@@ -94,7 +94,7 @@ export default providerSlice.reducer
 
 export function setMessage(payload) {
   return function (dispatch) {
-    console.log(payload)
+    // console.log(payload)
     dispatch(SetMessage(payload))
   }
 }
@@ -102,7 +102,7 @@ export function setMessage(payload) {
 export function SetQuestion(input) {
   return async function (dispatch) {
     let info = await api.patch('/pregunta', input)
-    console.log(info.data)
+    // console.log(info.data)
   }
 }
 

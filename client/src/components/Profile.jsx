@@ -6,7 +6,7 @@ import Banned from './Banned'
 
 export default function Profile() {
   const { user } = useSelector((state) => state.auth)
-  console.log(user)
+  // console.log(user)
   let role = user.Role
   if (user) {
     var banned = user.banned

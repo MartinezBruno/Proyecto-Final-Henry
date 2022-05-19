@@ -49,7 +49,7 @@ export default function AddService(props) {
 
   function postService(service, proveedorID) {
     let errors = validation(service)
-    console.log(errors)
+    // console.log(errors)
     if (Object.keys(errors).length !== 0) {
       Swal.fire({
         icon: 'error',

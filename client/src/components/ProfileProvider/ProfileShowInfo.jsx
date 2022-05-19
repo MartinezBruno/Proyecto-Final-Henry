@@ -5,6 +5,7 @@ import { useEffect } from 'react'
 import ChangePassword from '../ChangePassword'
 import { getUniqueProvider } from '../../redux/slices/provider'
 import EditarDisponibilidad from './EditarDisponibilidad'
+import EventosProvider from './EventosProvider'
 
 export default function ProfileShowInfo(props) {
   function handleSave() {
@@ -66,6 +67,7 @@ export default function ProfileShowInfo(props) {
               </button>
               <ChangePassword />
               <EditarDisponibilidad />
+              <EventosProvider />
             </div>
           </div>
         </div>
