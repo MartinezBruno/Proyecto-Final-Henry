@@ -16,6 +16,8 @@ const {
   Ayuda,
 } = require('../db')
 var bcrypt = require('bcryptjs')
+const { getTemplate } = require('./email')
+const { sendMail } = require('../mail')
 
 const getUsers = async (req, res) => {
   try {
@@ -35,7 +37,16 @@ const getUsers = async (req, res) => {
         },
         {
           model: Favorito,
-          attributes: ['id', 'NOMBRE_APELLIDO_PROVEEDOR', 'IMAGEN', 'EMAIL', 'CELULAR', 'PAIS', 'PROVINCIA', 'CIUDAD'],
+          attributes: [
+            'id',
+            'NOMBRE_APELLIDO_PROVEEDOR',
+            'IMAGEN',
+            'EMAIL',
+            'CELULAR',
+            'PAIS',
+            'PROVINCIA',
+            'CIUDAD',
+          ],
         },
       ],
     })
@@ -84,7 +95,16 @@ const getUserById = async (req, res) => {
       },
       {
         model: Favorito,
-        attributes: ['id', 'NOMBRE_APELLIDO_PROVEEDOR', 'IMAGEN', 'EMAIL', 'CELULAR', 'PAIS', 'PROVINCIA', 'CIUDAD'],
+        attributes: [
+          'id',
+          'NOMBRE_APELLIDO_PROVEEDOR',
+          'IMAGEN',
+          'EMAIL',
+          'CELULAR',
+          'PAIS',
+          'PROVINCIA',
+          'CIUDAD',
+        ],
       },
     ],
   })
@@ -269,6 +289,22 @@ const putUser = async (req, res, next) => {
           },
           { where: { id: id } }
         )
+
+    const payload = {
+      nombre: usuarioEncontrado.NOMBRE_APELLIDO_USUARIO,
+      template: 'putUser',
+    }
+    const template = getTemplate(payload)
+    const options = {
+      user: 'no-reply@weattend.online',
+      mailOptions: {
+        from: "'Attend' <no-reply@weattend.com.ar>",
+        to: `${usuarioEncontrado.EMAIL}`,
+        subject: '¡Bienvenido a Attend!',
+        html: template,
+      },
+    }
+    sendMail(options)
     return res.status(204).send({ message: 'Usuario actualizado correctamente' })
   } catch (error) {
     next(error)
@@ -284,7 +320,8 @@ const changePassword = async (req, res) => {
       where: { id: id },
     })
 
-    if (usuarioEncontrado === null) return res.status(404).send({ message: 'No se encontró un usuario con ese id' })
+    if (usuarioEncontrado === null)
+      return res.status(404).send({ message: 'No se encontró un usuario con ese id' })
 
     const passwordIsValid = bcrypt.compareSync(oldPassword, usuarioEncontrado.PASSWORD)
     if (!passwordIsValid) {
@@ -299,6 +336,21 @@ const changePassword = async (req, res) => {
       },
       { where: { id: id } }
     )
+    const payload = {
+      nombre: usuarioEncontrado.NOMBRE_APELLIDO_USUARIO,
+      template: 'putUser',
+    }
+    const template = getTemplate(payload)
+    const options = {
+      user: 'no-reply@weattend.online',
+      mailOptions: {
+        from: "'Attend' <no-reply@weattend.com.ar>",
+        to: `${usuarioEncontrado.EMAIL}`,
+        subject: '¡Bienvenido a Attend!',
+        html: template,
+      },
+    }
+    sendMail(options)
     return res.status(204).send({ message: 'Contraseña actualizada correctamente' })
   } catch (error) {
     console.error(error)
@@ -369,21 +421,28 @@ const buyReview = async (req, res) => {
 
 const compraSuccess = async (req, res) => {
   let { cart, id } = req.body
-  console.log('this is cart', cart)
   try {
     let idProveedor = cart?.map((compra) => compra.provID)
     let idUsuario = id
     let idServicio = cart?.map((compra) => compra.id)
 
+    let nombre = ''
+    let email = ''
+    let servicios = []
+    let precios = []
     for (let i = 0; i < idProveedor.length; i++) {
-      console.log(idProveedor[i])
-      console.log(idServicio[i])
       let provServ = await Proveedor_Servicio.findOne({
         where: { ProveedorId: idProveedor[i], ServicioId: idServicio[i] },
       })
+      let serv = await Servicio.findByPk(idServicio[i])
+      servicios.push(serv.NOMBRE_SERVICIO)
       // console.log(provServ)
+      let precio = await Precio.findByPk(provServ.PrecioId)
+      precios.push(precio.PRECIO)
 
       let usuario = await Usuario.findOne({ where: { id: idUsuario } })
+      email = usuario.EMAIL
+      nombre = usuario.NOMBRE_APELLIDO_USUARIO
       // console.log('this is the user', usuario)
 
       let compra = await Compra.create()
@@ -399,6 +458,26 @@ const compraSuccess = async (req, res) => {
       await Emergencia.update({ COMPRA_SUCCES: 'Si' }, { where: { UsuarioId: idUsuario } })
     }
 
+    const payload = {
+      nombre: nombre,
+      precios: precios,
+      servicios: servicios,
+      template: 'compraSuccess',
+    }
+
+    const template = getTemplate(payload)
+
+    const options = {
+      user: 'no-reply@weattend.com.ar',
+      mailOptions: {
+        from: "'Attend' <no-reply@weattend.com.ar>",
+        to: `${email}`,
+        subject: '¡Bienvenido a Attend!',
+        html: template,
+      },
+    }
+
+    sendMail(options)
     return res.status(200).send({ message: 'Compra guardada en la DB' })
   } catch (error) {
     console.error(error)
@@ -409,7 +488,6 @@ const compraSuccess = async (req, res) => {
 const misCompras = async (req, res) => {
   const { idUsuario } = req.query
   try {
-    console.log('hola')
     let arrayCompras = []
     let misCompras = await Compra.findAll({
       where: { UsuarioId: idUsuario },
@@ -433,7 +511,10 @@ const misCompras = async (req, res) => {
           fecha: misCompras[i].createdAt,
         })
       } else if (ProvServ === null) {
-        arrayCompras.unshift({ message: 'El proveedor de esta compra ahora es un admin, comuniquese con el soporte si necesita ayuda' })
+        arrayCompras.unshift({
+          message:
+            'El proveedor de esta compra ahora es un admin, comuniquese con el soporte si necesita ayuda',
+        })
       }
     }
     return res.status(200).send(arrayCompras)
