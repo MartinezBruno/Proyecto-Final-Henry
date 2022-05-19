@@ -95,7 +95,7 @@ export default function UsersList() {
               return (
                 <tr style={{ margin: 'auto' }} key={user.id}>
                   <td>
-                    <img src={`http://localhost:3001/profiles/${user.IMAGEN}`} style={{ width: '40px', height: '40px', borderRadius: '50px' }} />
+                    <img src={`http://www.weattend.com.ar/profiles/${user.IMAGEN}`} style={{ width: '40px', height: '40px', borderRadius: '50px' }} />
                   </td>
                   <td> {user.id} </td>
                   <td>{user.NOMBRE_APELLIDO_USUARIO}</td>

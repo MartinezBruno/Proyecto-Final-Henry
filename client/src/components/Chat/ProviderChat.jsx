@@ -75,7 +75,7 @@ export default function ProviderChat() {
                   <a href='#ScrollDown'>
                     <li className='clearfix' value={p.id} onClick={() => handleChat(p.id, idProveedor)}>
                       <img
-                        src={p.IMAGEN}
+                        src={`www.weattend.com.ar/profile/${p.IMAGEN}`}
                         style={{ width: '45px', height: '45px' }}
                         alt='nt'
                         onError={(e) =>
@@ -110,7 +110,7 @@ export default function ProviderChat() {
                     {actualChat.id ? (
                       <>
                         <img
-                          src={UniqueUser.imagen}
+                          src={`www.weattend.com.ar/profile/${UniqueUser.imagen}`}
                           style={{ width: '40px', height: '40px' }}
                           alt='nt'
                           onError={(e) =>

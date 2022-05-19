@@ -84,7 +84,7 @@ export default function UserChat() {
                     <a href='#ScrollDown' style={{textDecoration:'none', color: 'black'}}>
                       <li className='clearfix miniChat' value={p.id} onClick={() => handleChat(idUsuario, p.id)}>
                         <img
-                          src={p.IMAGEN}
+                          src={`www.weattend.com.ar/profile/${p.IMAGEN}`}
                           alt='nt'
                           style={{ width: '45px', height: '45px', borderRadius:'50%'}}
                           onError={(e) =>
@@ -165,7 +165,7 @@ export default function UserChat() {
                     {actualChat.id || idProvider ? (
                       <>
                         <img
-                          src={uniqueprovider.imagen}
+                          src={`www.weattend.com.ar/profile/${uniqueprovider.imagen}`}
                           alt='nt'
                           style={{ width: '40px', height: '40px' }}
                           onError={(e) =>

@@ -67,7 +67,7 @@ export default function ProfileDetails() {
                     <button type='submit' className='btn-close' aria-label='Close' style={{ marginLeft: '-350px' }}></button>
                   </NavLink>
                   <img
-                      src={`http://localhost:3001/profiles/${uniqueprovider.imagen}`}
+                      src={`http://www.weattend.com.ar/profiles/${uniqueprovider.imagen}`}
                       alt={uniqueprovider.nombre_apellido_usuario} 
                       className='rounded-circle'
                       width='150'

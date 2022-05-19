@@ -43,7 +43,7 @@ export default function () {
                   <td> {sell.id} </td>
                   <td>
                     <img
-                      src={`http://localhost:3001/profiles/${sell.imagenProveedor}`}
+                      src={`http://www.weattend.com.ar/profiles/${sell.imagenProveedor}`}
                       style={{ width: '40px', height: '40px', borderRadius: '50px' }}
                       alt={sell.nombreProveedor}
                       onError={(e) => (e.target.src = 'https://www.softzone.es/app/uploads-softzone.es/2018/04/guest.png?x=480&quality=20')}

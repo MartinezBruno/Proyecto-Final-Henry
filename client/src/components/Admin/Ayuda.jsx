@@ -48,7 +48,7 @@ export default function Ayuda() {
                   {ayuda.idProveedor ? <td>{ayuda.idProveedor}</td> : <td>{ayuda.idUsuario}</td>}
                   <td>
                     <img
-                      src={`http://localhost:3001/profiles/${ayuda.imagen}`}
+                      src={`http://www.weattend.com.ar/profiles/${ayuda.imagen}`}
                       style={{ width: '40px', height: '40px', borderRadius: '50px' }}
                       alt={ayuda.nombre}
                       onError={(e) => (e.target.src = 'https://www.softzone.es/app/uploads-softzone.es/2018/04/guest.png?x=480&quality=20')}
