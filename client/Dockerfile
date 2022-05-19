@@ -1,3 +1,7 @@
-FROM nginx:1.17.3-alpine
-WORKDIR /usr/share/nginx/html
-COPY build /usr/share/nginx/html/docs
+FROM node:alpine
+WORKDIR /app
+COPY package.json ./
+COPY package-lock.json ./
+COPY ./ ./
+RUN npm i --force
+CMD ["npm", "run", "start"]
