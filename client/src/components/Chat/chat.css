@@ -161,9 +161,25 @@ body {
 .chat-message {
   margin-left: 281px;
 }
+
+.showOnSmall{
+  display:none!important;
+}
+.miniChat{
+  transition: 500ms;
+
+}
+.miniChat:hover{
+background-color: rgba(113, 113, 113, 0.246);;
+
+}
+
 @media screen and (max-width: 600px) {
   .people-list  {
     display:none!important
+  }
+  .showOnSmall{
+    display: inherit!important;
   }
 
   .chat-app .chat {
