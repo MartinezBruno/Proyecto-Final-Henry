@@ -463,6 +463,11 @@ export default function Register({ isModal }) {
           return { ...prevState, [e.target.name]: 'Ingrese un año válido.' }
         })
       }
+      if (new Date().getFullYear() - year < 18) {
+        setErrors((prevState) => {
+          return { ...prevState, [e.target.name]: 'Debe ser mayor de edad para registarse.' }
+        })
+      }
     }
   }
 
@@ -619,49 +624,75 @@ export default function Register({ isModal }) {
           return { ...prevState, [e.target.name]: 'Ingrese un año válido.' }
         })
       }
+      if (new Date().getFullYear() - year < 18) {
+        setErrorsProvider((prevState) => {
+          return { ...prevState, [e.target.name]: 'Debe ser mayor de edad para registrarse.' }
+        })
+      }
     }
   }
 
   //FUNCION QUE HACE EL TOGGLE DEL BUTON AL ACEPTAR LOS TERMINOS Y CHEQUEA SI HAY ERRORES, Y DATA EN EL OBJETO A ENVIAR
+  // function handleChecked(e) {
+  //   //Se checkea
+  //   let errorsCounter = 0
+  //   let dataEmpty = 0
+  //   if (termsAccepted === 'disabled') {
+  //     setTerms('')
+
+  //     setErrors((prevState) => {
+  //       return { ...prevState, [e.target.name]: '' }
+  //     })
+
+  //     for (let prop in input) {
+  //       if (input[prop] === '') {
+  //         // console.log(input[prop])
+  //         if (prop === 'imagen') {
+  //           //NO CONTAMOS imagen
+  //         } else {
+  //           // console.log(input[prop], prop, 'sumó')
+  //           dataEmpty++
+  //         }
+  //       }
+  //     }
+  //     for (let prop in errors) {
+  //       if (errors[prop]) {
+  //         // console.log(errors[prop], prop, 'sumó')
+  //         errorsCounter++
+  //       }
+  //     }
+
+  //     if (dataEmpty > 0 || errorsCounter > 0) {
+  //       setTerms('disabled')
+  //     } else if (dataEmpty === 0 || errorsCounter === 0) {
+  //       setTerms('')
+  //     }
+  //     // console.log(errorsCounter, dataEmpty)
+  //   }
+
+  //   if (termsAccepted === '') {
+  //     setTerms('disabled')
+  //   }
+  // }
+
   function handleChecked(e) {
     //Se checkea
     let errorsCounter = 0
     let dataEmpty = 0
     if (termsAccepted === 'disabled') {
       setTerms('')
-
       setErrors((prevState) => {
-        return { ...prevState, [e.target.name]: '' }
+        return { ...prevState, checked: '' }
       })
 
-      for (let prop in input) {
-        if (input[prop] === '') {
-          // console.log(input[prop])
-          if (prop === 'imagen') {
-            //NO CONTAMOS imagen
-          } else {
-            // console.log(input[prop], prop, 'sumó')
-            dataEmpty++
-          }
-        }
-      }
-      for (let prop in errors) {
-        if (errors[prop]) {
-          // console.log(errors[prop], prop, 'sumó')
-          errorsCounter++
-        }
-      }
-
-      if (dataEmpty > 0 || errorsCounter > 0) {
-        setTerms('disabled')
-      } else if (dataEmpty === 0 || errorsCounter === 0) {
-        setTerms('')
-      }
       // console.log(errorsCounter, dataEmpty)
     }
 
     if (termsAccepted === '') {
       setTerms('disabled')
+      setErrors((prevState) => {
+        return { ...prevState, checked: 'Debe aceptar los términos y condiciones' }
+      })
     }
   }
 
@@ -743,42 +774,62 @@ export default function Register({ isModal }) {
   }
 
   //FUNCION QUE HACE EL TOGGLE DEL BUTON AL ACEPTAR LOS TERMINOS Y CHEQUEA SI HAY ERRORES, Y DATA EN EL OBJETO A ENVIAR --------------> PROVIDER
+  // function handleCheckedProvider(e) {
+  //   //Se checkea
+  //   let errorsCounter = 0
+  //   let dataEmpty = 0
+  //   if (termsAccepted === 'disabled') {
+  //     setTermsProvider('')
+
+  //     setErrorsProvider((prevState) => {
+  //       return { ...prevState, [e.target.name]: '' }
+  //     })
+
+  //     for (let prop in inputProvider) {
+  //       if (inputProvider[prop] === '') {
+  //         // console.log(input[prop])
+  //         if (prop === 'imagen') {
+  //           //NO CONTAMOS imagen
+  //         } else {
+  //           dataEmpty++
+  //         }
+  //       }
+  //     }
+  //     for (let prop in errorsProvider) {
+  //       if (errorsProvider[prop]) {
+  //         errorsCounter++
+  //       }
+  //     }
+
+  //     if (dataEmpty > 0 || errorsCounter > 0) {
+  //       setTermsProvider('disabled')
+  //     } else if (dataEmpty === 0 || errorsCounter === 0) {
+  //       setTermsProvider('')
+  //     }
+  //   }
+
+  //   if (termsAcceptedProvider === '') {
+  //     setTermsProvider('disabled')
+  //   }
+  // }
   function handleCheckedProvider(e) {
     //Se checkea
     let errorsCounter = 0
     let dataEmpty = 0
     if (termsAccepted === 'disabled') {
       setTermsProvider('')
-
       setErrorsProvider((prevState) => {
-        return { ...prevState, [e.target.name]: '' }
+        return { ...prevState, checked: '' }
       })
 
-      for (let prop in inputProvider) {
-        if (inputProvider[prop] === '') {
-          // console.log(input[prop])
-          if (prop === 'imagen') {
-            //NO CONTAMOS imagen
-          } else {
-            dataEmpty++
-          }
-        }
-      }
-      for (let prop in errorsProvider) {
-        if (errorsProvider[prop]) {
-          errorsCounter++
-        }
-      }
-
-      if (dataEmpty > 0 || errorsCounter > 0) {
-        setTermsProvider('disabled')
-      } else if (dataEmpty === 0 || errorsCounter === 0) {
-        setTermsProvider('')
-      }
+      // console.log(errorsCounter, dataEmpty)
     }
 
-    if (termsAcceptedProvider === '') {
+    if (termsAccepted === '') {
       setTermsProvider('disabled')
+      setErrorsProvider((prevState) => {
+        return { ...prevState, checked: 'Debe aceptar los términos y condiciones' }
+      })
     }
   }
 
@@ -891,20 +942,20 @@ export default function Register({ isModal }) {
                     {errors.password && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errors.password}</p>}
 
                     <div className={styles.formInput}>
-                      {' '}
-                      <i className='fa fa-camera' aria-hidden='true'></i>{' '}
+                      <label htmlFor='imagen'>Suba una foto (opcional):</label><br />
                       <input
                         type='file'
                         accept='image/x-png,image/jpeg'
                         className={styles.formControl}
+                        style={{margin: '10px'}}
                         name='imagen'
                         placeholder='Imagen'
                         onChange={(e) => {
                           saveFile(e)
                         }}
                       />{' '}
-                      <button name='imagen' onClick={(e) => uploadUserFile(e)}>
-                        Upload
+                      <button className='btn btn-primary' name='imagen' onClick={(e) => uploadUserFile(e)}>
+                      <i className='fa fa-camera' aria-hidden='true'></i> Subir imagen
                       </button>
                     </div>
                     {errors.imagen && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errors.imagen}</p>}
@@ -1023,9 +1074,12 @@ export default function Register({ isModal }) {
                       <input className='form-check-input' type='checkbox' name='checked' id='flexCheckChecked' onChange={(e) => handleChecked(e)} />{' '}
                       <label className={styles.formCheckLabel} htmlFor='flexCheckChecked'>
                         {' '}
-                        Acepto términos y condiciones.{' '}
+                       Acepto términos y condiciones.
                       </label>{' '}
+                      <br />
+                      
                     </div>
+                    {errors.checked && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errors.checked}</p>}
                     {/* <button className={`btn btn-success mt-4 ${styles.signup} ${termsAccepted}`} onClick={(e) => handleSubmitUser(e)}> */}
                     {/* <div className={styles.recaptcha}>
                       <ReCAPTCHA ref={captcha} sitekey='6LdFXPofAAAAAEPQJIgFt3-_imqhXY6RDnBA10_7' onChange={onRecaptcha} callback= {onRecaptcha}/>
@@ -1133,7 +1187,26 @@ export default function Register({ isModal }) {
                     </div>
                     {errorsProvider.password && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.password}</p>}
 
-                    <div className={styles.formInputPage}>
+
+
+                    <div className={styles.formInput}>
+                      <label htmlFor='imagen'>Suba una foto (opcional):</label><br />
+                      <input
+                        type='file'
+                        accept='image/x-png,image/jpeg'
+                        className={styles.formControl}
+                        style={{margin: '10px'}}
+                        name='imagen'
+                        placeholder='Imagen'
+                        onChange={(e) => {
+                          saveFile(e)
+                        }}
+                      />{' '}
+                      <button className='btn btn-primary' name='imagen' onClick={(e) => uploadProviderFile(e)}>
+                      <i className='fa fa-camera' aria-hidden='true'></i> Subir imagen
+                      </button>
+                    </div>
+                    {/* <div className={styles.formInputPage}>
                       {' '}
                       <i className='fa fa-camera' aria-hidden='true'></i>{' '}
                       <input
@@ -1149,7 +1222,7 @@ export default function Register({ isModal }) {
                       <button name='imagen' onClick={(e) => uploadProviderFile(e)}>
                         Upload
                       </button>
-                    </div>
+                    </div> */}
                     {errorsProvider.imagen && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.imagen}</p>}
 
                     <div className={styles.formInputPage}>
@@ -1412,22 +1485,22 @@ export default function Register({ isModal }) {
                       {errors.password && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errors.password}</p>}
 
                       <div className={styles.formInput}>
-                        {' '}
-                        <i className='fa fa-camera' aria-hidden='true'></i>{' '}
-                        <input
-                          type='file'
-                          accept='image/x-png,image/jpeg'
-                          className={styles.formControl}
-                          name='imagen'
-                          placeholder='Imagen'
-                          onChange={(e) => {
-                            saveFile(e)
-                          }}
-                        />{' '}
-                        <button name='imagen' onClick={(e) => uploadUserFile(e)}>
-                          Upload
-                        </button>
-                      </div>
+                      <label htmlFor='imagen'>Suba una foto (opcional):</label><br />
+                      <input
+                        type='file'
+                        accept='image/x-png,image/jpeg'
+                        className={styles.formControl}
+                        style={{margin: '10px'}}
+                        name='imagen'
+                        placeholder='Imagen'
+                        onChange={(e) => {
+                          saveFile(e)
+                        }}
+                      />{' '}
+                      <button className='btn btn-primary' name='imagen' onClick={(e) => uploadUserFile(e)}>
+                      <i className='fa fa-camera' aria-hidden='true'></i> Subir imagen
+                      </button>
+                    </div>
                       {errors.imagen && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errors.imagen}</p>}
 
                       <div className={styles.formInputPage}>
@@ -1652,23 +1725,23 @@ export default function Register({ isModal }) {
                       </div>
                       {errorsProvider.password && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.password}</p>}
 
-                      <div className={styles.formInputPage}>
-                        {' '}
-                        <i className='fa fa-camera' aria-hidden='true'></i>{' '}
-                        <input
-                          type='file'
-                          accept='image/x-png,image/jpeg'
-                          className={styles.formControl}
-                          name='imagen'
-                          placeholder='Imagen'
-                          onChange={(e) => {
-                            saveFile(e)
-                          }}
-                        />{' '}
-                        <button name='imagen' onClick={(e) => uploadProviderFile(e)}>
-                          Upload
-                        </button>
-                      </div>
+                      <div className={styles.formInput}>
+                      <label htmlFor='imagen'>Suba una foto (opcional):</label><br />
+                      <input
+                        type='file'
+                        accept='image/x-png,image/jpeg'
+                        className={styles.formControl}
+                        style={{margin: '10px'}}
+                        name='imagen'
+                        placeholder='Imagen'
+                        onChange={(e) => {
+                          saveFile(e)
+                        }}
+                      />{' '}
+                      <button className='btn btn-primary' name='imagen' onClick={(e) => uploadProviderFile(e)}>
+                      <i className='fa fa-camera' aria-hidden='true'></i> Subir imagen
+                      </button>
+                    </div>
                       {errorsProvider.imagen && <p className={`${styles.errors} animate__animated animate__fadeInDown `}>{errorsProvider.imagen}</p>}
 
                       <div className={styles.formInputPage}>
