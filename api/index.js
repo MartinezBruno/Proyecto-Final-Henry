@@ -12,8 +12,8 @@ const autofillProveedores = require('./src/routes/automatic-post')
 conn
   .sync({ force: true })
   .then(() => {
-    server.listen(8080, () => {
-      console.log(`%s listening at 8080`) // eslint-disable-line no-console
+    server.listen(7001, () => {
+      console.log(`%s listening at 7001`) // eslint-disable-line no-console
     })
   })
   .then(() => paisesDb())
