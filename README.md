@@ -21,16 +21,6 @@ npm start
 ```
 >`npm install --force` en caso de que ocurra algun error a la hora de la instalación <br/>
 
-###### Utiliza estas credenciales a la hora de realizar el pago por MercadoPago
-```
-{
-  "Numero de tarjeta": 5031 7557 3453 0604,
-  "Fecha de vencimiento": "11/25",
-  "Codigo de seguridad": 123,
-  "Email": "test_user_51106251@testuser.com"
-}
-```
-
 ---
 
 ### Los endpoint para nuestra API son:
@@ -48,4 +38,14 @@ npm start
 ```
 npm install
 npm start
+```
+
+###### Utiliza estas credenciales a la hora de realizar el pago por MercadoPago
+```
+{
+  "Numero de tarjeta": 5031 7557 3453 0604,
+  "Fecha de vencimiento": "11/25",
+  "Codigo de seguridad": 123,
+  "Email": "test_user_51106251@testuser.com"
+}
 ```
