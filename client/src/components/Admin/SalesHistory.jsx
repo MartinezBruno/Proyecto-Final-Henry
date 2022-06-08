@@ -43,7 +43,7 @@ export default function () {
                   <td> {sell.id} </td>
                   <td>
                     <img
-                      src={`http://localhost:3001/profiles/${sell.imagenProveedor}`}
+                      src={`https://weattend.com.ar/profiles/${sell.imagenProveedor}`}
                       style={{ width: '40px', height: '40px', borderRadius: '50px' }}
                       alt={sell.nombreProveedor}
                       onError={(e) => (e.target.src = 'https://www.softzone.es/app/uploads-softzone.es/2018/04/guest.png?x=480&quality=20')}
@@ -57,7 +57,11 @@ export default function () {
                   {sell.nombreUsuario ? <td>{sell.nombreUsuario}</td> : <td>{sell.usuario}</td>}
                   {sell.emailUsuario ? <td>{sell.emailUsuario}</td> : <td>{sell.usuario}</td>}
                   <td>
-                    <a href='https://www.mercadopago.com.ar/money-transfer' target="_blank" className='btn' style={{ padding: '5px', backgroundColor: 'green', color: 'white' }}>
+                    <a
+                      href='https://www.mercadopago.com.ar/money-transfer'
+                      target='_blank'
+                      className='btn'
+                      style={{ padding: '5px', backgroundColor: 'green', color: 'white' }}>
                       PAGAR AL PROVEEDOR
                     </a>
                   </td>

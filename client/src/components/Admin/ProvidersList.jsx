@@ -30,8 +30,11 @@ export default function ProvidersList() {
       cancelButtonColor: '#d33',
       confirmButtonText: '¡Sí, Ascender!',
     }).then((result) => {
-      if(result.value){
-        api.post('/admin/setAdmin', { ProveedorId: e.target.value }).then(() => window.location.reload()).catch((error) => console.log(error))
+      if (result.value) {
+        api
+          .post('/admin/setAdmin', { ProveedorId: e.target.value })
+          .then(() => window.location.reload())
+          .catch((error) => console.log(error))
       }
     })
 
@@ -66,7 +69,7 @@ export default function ProvidersList() {
       cancelButtonColor: '#d33',
       confirmButtonText: '¡Sí, Borrar!',
     }).then((result) => {
-      if(result.value){
+      if (result.value) {
         api.delete(`/admin/deleteProvider/${e.target.value}`).then(() => window.location.reload())
       }
     })
@@ -94,10 +97,10 @@ export default function ProvidersList() {
               return (
                 <tr style={{ margin: 'auto' }} key={prov.id}>
                   <td>
-                    {/* <img src={`http://localhost:3001/profiles/${prov.IMAGEN}`} style={{ width: '40px', height: '40px', borderRadius: '50px' }} /> */}
+                    {/* <img src={`https://weattend.com.ar//profiles/${prov.IMAGEN}`} style={{ width: '40px', height: '40px', borderRadius: '50px' }} /> */}
                     {/* <img src={prov.IMAGEN} style={{ width: '40px', height: '40px', borderRadius: '50px' }} /> */}
                     <img
-                      src={`http://localhost:3001/profiles/${prov.IMAGEN}`}
+                      src={`https://weattend.com.ar/profiles/${prov.IMAGEN}`}
                       alt={prov.NOMBRE_APELLIDO_PROVEEDOR}
                       style={{ width: '40px', height: '40px', borderRadius: '50px' }}
                       onError={(e) => (e.target.src = 'https://www.softzone.es/app/uploads-softzone.es/2018/04/guest.png?x=480&quality=20')}
@@ -136,7 +139,7 @@ export default function ProvidersList() {
                       {' '}
                       Eliminar
                     </button>
-                    </td>
+                  </td>
                 </tr>
               )
             })}

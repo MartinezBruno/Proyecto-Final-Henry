@@ -18,9 +18,9 @@ class PaymentService {
       expiration_date_from: new Date().toISOString(),
       expiration_date_to: new Date('December 31, 2023').toISOString(),
       back_urls: {
-        failure: 'http://weattend.com.ar/home/PaymentFailed',
+        failure: 'https://weattend.com.ar/home/PaymentFailed',
         pending: '/pending',
-        success: 'http://weattend.com.ar/home/PaymentSuccess',
+        success: 'https://weattend.com.ar/home/PaymentSuccess',
       },
       order: {
         type: 'mercadopago',

@@ -1,0 +1,21 @@
+Cuenta de Proveedor 
+{
+  "id":1125571013,
+  "nickname":"TETE396890",
+  "password":"qatest4103",
+  "site_status":"active",
+  "email":"test_user_30663976@testuser.com"
+} 
+
+
+Cuenta de Administrador (MercadoPago)
+{ 
+  "id":1125566976,
+  "nickname":"TESTWPS2HJHZ",
+  "password":"qatest7804",
+  "site_status":"active",
+  "email":"test_user_31935899@testuser.com"
+  "ACCESS_TOKEN":"APP_USR-8064088858135451-051719-ffa8ce980d3b17a9898d2e70caf604e6-1125566976"
+}
+
+(En caso de que solicite codigo de verificacion, son los ultimos 6 digitos de la id)

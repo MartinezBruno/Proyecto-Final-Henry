@@ -48,7 +48,7 @@ export default function Ayuda() {
                   {ayuda.idProveedor ? <td>{ayuda.idProveedor}</td> : <td>{ayuda.idUsuario}</td>}
                   <td>
                     <img
-                      src={`http://localhost:3001/profiles/${ayuda.imagen}`}
+                      src={`https://weattend.com.ar/profiles/${ayuda.imagen}`}
                       style={{ width: '40px', height: '40px', borderRadius: '50px' }}
                       alt={ayuda.nombre}
                       onError={(e) => (e.target.src = 'https://www.softzone.es/app/uploads-softzone.es/2018/04/guest.png?x=480&quality=20')}
@@ -58,7 +58,11 @@ export default function Ayuda() {
                   <td>{ayuda.email}</td>
                   <td>{ayuda.asunto}</td>
                   <td>
-                    <button value={ayuda.idAyuda} onClick={(e) => handleDeleteAyuda(e)} className='btn' style={{ padding: '5px', backgroundColor: 'red', color: 'white' }}>
+                    <button
+                      value={ayuda.idAyuda}
+                      onClick={(e) => handleDeleteAyuda(e)}
+                      className='btn'
+                      style={{ padding: '5px', backgroundColor: 'red', color: 'white' }}>
                       FINALIZAR
                     </button>
                   </td>

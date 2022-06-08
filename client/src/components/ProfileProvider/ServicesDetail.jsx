@@ -39,11 +39,17 @@ export default function ProfileDetails() {
 
   const handleDeleteQuestion = (e) => {
     // console.log(e.target.value)
-    api.delete(`/admin/pregunta/${e.target.value}`).then(() => Swal.fire('Pregunta eliminada Correctamente', '', 'success')).then(window.location.reload())
+    api
+      .delete(`/admin/pregunta/${e.target.value}`)
+      .then(() => Swal.fire('Pregunta eliminada Correctamente', '', 'success'))
+      .then(window.location.reload())
   }
   const handleDeleteComentario = (e) => {
     // console.log(e.target.value)
-    api.delete(`/admin/comentarios/${e.target.value}`).then(() => Swal.fire('Comentario eliminado Correctamente', '', 'success')).then(window.location.reload())
+    api
+      .delete(`/admin/comentarios/${e.target.value}`)
+      .then(() => Swal.fire('Comentario eliminado Correctamente', '', 'success'))
+      .then(window.location.reload())
   }
 
   useEffect(() => {
@@ -69,7 +75,7 @@ export default function ProfileDetails() {
                           <button type='submit' className='btn-close' aria-label='Close' style={{ marginLeft: '-350px' }}></button>
                         </NavLink>
                         <img
-                          src={`http://localhost:3001/profiles/${serviceProvider[0]?.imagen}`}
+                          src={`https://weattend.com.ar/profiles/${serviceProvider[0]?.imagen}`}
                           alt={'NI'}
                           className='rounded-circle'
                           width='150'
@@ -414,8 +420,7 @@ export default function ProfileDetails() {
                           </p>
                         )}
                       </div>
-                      <div className='row'>
-                      </div>
+                      <div className='row'></div>
                     </div>
                   </div>
                 </div>

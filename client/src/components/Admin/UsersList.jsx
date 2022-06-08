@@ -67,7 +67,7 @@ export default function UsersList() {
       cancelButtonColor: '#d33',
       confirmButtonText: '¡Sí, Borrar!',
     }).then((result) => {
-      if(result.value){
+      if (result.value) {
         api.delete(`/admin/deleteUser/${e.target.value}`).then(() => window.location.reload())
       }
     })
@@ -95,7 +95,7 @@ export default function UsersList() {
               return (
                 <tr style={{ margin: 'auto' }} key={user.id}>
                   <td>
-                    <img src={`http://localhost:3001/profiles/${user.IMAGEN}`} style={{ width: '40px', height: '40px', borderRadius: '50px' }} />
+                    <img src={`https://weattend.com.ar//profiles/${user.IMAGEN}`} style={{ width: '40px', height: '40px', borderRadius: '50px' }} />
                   </td>
                   <td> {user.id} </td>
                   <td>{user.NOMBRE_APELLIDO_USUARIO}</td>
